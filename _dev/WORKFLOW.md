@@ -35,11 +35,17 @@ Guide for maintaining and releasing the CAIRN PKM system.
 - Tool documentation in `tools/`
 - Core docs: ARCHITECTURE.md, INSTALLATION.md, VERSION
 
-**Example content** (everything else):
+**Example content** (distributed to users):
 - Example tracks in `Tracks/`
 - Example objects in `Objects/`
 - Example captures in `Capture/`
-- Setup guides
+- Setup guides in root
+
+**Development-only** (`_dev/`):
+- This workflow document
+- Development notes
+- Testing checklists
+- Design decisions
 
 ---
 
@@ -107,11 +113,12 @@ git checkout dev
 ```bash
 cd /Users/sfzcwebops/Documents/CAIRN/obsidian-vaults
 
-# Create zip (exclude .git and .obsidian workspace files)
+# Create zip (exclude .git, .obsidian workspace, and _dev/)
 zip -r cairn-v1.1.0.zip CAIRN-dev \
   -x "CAIRN-dev/.git/*" \
   -x "CAIRN-dev/.obsidian/workspace*.json" \
-  -x "CAIRN-dev/.obsidian/plugins/*"
+  -x "CAIRN-dev/.obsidian/plugins/*" \
+  -x "CAIRN-dev/_dev/*"
 ```
 
 The zip file will be at: `/Users/sfzcwebops/Documents/CAIRN/obsidian-vaults/cairn-v1.1.0.zip`
@@ -255,17 +262,25 @@ git reset --hard HEAD~1
 - System core: commands, templates, views
 - Tool documentation
 - VERSION file
+- ARCHITECTURE.md, INSTALLATION.md
 
-**Everything else (examples for users):**
+**`_dev/` (development only - NOT distributed):**
+- This workflow document
+- Development notes
+- Design decisions
+- Testing procedures
+
+**Root & other folders (examples for users):**
 - Sample tracks (area-admin, p001-office-move)
 - Sample objects (contacts, vendors, tools)
 - Sample captures (ideas, notes)
-- Setup guides
+- SETUP-GUIDE.md
 
-**Not distributed:**
-- `.git/` (excluded from zip)
-- `.obsidian/workspace*.json` (excluded from zip)
-- User's personal customizations
+**Automatically excluded from releases:**
+- `.git/` - Version control
+- `.obsidian/workspace*.json` - User workspace state
+- `.obsidian/plugins/*` - Plugin files
+- `_dev/*` - Development documentation
 
 ---
 
