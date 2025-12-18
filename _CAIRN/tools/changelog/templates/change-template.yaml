@@ -1,0 +1,84 @@
+# Change Entry Template
+# Copy to _local/data/changelog/YYYY/MM/CHG-YYYYMMDD-HHMMSS.yaml
+
+# Unique identifier (auto-generated from timestamp)
+change_id: CHG-YYYYMMDD-HHMMSS
+timestamp: YYYY-MM-DDTHH:MM:SS
+
+# Who
+implemented_by: ""
+requested_by: ""  # Name, "Self-identified", or "User: Name"
+
+# What changed (one-line summary)
+title: ""
+
+# Systems and technologies
+systems_affected:
+  - ""
+technologies:
+  - ""
+
+# Categorization
+problem_category: ""  # security | performance | bug | feature | configuration
+
+# Impact assessment
+change_classification:
+  impact: ""        # low | medium | high | critical
+  risk: ""          # low | medium | high
+  reversibility: "" # instant | hours | days | permanent
+  scope: ""         # single-system | area | organization-wide
+
+# The change details
+description: |
+  Brief context about why this change was needed.
+  
+problem: |
+  Describe what was broken, wrong, or needed improvement.
+  Include any error messages, symptoms, or user impact.
+  
+solution: |
+  Step-by-step explanation of what was done to fix it.
+  1. First step
+  2. Second step
+  3. Third step
+
+# Files changed
+files_modified:
+  - ""
+
+# How to undo this change
+rollback:
+  complexity: ""  # low | medium | high
+  estimated_time: ""  # e.g., "10 minutes"
+  prerequisites:
+    - ""
+  steps:
+    - action: ""
+      command: ""
+      validation: ""
+  risks:
+    - ""
+
+# Testing
+validation:
+  tested: false  # true | false
+  test_environment: ""  # dev | staging | production
+  test_results: ""
+
+# AI collaboration metrics (optional)
+ai_contribution:
+  role: ""  # advisor | executor | validator | researcher
+  time_saved_estimate: 0  # minutes
+  time_saved_basis: ""
+  specific_contributions:
+    - ""
+  human_validation: ""
+
+# References
+related_changes: []  # List of CHG-IDs
+project_context: ""  # p###-xxxx-yyyy if applicable
+session_context: ""
+
+# Metadata (auto-generated)
+created: YYYY-MM-DDTHH:MM:SS
+updated: YYYY-MM-DDTHH:MM:SS
