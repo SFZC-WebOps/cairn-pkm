@@ -1,6 +1,6 @@
-# CAIRN Development & Release Workflow
+# Cairn-PKM Development & Release Workflow
 
-Guide for maintaining and releasing the CAIRN PKM system.
+Guide for maintaining and releasing the Cairn-PKM system.
 
 ## Repository Structure
 

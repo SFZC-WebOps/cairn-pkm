@@ -1,6 +1,6 @@
-# CAIRN Installation Guide
+# Cairn-PKM Installation Guide
 
-Instructions for setting up a new CAIRN-based Obsidian vault or migrating an existing vault.
+Instructions for setting up a new Cairn-based Obsidian vault or migrating an existing vault.
 
 ## New Vault Setup
 
@@ -21,12 +21,12 @@ mkdir Capture Objects Tracks
 # Initialize git
 git init
 
-# Add CAIRN (private repo - requires access)
+# Add Cairn-PKM (private repo - requires access)
 git submodule add https://github.com/SFZC-WebOps/cairn-pkm.git _CAIRN
 
 # Initial commit
 git add .
-git commit -m "Initial vault setup with CAIRN"
+git commit -m "Initial vault setup with Cairn-PKM"
 ```
 
 ### 3. Create your first area

@@ -1,12 +1,12 @@
-# CAIRN System Architecture
+# Cairn-PKM System Architecture
 
 A markdown-based personal knowledge management system designed for clarity, portability, and longevity.
 
-## What is CAIRN?
+## What is Cairn-PKM?
 
-CAIRN is an opinionated folder structure for organizing personal and professional knowledge in plain markdown files. It works with [Obsidian](https://obsidian.md), any text editor, or anything that reads folders and files.
+Cairn-PKM is an opinionated folder structure for organizing personal and professional knowledge in plain markdown files. It works with [Obsidian](https://obsidian.md), any text editor, or anything that reads folders and files.
 
-Like the stone trail markers that guide hikers through unfamiliar terrain, CAIRN provides just enough structure to keep you oriented without getting in your way.
+Like the stone trail markers (cairns) that guide hikers through unfamiliar terrain, Cairn provides just enough structure to keep you oriented without getting in your way.
 
 **Core idea:** Your knowledge system should be simple enough to understand in five minutes, flexible enough to last decades, and portable enough to survive any tool.
 
@@ -30,7 +30,7 @@ Like the stone trail markers that guide hikers through unfamiliar terrain, CAIRN
 
 ## The Five Domains
 
-Every CAIRN vault has five top-level folders:
+Every Cairn vault has five top-level folders:
 
 ```
 {Vault}/

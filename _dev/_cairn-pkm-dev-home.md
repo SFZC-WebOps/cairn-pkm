@@ -1,5 +1,5 @@
 ---
-title: CAIRN Development
+title: Cairn-PKM Development
 type: area
 status: active
 created: 2024-12-18
@@ -8,7 +8,7 @@ modified: 2024-12-18
 
 ## Overview
 
-Development area for the CAIRN PKM system. This area tracks work on the core system, releases, and ongoing maintenance. Everything in `_dev/` is excluded from user releases.
+Development area for the Cairn-PKM system. This area tracks work on the core system, releases, and ongoing maintenance. Everything in `_dev/` is excluded from user releases.
 
 ## Current Focus
 

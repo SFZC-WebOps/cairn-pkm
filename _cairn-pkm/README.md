@@ -1,10 +1,10 @@
-# CAIRN
+# Cairn-PKM
 
 A markdown-based personal knowledge management system for Obsidian.
 
-## What is CAIRN?
+## What is Cairn-PKM?
 
-CAIRN is an opinionated folder structure for organizing personal and professional knowledge in plain markdown files. Like the stone trail markers that guide hikers through unfamiliar terrain, it provides just enough structure to keep you oriented without getting in your way.
+Cairn-PKM is an opinionated folder structure for organizing personal and professional knowledge in plain markdown files. Like the stone trail markers (cairns) that guide hikers through unfamiliar terrain, Cairn provides just enough structure to keep you oriented without getting in your way.
 
 ## Features
 
