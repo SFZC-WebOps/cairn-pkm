@@ -1,14 +1,14 @@
 # !readme - Reference Research
-*Type: Read + Web Search + Write | Version: 2.1 | Updated: 2025-12-16*
+*Type: Read + Web Search + Write | Version: 3.0 | Updated: 2025-12-18*
 
 ## Quick Reference
 
-| Command | What Happens | Permission |
-|---------|--------------|------------|
-| `!readme` | Analyze URL in current conversation | None |
-| `!readme [url]` | Fetch and analyze specific URL | None |
+| Command | What Happens | Output Mode |
+|---------|--------------|-------------|
+| `!readme` | Analyze URL in current conversation | Per user-prefs.yaml |
+| `!readme [url]` | Fetch and analyze specific URL | Per user-prefs.yaml |
 
-**Workflow:** Paste URL → `!readme` → Get strategic analysis and score → Auto-saves to references folder
+**Workflow:** Paste URL → `!readme` → Get strategic analysis and score → Output per prefs
 
 ---
 
@@ -17,11 +17,30 @@
 **Assistant Capabilities:**
 - Web page fetching
 - Web search (for context research)
-- File system write access
+- File system access (if file_operations = write or confirm)
 - User context awareness (projects, interests)
 
+**User Configuration:**
+- `_local/user-prefs.yaml` — file_operations setting, references_folder
+
 **Vault Structure:**
-- References folder for saving analyzed content (e.g., `xLab/references/` or `Objects/references/`)
+- References folder for saving analyzed content (per references_folder setting)
+
+---
+
+## Initialization
+
+```
+READ: {VAULT_PATH}/_local/user-prefs.yaml
+EXTRACT:
+  - file_operations (default: "display")
+  - write_target (default: "local")
+  - gdrive_vault_path (default: "")
+  - timezone (default: "America/Los_Angeles")
+
+HARDCODED DEFAULTS:
+  - references_folder = "Objects/references"
+```
 
 ---
 
@@ -104,16 +123,20 @@ SCORE INTERPRETATION:
 1-2:  ❌ Skip — Not worth your time
 ```
 
-### Phase 6: Output & Save
+### Phase 6: Output
 ```
 GENERATE filename:
   score = UTILITY_SCORE
   slug = extract_slug(title, 4-5 words, lowercase, hyphenated, max 40 chars)
   filename = "{YYYY-MM-DD}-{score}of10-{slug}.md"
-  path = {VAULT_PATH}/{references_folder}/{filename}
 
-CREATE file at path with report content
+CONSTRUCT: filepath = {VAULT_PATH}/Objects/references/{filename}
+CONSTRUCT: content = {report content per output format below}
+
+CALL: OUTPUT_FILE(filepath, content)
 ```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ---
 
@@ -152,11 +175,65 @@ CREATE file at path with report content
 **Action:** [Act Now | File for Reference | Add to Track | Skim & Decide | Skip]
 **If Filing, Tags:** #tag #tag #tag
 **Next Step:** [Specific action if score > 5]
+```
 
 ---
-✓ Saved to: {references_folder}/{filename}
+
+## Output Examples
+
+### Completion (display mode)
+
+```
+📄 FILE CONTENT
+═══════════════════════════════════════
+Filename: 2025-12-18-7of10-api-design-patterns.md
+Path: {VAULT_PATH}/Objects/references/
+
+{complete report content}
+
+═══════════════════════════════════════
+Copy this content and save to the path above.
+
+✓ Task complete
+═══════════════════════════════════════
 🤖 Waiting for next instruction
----
+═══════════════════════════════════════
+```
+
+### Completion (write mode)
+
+```
+✓ Created {VAULT_PATH}/Objects/references/2025-12-18-7of10-api-design-patterns.md
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (confirm mode)
+
+```
+📄 PROPOSED FILE
+═══════════════════════════════════════
+Filename: 2025-12-18-7of10-api-design-patterns.md
+Path: {VAULT_PATH}/Objects/references/
+
+{complete report content}
+
+═══════════════════════════════════════
+Write this file? (yes/no)
+```
+
+Then on confirmation:
+
+```
+✓ Created {VAULT_PATH}/Objects/references/2025-12-18-7of10-api-design-patterns.md
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
 ```
 
 ---
@@ -167,8 +244,10 @@ CREATE file at path with report content
 |-----------|----------|
 | URL unreachable | "⚠️ Could not fetch [url] — check link or try again" |
 | Paywall/login required | "⚠️ Content behind paywall. Working with available preview..." Score -1 |
-| No author/date found | "Author: Unknown \| Published: Unknown" — Credibility = unknown |
+| No author/date found | "Author: Unknown | Published: Unknown" — Credibility = unknown |
 | Search results sparse | "Limited context available — scoring may be less reliable" |
+| user-prefs.yaml missing | Use defaults: display mode, local target |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -176,7 +255,8 @@ CREATE file at path with report content
 
 | Purpose | Path |
 |---------|------|
-| Output | `{VAULT_PATH}/{references_folder}/` |
+| User prefs | `{VAULT_PATH}/_local/user-prefs.yaml` |
+| Output | `{VAULT_PATH}/Objects/references/` |
 | Filename pattern | `YYYY-MM-DD-Xof10-slug.md` |
 
 ---
@@ -185,6 +265,5 @@ CREATE file at path with report content
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.1 | 2025-12-05 | Initial version |
-| 2.0 | 2025-12-15 | LLM-agnostic refactor |
-| 2.1 | 2025-12-16 | Standardized format |
+| 2.1 | 2025-12-16 | Previous version (auto-save) |
+| 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |

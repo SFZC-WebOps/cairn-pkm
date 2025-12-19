@@ -1,203 +1,629 @@
-# !hi - Work Overview
-*Type: Read | Version: 11.1 | Updated: 2025-12-16*
+# !hi - Work Session
+*Type: Interactive | Version: 12.0 | Updated: 2025-12-19*
 
 ## Quick Reference
 
-| Command | Purpose | Output | Context Set |
-|---------|---------|--------|-------------|
-| `!hi-p14` | Deep dive into specific project | Project details + tasks | Yes (for !bye) |
-| `!hi-[area]` | Deep dive into area | Area details + tasks | Yes (for !bye) |
+| Command | Purpose | Output |
+|---------|---------|--------|
+| `!hi` | Open work session | Main menu |
+| `!hi-[target]` | Open focused session | Brief summary + action menu |
 
-**Task System:** Reads from track `tasks/` folders
-**Execution Time:** 2-4 seconds per command
+**Session model:** `!hi` opens, work happens via menus or freeform, `!bye` closes with logging.
 
 ---
 
 ## Requirements
 
 **Assistant Capabilities:**
-- File system read access
-- Directory listing
+- File system read access (always)
+- File system write access (if file_operations = write or confirm)
+- Directory creation (if file_operations = write or confirm)
 - YAML frontmatter parsing
-- Date calculations (overdue, due this week)
+- Session context tracking
+- Natural language interpretation
+
+**User Configuration:**
+- `_local/user-prefs.yaml` — file_operations setting, timezone, defaults
 
 **Vault Structure:**
 - `Tracks/` — Projects and areas
 - `Tracks/*/tasks/` — Task files per track
-- `Tracks/*/_*-home.md` — Home docs with status and log
+- `Tracks/*/_*-home.md` — Home docs
 
 ---
 
-## Execution
-
-### Sequence
-
-1. Display: `📅 Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}`
-2. Parse target: `p###-xxxx-yyyy` = project, `area-*` = area
-3. Determine target path: `{VAULT_PATH}/Tracks/[target]/`
-4. Read `[target]/_*-home.md` — extract YAML fields and log section
-5. Discover all task files in `[target]/tasks/`
-6. Parse task frontmatter and build task hierarchy
-7. SET_CONTEXT: target_identifier (persists for !bye)
-8. Display comprehensive report
-
-### Task Discovery
+## Initialization
 
 ```
-SCAN: {VAULT_PATH}/Tracks/[target]/tasks/
-MATCH: *.md files
-READ: Each task file's frontmatter
+READ: {VAULT_PATH}/_local/user-prefs.yaml
+EXTRACT:
+  - file_operations (default: "display")
+  - write_target (default: "local")
+  - gdrive_vault_path (default: "")
+  - default_assignee (default: "")
+  - timezone (default: "America/Los_Angeles")
+```
+
+---
+
+## !hi — Main Menu
+
+### Output
+```
+🧭 What would you like to do?
+
+1. Open a project or area
+2. Create a task
+3. Edit a task
+4. Create a project
+5. Create an area
+6. Create/edit an object
+7. Quick note
+8. Record skill evidence
+9. Close session
+
+Enter number or describe what you need:
+```
+
+### Input Handling
+
+| Input Type | Action |
+|------------|--------|
+| Number (1-9) | Route to selection |
+| Direct command (`!task-c`) | Execute command |
+| Natural language | Interpret and route or respond |
+| Question | Answer using available context |
+
+### Menu Routing
+
+| Selection | Action |
+|-----------|--------|
+| 1 | "Which track?" → `!hi-[target]` flow |
+| 2 | `!task-c` flow |
+| 3 | `!task-e` flow |
+| 4 | Create project flow |
+| 5 | Create area flow |
+| 6 | `!obj` flow → "Create or edit?" |
+| 7 | `!qn` flow |
+| 8 | `!sk` flow |
+| 9 | `!bye` flow |
+
+---
+
+## !hi-[target] — Focused Session
+
+### Phase 1: Brief Summary
+```
+READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
+EXTRACT: status, progress
+SCAN: tasks/ folder for active count, overdue count
+EXTRACT: Last 3 log entries
+```
+
+### Output
+```
+🧭 [target]
+Status: [status] | Progress: [progress]%
+
+Recent:
+- [date]: [log entry]
+- [date]: [log entry]
+- [date]: [log entry]
+
+[N] active tasks, [N] overdue
+
+What would you like to do?
+
+1. View full status + tasks
+2. Create a task
+3. Edit a task
+4. Add log entry
+5. Update status/progress
+6. Switch track
+7. Close session
+
+Enter number or describe what you need:
+```
+
+### Input Handling
+
+| Input Type | Action |
+|------------|--------|
+| Number (1-7) | Route to selection |
+| Direct command | Execute with track context |
+| Task reference ("the SSL task") | Resolve and act |
+| Natural language | Interpret and route or respond |
+| Question | Answer using track context |
+
+### Menu Routing
+
+| Selection | Action |
+|-----------|--------|
+| 1 | Display full status + all tasks |
+| 2 | `!task-c` flow with track pre-filled |
+| 3 | "Which task?" → `!task-e` flow |
+| 4 | Add log entry flow |
+| 5 | Update status/progress flow |
+| 6 | "Which track?" → new `!hi-[target]` |
+| 7 | `!bye` flow |
+
+---
+
+## Create Area Flow
+
+*Accessed via: Main menu → 5*
+
+### Prompts
+```
+Creating new area...
+
+1. Domain name? (becomes area-{domain})
+   Examples: finance, health, webops, personal
+   
+2. Brief description? (1-2 sentences)
+```
+
+### Auto-generated
+```
+CONSTRUCT: domain_slug = lowercase, hyphenated input
+CONSTRUCT: folder_path = {VAULT_PATH}/Tracks/area-{domain}/
+CONSTRUCT: home_doc_path = {folder_path}_area-{domain}-home.md
+```
+
+### Home Doc Template
+```yaml
+---
+title: {user input}
+type: area
+status: active
+created: {YYYY-MM-DD}
+modified: {YYYY-MM-DD}
+---
+
+## Overview
+{user description}
+
+## Current Focus
+
+
+## Notes
+
+
+---
+
+## Log
+
+---
+
+{YYYY-MM-DD HH:MM} - Setup - Area created
+
+---
+```
+
+### Output Phase
+```
+SWITCH file_operations:
+
+  CASE "display":
+    OUTPUT: "📁 CREATE THESE FOLDERS:"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/resources/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/tasks/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/zzz/"
+    OUTPUT: ""
+    CALL: OUTPUT_FILE(home_doc_path, content)
+
+  CASE "confirm":
+    OUTPUT: "Will create:"
+    OUTPUT: "  - Folder: {folder_path}"
+    OUTPUT: "  - Subfolders: resources/, tasks/, zzz/"
+    OUTPUT: "  - Home doc: _area-{domain}-home.md"
+    OUTPUT: ""
+    OUTPUT: "Proceed? (yes/no)"
+    WAIT FOR: confirmation
+    IF confirmed: EXECUTE writes
+    ELSE: OUTPUT "Area creation cancelled"
+
+  CASE "write":
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/resources/
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/tasks/
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/zzz/
+    CREATE: home doc file
+    OUTPUT: "✓ Area created: area-{domain}"
+```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
+
+### Completion
+```
+✓ Area created: area-{domain}
+  Path: {VAULT_PATH}/Tracks/area-{domain}/
+═══════════════════════════════════════════════
+
+🧭 What would you like to do?
+
+1. Open area-{domain}
+2. Create a task for this area
+3. Return to main menu
+
+Enter number or describe what you need:
+```
+
+---
+
+## Create Project Flow
+
+*Accessed via: Main menu → 4*
+
+### Prompts
+```
+Creating new project...
+
+1. System code? (4 letters)
+   Examples: blog, home, work, sfzc, finc
+   
+2. Action code? (4 letters)
+   Examples: migr, setup, audt, docs, fixs
+   
+3. Project title?
+
+4. Brief description? (1-2 sentences)
+```
+
+### Auto-generated
+```
+SCAN: {VAULT_PATH}/Tracks/ for existing p###-* folders
+CALCULATE: next_number = highest existing + 1, zero-padded to 3 digits
+CONSTRUCT: project_id = p{next_number}-{system}-{action}
+CONSTRUCT: folder_path = {VAULT_PATH}/Tracks/{project_id}/
+CONSTRUCT: home_doc_path = {folder_path}_{project_id}-home.md
+```
+
+### Home Doc Template
+```yaml
+---
+project_id: {project_id}
+title: {user input}
+type: project
+status: active
+progress: 0
+created: {YYYY-MM-DD}
+modified: {YYYY-MM-DD}
+---
+
+## Overview
+{user description}
+
+## Current Focus
+
+
+## Notes
+
+
+---
+
+## Log
+
+---
+
+{YYYY-MM-DD HH:MM} - Setup - Project created
+
+---
+```
+
+### Output Phase
+```
+SWITCH file_operations:
+
+  CASE "display":
+    OUTPUT: "📁 CREATE THESE FOLDERS:"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/resources/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/tasks/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/zzz/"
+    OUTPUT: ""
+    CALL: OUTPUT_FILE(home_doc_path, content)
+
+  CASE "confirm":
+    OUTPUT: "Will create:"
+    OUTPUT: "  - Folder: {folder_path}"
+    OUTPUT: "  - Subfolders: resources/, tasks/, zzz/"
+    OUTPUT: "  - Home doc: _{project_id}-home.md"
+    OUTPUT: ""
+    OUTPUT: "Proceed? (yes/no)"
+    WAIT FOR: confirmation
+    IF confirmed: EXECUTE writes
+    ELSE: OUTPUT "Project creation cancelled"
+
+  CASE "write":
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/resources/
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/tasks/
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/zzz/
+    CREATE: home doc file
+    OUTPUT: "✓ Project created: {project_id}"
+```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
+
+### Completion
+```
+✓ Project created: {project_id}
+  Path: {VAULT_PATH}/Tracks/{project_id}/
+═══════════════════════════════════════════════
+
+🧭 What would you like to do?
+
+1. Open {project_id}
+2. Create a task for this project
+3. Return to main menu
+
+Enter number or describe what you need:
+```
+
+---
+
+## Add Log Entry Flow
+
+*Accessed via: Focused session → 4*
+
+### Prompts
+```
+Adding log entry to [target]...
+
+Entry type?
+1. Development
+2. Configuration
+3. Documentation
+4. Meeting
+5. Decision
+6. Testing
+7. Deployment
+8. Review
+9. Other
+
+Enter number or type directly:
+
+What happened? (1-2 lines):
+```
+
+### Action
+```
+READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
+
+CONSTRUCT: log_entry = "
+---
+
+{YYYY-MM-DD HH:MM} - {type} - {user input}
+
+---
+"
+
+CONSTRUCT: updated_content = original with log_entry appended to Log section
+UPDATE: modified date in frontmatter
+```
+
+### Output Phase
+```
+SWITCH file_operations:
+
+  CASE "display":
+    OUTPUT: "📋 ADD THIS LOG ENTRY TO:"
+    OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
+    OUTPUT: ""
+    OUTPUT: "In the Log section, add:"
+    OUTPUT: "---"
+    OUTPUT: "{YYYY-MM-DD HH:MM} - {type} - {user input}"
+    OUTPUT: "---"
+
+  CASE "confirm":
+    OUTPUT: "Will append to [target] log:"
+    OUTPUT: "  {YYYY-MM-DD HH:MM} - {type} - {user input}"
+    OUTPUT: ""
+    OUTPUT: "Proceed? (yes/no)"
+    WAIT FOR: confirmation
+    IF confirmed: WRITE file
+    ELSE: OUTPUT "Log entry cancelled"
+
+  CASE "write":
+    WRITE: updated file
+    OUTPUT: "✓ Log entry added to [target]"
+```
+
+### Completion
+```
+✓ Log entry added to [target]
+═══════════════════════════════════════════════
+
+🧭 [target]
+[return to focused session menu]
+```
+
+---
+
+## Update Status/Progress Flow
+
+*Accessed via: Focused session → 5*
+
+### Prompts
+```
+Updating [target]...
+
+What do you want to update?
+1. Status
+2. Progress
+3. Both
+
+Enter number:
+```
+
+**If Status:**
+```
+Current status: [current]
+
+New status?
+1. active
+2. on-hold
+3. blocked
+4. complete
+5. archived
+
+Enter number or type directly:
+```
+
+**If Progress:**
+```
+Current progress: [current]%
+
+New progress (0-100):
+```
+
+### Action
+```
+READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
+UPDATE: frontmatter fields
+UPDATE: modified date
+
+CONSTRUCT: log_entry = "{YYYY-MM-DD HH:MM} - Update - Status changed to {status} / Progress updated to {progress}%"
+APPEND: log_entry to Log section
+```
+
+### Output Phase
+```
+SWITCH file_operations:
+
+  CASE "display":
+    OUTPUT: "📋 UPDATE THIS FILE:"
+    OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
+    OUTPUT: ""
+    OUTPUT: "In frontmatter, set:"
+    IF status changed: OUTPUT: "  status: {new_status}"
+    IF progress changed: OUTPUT: "  progress: {new_progress}"
+    OUTPUT: "  modified: {YYYY-MM-DD}"
+    OUTPUT: ""
+    OUTPUT: "In Log section, add:"
+    OUTPUT: "---"
+    OUTPUT: "{log_entry}"
+    OUTPUT: "---"
+
+  CASE "confirm":
+    OUTPUT: "Will update [target]:"
+    IF status changed: OUTPUT: "  - Status: {old} → {new}"
+    IF progress changed: OUTPUT: "  - Progress: {old}% → {new}%"
+    OUTPUT: ""
+    OUTPUT: "Proceed? (yes/no)"
+    WAIT FOR: confirmation
+    IF confirmed: WRITE file
+    ELSE: OUTPUT "Update cancelled"
+
+  CASE "write":
+    WRITE: updated file
+    OUTPUT: "✓ [target] updated"
+```
+
+### Completion
+```
+✓ [target] updated
+  Status: {status} | Progress: {progress}%
+═══════════════════════════════════════════════
+
+🧭 [target]
+[return to focused session menu]
+```
+
+---
+
+## View Full Status + Tasks
+
+*Accessed via: Focused session → 1*
+
+### Output
+```
+READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
+READ: All files in {VAULT_PATH}/Tracks/[target]/tasks/
+PARSE: Frontmatter for each task
 FILTER: status != complete
-SORT: By created_date (newest first)
-```
+SORT: By priority (critical → high → medium → low), then created_date
 
-### Task Hierarchy Building
-
-```
-FOR EACH task file:
-  READ frontmatter:
-    - title, status, priority, viz, due_date, assignee
-    - created_date, phase, effort, type
-    - parent_task, subtasks[]
-  
-  IF parent_task is empty:
-    Add to top_level_tasks[]
-    
-    IF subtasks[] has entries:
-      FOR EACH inline subtask:
-        Parse: text, status, due_date, assignee, note
-        Add to task.inline_subtasks[]
-  
-  ELSE:
-    Add to child_tasks[] with parent reference
-
-BUILD HIERARCHY:
-  FOR EACH top_level_task:
-    Find child tasks where parent_task == this task's filename
-    Attach as task.separate_subtasks[]
-```
-
-### Checkbox Logic
-
-```
-Inline subtasks:
-  [x] if status == "complete"
-  [ ] otherwise
-```
-
-### Overdue Indicator
-
-```
-Show ⚠️ OVERDUE when:
-  due_date < today AND status != "complete"
-  
-Apply to:
-  - Parent tasks with due_date
-  - Inline subtasks with due_date
-  - Separate subtask files with due_date
-```
-
-### Due This Week Calculation
-
-```
-Count tasks/subtasks where:
-  due_date >= today AND due_date <= today + 7 days
-  AND status != "complete"
-```
-
----
-
-## Output Format
-
-```markdown
+OUTPUT:
 ## [target] Overview
-**Status:** [status] | **Progress:** [progress]% | **Priority:** [priority]
+**Status:** [status] | **Progress:** [progress]% | **Type:** [area|project]
 
 ### Summary
-[summary from home doc OR "No summary available"]
+[Overview section from home doc]
 
-### Current Status
-[status notes from home doc]
+### Current Focus
+[Current Focus section from home doc]
 
-### Recent Activity (Last 10-15 entries)
-[Log entries with timestamps]
+### Recent Activity
+[Last 10 log entries]
 
 ### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 [title]
-Status: [status] | Priority: [priority] | Viz: [viz] | Effort: [effort]
-Phase: [phase] | Assignee: [assignee]
+Status: [status] | Priority: [priority] | Effort: [effort]
 Created: [created_date] | Due: [due_date OR "(none)"] [⚠️ OVERDUE if applicable]
 
-[IF inline_subtasks exists:]
-Inline Subtasks ([count]):
-  └─ [[x] OR [ ]] [text] ([status][, due [due_date]][⚠️ OVERDUE if applicable])
-     [IF note exists:] Note: [note]
-
-[IF separate_subtasks exists:]
-Subtask Files ([count]):
-  → [task title] ([status][, due [due_date]][⚠️ OVERDUE if applicable])
+[IF subtasks exist in body:]
+Subtasks:
+  └─ [ ] or [x] [subtask text]
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [Repeat for each task]
 
----
+═══════════════════════════════════════════════
 
-### Task Summary
-
-**By Status:**
-- Active: [count]
-- Blocked: [count]
-- Waiting: [count]
-- Scheduled: [count]
-- On Hold: [count]
-- Deferred: [count]
-
-**By Priority:**
-- Critical: [count]
-- High: [count]
-- Medium: [count]
-- Low: [count]
-
-**Time Alerts:**
-- 🔴 Overdue: [count] tasks/subtasks
-- 📅 Due This Week: [count] tasks/subtasks
-
----
-✅ Context set to [target] for !bye command
+🧭 [target]
+[return to focused session menu]
 ```
 
 ---
 
-## Task File Parsing
+## Freeform Input Examples
 
-**Required Frontmatter:**
-- title (string)
-- project (string, matches track identifier)
-- created_date (YYYY-MM-DD)
-- status (active|blocked|complete|deferred|onhold|scheduled|waiting)
-- priority (low|medium|high|critical)
+**From main menu:**
+- `"I need to create a task for the storage migration"` → Task creation, infers track
+- `"What projects are active?"` → Lists active projects
+- `"Show me p14"` → `!hi-p14` flow
+- `"!sk"` → Direct to skill evidence flow
 
-**Optional Frontmatter:**
-- due_date (YYYY-MM-DD or empty)
-- assignee (string)
-- phase (planning|executing|testing|closing)
-- effort (simple|moderate|complex)
-- viz (for visibility/review categorization)
-- parent_task (filename without path)
-- subtasks (array of objects)
-- type (array of strings)
+**From focused session:**
+- `"Mark the SSL task complete"` → Finds task, updates status
+- `"What's blocking progress?"` → Reviews tasks, identifies blockers
+- `"Add a note that we're waiting on vendor"` → Log entry flow
+- `"Create a task to follow up next week"` → Task creation with context
 
-**Inline Subtask Object:**
-```yaml
-subtasks:
-  - text: "Subtask description"
-    status: active|complete|waiting|...
-    due_date: YYYY-MM-DD or empty
-    assignee: "Name"
-    note: "Optional note"
+---
+
+## Context Persistence
+
 ```
+SET on !hi or !hi-[target]: session_active = true
+TRACK: 
+  - tracks_viewed[]
+  - files_created[]
+  - files_edited[]
+  - decisions[]
+  - log_entries_added[]
+USE on !bye: Full session context for log generation
+CLEAR on !bye: Session state reset
+```
+
+---
+
+## Completion Pattern
+
+After each action completes:
+```
+✓ [Action completed message]
+═══════════════════════════════════════════════
+
+[Return to menu for current context]
+```
+
+Only `!bye` ends the session.
 
 ---
 
@@ -205,20 +631,11 @@ subtasks:
 
 | Situation | Response |
 |-----------|----------|
-| Home doc missing | "⚠️ Target not found. Check track name." STOP |
-| Log section missing | "⚠️ No log section found" CONTINUE |
-| No task files found | "No active tasks found for this track." CONTINUE |
-| Task file parse error | "⚠️ Could not parse task file: [filename]" CONTINUE |
-
----
-
-## Context Persistence
-
-```
-SET on !hi-[target]: context = target_identifier
-USE on !bye: target_context for log entry
-OVERRIDE: Natural language always wins
-```
+| Ambiguous input | Ask clarifying question |
+| Track not found | "Track not found. Available: [list recently used or suggest search]" |
+| Can't interpret request | "I didn't understand. Try a number or rephrase?" |
+| Folder already exists (create) | "Area/project already exists. Open it instead?" |
+| Invalid progress value | "Progress must be 0-100. Try again:" |
 
 ---
 
@@ -226,20 +643,11 @@ OVERRIDE: Natural language always wins
 
 | Purpose | Path |
 |---------|------|
-| Base | `{VAULT_PATH}/` |
 | Tracks | `{VAULT_PATH}/Tracks/` |
+| Home docs | `{VAULT_PATH}/Tracks/[target]/_*-home.md` |
 | Tasks | `{VAULT_PATH}/Tracks/[target]/tasks/` |
-| Task pattern | `YYYYMMDD-slug.md` |
-
----
-
-## Performance
-
-| Track Size | Expected Time |
-|------------|---------------|
-| Small (<10 tasks) | ~1-2 seconds |
-| Medium (10-30 tasks) | ~2-3 seconds |
-| Large (30+ tasks) | ~3-4 seconds |
+| Resources | `{VAULT_PATH}/Tracks/[target]/resources/` |
+| Archive | `{VAULT_PATH}/Tracks/[target]/zzz/` |
 
 ---
 
@@ -247,7 +655,5 @@ OVERRIDE: Natural language always wins
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 9.0 | 2025-10-02 | CSV-based integration |
-| 10.0 | 2025-12-01 | Migrated to markdown task system |
-| 11.0 | 2025-12-15 | LLM-agnostic refactor |
-| 11.1 | 2025-12-16 | Standardized format |
+| 11.1 | 2025-12-16 | Deep-dive view with task display |
+| 12.0 | 2025-12-19 | Refactored as interactive session with menus + freeform input; added create area, create project, add log entry, update status flows |

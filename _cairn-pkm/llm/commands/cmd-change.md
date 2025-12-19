@@ -1,13 +1,13 @@
 # !change - Change Tracking
-*Type: Write | Version: 2.1 | Updated: 2025-12-16*
+*Type: Read/Write | Version: 3.0 | Updated: 2025-12-18*
 
 ## Quick Reference
 
-| Action | What Happens | Permission |
-|--------|--------------|------------|
-| `!change` | Extract change from conversation, create YAML entry | Confirmation required |
+| Action | What Happens | Output Mode |
+|--------|--------------|-------------|
+| `!change` | Extract change from conversation, create YAML entry | Per user-prefs.yaml |
 
-**Workflow:** Type `!change` → Review draft → Edit/provide missing fields → `save` → File created
+**Workflow:** Type `!change` → Review draft → Edit/provide missing fields → `save` → Output per prefs
 
 ---
 
@@ -16,11 +16,28 @@
 **Assistant Capabilities:**
 - Conversation context analysis
 - YAML generation
-- File system write access
+- File system access (if file_operations = write or confirm)
 - Timestamp generation
 
+**User Configuration:**
+- `_local/user-prefs.yaml` — file_operations setting, timezone
+
 **Vault Structure:**
-- `System/tools/changelog/` — Change log storage with YYYY/MM subdirectories
+- `_local/data/changelog/` — Change log storage with YYYY/MM subdirectories
+
+---
+
+## Initialization
+
+```
+READ: {VAULT_PATH}/_local/user-prefs.yaml
+EXTRACT:
+  - file_operations (default: "display")
+  - write_target (default: "local")
+  - gdrive_vault_path (default: "")
+  - timezone (default: "America/Los_Angeles")
+  - default_assignee (default: "")
+```
 
 ---
 
@@ -59,6 +76,7 @@ GENERATE: change_id = CHG-{YYYYMMDD}-{HHMMSS}
 GENERATE: timestamp = {YYYY-MM-DDTHH:MM:SS{TIMEZONE}}
 
 CREATE YAML DRAFT with all extracted fields
+SET implemented_by from default_assignee
 Mark requested_by as empty (REQUIRES USER INPUT)
 ```
 
@@ -88,16 +106,15 @@ LOOP:
   IF "cancel": OUTPUT "Change entry discarded", STOP
 ```
 
-### Phase 6: Create File
+### Phase 6: Output
 ```
-CONSTRUCT: filepath = {VAULT_PATH}/System/tools/changelog/{YYYY}/{MM}/{change_id}.yaml
-CREATE: directory if not exists
-WRITE: final_yaml to filepath
+CONSTRUCT: filepath = {VAULT_PATH}/_local/data/changelog/{YYYY}/{MM}/{change_id}.yaml
+CONSTRUCT: content = {final_yaml}
 
-OUTPUT: "✓ Change entry created"
-OUTPUT: "File: {filepath}"
-OUTPUT: "ID: {change_id}"
+CALL: OUTPUT_FILE(filepath, content)
 ```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Phase 7: Completion
 ```
@@ -117,7 +134,7 @@ STOP
 ```yaml
 change_id: {auto-generated}
 timestamp: {auto-generated}
-implemented_by: {default_user}
+implemented_by: {default_assignee from prefs}
 requested_by: ""  # REQUIRES USER INPUT
 
 title: "{extracted}"
@@ -236,6 +253,98 @@ updated: {timestamp}
 
 ---
 
+## Output Examples
+
+### Draft Phase
+
+```
+🕐 Current Date/Time: December 18, 2025 at 14:30 PST
+Extracting change information from conversation...
+
+📝 CHANGE ENTRY DRAFT
+═══════════════════════════════════════
+change_id: CHG-20251218-143000
+timestamp: 2025-12-18T14:30:00-08:00
+implemented_by: WebOps
+requested_by: ""
+
+title: "Fixed SSL certificate chain validation on staging"
+systems_affected:
+  - staging.example.org
+technologies:
+  - SSL/TLS
+  - nginx
+problem_category: security
+...
+═══════════════════════════════════════
+
+Missing required field:
+• requested_by: Who requested this change?
+
+Commands:
+• Type 'edit [field]' to modify any field
+• Type 'requested_by [name]' to set requester
+• Type 'save' when ready to create file
+• Type 'cancel' to discard
+```
+
+### Completion (display mode)
+
+```
+📄 FILE CONTENT
+═══════════════════════════════════════
+Filename: CHG-20251218-143000.yaml
+Path: {VAULT_PATH}/_local/data/changelog/2025/12/
+
+{complete YAML content}
+
+═══════════════════════════════════════
+Copy this content and save to the path above.
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (write mode)
+
+```
+✓ Created {VAULT_PATH}/_local/data/changelog/2025/12/CHG-20251218-143000.yaml
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (confirm mode)
+
+```
+📄 PROPOSED FILE
+═══════════════════════════════════════
+Filename: CHG-20251218-143000.yaml
+Path: {VAULT_PATH}/_local/data/changelog/2025/12/
+
+{complete YAML content}
+
+═══════════════════════════════════════
+Write this file? (yes/no)
+```
+
+Then on confirmation:
+
+```
+✓ Created {VAULT_PATH}/_local/data/changelog/2025/12/CHG-20251218-143000.yaml
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+---
+
 ## Error Handling
 
 | Situation | Response |
@@ -243,6 +352,8 @@ updated: {timestamp}
 | Conversation too short | "⚠️ Not enough information. Please describe: system, problem, solution" |
 | Ambiguous systems | "Which system was actually changed?" |
 | Missing required on save | "❌ Missing required field: requested_by" |
+| user-prefs.yaml missing | Use defaults: display mode, local target |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -250,7 +361,8 @@ updated: {timestamp}
 
 | Purpose | Path |
 |---------|------|
-| Base | `{VAULT_PATH}/System/tools/changelog/` |
+| User prefs | `{VAULT_PATH}/_local/user-prefs.yaml` |
+| Base | `{VAULT_PATH}/_local/data/changelog/` |
 | Output | `/YYYY/MM/CHG-YYYYMMDD-HHMMSS.yaml` |
 
 ---
@@ -259,6 +371,5 @@ updated: {timestamp}
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0 | 2025-11-05 | Initial version |
-| 2.0 | 2025-12-15 | LLM-agnostic refactor |
-| 2.1 | 2025-12-16 | Standardized format |
+| 2.1 | 2025-12-16 | Previous version (confirmation required) |
+| 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |

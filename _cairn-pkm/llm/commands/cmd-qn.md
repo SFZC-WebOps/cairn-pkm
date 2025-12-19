@@ -1,26 +1,42 @@
 # !qn - Quick Note
-*Type: Write | Version: 3.1 | Updated: 2025-12-16*
+*Type: Read/Write | Version: 4.0 | Updated: 2025-12-18*
 
 ## Quick Reference
 
-| Command | What Happens | Permission |
-|---------|--------------|------------|
-| `!qn` | Capture from conversation | Confirmation required |
-| `!qn [topic]` | Capture specific topic | Confirmation required |
+| Command | What Happens | Output Mode |
+|---------|--------------|-------------|
+| `!qn` | Capture from conversation | Per user-prefs.yaml |
+| `!qn [topic]` | Capture specific topic | Per user-prefs.yaml |
 
-**Workflow:** Type `!qn` → Review proposed content → Confirm → File created
+**Workflow:** Type `!qn` → Review proposed content → Confirm → Output per prefs
 
 ---
 
 ## Requirements
 
 **Assistant Capabilities:**
-- File system write access
+- File system access (if file_operations = write or confirm)
 - Conversation context analysis
 - Timestamp generation
 
+**User Configuration:**
+- `_local/user-prefs.yaml` — file_operations setting, timezone
+
 **Vault Structure:**
 - `Capture/` — Inbox for unprocessed items
+
+---
+
+## Initialization
+
+```
+READ: {VAULT_PATH}/_local/user-prefs.yaml
+EXTRACT:
+  - file_operations (default: "display")
+  - write_target (default: "local")
+  - gdrive_vault_path (default: "")
+  - timezone (default: "America/Los_Angeles")
+```
 
 ---
 
@@ -69,12 +85,16 @@ OUTPUT: "Confirm to create"
 WAIT FOR: confirmation
 ```
 
-### Phase 4: Execute
+### Phase 4: Output
 ```
 ON confirmation:
-  CREATE: {VAULT_PATH}/Capture/{filename}
-  WRITE: {content}
+  CONSTRUCT: filepath = {VAULT_PATH}/Capture/{filename}
+  CONSTRUCT: content = {note content}
+  
+  CALL: OUTPUT_FILE(filepath, content)
 ```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Phase 5: Completion
 ```
@@ -103,12 +123,99 @@ OUTPUT:
 
 ---
 
+## Output Examples
+
+### Proposal Phase
+
+```
+I would create qn-2025-12-18-143022-api-integration-notes.md with:
+
+# Quick Note: API Integration Notes
+Created: 2025-12-18 14:30:22
+
+## Context
+Discussion about integrating the new payment API.
+
+## Content
+Key points from our conversation:
+- API uses OAuth 2.0 for authentication
+- Rate limit is 100 requests per minute
+- Webhook support available for async notifications
+
+## Action Items
+- [ ] Request API credentials from vendor
+- [ ] Review API documentation
+
+## References
+- Related track: p045-payment-integration
+
+Confirm to create
+```
+
+### Completion (display mode)
+
+```
+📄 FILE CONTENT
+═══════════════════════════════════════
+Filename: qn-2025-12-18-143022-api-integration-notes.md
+Path: {VAULT_PATH}/Capture/
+
+{complete file content}
+
+═══════════════════════════════════════
+Copy this content and save to the path above.
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (write mode)
+
+```
+✓ Created {VAULT_PATH}/Capture/qn-2025-12-18-143022-api-integration-notes.md
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (confirm mode)
+
+```
+📄 PROPOSED FILE
+═══════════════════════════════════════
+Filename: qn-2025-12-18-143022-api-integration-notes.md
+Path: {VAULT_PATH}/Capture/
+
+{complete file content}
+
+═══════════════════════════════════════
+Write this file? (yes/no)
+```
+
+Then on confirmation:
+
+```
+✓ Created {VAULT_PATH}/Capture/qn-2025-12-18-143022-api-integration-notes.md
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+---
+
 ## Error Handling
 
 | Situation | Response |
 |-----------|----------|
 | Conversation empty | "No context to capture. What should I note?" |
-| Write fails | "Failed to create: {error}" — Offer retry |
+| user-prefs.yaml missing | Use defaults: display mode, local target |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -116,6 +223,7 @@ OUTPUT:
 
 | Purpose | Path |
 |---------|------|
+| User prefs | `{VAULT_PATH}/_local/user-prefs.yaml` |
 | Output | `{VAULT_PATH}/Capture/` |
 | Pattern | `qn-*.md` |
 | Processing | Manual during reviews |
@@ -126,6 +234,5 @@ OUTPUT:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 2.1 | 2025-09-26 | Previous version |
-| 3.0 | 2025-12-15 | LLM-agnostic refactor |
-| 3.1 | 2025-12-16 | Standardized format |
+| 3.1 | 2025-12-16 | Previous version (display only) |
+| 4.0 | 2025-12-18 | Added user-prefs support, configurable output mode |

@@ -1,0 +1,75 @@
+change_id: CHG-20251219-143500
+timestamp: 2025-12-19T14:35:00-08:00
+implemented_by: "gb"
+requested_by: "gb"
+
+title: "Fixed SSL certificate chain validation on staging.acme.com"
+
+systems_affected:
+  - staging.acme.com
+
+technologies:
+  - SSL/TLS
+  - nginx
+  - OpenSSL
+
+problem_category: security
+
+change_classification:
+  impact: medium
+  risk: low
+  reversibility: instant
+  scope: single-system
+
+description: |
+  Staging server was rejecting SSL connections due to incomplete certificate chain.
+  Clients received "unable to verify the first certificate" error.
+
+problem: |
+  nginx was only serving the leaf certificate without the intermediate CA certificate.
+  SSL Labs testing showed incomplete chain, browsers displayed security warnings.
+  Verified with openssl s_client showing only one certificate in chain.
+
+solution: |
+  1. Diagnosed issue using: openssl s_client -connect staging.acme.com:443 -showcerts
+  2. Confirmed intermediate certificate was missing from chain
+  3. Updated nginx configuration to use fullchain.pem:
+     - ssl_certificate /etc/nginx/ssl/fullchain.pem
+     - ssl_certificate_key /etc/nginx/ssl/privkey.pem
+  4. Concatenated leaf + intermediate certificates into fullchain.pem
+  5. Reloaded nginx service
+  6. Validated with SSL Labs - achieved A rating with complete chain
+
+files_modified:
+  - /etc/nginx/ssl/fullchain.pem
+  - /etc/nginx/sites-available/staging.acme.com.conf
+
+rollback:
+  complexity: instant
+  estimated_time: "5 minutes"
+  steps:
+    - action: "Restore previous nginx configuration"
+      validation: "Test SSL connection with openssl s_client"
+    - action: "Reload nginx"
+      validation: "Verify service restart successful"
+
+validation:
+  tested: true
+  test_environment: staging.acme.com
+  test_results: "SSL Labs A rating, complete certificate chain verified, browser warnings resolved"
+
+ai_contribution:
+  role: advisor
+  time_saved_estimate: 90
+  time_saved_basis: "Diagnosed issue immediately, provided exact nginx configuration syntax, prevented documentation research"
+  specific_contributions:
+    - "Identified incomplete certificate chain as root cause"
+    - "Provided correct nginx SSL configuration directives"
+    - "Recommended SSL Labs for validation testing"
+
+related_changes: []
+track_context: ""
+session_context: "SSL certificate chain validation repair"
+
+created: 2025-12-19T14:35:00-08:00
+updated: 2025-12-19T14:35:00-08:00

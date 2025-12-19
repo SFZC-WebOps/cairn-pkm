@@ -1,18 +1,18 @@
 # !task - Task Management
-*Type: Display | Version: 4.2 | Updated: 2025-12-16*
+*Type: Read/Write | Version: 5.0 | Updated: 2025-12-18*
 
 ## Quick Reference
 
-| Command | Purpose | Permission |
-|---------|---------|------------|
-| `!task-c` | Generate new task file from conversation | Display only |
-| `!task-e` | Generate edited task from uploaded file | Display only |
+| Command | Purpose | Output Mode |
+|---------|---------|-------------|
+| `!task-c` | Generate new task file from conversation | Per user-prefs.yaml |
+| `!task-e` | Generate edited task from uploaded file | Per user-prefs.yaml |
 
 **Location:** `{VAULT_PATH}/Tracks/[track]/tasks/`
 
 **Workflow:**
-- **Create:** Discuss work → `!task-c` → Review draft → Provide required fields → `done` → Copy file locally
-- **Edit:** Upload task file → Discuss updates → `!task-e` → Review changes → `done` → Update file locally
+- **Create:** Discuss work → `!task-c` → Review draft → Provide required fields → `done` → Output per prefs
+- **Edit:** Upload task file → Discuss updates → `!task-e` → Review changes → `done` → Output per prefs
 
 ---
 
@@ -23,9 +23,33 @@
 - YAML frontmatter generation
 - Timestamp generation
 - Interactive editing loop
+- File system access (if file_operations = write or confirm)
+
+**User Configuration:**
+- `_local/user-prefs.yaml` — file_operations setting, defaults
 
 **Vault Structure:**
 - `Tracks/[track]/tasks/` — Task files per track
+
+---
+
+## Initialization
+
+```
+READ: {VAULT_PATH}/_local/user-prefs.yaml
+EXTRACT:
+  - file_operations (default: "display")
+  - write_target (default: "local")
+  - gdrive_vault_path (default: "")
+  - default_assignee (default: "")
+  - timezone (default: "America/Los_Angeles")
+
+HARDCODED DEFAULTS:
+  - default_priority = "medium"
+  - default_status = "active"
+  - default_effort = "moderate"
+  - default_phase = "executing"
+```
 
 ---
 
@@ -34,12 +58,13 @@
 ### Execution
 
 1. Display current date/time
-2. Infer track context (from !hi, conversation, or ask user)
-3. Extract from conversation: title, types, and any mentioned fields
-4. Generate filename: `{YYYYMMDD}-{slug}.md`
-5. Show draft, prompt for required fields (priority, status)
-6. Interactive edit loop until user types `done`
-7. Display complete file content for user to create locally
+2. Read user-prefs.yaml for defaults and output mode
+3. Infer track context (from !hi, conversation, or ask user)
+4. Extract from conversation: title, types, and any mentioned fields
+5. Generate filename: `{YYYYMMDD}-{slug}.md`
+6. Show draft, prompt for required fields (priority, status)
+7. Interactive edit loop until user types `done`
+8. Output per file_operations setting
 
 ### Required Fields
 
@@ -48,17 +73,17 @@
 | title | Task name (extracted or provided) |
 | project | Track identifier |
 | created_date | Auto-set to today |
-| priority | `low \| medium \| high \| critical` |
-| status | `active \| blocked \| complete \| deferred \| onhold \| scheduled \| waiting` |
+| priority | `low | medium | high | critical` (default from prefs) |
+| status | `active | blocked | complete | deferred | onhold | scheduled | waiting` (default from prefs) |
 
 ### Optional Fields
 
 | Field | Description |
 |-------|-------------|
 | due_date | YYYY-MM-DD |
-| assignee | Default assignee name |
-| phase | `planning \| executing \| testing \| closing` |
-| effort | `simple \| moderate \| complex` |
+| assignee | From default_assignee in prefs |
+| phase | `planning | executing | testing | closing` (default from prefs) |
+| effort | `simple | moderate | complex` (default from prefs) |
 | type | Array of category/subcategory |
 | parent_task | Filename of parent task |
 
@@ -76,7 +101,7 @@ Each extracted subtask becomes a checkbox in the body's Subtasks section.
 ### Interactive Commands
 
 ```
-done                 - Display final file content
+done                 - Finalize and output per prefs
 edit [field]         - Modify any field
 status [value]       - active, blocked, complete, deferred, onhold, scheduled, waiting
 priority [value]     - low, medium, high, critical
@@ -94,12 +119,12 @@ title: "{title}"
 project: "{track}"
 created_date: YYYY-MM-DD
 due_date: 
-assignee: {default_assignee}
+assignee: {default_assignee from prefs}
 parent_task: 
-priority: {required}
-status: {required}
-phase: 
-effort: 
+priority: {from prefs or user input}
+status: {from prefs or user input}
+phase: {from prefs}
+effort: {from prefs}
 type:
   - {suggested types}
 last_update:
@@ -134,6 +159,17 @@ From title, extract 3-4 key words, lowercase, hyphenated, max 40 chars.
 | "Fix SSL certificate chain validation" | `ssl-cert-chain-validation` |
 | "Set up new environment" | `setup-new-environment` |
 
+### Output Phase
+
+```
+CONSTRUCT: filepath = {VAULT_PATH}/Tracks/{track}/tasks/{filename}
+CONSTRUCT: content = {complete file with frontmatter and body}
+
+CALL: OUTPUT_FILE(filepath, content)
+```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
+
 ---
 
 ## !task-e — Edit Task
@@ -141,10 +177,11 @@ From title, extract 3-4 key words, lowercase, hyphenated, max 40 chars.
 ### Execution
 
 1. Display current date/time
-2. Read uploaded task file
-3. Generate history entry from conversation context
-4. Interactive edit loop until user types `done`
-5. Display complete edited file for user to save locally
+2. Read user-prefs.yaml for output mode
+3. Read uploaded task file
+4. Generate history entry from conversation context
+5. Interactive edit loop until user types `done`
+6. Output per file_operations setting
 
 ### Input Required
 
@@ -172,7 +209,7 @@ When editing:
 ### Interactive Commands
 
 ```
-done                 - Display final edited file
+done                 - Finalize and output per prefs
 edit                 - Modify history entry text
 status [value]       - active, blocked, complete, deferred, onhold, scheduled, waiting
 priority [value]     - low, medium, high, critical
@@ -181,6 +218,15 @@ effort [value]       - simple, moderate, complex
 due [YYYY-MM-DD]     - Set due date
 type add [type]      - Add type tag
 field [name] [value] - Update any field
+```
+
+### Output Phase
+
+```
+CONSTRUCT: filepath = {original file path}
+CONSTRUCT: content = {complete edited file}
+
+CALL: OUTPUT_FILE(filepath, content)
 ```
 
 ---
@@ -197,17 +243,17 @@ field [name] [value] - Update any field
 
 ---
 
-## Output Format
+## Output Examples
 
-### Create Example
+### Draft Phase
 
 ```
-Current Date/Time: December 16, 2025 at 14:30 PST
+Current Date/Time: December 18, 2025 at 14:30 PST
 Creating new task...
 
 TASK DRAFT
 ═══════════════════════════════════════
-Filename: 20251216-wp-environment-setup.md
+Filename: 20251218-wp-environment-setup.md
 
 title: Set up new WordPress environment
 project: [need track - which project/area?]
@@ -228,33 +274,56 @@ Give me the priority and status values for this new task:
 Also, which track does this belong to?
 ```
 
-### Edit Example
+### Completion (display mode)
 
 ```
-Current Date/Time: December 16, 2025 at 15:00 PST
-
-TASK UPDATE
+📄 FILE CONTENT
 ═══════════════════════════════════════
-Task: Path confirmation for Wave 1 migration
-File: 20251102-path-confirmation.md
-
-Proposed history entry:
-2025-12-16: Completed path confirmation for all 20 Wave 1 folders
-═══════════════════════════════════════
-
-Commands: done | edit | status [value] | priority [value] | field [name] [value]
-```
-
-### Completion
-
-```
-COMPLETE FILE
-═══════════════════════════════════════
-Filename: {filename}
-Path: {VAULT_PATH}/Tracks/[track]/tasks/
+Filename: 20251218-wp-environment-setup.md
+Path: {VAULT_PATH}/Tracks/area-webops/tasks/
 
 {complete file content with frontmatter and body}
 
+═══════════════════════════════════════
+Copy this content and save to the path above.
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (write mode)
+
+```
+✓ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
+
+✓ Task complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+```
+
+### Completion (confirm mode)
+
+```
+📄 PROPOSED FILE
+═══════════════════════════════════════
+Filename: 20251218-wp-environment-setup.md
+Path: {VAULT_PATH}/Tracks/area-webops/tasks/
+
+{complete file content}
+
+═══════════════════════════════════════
+Write this file? (yes/no)
+```
+
+Then on confirmation:
+
+```
+✓ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
+
+✓ Task complete
 ═══════════════════════════════════════
 🤖 Waiting for next instruction
 ═══════════════════════════════════════
@@ -270,6 +339,8 @@ Path: {VAULT_PATH}/Tracks/[track]/tasks/
 | Can't infer title (!task-c) | Ask user to describe the task |
 | Invalid priority/status | Show valid options, stay in edit loop |
 | Missing required field on done | List missing fields, stay in edit loop |
+| user-prefs.yaml missing | Use defaults: display mode, local target, empty assignee |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -277,6 +348,7 @@ Path: {VAULT_PATH}/Tracks/[track]/tasks/
 
 | Purpose | Path |
 |---------|------|
+| User prefs | `{VAULT_PATH}/_local/user-prefs.yaml` |
 | Task location | `{VAULT_PATH}/Tracks/[track]/tasks/` |
 | Filename pattern | `{YYYYMMDD}-{slug}.md` |
 
@@ -296,7 +368,5 @@ Path: {VAULT_PATH}/Tracks/[track]/tasks/
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.1 | 2025-11-28 | Previous version with frontmatter subtasks |
-| 4.0 | 2025-12-15 | LLM-agnostic refactor |
-| 4.1 | 2025-12-16 | Removed subtasks from frontmatter — body content only |
-| 4.2 | 2025-12-16 | Standardized format |
+| 4.2 | 2025-12-16 | Previous version (display only) |
+| 5.0 | 2025-12-18 | Added user-prefs support, configurable output mode |

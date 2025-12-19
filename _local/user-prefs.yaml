@@ -1,0 +1,44 @@
+# _local/user-prefs.yaml
+# Cairn-PKM User Preferences
+# Vault-specific settings referenced by templates and LLM commands
+# 
+# This file stays in _local/ and is never overwritten by Cairn updates.
+# See cmd-output-behavior.md for additional options you can add here.
+
+# ─────────────────────────────────────────────────────────────────────
+# IDENTITY
+# ─────────────────────────────────────────────────────────────────────
+
+# Default name for task assignee field when not specified
+default_assignee: "TedB"
+
+# ─────────────────────────────────────────────────────────────────────
+# TIME
+# ─────────────────────────────────────────────────────────────────────
+
+# IANA timezone identifier (e.g., America/New_York, Europe/London)
+# Used for timestamps in logs, tasks, and change entries
+timezone: "America/Los_Angeles"
+
+# ─────────────────────────────────────────────────────────────────────
+# OUTPUT BEHAVIOR
+# ─────────────────────────────────────────────────────────────────────
+
+# How file operations are handled
+#
+# display  - Show file contents for user to copy/paste manually
+# write    - Create/modify files directly in the vault
+# confirm  - Show proposed changes, wait for confirmation, then write
+#
+file_operations: "display"
+
+# Where files are written (when file_operations is write or confirm)
+#
+# local    - Direct filesystem (MCP server, desktop app, computer use)
+# gdrive   - Google Drive API (requires LLM with Drive tool access)
+#
+write_target: "local"
+
+# Path to vault root in Google Drive (required if write_target is gdrive)
+# Example: "Obsidian/MyVault" or "My Drive/Notes"
+gdrive_vault_path: ""
