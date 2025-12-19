@@ -1,13 +1,19 @@
 # !change - Change Tracking
-*Type: Read/Write | Version: 3.0 | Updated: 2025-12-18*
+*Type: Read/Write | Version: 3.1 | Updated: 2025-12-19*
 
 ## Quick Reference
 
 | Action | What Happens | Output Mode |
 |--------|--------------|-------------|
 | `!change` | Extract change from conversation, create YAML entry | Per user-prefs.yaml |
+| `!change-r` | Display change history (last 30 days default) | Display only |
+| `!change-r [days]` | Display last N days of changes | Display only |
+| `!change-r [YYYY-MM]` | Display changes for specific month | Display only |
+| `!change-r [start] [end]` | Display changes in date range | Display only |
 
-**Workflow:** Type `!change` → Review draft → Edit/provide missing fields → `save` → Output per prefs
+**Workflow:** 
+- **Create:** Type `!change` → Review draft → Edit/provide missing fields → `save` → Output per prefs
+- **Review:** Type `!change-r` → View narrative history with filenames
 
 ---
 
@@ -41,7 +47,7 @@ EXTRACT:
 
 ---
 
-## Execution
+## !change - Create Change Entry
 
 ### Phase 1: DateTime
 ```
@@ -125,6 +131,153 @@ OUTPUT:
 ═══════════════════════════════════════
 
 STOP
+```
+
+---
+
+## !change-r - Review Change History
+
+Display narrative history of changes with filename references.
+
+### Phase 1: Parse Parameters
+```
+INPUT: user_command
+
+CASES:
+  "!change-r" → last_30_days
+  "!change-r 90" → last_N_days(90)
+  "!change-r 2025-12" → month(2025, 12)
+  "!change-r 2025-11-01 2025-12-31" → date_range(start, end)
+
+CALCULATE: start_date, end_date
+```
+
+### Phase 2: Scan Changelog Directory
+```
+SCAN: {VAULT_PATH}/_local/data/changelog/YYYY/MM/
+FILTER: files matching CHG-*.yaml
+FILTER: files with timestamp in [start_date, end_date]
+COLLECT: matching files
+```
+
+### Phase 3: Parse and Extract
+```
+FOR EACH file in chronological order (newest first):
+  PARSE YAML
+  EXTRACT:
+    - change_id
+    - timestamp (for display date)
+    - title
+    - systems_affected[]
+    - implemented_by
+    - problem (first 150 chars for summary)
+    - filename
+```
+
+### Phase 4: Display
+```
+OUTPUT: "📋 CHANGE HISTORY"
+OUTPUT: "Period: {start_date} to {end_date}"
+OUTPUT: "Changes found: {count}"
+OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: ""
+
+FOR EACH change (newest first):
+  OUTPUT: "### {YYYY-MM-DD} - {title}"
+  OUTPUT: "**File:** `{filename}`"
+  OUTPUT: "**Systems:** {systems_affected, comma-separated}"
+  OUTPUT: "**Implemented by:** {implemented_by}"
+  OUTPUT: ""
+  OUTPUT: "**Problem:**"
+  OUTPUT: "{problem_summary}"
+  OUTPUT: ""
+  OUTPUT: "---"
+  OUTPUT: ""
+
+OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: "📁 Files located in: {VAULT_PATH}/_local/data/changelog/"
+```
+
+### Phase 5: Completion
+```
+OUTPUT:
+✓ Review complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
+
+STOP
+```
+
+### Date Parsing Rules
+
+**Last N days:**
+```
+today = current_date
+start_date = today - N days
+end_date = today
+```
+
+**Specific month:**
+```
+Input: "2025-12"
+start_date = 2025-12-01
+end_date = 2025-12-31
+```
+
+**Date range:**
+```
+Input: "2025-11-01 2025-12-31"
+start_date = 2025-11-01
+end_date = 2025-12-31
+VALIDATE: start_date <= end_date
+```
+
+### Problem Summary Rules
+
+**Truncation:**
+- Use first 150 characters of `problem` field
+- If truncated, add "..." at end
+- Preserve line breaks within limit
+
+**Fallback:**
+- If `problem` field empty, use `description` field instead
+- If both empty, display: "(No problem description available)"
+
+### Review Output Example
+
+```
+📋 CHANGE HISTORY
+Period: 2025-11-19 to 2025-12-19
+Changes found: 2
+═══════════════════════════════════════════════
+
+### 2025-12-19 - Fixed SSL certificate chain validation on staging.acme.com
+**File:** `CHG-20251219-143500.yaml`
+**Systems:** staging.acme.com
+**Implemented by:** gb
+
+**Problem:**
+nginx was only serving the leaf certificate without the intermediate CA certificate. SSL Labs testing showed incomplete chain, browsers displayed security warnings.
+
+---
+
+### 2025-12-15 - Migrated database to new server cluster
+**File:** `CHG-20251215-091500.yaml`
+**Systems:** db01.acme.com, db02.acme.com
+**Implemented by:** ops-team
+
+**Problem:**
+Primary database server reaching capacity limits. Query performance degrading during peak hours. Need to migrate to horizontally scaled cluster architecture...
+
+---
+
+═══════════════════════════════════════════════
+📁 Files located in: {VAULT_PATH}/_local/data/changelog/
+✓ Review complete
+═══════════════════════════════════════
+🤖 Waiting for next instruction
+═══════════════════════════════════════
 ```
 
 ---
@@ -253,7 +406,7 @@ updated: {timestamp}
 
 ---
 
-## Output Examples
+## Output Examples - !change
 
 ### Draft Phase
 
@@ -349,11 +502,16 @@ Then on confirmation:
 
 | Situation | Response |
 |-----------|----------|
-| Conversation too short | "⚠️ Not enough information. Please describe: system, problem, solution" |
-| Ambiguous systems | "Which system was actually changed?" |
-| Missing required on save | "❌ Missing required field: requested_by" |
-| user-prefs.yaml missing | Use defaults: display mode, local target |
-| Write fails (write/confirm mode) | Report error, fall back to display mode |
+| Conversation too short (!change) | "⚠️ Not enough information. Please describe: system, problem, solution" |
+| Ambiguous systems (!change) | "Which system was actually changed?" |
+| Missing required on save (!change) | "❌ Missing required field: requested_by" |
+| No changelog directory (!change-r) | "⚠️ No changelog directory found at {path}" |
+| No changes in range (!change-r) | "No changes found for period {start} to {end}" |
+| Invalid date format (!change-r) | "⚠️ Invalid date format. Use: YYYY-MM-DD" |
+| Invalid date range (!change-r) | "⚠️ Start date must be before end date" |
+| YAML parse error (!change-r) | Skip file, note: "⚠️ Could not parse {filename}" |
+| user-prefs.yaml missing (!change) | Use defaults: display mode, local target |
+| Write fails (!change) | Report error, fall back to display mode |
 
 ---
 
@@ -373,3 +531,4 @@ Then on confirmation:
 |---------|------|---------|
 | 2.1 | 2025-12-16 | Previous version (confirmation required) |
 | 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
+| 3.1 | 2025-12-19 | Added !change-r subcommand for reviewing change history |
