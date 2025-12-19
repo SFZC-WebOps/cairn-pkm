@@ -1,5 +1,5 @@
 # !bye - Session Closure
-*Type: Display/Write | Version: 4.1 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 4.2 | Updated: 2025-12-19*
 
 ## Quick Reference
 
@@ -39,6 +39,7 @@ READ: session context
   - files_edited[]
   - decisions[]
   - log_entries_added[]
+  - change_entries_created[]
 
 OUTPUT:
 📊 SESSION SUMMARY
@@ -57,6 +58,10 @@ Files edited: [N]
 - [filename 2]
 
 Log entries added: [N]
+
+Changes documented: [N]
+- [change_id 1]
+- [change_id 2]
 
 Key decisions:
 - [decision 1]
@@ -114,6 +119,8 @@ FORMAT:
 - Tracks: {primary_track} [+ others if applicable]
 - Files: {action} {filenames}
 - AI Contribution: {contribution}
+[IF change_entries_created is not empty:]
+- Change ID: {change_id}
 ```
 
 ### Phase 6: Output Session Log
@@ -144,6 +151,7 @@ Paste to: {VAULT_PATH}/Tracks/{primary_track}/_*-home.md (Log section)
 - Duration: [estimated from conversation]
 - Commands used: [list]
 - Tracks touched: [list]
+- Changes documented: [change_id list if any, or "None"]
 
 CALL: OUTPUT_FILE(filepath, content)
 ```
@@ -220,6 +228,9 @@ Files edited: 1
 
 Log entries added: 1
 
+Changes documented: 1
+- CHG-20251219-143500
+
 Key decisions:
 - Chose S3 over local storage for backups
 - Scheduled migration for January maintenance window
@@ -285,7 +296,25 @@ Closed: 14:30 PST
 2025-12-19: Created SSL renewal and backup validation tasks; decided on S3 storage
 
 ## Log Entry
-[formatted log entry]
+Paste to: {VAULT_PATH}/Tracks/p014-stor-migr/_*-home.md (Log section)
+
+---
+
+### 2025-12-19 14:30 - Configuration - SSL and backup tasks created
+
+Created SSL renewal and backup validation tasks. Decided on S3 storage for backups over local storage.
+- Tracks: p014-stor-migr + area-webops
+- Files: Created 20251219-ssl-cert-renewal.md, 20251219-backup-validation.md
+- AI Contribution: Assistant generated task files and structured backup decision
+- Change ID: CHG-20251219-143500
+
+---
+
+## Session Details
+- Duration: 45 minutes
+- Commands used: !task-c, !change
+- Tracks touched: p014-stor-migr, area-webops
+- Changes documented: CHG-20251219-143500
 
 ═══════════════════════════════════════════════
 Copy this content and save to the path above.
@@ -327,3 +356,5 @@ Copy this content and save to the path above.
 |---------|------|---------|
 | 3.1 | 2025-12-16 | Previous version |
 | 4.0 | 2025-12-19 | Added session summary, multi-track support, downloadable output file |
+| 4.1 | 2025-12-19 | Unified to OUTPUT_FILE pattern, removed always-download behavior |
+| 4.2 | 2025-12-19 | Added change tracking integration - references !change entries in session log |
