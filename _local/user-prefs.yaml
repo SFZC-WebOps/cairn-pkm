@@ -10,7 +10,7 @@
 # ─────────────────────────────────────────────────────────────────────
 
 # Default name for task assignee field when not specified
-default_assignee: "TedB"
+default_assignee: "Ted"
 
 # ─────────────────────────────────────────────────────────────────────
 # TIME
@@ -27,6 +27,7 @@ timezone: "America/Los_Angeles"
 # How file operations are handled
 #
 # display  - Show file contents for user to copy/paste manually
+# download - Create downloadable files (for web-based LLM like Claude.ai)
 # write    - Create/modify files directly in the vault
 # confirm  - Show proposed changes, wait for confirmation, then write
 #
