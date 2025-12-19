@@ -10,7 +10,7 @@
 # ─────────────────────────────────────────────────────────────────────
 
 # Default name for task assignee field when not specified
-default_assignee: ""
+default_assignee: "gb"
 
 # ─────────────────────────────────────────────────────────────────────
 # TIME

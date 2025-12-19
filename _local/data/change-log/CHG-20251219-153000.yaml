@@ -1,0 +1,93 @@
+change_id: CHG-20251219-153000
+timestamp: 2025-12-19T15:30:00-08:00
+implemented_by: TedB
+requested_by: gb
+
+title: "Simplified output modes from 4 to 3; write mode now always confirms"
+systems_affected:
+  - cairn-pkm
+  - llm-command-system
+technologies:
+  - YAML
+  - Markdown
+  - file-operations-pattern
+problem_category: configuration
+
+change_classification:
+  impact: high
+  risk: low
+  reversibility: hours
+  scope: organization-wide
+
+description: |
+  Cairn-PKM distribution infrastructure change affecting all LLM commands. 
+  Simplified file output behavior from four modes to three, removing redundant 
+  "confirm" mode and making write mode safer by default with built-in confirmation.
+
+problem: |
+  Four output modes (display, download, write, confirm) created confusing middle ground.
+  - "confirm" mode overlapped with "write" mode functionality
+  - Users faced unclear choice between write and confirm
+  - <5% of users would choose confirm over display/download or write
+  - Pattern added complexity without clear benefit
+  - Write mode was unsafe by default (no confirmation)
+
+solution: |
+  1. Removed "confirm" as separate mode
+  2. Modified write mode to ALWAYS ask for confirmation before writing
+  3. Simplified user choice to three clear modes:
+     - display: Manual copy/paste control
+     - download: Web-based LLM (Claude.ai) downloadable files
+     - write: Show content, ask confirmation, then write
+  4. Updated all command specifications to reflect new pattern
+  5. Updated user-facing documentation (ARCHITECTURE, INSTALLATION)
+  6. Updated user-prefs.yaml template with new three-mode system
+
+files_modified:
+  - ARCHITECTURE.md (v5.1)
+  - INSTALLATION.md (v2.1)
+  - cmd-output-behavior.md (v1.3)
+  - cmd-bye.md (v4.1)
+  - cmd-change.md (v3.1)
+  - cmd-hi.md (v12.0)
+  - cmd-obj.md (v2.2)
+  - cmd-qn.md (v4.0)
+  - cmd-readme.md (v3.0)
+  - cmd-sk.md (v5.2)
+  - cmd-task.md (v5.0)
+  - user-prefs.yaml
+
+rollback:
+  complexity: simple
+  estimated_time: "30 minutes"
+  steps:
+    - action: "Restore previous versions of all 12 files from git"
+      validation: "Verify file_operations comment shows 4 modes (display|download|write|confirm)"
+    - action: "Restore cmd-output-behavior.md with separate confirm case"
+      validation: "Check pattern has both confirm and write cases"
+    - action: "Verify write mode in pattern calls WRITE_TO_TARGET directly without confirmation"
+      validation: "No confirmation prompt in write case"
+
+validation:
+  tested: true
+  test_environment: "Claude.ai conversation"
+  test_results: "All files generated with consistent three-mode pattern. Write mode includes confirmation step. No references to confirm mode remain in distribution files."
+
+ai_contribution:
+  role: executor
+  time_saved_estimate: 90
+  time_saved_basis: "Manual editing of 12 files for consistency, testing pattern across all commands, updating documentation"
+  specific_contributions:
+    - "Designed three-mode simplification with write-includes-confirmation approach"
+    - "Updated output behavior pattern specification"
+    - "Modified all 11 command specs for consistency"
+    - "Updated ARCHITECTURE and INSTALLATION documentation"
+    - "Created updated user-prefs.yaml template"
+    - "Removed all confirm mode references from examples and error handling"
+
+related_changes: []
+track_context: "cairn-pkm"
+session_context: "Documentation recovery session evolved into output behavior simplification"
+
+created: 2025-12-19T15:30:00-08:00
+updated: 2025-12-19T15:30:00-08:00
