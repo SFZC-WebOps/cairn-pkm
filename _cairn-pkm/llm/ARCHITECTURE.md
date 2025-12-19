@@ -2,17 +2,33 @@
 
 Personal knowledge management system built on plain markdown files. Designed for clarity, portability, and longevity.
 
-*Version: 5.1 | Last Updated: 2024-12-19*
+*Version: 0.5.0 | Last Updated: 2024-12-19*
 
 ---
 
 ## Core Principles
 
-1. **Co-location** — Everything for a project lives in its folder
-2. **Plain text** — Markdown + YAML frontmatter, no proprietary formats
-3. **Two track types** — Areas (ongoing) and Projects (temporary)
-4. **Portable core** — `_cairn-pkm/` can be updated by replacing the folder
-5. **AI-friendly** — LLMs can read and work with your notes directly
+1. **Co-location** â€” Everything for a project lives in its folder
+2. **Plain text** â€” Markdown + YAML frontmatter, no proprietary formats
+3. **Two track types** â€” Areas (ongoing) and Projects (temporary)
+4. **Portable core** â€” `_cairn-pkm/` can be updated by replacing the folder
+5. **AI-friendly** â€” LLMs can read and work with your notes directly
+
+
+## Versioning
+
+⚠️ **Cairn-PKM is in active development (pre-release).**
+
+All components use semantic versioning with 0.x.y format:
+- **0.x.y signals**: Subject to breaking changes, interfaces may evolve
+- **MINOR (0.x.0)**: New features, workflow changes
+- **PATCH (0.x.y)**: Bug fixes, documentation improvements
+
+See VERSION-POLICY.md for complete versioning rules and update guidelines.
+
+**Current system version: 0.5.0**
+
+Individual commands may be at different versions based on their maturity level.
 
 ---
 
@@ -20,21 +36,21 @@ Personal knowledge management system built on plain markdown files. Designed for
 
 ```
 vault/
-├── _cairn-pkm/          # Portable system (replace to update)
-│   ├── llm/            # LLM command specifications
-│   ├── templates/      # Shared templates
-│   ├── tools/          # Shared tool configs
-│   └── views/          # Shared dashboards
-├── _local/             # Vault-specific customizations
-│   ├── data/          # Local data storage
-│   ├── templates/     # Custom templates
-│   ├── tools/         # Custom tool configs
-│   └── views/         # Custom dashboards
-├── Capture/            # Inbox for unprocessed items
-├── Objects/            # Cross-cutting entities
-└── Tracks/             # Areas and projects
-    ├── area-{name}/
-    └── p###-xxxx-yyyy/
+â”œâ”€â”€ _cairn-pkm/          # Portable system (replace to update)
+â”‚   â”œâ”€â”€ llm/            # LLM command specifications
+â”‚   â”œâ”€â”€ templates/      # Shared templates
+â”‚   â”œâ”€â”€ tools/          # Shared tool configs
+â”‚   â””â”€â”€ views/          # Shared dashboards
+â”œâ”€â”€ _local/             # Vault-specific customizations
+â”‚   â”œâ”€â”€ data/          # Local data storage
+â”‚   â”œâ”€â”€ templates/     # Custom templates
+â”‚   â”œâ”€â”€ tools/         # Custom tool configs
+â”‚   â””â”€â”€ views/         # Custom dashboards
+â”œâ”€â”€ Capture/            # Inbox for unprocessed items
+â”œâ”€â”€ Objects/            # Cross-cutting entities
+â””â”€â”€ Tracks/             # Areas and projects
+    â”œâ”€â”€ area-{name}/
+    â””â”€â”€ p###-xxxx-yyyy/
 ```
 
 ### Domain Purposes
@@ -63,7 +79,7 @@ default_assignee: ""
 timezone: "America/Los_Angeles"
 
 # Output behavior
-file_operations: "display"    # display | download | write
+file_operations: "display"    # display | download | write | confirm
 write_target: "local"         # local | gdrive
 gdrive_vault_path: ""         # Required if write_target is gdrive
 ```
@@ -86,7 +102,8 @@ The `file_operations` setting controls how LLM commands handle file creation:
 |------|----------|----------|
 | `display` | Shows file content to copy/paste | Manual control, works anywhere |
 | `download` | Creates downloadable file | Web-based LLM (Claude.ai), no filesystem access |
-| `write` | Shows content, asks confirmation, then writes | LLM has filesystem/Drive access |
+| `write` | Writes files directly | LLM has filesystem/Drive access, you trust it |
+| `confirm` | Shows content, waits for approval, then writes | LLM has access but you want to review |
 
 ### Write Targets
 
@@ -97,7 +114,7 @@ When `file_operations` is `write` or `confirm`, the `write_target` determines wh
 | `local` | Direct filesystem write | LLM needs MCP, desktop app, or computer use access |
 | `gdrive` | Google Drive API | LLM with Drive tool connected; set `gdrive_vault_path` |
 
-**Google Drive workflow:** LLM writes to Google Drive → Drive syncs to local → Obsidian sees the file.
+**Google Drive workflow:** LLM writes to Google Drive â†’ Drive syncs to local â†’ Obsidian sees the file.
 
 ### Extending Preferences
 
@@ -120,10 +137,10 @@ See individual command specs for available overrides.
 
 ```
 area-{domain}/
-├── _area-{domain}-home.md    # Source of truth
-├── resources/                # Supporting materials
-├── tasks/                    # Active work items
-└── zzz/                      # Completed/archived
+â”œâ”€â”€ _area-{domain}-home.md    # Source of truth
+â”œâ”€â”€ resources/                # Supporting materials
+â”œâ”€â”€ tasks/                    # Active work items
+â””â”€â”€ zzz/                      # Completed/archived
 ```
 
 **Examples:**
@@ -136,10 +153,10 @@ area-{domain}/
 
 ```
 p###-xxxx-yyyy/
-├── _p###-xxxx-yyyy-home.md   # Source of truth
-├── resources/                # Supporting materials
-├── tasks/                    # Project work items
-└── zzz/                      # Completed/archived
+â”œâ”€â”€ _p###-xxxx-yyyy-home.md   # Source of truth
+â”œâ”€â”€ resources/                # Supporting materials
+â”œâ”€â”€ tasks/                    # Project work items
+â””â”€â”€ zzz/                      # Completed/archived
 ```
 
 **Naming:** `p###-{system}-{action}`
@@ -183,11 +200,11 @@ review_cycle: weekly | monthly | quarterly | yearly
 
 All home documents must have:
 
-1. **Overview** — Purpose and scope
-2. **Current State** — What's happening now
-3. **Key Resources** — Important links and files
-4. **Active Tasks** — Dataview query showing open work
-5. **Log** — Chronological activity record
+1. **Overview** â€” Purpose and scope
+2. **Current State** â€” What's happening now
+3. **Key Resources** â€” Important links and files
+4. **Active Tasks** â€” Dataview query showing open work
+5. **Log** â€” Chronological activity record
 
 ### Log Entry Format
 
@@ -218,7 +235,7 @@ priority: low | medium | high | critical
 status: active | blocked | complete | deferred | onhold | scheduled | waiting
 phase: planning | executing | testing | closing
 effort: simple | moderate | complex
-viz: "⚡" | "🔥" | "🎯" | "⏸️" | etc.
+viz: "âš¡" | "ðŸ”¥" | "ðŸŽ¯" | "â¸ï¸" | etc.
 type:
   - category/subcategory
 last_update:
@@ -256,12 +273,12 @@ last_update:
 
 | Icon | Meaning | When to Use |
 |------|---------|-------------|
-| ⚡ | Quick win | Simple, high-value tasks |
-| 🔥 | Urgent | Time-sensitive work |
-| 🎯 | High priority | Important but not urgent |
-| ⏸️ | On hold | Waiting on external dependency |
-| 🔒 | Blocked | Cannot proceed |
-| ✅ | Complete | Finished work |
+| âš¡ | Quick win | Simple, high-value tasks |
+| ðŸ”¥ | Urgent | Time-sensitive work |
+| ðŸŽ¯ | High priority | Important but not urgent |
+| â¸ï¸ | On hold | Waiting on external dependency |
+| ðŸ”’ | Blocked | Cannot proceed |
+| âœ… | Complete | Finished work |
 
 ---
 
@@ -301,17 +318,17 @@ tags: []
 | Scope | Location | Example |
 |-------|----------|---------|
 | Cross-cutting (multiple tracks) | `Objects/` | Contacts, shared devices |
-| Track-specific | `{track}/resources/` | Credit cards → area-finance |
+| Track-specific | `{track}/resources/` | Credit cards â†’ area-finance |
 
 ---
 
 ## Capture Workflow
 
-1. **Capture** — Quick notes in `Capture/`
-2. **Process** — Review during daily/weekly reviews
-3. **Decide** — Task, Object, Note, or Delete
-4. **Act** — Move to appropriate track or create object
-5. **Archive** — Delete from Capture once processed
+1. **Capture** â€” Quick notes in `Capture/`
+2. **Process** â€” Review during daily/weekly reviews
+3. **Decide** â€” Task, Object, Note, or Delete
+4. **Act** â€” Move to appropriate track or create object
+5. **Archive** â€” Delete from Capture once processed
 
 ### Capture File Naming
 
@@ -331,7 +348,7 @@ Example: `qn-2025-12-18-143022-api-integration-notes.md`
 4. Copy the new `_cairn-pkm/` folder from the release
 5. Verify everything still works
 
-**Important:** Never modify files in `_cairn-pkm/` — put customizations in `_local/`
+**Important:** Never modify files in `_cairn-pkm/` â€” put customizations in `_local/`
 
 ### Customizations
 
@@ -347,24 +364,24 @@ All vault-specific customizations go in `_local/`:
 
 ### Required Plugins
 
-1. **Dataview** — Task queries and dynamic lists
+1. **Dataview** â€” Task queries and dynamic lists
    - Enable JavaScript queries
    - Used in home documents for task summaries
 
-2. **Templater** — Template expansion
+2. **Templater** â€” Template expansion
    - Configure template folder: `_cairn-pkm/templates/`
    - Optionally add: `_local/templates/`
 
-3. **Tasks** — Task management (optional but recommended)
+3. **Tasks** â€” Task management (optional but recommended)
    - Enhanced checkbox functionality
    - Task queries and filters
 
 ### Recommended Plugins
 
-- **Calendar** — Date navigation
-- **Periodic Notes** — Daily/weekly/monthly notes
-- **QuickAdd** — Rapid capture workflows
-- **Obsidian Git** — Auto-backup (for vault, not `_cairn-pkm/`)
+- **Calendar** â€” Date navigation
+- **Periodic Notes** â€” Daily/weekly/monthly notes
+- **QuickAdd** â€” Rapid capture workflows
+- **Obsidian Git** â€” Auto-backup (for vault, not `_cairn-pkm/`)
 
 ---
 
@@ -376,13 +393,13 @@ All vault-specific customizations go in `_local/`:
 - `Capture/`
 - `Objects/`
 - `Tracks/`
-- `_local/` (optional — contains personal customizations)
+- `_local/` (optional â€” contains personal customizations)
 - Root-level config files
 
 **Do NOT track:**
-- `_cairn-pkm/` — This is the portable distribution
-- `.obsidian/workspace*` — Workspace layouts
-- `.trash/` — Deleted files
+- `_cairn-pkm/` â€” This is the portable distribution
+- `.obsidian/workspace*` â€” Workspace layouts
+- `.trash/` â€” Deleted files
 
 ### .gitignore Template
 
@@ -443,29 +460,29 @@ Don't create structure you don't need yet:
 
 ### Why Plain Markdown?
 
-- **Longevity** — Plain text outlasts every app
-- **Portability** — Works everywhere, no export needed
-- **Transparency** — You can see exactly what's stored
-- **Version control** — Git works perfectly with text files
-- **AI-friendly** — LLMs can read and work with your notes directly
+- **Longevity** â€” Plain text outlasts every app
+- **Portability** â€” Works everywhere, no export needed
+- **Transparency** â€” You can see exactly what's stored
+- **Version control** â€” Git works perfectly with text files
+- **AI-friendly** â€” LLMs can read and work with your notes directly
 
 ### Why This Structure?
 
 Most knowledge systems fail because they're either:
-- **Too loose** — Everything ends up in one folder or scattered randomly
-- **Too rigid** — Complex hierarchies that don't match how work actually flows
+- **Too loose** â€” Everything ends up in one folder or scattered randomly
+- **Too rigid** â€” Complex hierarchies that don't match how work actually flows
 
 Cairn aims for the middle:
-- **Five domains** — Clear top-level categories
-- **Two track types** — Simple decision: ongoing or temporary?
-- **Co-location** — Related things live together
-- **Flexible internals** — Tracks can be minimal or detailed as needed
+- **Five domains** â€” Clear top-level categories
+- **Two track types** â€” Simple decision: ongoing or temporary?
+- **Co-location** â€” Related things live together
+- **Flexible internals** â€” Tracks can be minimal or detailed as needed
 
 ### Why Separate `_cairn-pkm/` and `_local/`?
 
 Your *system* should evolve separately from your *customizations*:
-- `_cairn-pkm/` — The portable distribution, updated by replacing the folder
-- `_local/` — Your vault-specific data, custom templates, personal dashboards
+- `_cairn-pkm/` â€” The portable distribution, updated by replacing the folder
+- `_local/` â€” Your vault-specific data, custom templates, personal dashboards
 
 This separation means:
 - Improve the core system without touching your data
@@ -481,4 +498,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*Architecture Version: 5.0 | Last Updated: 2024-12-18*
+*Architecture Version: 0.5.0 | Last Updated: 2024-12-19*

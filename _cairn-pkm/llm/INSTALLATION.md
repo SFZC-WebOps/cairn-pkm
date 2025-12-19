@@ -1,8 +1,10 @@
 # Cairn-PKM Installation Guide
 
+⚠️ **Pre-Release Software**: Cairn-PKM is in active development (version 0.5.0). Commands and workflows may change between versions. See VERSION-POLICY.md for details.
+
 Instructions for setting up a new Cairn-based Obsidian vault.
 
-*Version: 2.1 | Last Updated: 2024-12-19*
+*Version: 0.5.0 | Last Updated: 2024-12-19*
 
 ---
 
@@ -13,25 +15,25 @@ Instructions for setting up a new Cairn-based Obsidian vault.
 1. Go to https://github.com/SFZC-WebOps/cairn-pkm/releases
 2. Download the latest `cairn-vX.X.X.zip`
 3. Unzip to your desired location
-4. Rename the folder (optional): `Cairn-PKM-dev` → `My-Vault`
+4. Rename the folder (optional): `Cairn-PKM-dev` â†’ `My-Vault`
 
 ### 2. Open in Obsidian
 
 1. Open Obsidian
-2. "Open folder as vault" → Select your unzipped folder
+2. "Open folder as vault" â†’ Select your unzipped folder
 3. Trust the author when prompted (for community plugins)
 
 ### 3. Install Required Plugins
 
 **Required:**
 1. **Dataview**
-   - Settings → Community Plugins → Browse
-   - Search "Dataview" → Install → Enable
-   - Dataview Settings → Enable "JavaScript Queries"
+   - Settings â†’ Community Plugins â†’ Browse
+   - Search "Dataview" â†’ Install â†’ Enable
+   - Dataview Settings â†’ Enable "JavaScript Queries"
 
 2. **Templater**
    - Install and enable via Community Plugins
-   - Settings → Templater → Template folder location → `_cairn-pkm/templates`
+   - Settings â†’ Templater â†’ Template folder location â†’ `_cairn-pkm/templates`
    - Optional: Add second folder `_local/templates` for custom templates
 
 3. **Tasks** (Recommended)
@@ -56,7 +58,7 @@ default_assignee: "Your Name"
 timezone: "America/New_York"
 
 # How LLM commands output files (see below)
-file_operations: "display"    # display | download | write
+file_operations: "display"    # display | download | write | confirm
 write_target: "local"         # local | gdrive
 gdrive_vault_path: ""
 ```
@@ -69,18 +71,17 @@ gdrive_vault_path: ""
 | Web-based LLM (Claude.ai) | `file_operations: "download"` |
 | Desktop app or MCP with filesystem | `file_operations: "write"`, `write_target: "local"` |
 | Web-based LLM with Google Drive connected | `file_operations: "write"`, `write_target: "gdrive"`, `gdrive_vault_path: "Obsidian/YourVault"` |
+| Review before writing | `file_operations: "confirm"`, then set `write_target` |
 
-If unsure, leave as `display` — you can always change it later.
-
-**Note:** Write mode always asks for confirmation before creating/modifying files.
+If unsure, leave as `display` â€” you can always change it later.
 
 ### 5. Explore Example Content
 
 The vault comes with example content:
-- **Tracks/area-admin/** — Example area
-- **Tracks/p001-office-move/** — Example project
-- **Objects/** — Sample object files
-- **Capture/** — Example quick notes
+- **Tracks/area-admin/** â€” Example area
+- **Tracks/p001-office-move/** â€” Example project
+- **Objects/** â€” Sample object files
+- **Capture/** â€” Example quick notes
 
 Review these to understand the structure, then delete and replace with your own content.
 
@@ -97,18 +98,18 @@ touch Tracks/area-personal/_area-personal-home.md
 ```
 
 Or use Obsidian:
-1. Right-click Tracks folder → New folder → `area-personal`
+1. Right-click Tracks folder â†’ New folder â†’ `area-personal`
 2. Inside it, create subfolders: `resources`, `tasks`, `zzz`
 3. Create file: `_area-personal-home.md`
 4. Use the area-home template to populate it
 
 ### 7. Start Using the System
 
-1. **Capture** — Add quick notes to `Capture/`
-2. **Process** — During reviews, convert captures to tasks or objects
-3. **Work** — Focus on tasks in your tracks
-4. **Review** — Update home documents with progress
-5. **Archive** — Move completed work to `zzz/` folders
+1. **Capture** â€” Add quick notes to `Capture/`
+2. **Process** â€” During reviews, convert captures to tasks or objects
+3. **Work** â€” Focus on tasks in your tracks
+4. **Review** â€” Update home documents with progress
+5. **Archive** â€” Move completed work to `zzz/` folders
 
 ---
 
@@ -223,20 +224,20 @@ After moving files, fix internal links:
 
 ### Common Migration Patterns
 
-**Daily Notes → Capture**
+**Daily Notes â†’ Capture**
 ```bash
 mv daily-notes/*.md Capture/
 # Or keep as separate daily-notes folder if you prefer
 ```
 
-**Project Notes → Tracks**
+**Project Notes â†’ Tracks**
 ```bash
 # Each project becomes a track
 mkdir -p Tracks/p001-website-redesign/{resources,tasks,zzz}
 mv projects/website-redesign/* Tracks/p001-website-redesign/resources/
 ```
 
-**People → Objects**
+**People â†’ Objects**
 ```bash
 # Rename to contact-firstname-lastname format
 mv people/John\ Smith.md Objects/contact-john-smith.md
@@ -282,10 +283,10 @@ mv people/John\ Smith.md Objects/contact-john-smith.md
 ### What Gets Updated
 
 **Updated automatically:**
-- `_cairn-pkm/templates/` — Shared templates
-- `_cairn-pkm/llm/` — LLM command specifications
-- `_cairn-pkm/views/` — Shared dashboards
-- `_cairn-pkm/tools/` — Shared tool configurations
+- `_cairn-pkm/templates/` â€” Shared templates
+- `_cairn-pkm/llm/` â€” LLM command specifications
+- `_cairn-pkm/views/` â€” Shared dashboards
+- `_cairn-pkm/tools/` â€” Shared tool configurations
 
 **Never modified:**
 - Your content in `Tracks/`, `Objects/`, `Capture/`
@@ -393,33 +394,33 @@ After setup or migration, verify:
 
 ```
 vault/
-├── .obsidian/              # Obsidian settings (don't track in git)
-├── _cairn-pkm/             # Portable system (replace to update)
-│   ├── llm/               # LLM command specs
-│   │   ├── commands/      # Individual command docs
-│   │   ├── ARCHITECTURE.md
-│   │   └── INSTALLATION.md
-│   ├── templates/         # Shared templates
-│   ├── tools/             # Shared tools
-│   └── views/             # Shared dashboards
-├── _local/                # Vault-specific customizations
-│   ├── data/             # Local data storage
-│   ├── templates/        # Custom templates
-│   ├── tools/            # Custom tools
-│   └── views/            # Custom dashboards
-├── Capture/               # Inbox
-├── Objects/               # Universal entities
-└── Tracks/                # Areas and projects
-    ├── area-{name}/
-    │   ├── _area-{name}-home.md
-    │   ├── resources/
-    │   ├── tasks/
-    │   └── zzz/
-    └── p###-xxxx-yyyy/
-        ├── _p###-xxxx-yyyy-home.md
-        ├── resources/
-        ├── tasks/
-        └── zzz/
+â”œâ”€â”€ .obsidian/              # Obsidian settings (don't track in git)
+â”œâ”€â”€ _cairn-pkm/             # Portable system (replace to update)
+â”‚   â”œâ”€â”€ llm/               # LLM command specs
+â”‚   â”‚   â”œâ”€â”€ commands/      # Individual command docs
+â”‚   â”‚   â”œâ”€â”€ ARCHITECTURE.md
+â”‚   â”‚   â””â”€â”€ INSTALLATION.md
+â”‚   â”œâ”€â”€ templates/         # Shared templates
+â”‚   â”œâ”€â”€ tools/             # Shared tools
+â”‚   â””â”€â”€ views/             # Shared dashboards
+â”œâ”€â”€ _local/                # Vault-specific customizations
+â”‚   â”œâ”€â”€ data/             # Local data storage
+â”‚   â”œâ”€â”€ templates/        # Custom templates
+â”‚   â”œâ”€â”€ tools/            # Custom tools
+â”‚   â””â”€â”€ views/            # Custom dashboards
+â”œâ”€â”€ Capture/               # Inbox
+â”œâ”€â”€ Objects/               # Universal entities
+â””â”€â”€ Tracks/                # Areas and projects
+    â”œâ”€â”€ area-{name}/
+    â”‚   â”œâ”€â”€ _area-{name}-home.md
+    â”‚   â”œâ”€â”€ resources/
+    â”‚   â”œâ”€â”€ tasks/
+    â”‚   â””â”€â”€ zzz/
+    â””â”€â”€ p###-xxxx-yyyy/
+        â”œâ”€â”€ _p###-xxxx-yyyy-home.md
+        â”œâ”€â”€ resources/
+        â”œâ”€â”€ tasks/
+        â””â”€â”€ zzz/
 ```
 
 ---
@@ -427,14 +428,14 @@ vault/
 ## Naming Conventions
 
 ### Areas
-`area-{domain}` — lowercase, hyphenated
+`area-{domain}` â€” lowercase, hyphenated
 - `area-personal`
 - `area-work`
 - `area-finance`
 - `area-health`
 
 ### Projects
-`p###-xxxx-yyyy` — sequential number + system code + action code
+`p###-xxxx-yyyy` â€” sequential number + system code + action code
 - `p001-blog-migr`
 - `p002-home-reno`
 - `p003-tax-2024`
@@ -464,7 +465,7 @@ ls Tracks/ | grep "^p" | sort | tail -1
 **Problem:** Templater not expanding templates
 
 **Solution:**
-1. Settings → Templater → Template folder location
+1. Settings â†’ Templater â†’ Template folder location
 2. Set to: `_cairn-pkm/templates`
 3. Optionally add: `_local/templates`
 4. Restart Obsidian
@@ -474,7 +475,7 @@ ls Tracks/ | grep "^p" | sort | tail -1
 **Problem:** Dataview queries show as code blocks
 
 **Solution:**
-1. Settings → Dataview
+1. Settings â†’ Dataview
 2. Enable "Enable JavaScript Queries"
 3. Enable "Enable Inline Queries"
 4. Refresh note (Ctrl/Cmd + R)
@@ -484,7 +485,7 @@ ls Tracks/ | grep "^p" | sort | tail -1
 **Problem:** Internal links broken after moving files
 
 **Solution:**
-1. Settings → Files & Links
+1. Settings â†’ Files & Links
 2. Enable "Automatically update internal links"
 3. Or manually update links using search/replace
 4. Use Obsidian's "Detect all file links" feature
@@ -496,16 +497,16 @@ ls Tracks/ | grep "^p" | sort | tail -1
 **Solution:**
 - Option 1: Add `_cairn-pkm/` to `.gitignore`
 - Option 2: Commit it as a snapshot after each update
-- Don't try to merge changes — always replace entire folder
+- Don't try to merge changes â€” always replace entire folder
 
 ---
 
 ## Getting Help
 
 ### Documentation
-- **ARCHITECTURE.md** — Complete system documentation
-- **Command docs** — `_cairn-pkm/llm/commands/cmd-*.md`
-- **README.md** — Overview and quick reference
+- **ARCHITECTURE.md** â€” Complete system documentation
+- **Command docs** â€” `_cairn-pkm/llm/commands/cmd-*.md`
+- **README.md** â€” Overview and quick reference
 
 ### Community
 - GitHub Issues: Report bugs or request features
@@ -518,4 +519,4 @@ ls Tracks/ | grep "^p" | sort | tail -1
 
 ---
 
-*Version: 2.0 | Last Updated: 2024-12-18*
+*Version: 0.5.0 | Last Updated: 2024-12-19*
