@@ -2,7 +2,7 @@
 
 Instructions for setting up a new Cairn-based Obsidian vault.
 
-*Version: 2.0 | Last Updated: 2024-12-18*
+*Version: 2.1 | Last Updated: 2024-12-19*
 
 ---
 
@@ -56,8 +56,8 @@ default_assignee: "Your Name"
 timezone: "America/New_York"
 
 # How LLM commands output files (see below)
-file_operations: "display"
-write_target: "local"
+file_operations: "display"    # display | download | write | confirm
+write_target: "local"         # local | gdrive
 gdrive_vault_path: ""
 ```
 
@@ -66,6 +66,7 @@ gdrive_vault_path: ""
 | Your Setup | Settings |
 |------------|----------|
 | Copy/paste manually (safest) | `file_operations: "display"` |
+| Web-based LLM (Claude.ai) | `file_operations: "download"` |
 | Desktop app or MCP with filesystem | `file_operations: "write"`, `write_target: "local"` |
 | Web-based LLM with Google Drive connected | `file_operations: "write"`, `write_target: "gdrive"`, `gdrive_vault_path: "Obsidian/YourVault"` |
 | Review before writing | `file_operations: "confirm"`, then set `write_target` |

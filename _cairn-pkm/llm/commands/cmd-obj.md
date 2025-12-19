@@ -1,5 +1,5 @@
 # !obj - Object Management
-*Type: Display/Write | Version: 2.1 | Updated: 2025-12-16*
+*Type: Display/Write | Version: 2.2 | Updated: 2025-12-19*
 
 ## Quick Reference
 
@@ -21,12 +21,12 @@ Objects are things you *have* or *manage* (accounts, devices, contacts), not thi
 - Frontmatter parsing
 
 **Vault Structure:**
-- `Objects/` — Cross-cutting objects
-- `Tracks/*/resources/` — Track-specific objects
+- `Objects/` â€” Cross-cutting objects
+- `Tracks/*/resources/` â€” Track-specific objects
 
 ---
 
-## !obj-c — Create Object
+## !obj-c â€” Create Object
 
 **Syntax:** `!obj-c {type} [details]`
 
@@ -52,7 +52,18 @@ Objects are things you *have* or *manage* (accounts, devices, contacts), not thi
 3. Populate fields from provided details
 4. Use `TBD` for any missing required fields
 5. Generate complete file with frontmatter and body sections
-6. Display complete file for user to create locally
+6. Output per user preferences
+
+### Output
+
+```
+CONSTRUCT: filepath = {destination path based on scope}
+CONSTRUCT: content = {complete file with frontmatter and body}
+
+CALL: OUTPUT_FILE(filepath, content)
+```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Destination
 
@@ -61,13 +72,13 @@ User saves to appropriate location based on scope:
 | Scope | Destination | Example |
 |-------|-------------|---------|
 | Cross-cutting (multiple tracks) | `{VAULT_PATH}/Objects/` | contacts, shared devices |
-| Track-specific | `{VAULT_PATH}/Tracks/{track}/resources/` | credit cards → area-finance |
+| Track-specific | `{VAULT_PATH}/Tracks/{track}/resources/` | credit cards â†’ area-finance |
 
 **Guideline:** If referenced by multiple tracks or doesn't clearly belong to one area, put in `Objects/`. If only relevant to one track, put in that track's `resources/` folder.
 
 ---
 
-## !obj-e — Edit Object
+## !obj-e â€” Edit Object
 
 **Syntax:** `!obj-e` (user uploads file first)
 
@@ -76,7 +87,7 @@ User saves to appropriate location based on scope:
 - Update frontmatter fields
 - Add log entries or notes
 - Fix or add backlinks
-- Update status (active → inactive → archived)
+- Update status (active â†’ inactive â†’ archived)
 - Refresh `lastmod` date
 
 ### Execution
@@ -84,7 +95,18 @@ User saves to appropriate location based on scope:
 1. User uploads existing object file
 2. User describes desired changes
 3. Assistant applies edits
-4. Display modified file for user to save locally
+4. Output per user preferences
+
+### Output
+
+```
+CONSTRUCT: filepath = {original file path}
+CONSTRUCT: content = {modified file content}
+
+CALL: OUTPUT_FILE(filepath, content)
+```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Example
 
@@ -144,6 +166,6 @@ Type-specific fields are added based on the object type.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0 | — | Initial OGB version |
+| 1.0 | â€” | Initial OGB version |
 | 2.0 | 2025-12-15 | LLM-agnostic refactor |
 | 2.1 | 2025-12-16 | Standardized format |

@@ -1,5 +1,5 @@
 # !sk - Skill Evidence Scraper
-*Type: Display | Version: 5.1 | Updated: 2025-12-16*
+*Type: Display/Write | Version: 5.2 | Updated: 2025-12-19*
 
 ## Quick Reference
 
@@ -8,7 +8,7 @@
 | `!sk` | Analyze current conversation | After every technical discussion |
 | `!sk-report` | Generate portfolio snapshot | Monthly/quarterly reviews, before performance reviews |
 
-**Workflow:** Complete technical work → Run `!sk` → Copy output → Paste to skill-evidence.md
+**Workflow:** Complete technical work â†’ Run `!sk` â†’ Copy output â†’ Paste to skill-evidence.md
 
 ---
 
@@ -20,15 +20,15 @@
 - Skill level determination
 
 **Vault Structure:**
-- `System/tools/professional-development/skills-registry.md` — Skill definitions
-- `System/tools/professional-development/detection-patterns.md` — Pattern rules
-- `System/tools/professional-development/skill-evidence.md` — Evidence log
+- `System/tools/professional-development/skills-registry.md` â€” Skill definitions
+- `System/tools/professional-development/detection-patterns.md` â€” Pattern rules
+- `System/tools/professional-development/skill-evidence.md` â€” Evidence log
 
 **Note:** Uses SFIA (Skills Framework for the Information Age) by default, but can be adapted to other competency frameworks.
 
 ---
 
-## !sk — Analyze Session
+## !sk â€” Analyze Session
 
 ### Inputs
 - Current conversation history
@@ -71,7 +71,7 @@
 
 ---
 
-## !sk-report — Portfolio Analysis
+## !sk-report â€” Portfolio Analysis
 
 ### Purpose
 Comprehensive skill portfolio analysis showing current standing across all skills.
@@ -148,9 +148,9 @@ Comprehensive skill portfolio analysis showing current standing across all skill
 ### Pattern Recognition
 
 **1. Keyword + Action Combinations**
-- "configured [technology]" → relevant skill Level 3
-- "maintained 99.9% uptime" → operations skill Level 4
-- "secured [system]" → security skill Level 3
+- "configured [technology]" â†’ relevant skill Level 3
+- "maintained 99.9% uptime" â†’ operations skill Level 4
+- "secured [system]" â†’ security skill Level 3
 
 **2. Complexity Indicators**
 | Level | Keywords |
@@ -175,22 +175,23 @@ Project/track identifiers indicate skill domains.
 
 ## Operational Rules
 
-1. **NO file writes** — Display only, never modify skill-evidence.md
+1. **Output per user preferences** — Use OUTPUT_FILE pattern from cmd-output-behavior.md
 2. **NO permission gates** — Commands execute immediately
 3. **ALWAYS use single-line evidence format** for !sk output
 4. **ALWAYS include confidence distribution** in output
 5. **ALWAYS stop after completion pattern**
 6. **Read actual files** — Don't work from memory, use filesystem
 
----
+**Note:** While !sk generates output per user preferences, the skill-evidence.md file is append-only and should be updated manually by the user after reviewing the generated evidence.
 
+---
 ## Completion Pattern
 
 ```
-✓ Analysis complete - N evidence items validated
-═══════════════════════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════════════════════
+âœ“ Analysis complete - N evidence items validated
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---

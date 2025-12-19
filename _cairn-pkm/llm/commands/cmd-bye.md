@@ -1,11 +1,11 @@
 # !bye - Session Closure
-*Type: Display | Version: 4.0 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 4.1 | Updated: 2025-12-19*
 
 ## Quick Reference
 
 | Action | What Happens |
 |--------|--------------|
-| `!bye` | Summarizes session, generates task history + log entry, presents as download |
+| `!bye` | Summarizes session, generates task history + log entry, outputs per user preferences |
 
 Session context is derived from `!hi` session tracking.
 
@@ -116,10 +116,11 @@ FORMAT:
 - AI Contribution: {contribution}
 ```
 
-### Phase 6: Create Download File
+### Phase 6: Output Session Log
 ```
 GENERATE: filename = session-log-{YYYY-MM-DD}-{HHMMSS}.md
-CREATE: file content with:
+CONSTRUCT: filepath = {VAULT_PATH}/Capture/{filename}
+CONSTRUCT: content = 
 
 # Session Log: {YYYY-MM-DD}
 Closed: {HH:MM} {TIMEZONE}
@@ -144,8 +145,10 @@ Paste to: {VAULT_PATH}/Tracks/{primary_track}/_*-home.md (Log section)
 - Commands used: [list]
 - Tracks touched: [list]
 
-PRESENT: file for download using present_files
+CALL: OUTPUT_FILE(filepath, content)
 ```
+
+See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Phase 7: Completion
 ```
@@ -153,8 +156,7 @@ OUTPUT:
 ✓ Session closed successfully
 ✓ Task history entry ready
 ✓ Log entry ready
-
-📥 Download your session log above
+✓ Session log created
 
 ═══════════════════════════════════════════════
 🤖 Session ended. Start new session with !hi
@@ -195,7 +197,9 @@ When session touched multiple tracks, select primary by:
 
 ---
 
-## Output Example
+## Output Examples
+
+### Session Summary and Task History (same for all modes)
 
 ```
 🕐 Current Date/Time: December 19, 2025 at 14:30 PST
@@ -230,14 +234,66 @@ Copy this to the relevant task:
 - If working on specific task: Add to that task's history
 - If general work: Add to appropriate track catch-all task
 ═══════════════════════════════════════════════
+```
 
+### Session Log Output (varies by mode)
+
+**Download mode:**
+```
 📥 [session-log-2025-12-19-143022.md available for download]
+
+Download the file above and save to: {VAULT_PATH}/Capture/session-log-2025-12-19-143022.md
 
 ✓ Session closed successfully
 ✓ Task history entry ready
 ✓ Log entry ready
+✓ Session log created
 
-📥 Download your session log above
+═══════════════════════════════════════════════
+🤖 Session ended. Start new session with !hi
+═══════════════════════════════════════════════
+```
+
+**Write mode:**
+```
+✓ Created {VAULT_PATH}/Capture/session-log-2025-12-19-143022.md
+
+✓ Session closed successfully
+✓ Task history entry ready
+✓ Log entry ready
+✓ Session log created
+
+═══════════════════════════════════════════════
+🤖 Session ended. Start new session with !hi
+═══════════════════════════════════════════════
+```
+
+**Display mode:**
+```
+📄 FILE CONTENT
+═══════════════════════════════════════════════
+Filename: session-log-2025-12-19-143022.md
+Path: {VAULT_PATH}/Capture/
+
+# Session Log: 2025-12-19
+Closed: 14:30 PST
+
+## Summary
+[full session summary content]
+
+## Task History Entry
+2025-12-19: Created SSL renewal and backup validation tasks; decided on S3 storage
+
+## Log Entry
+[formatted log entry]
+
+═══════════════════════════════════════════════
+Copy this content and save to the path above.
+
+✓ Session closed successfully
+✓ Task history entry ready
+✓ Log entry ready
+✓ Session log created
 
 ═══════════════════════════════════════════════
 🤖 Session ended. Start new session with !hi
