@@ -5,8 +5,8 @@ Directory structure created successfully!
 ## What's Been Created
 
 ```
-CAIRN-dev/
-├── _CAIRN/
+Cairn-PKM-dev/
+├── cairn-pkm/
 │   ├── llm/commands/     # ← Copy cmd-*.md files here
 │   ├── templates/
 │   ├── tools/
@@ -25,7 +25,7 @@ CAIRN-dev/
 
 ### 1. Copy Command Files
 
-Copy these files from `/mnt/project/` to `_CAIRN/llm/commands/`:
+Copy these files from `/mnt/project/` to `cairn-pkm/llm/commands/`:
 - cmd-hi.md
 - cmd-bye.md
 - cmd-task.md
@@ -37,7 +37,7 @@ Copy these files from `/mnt/project/` to `_CAIRN/llm/commands/`:
 
 ### 2. Copy Core Documentation
 
-Copy these to `_CAIRN/`:
+Copy these to `cairn-pkm/`:
 - ARCHITECTURE.md
 - INSTALLATION.md
 
@@ -63,14 +63,14 @@ Initialize Obsidian Git for automatic backups:
 ### 5. Ready for Development
 
 Now you can:
-- Work on command specs in `_CAIRN/llm/commands/`
+- Work on command specs in `cairn-pkm/llm/commands/`
 - Create and refine example content
 - Test everything in Obsidian
-- When ready to release: `zip -r cairn-v1.0.0.zip CAIRN-dev`
+- When ready to release: `zip -r cairn-v1.0.0.zip Cairn-PKM-dev`
 
 ## Structure Notes
 
-- `_CAIRN/` contains the core system (distributed to users)
+- `cairn-pkm/` contains the core system (distributed to users)
 - Other folders contain examples (also distributed)
 - Obsidian Git backs everything up automatically
 - For releases, zip the entire vault

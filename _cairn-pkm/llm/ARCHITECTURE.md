@@ -21,7 +21,7 @@ Like the stone trail markers (cairns) that guide hikers through unfamiliar terra
 
 1. **Co-location** — Everything for a project lives in its folder. No mental mapping required.
 2. **Plain text** — Markdown files, YAML frontmatter. Readable by humans and machines forever.
-3. **Portable core** — The system itself (`_CAIRN/`) is a git submodule you can update across vaults.
+3. **Portable core** — The system (`_cairn-pkm/`) can be updated by replacing the folder.
 4. **Local customization** — Your vault-specific stuff stays in `_local/`, never shared.
 5. **Minimal structure** — Start with folders. Add complexity only when needed.
 6. **Two track types** — Areas (ongoing) and Projects (temporary). Nothing in between.
@@ -34,7 +34,7 @@ Every Cairn vault has five top-level folders:
 
 ```
 {Vault}/
-├── _CAIRN/      # The system (portable, git submodule)
+├── _cairn-pkm/  # The system (portable)
 ├── _local/      # Your customizations (vault-specific)
 ├── Capture/     # Inbox for unprocessed items
 ├── Objects/     # Universal entities (people, accounts, tools)
@@ -43,7 +43,7 @@ Every Cairn vault has five top-level folders:
 
 | Folder | Purpose | Portable? |
 |--------|---------|-----------|
-| `_CAIRN/` | System templates, views, tool definitions | Yes — same across all vaults |
+| `_cairn-pkm/` | System templates, views, tool definitions | Yes — same across all vaults |
 | `_local/` | Custom templates, views, tool data | No — this vault only |
 | `Capture/` | Inbox, quick notes, unprocessed items | No — vault-specific |
 | `Objects/` | Entities that cross project boundaries | No — vault-specific |
@@ -53,15 +53,18 @@ The two underscore-prefixed folders are system infrastructure. The other three a
 
 ---
 
-## _CAIRN/ — The Portable System
+## _cairn-pkm/ — The Portable System
 
 The underscore prefix sorts it to the top and signals "infrastructure, not content."
 
 ```
-_CAIRN/
+_cairn-pkm/
 ├── LICENSE
 ├── README.md
 ├── ARCHITECTURE.md
+├── INSTALLATION.md
+├── VERSION
+├── VIZ-VALUES.md
 ├── llm/
 │   └── commands/       # LLM command specs
 ├── templates/          # Templater templates for file creation
@@ -73,25 +76,23 @@ _CAIRN/
 
 ### Distribution model
 
-`_CAIRN/` is a **git submodule**. Every vault points to the same repository.
+`_cairn-pkm/` is distributed as part of the complete vault package. Download releases from GitHub.
 
-```bash
-# Add to a new vault
-git submodule add https://github.com/you/cairn-pkm.git _CAIRN
-
-# Update to latest
-cd _CAIRN && git pull
-```
+**To update Cairn-PKM:**
+1. Download latest release zip from GitHub
+2. Extract and copy just the `_cairn-pkm/` folder
+3. Replace your existing `_cairn-pkm/` folder
+4. Your content in `Tracks/`, `Objects/`, `Capture/`, `_local/` stays untouched
 
 This means:
-- Improve a template once, update everywhere
-- Version history for your system
-- Same tools and views across all vaults
-- No manual syncing
+- Simple updates (just replace one folder)
+- Version history via GitHub releases
+- Same tools and views when you update
+- Your data never touched during updates
 
-### What lives in _CAIRN/ vs. _local/
+### What lives in _cairn-pkm/ vs. _local/
 
-| `_CAIRN/` (portable) | `_local/` (vault-specific) |
+| `_cairn-pkm/` (portable) | `_local/` (vault-specific) |
 |----------------------|---------------------------|
 | Default templates | Custom templates |
 | Default views/dashboards | Custom dashboards |
@@ -103,7 +104,7 @@ This means:
 
 ## _local/ — Your Customizations
 
-Vault-specific system files. Never shared, never in the git submodule.
+Vault-specific system files. Never shared, never in releases.
 
 ```
 _local/
@@ -115,7 +116,7 @@ _local/
 
 ### The data/ folder
 
-Where tools write their accumulated data. Structure mirrors `_CAIRN/tools/`:
+Where tools write their accumulated data. Structure mirrors `_cairn-pkm/tools/`:
 
 ```
 _local/data/
@@ -127,14 +128,14 @@ _local/data/
 ```
 
 The separation:
-- `_CAIRN/tools/changelog/tool.md` — How the changelog works (portable)
+- `_cairn-pkm/tools/changelog/tool.md` — How the changelog works (portable)
 - `_local/data/changelog/` — Your actual changelog entries (vault-specific)
 
 This keeps tool definitions separate from the data they generate.
 
 ### Custom templates and views
 
-If you need templates or dashboards specific to your work (job-specific, personal workflows), put them in `_local/templates/` or `_local/views/`. They won't pollute the portable distribution.
+If you need templates or dashboards specific to your work (job-specific, personal workflows), put them in `_local/templates/` or `_local/views/`. They won't be affected by Cairn-PKM updates.
 
 ---
 
@@ -304,6 +305,7 @@ priority: low | medium | high | critical
 status: active | blocked | complete | deferred | onhold | scheduled | waiting
 phase: planning | executing | testing | closing
 effort: simple | moderate | complex
+viz: today | this-week | upcoming | waiting | routine | review | backlog
 ---
 
 ## Task History
@@ -324,6 +326,20 @@ effort: simple | moderate | complex
 Working notes, context, links.
 ```
 
+### Viz field for dashboard filtering
+
+The `viz` field helps surface tasks in different dashboard views:
+
+- **today** - Must see/do today
+- **this-week** - This week's priorities  
+- **upcoming** - Next 2-4 weeks
+- **waiting** - Blocked/delegated
+- **routine** - Daily/weekly recurring
+- **review** - Needs decision/approval
+- **backlog** - When time permits
+
+See `VIZ-VALUES.md` for complete documentation.
+
 ### Querying across tracks
 
 With Dataview:
@@ -338,7 +354,7 @@ SORT priority DESC
 
 ### External task systems
 
-For time-sensitive items needing reminders, use external tools (calendar, Todoist) alongside. CAIRN tasks are for tracking and context, not notifications.
+For time-sensitive items needing reminders, use external tools (calendar, Todoist) alongside. Cairn tasks are for tracking and context, not notifications.
 
 ---
 
@@ -387,59 +403,40 @@ Rules:
 
 ## Integration Points
 
-CAIRN works with various tools. None are required.
+Cairn works with various tools. None are required.
 
 | Tool | Role | Required? |
 |------|------|-----------|
 | [Obsidian](https://obsidian.md) | Primary interface for viewing/editing | No |
 | [Templater](https://github.com/SilentVoid13/Templater) | File creation with consistent structure | No |
 | [Dataview](https://github.com/blacksmithgu/obsidian-dataview) | Cross-vault queries | No |
-| Git | Version control, submodule for `_CAIRN/` | Recommended |
+| [Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) | Task management | No |
 | Any text editor | Reading and writing markdown | Yes |
 
 ### LLM integration
 
-CAIRN's plain-text structure works well with AI assistants. Command specifications (in `_CAIRN/llm/commands/`) can be loaded into your LLM's context to automate common workflows.
+Cairn's plain-text structure works well with AI assistants. Command specifications (in `_cairn-pkm/llm/commands/`) can be loaded into your LLM's context to automate common workflows.
 
 ---
 
 ## Getting Started
 
-### Minimal setup
+### Quick start
 
-1. Create the folder structure:
-   ```
-   mkdir _CAIRN _local Capture Objects Tracks
-   mkdir _local/data _local/templates _local/tools _local/views
-   ```
+1. Download latest release zip from GitHub
+2. Unzip to your desired location
+3. Open in Obsidian
+4. Install plugins: Dataview, Templater, Tasks
+5. Explore example content in `Tracks/`, `Objects/`, `Capture/`
+6. When ready, replace examples with your own content
 
-2. Create your first area:
-   ```
-   mkdir -p Tracks/area-personal/resources Tracks/area-personal/tasks Tracks/area-personal/zzz
-   touch Tracks/area-personal/_area-personal-home.md
-   ```
+### First steps
 
-3. Start capturing and processing.
-
-### With git submodule
-
-1. Initialize your vault as a git repo:
-   ```bash
-   git init
-   ```
-
-2. Add `_CAIRN` as a submodule:
-   ```bash
-   git submodule add https://github.com/you/cairn-pkm.git _CAIRN
-   ```
-
-3. Create `_local/` and the content folders:
-   ```bash
-   mkdir -p _local/data _local/templates _local/tools _local/views
-   mkdir Capture Objects Tracks
-   ```
-
-4. Add `_local/` to your vault's `.gitignore` if you don't want to track personal customizations.
+1. Review example area (`area-admin`) and project (`p001-office-move`)
+2. Create your first personal area: `Tracks/area-personal/`
+3. Start capturing in `Capture/`
+4. Process captures into tasks or objects
+5. See INSTALLATION.md for detailed setup
 
 ### Growing organically
 
@@ -467,22 +464,22 @@ Most knowledge systems fail because they're either:
 - Too loose — Everything ends up in one folder or scattered randomly
 - Too rigid — Complex hierarchies that don't match how work actually flows
 
-CAIRN aims for the middle:
+Cairn aims for the middle:
 - **Five domains** — Clear top-level categories
 - **Two track types** — Simple decision: ongoing or temporary?
 - **Co-location** — Related things live together
 - **Flexible internals** — Tracks can be minimal or detailed as needed
 
-### Why separate `_CAIRN/` and `_local/`?
+### Why separate `_cairn-pkm/` and `_local/`?
 
 Your *system* should evolve separately from your *customizations*:
-- `_CAIRN/` — The portable distribution, shared across vaults, updated via git
+- `_cairn-pkm/` — The portable distribution, updated by replacing the folder
 - `_local/` — Your vault-specific data, custom templates, personal dashboards
 
 This separation means:
 - Improve the core system without touching your data
 - Keep personal/work-specific views private
-- Update across multiple vaults with `git pull`
+- Update by replacing one folder
 - Share the system without sharing your content
 
 ---
@@ -493,4 +490,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*Architecture Version: 4.0*
+*Architecture Version: 5.0 | Last Updated: 2024-12-18*

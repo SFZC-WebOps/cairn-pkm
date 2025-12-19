@@ -1,252 +1,241 @@
 # Cairn-PKM Installation Guide
 
-Instructions for setting up a new Cairn-based Obsidian vault or migrating an existing vault.
+Instructions for setting up a new Cairn-based Obsidian vault.
 
 ## New Vault Setup
 
-### 1. Create the vault folder structure
+### 1. Download Cairn-PKM
 
-```bash
-mkdir -p {vault-name}
-cd {vault-name}
+1. Go to https://github.com/SFZC-WebOps/cairn-pkm/releases
+2. Download the latest `cairn-vX.X.X.zip`
+3. Unzip to your desired location
+4. Rename the folder (optional): `Cairn-PKM-dev` → `My-Vault`
 
-# Create the five domains
-mkdir -p _local/data _local/templates _local/tools _local/views
-mkdir Capture Objects Tracks
-```
+### 2. Open in Obsidian
 
-### 2. Add CAIRN as a git submodule
+1. Open Obsidian
+2. "Open folder as vault" → Select your unzipped folder
+3. Trust the author when prompted (for community plugins)
 
-```bash
-# Initialize git
-git init
-
-# Add Cairn-PKM (private repo - requires access)
-git submodule add https://github.com/SFZC-WebOps/cairn-pkm.git _CAIRN
-
-# Initial commit
-git add .
-git commit -m "Initial vault setup with Cairn-PKM"
-```
-
-### 3. Create your first area
-
-```bash
-mkdir -p Tracks/area-personal/resources Tracks/area-personal/tasks Tracks/area-personal/zzz
-```
-
-Create `Tracks/area-personal/_area-personal-home.md`:
-```markdown
----
-title: Personal
-type: area
-status: active
-created: YYYY-MM-DD
-modified: YYYY-MM-DD
----
-
-## Overview
-
-Personal life management.
-
-## Current Focus
-
-[What's active now]
-
-## Notes
-
-[Working scratchpad]
-
----
-
-## Log
-
----
-
-YYYY-MM-DD - Created area
-```
-
-### 4. Configure Obsidian
-
-Open the folder as an Obsidian vault, then:
-
-**Install Community Plugins:**
+### 3. Install Required Plugins
 
 Settings → Community Plugins → Browse:
-- **Templater** (required for `_CAIRN/templates/`)
-- **Dataview** (required for `_CAIRN/views/`)
-- **Tasks** (required for task management in `Tracks/*/tasks/`)
-- **Obsidian Git** (recommended for version control)
 
-**Configure Templater:**
+**Required:**
+- **Dataview** - For dashboards and task views
+  - Settings → Dataview:
+    - ✓ Enable JavaScript Queries
+    - ✓ Enable Inline JavaScript Queries
+- **Templater** - For file creation templates
+  - Settings → Templater:
+    - Template folder location: `_cairn-pkm/templates`
+    - ✓ Enable "Trigger Templater on new file creation"
+- **Tasks** - For task management
+  - Use default settings
 
-Settings → Templater:
-- Template folder location: `_CAIRN/templates`
-- ✓ Enable "Trigger Templater on new file creation"
+**Optional:**
+- **Obsidian Git** - For automatic backups (if you use Git)
+  - Settings → Obsidian Git:
+    - Vault backup interval: 5 minutes
+    - Auto pull interval: 5 minutes
+    - Commit message: `vault backup: {{date}}`
+    - ✓ Pull updates on startup
+    - ✓ Push on backup
 
-**Configure Dataview:**
+### 4. Explore Example Content
 
-Settings → Dataview:
-- ✓ Enable JavaScript Queries (required for dashboard views)
-- ✓ Enable Inline JavaScript Queries
+The vault comes with example content to show you how it works:
 
-**Configure Obsidian Git (Optional):**
+**Example Area:** `Tracks/area-admin/`
+- Office administration area
+- Contains tasks, resources, and home doc
+- Shows ongoing area management
 
-Settings → Obsidian Git:
-- Auto-pull interval: 10 minutes (or your preference)
-- Auto-save interval: 5 minutes (or your preference)
-- Commit message: "vault backup: {{date}}"
+**Example Project:** `Tracks/p001-office-move/`
+- Office relocation project
+- Contains tasks with dependencies
+- Shows time-bound project structure
 
-### 5. Create .gitignore
+**Example Objects:** `Objects/`
+- Contacts (people)
+- Vendors (service providers)
+- Tools (software platforms)
+
+**Example Captures:** `Capture/`
+- Quick notes awaiting processing
+- Shows inbox workflow
+
+**Cross-linking:**
+- Wikilinks connect tasks → objects → captures
+- Demonstrates how pieces connect
+
+### 5. Start Using It
+
+**Don't delete examples yet!** Use them as reference while learning.
+
+**Your first steps:**
+1. Create `Tracks/area-personal/` for personal management
+2. Start capturing ideas in `Capture/`
+3. Create your first task in your new area
+4. Process captures: turn them into tasks or objects
+
+**When ready to clean up:**
+1. Delete or archive example tracks in `Tracks/`
+2. Delete or replace example objects in `Objects/`
+3. Delete example captures in `Capture/`
+4. Keep `_cairn-pkm/` and `_local/` intact
+
+---
+
+## Updating Cairn-PKM
+
+### Getting Updates
+
+When new versions are released:
+
+1. Download latest `cairn-vX.X.X.zip` from GitHub releases
+2. Extract the zip
+3. Copy **only** the `_cairn-pkm/` folder from extracted vault
+4. Replace your existing `_cairn-pkm/` folder
+5. Restart Obsidian
+
+**Your content stays safe:**
+- `Tracks/` - Your areas and projects (untouched)
+- `Objects/` - Your contacts, vendors, tools (untouched)
+- `Capture/` - Your inbox items (untouched)
+- `_local/` - Your customizations (untouched)
+
+Only the system files in `_cairn-pkm/` are updated.
+
+### Checking Your Version
+
+Look at `_cairn-pkm/VERSION`:
+```yaml
+version: 1.0.0
+released: 2025-01-18
+repo: https://github.com/SFZC-WebOps/cairn-pkm
+releases: https://github.com/SFZC-WebOps/cairn-pkm/releases
+```
+
+---
+
+## Migrating Existing Notes
+
+Have notes in another system? Here's how to bring them into Cairn:
+
+### 1. Backup Everything First
+
+```bash
+cp -r {existing-vault} {existing-vault}-backup
+```
+
+### 2. Copy Cairn Structure
+
+Download Cairn-PKM and copy these folders into your existing vault:
+- `_cairn-pkm/` - The system
+- `_local/` - For customizations
+- Create: `Capture/`, `Objects/`, `Tracks/` (if they don't exist)
+
+### 3. Move Content Gradually
+
+| Your Content | Move To |
+|--------------|---------|
+| Inbox/unsorted items | `Capture/` |
+| People, contacts | `Objects/contact-*.md` |
+| Vendors, services | `Objects/vendor-*.md` |
+| Tools, platforms | `Objects/tool-*.md` |
+| Ongoing areas (health, finance) | `Tracks/area-*/` |
+| Projects with end dates | `Tracks/p###-*/` |
+| Personal templates | `_local/templates/` |
+| Custom dashboards | `_local/views/` |
+
+### 4. Create Home Docs
+
+Each area/project needs a home doc:
+- `Tracks/area-personal/_area-personal-home.md`
+- `Tracks/p001-example/_p001-example-home.md`
+
+Use templates from `_cairn-pkm/templates/` or copy from examples.
+
+### 5. Organize Tasks
+
+Move tasks into their track's `tasks/` folder:
+```
+Tracks/area-work/tasks/20251218-review-budget.md
+Tracks/p042-renovation/tasks/20251220-get-permits.md
+```
+
+---
+
+## Optional: Git Setup
+
+If you want version control and automatic backups:
+
+### 1. Initialize Git
+
+```bash
+cd {your-vault}
+git init
+```
+
+### 2. Create .gitignore
 
 ```bash
 cat > .gitignore << 'EOF'
-# Obsidian
+# Obsidian workspace files
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/plugins/
 .obsidian/community-plugins.json
 .obsidian/hotkeys.json
 
-# System
+# System files
 .DS_Store
 .trash/
-
-# Optional: exclude _local if you don't want to track customizations
-# _local/
 EOF
 ```
 
-### 6. Push to GitHub (optional)
+### 3. Initial Commit
 
 ```bash
-git remote add origin https://github.com/YOUR_ORG/{vault-name}.git
 git add .
-git commit -m "Initial vault setup"
+git commit -m "Initial vault setup with Cairn-PKM"
+```
+
+### 4. Push to GitHub (Optional)
+
+```bash
+git remote add origin https://github.com/YOUR-USERNAME/my-vault.git
+git branch -M main
 git push -u origin main
 ```
 
----
+### 5. Configure Obsidian Git Plugin
 
-## Migrating an Existing Vault
-
-### 1. Backup first
-
-```bash
-cp -r {existing-vault} {existing-vault}-backup
-```
-
-### 2. Create new structure alongside existing content
-
-```bash
-cd {existing-vault}
-
-# Create CAIRN folders (won't affect existing content)
-mkdir -p _local/data _local/templates _local/tools _local/views
-mkdir -p Capture Objects Tracks
-```
-
-### 3. Add CAIRN submodule
-
-```bash
-# Initialize git if needed
-git init
-
-# Add CAIRN
-git submodule add https://github.com/SFZC-WebOps/cairn-pkm.git _CAIRN
-```
-
-### 4. Migrate content gradually
-
-Move existing content into CAIRN structure:
-
-| Existing Content | Move To |
-|------------------|---------|
-| Inbox/unprocessed items | `Capture/` |
-| People, contacts, accounts | `Objects/` |
-| Ongoing life areas | `Tracks/area-{name}/` |
-| Projects with end dates | `Tracks/p###-xxxx-yyyy/` |
-| Personal templates | `_local/templates/` |
-| Personal dashboards | `_local/views/` |
-
-### 5. Create home docs for each track
-
-Each area/project needs a home doc:
-- `Tracks/area-{name}/_area-{name}-home.md`
-- `Tracks/p###-xxxx-yyyy/_p###-xxxx-yyyy-home.md`
-
-Use templates from `_CAIRN/templates/` or create manually.
-
-### 6. Move tasks into track folders
-
-Tasks should live in their track's `tasks/` folder:
-```
-Tracks/area-work/tasks/20251201-quarterly-review.md
-Tracks/p042-blog-migr/tasks/20251215-dns-cutover.md
-```
-
----
-
-## Updating CAIRN
-
-### Pulling Updates to Your Vault
-
-When the cairn-pkm repository is updated (new templates, commands, etc.), update your vault:
-
-```bash
-cd {vault}/_CAIRN
-git pull origin main
-cd ..
-git add _CAIRN
-git commit -m "Update CAIRN submodule"
-git push
-```
-
-### Making Changes to CAIRN Itself
-
-If you need to modify CAIRN system files (templates, commands, etc.):
-
-1. **Edit in the source repository:**
-   ```bash
-   cd {path-to-cairn-pkm-repo}
-   # Make your changes
-   git add .
-   git commit -m "Description of changes"
-   git push
-   ```
-
-2. **Update all vaults using CAIRN:**
-   ```bash
-   cd {vault}/_CAIRN
-   git pull origin main
-   cd ..
-   git add _CAIRN
-   git commit -m "Update CAIRN submodule - description of changes"
-   git push
-   ```
-
-Repeat step 2 for each vault that uses CAIRN.
+Install and configure as described in step 3 above.
 
 ---
 
 ## Folder Reference
 
 ```
-{Vault}/
-├── _CAIRN/              # System (git submodule, don't edit)
+{Your-Vault}/
+├── _cairn-pkm/              # System (update by replacing)
 │   ├── ARCHITECTURE.md
+│   ├── INSTALLATION.md
+│   ├── VERSION
 │   ├── llm/commands/
 │   ├── templates/
 │   ├── tools/
 │   └── views/
-├── _local/              # Your customizations (vault-specific)
-│   ├── data/            # Tool output (changelog entries, etc.)
-│   ├── templates/       # Custom templates
-│   ├── tools/           # Custom tool configs
-│   └── views/           # Custom dashboards
-├── Capture/             # Inbox
-├── Objects/             # Universal entities
-└── Tracks/              # Areas and projects
+├── _local/                  # Your customizations
+│   ├── data/                # Tool output
+│   ├── templates/           # Custom templates
+│   ├── tools/               # Custom tool configs
+│   └── views/               # Custom dashboards
+├── Capture/                 # Inbox
+├── Objects/                 # Universal entities
+└── Tracks/                  # Areas and projects
     ├── area-{name}/
     │   ├── _area-{name}-home.md
     │   ├── resources/
@@ -276,21 +265,46 @@ Repeat step 2 for each vault that uses CAIRN.
 - `p002-home-reno`
 - `p003-tax-2024`
 
-To find next number:
-```bash
-ls Tracks/ | grep "^p" | sort | tail -1
-```
-
 ### Tasks
 `YYYYMMDD-slug.md`
-- `20251217-fix-ssl-cert.md`
-- `20251217-review-budget.md`
+- `20251218-fix-ssl-cert.md`
+- `20251218-review-budget.md`
 
 ### Objects
 `{type}-{identifier}.md`
 - `contact-jane-smith.md`
 - `vendor-acme-hosting.md`
-- `account-github.md`
+- `tool-obsidian.md`
+
+---
+
+## Plugin Configuration Quick Reference
+
+### Dataview
+```
+✓ Enable JavaScript Queries
+✓ Enable Inline JavaScript Queries
+```
+
+### Templater
+```
+Template folder location: _cairn-pkm/templates
+✓ Trigger Templater on new file creation
+```
+
+### Tasks
+```
+Use default settings
+```
+
+### Obsidian Git (Optional)
+```
+Vault backup interval: 5 (minutes)
+Auto pull interval: 5 (minutes)
+Commit message: vault backup: {{date}}
+✓ Pull updates on startup
+✓ Push on backup
+```
 
 ---
 
@@ -298,15 +312,23 @@ ls Tracks/ | grep "^p" | sort | tail -1
 
 After setup, verify:
 
-- [ ] `_CAIRN/` folder exists with ARCHITECTURE.md
+- [ ] `_cairn-pkm/` folder exists with ARCHITECTURE.md
 - [ ] `_local/` folder exists with data/, templates/, tools/, views/
 - [ ] `Capture/`, `Objects/`, `Tracks/` folders exist
-- [ ] At least one area created in `Tracks/`
-- [ ] Templater plugin installed and configured
 - [ ] Dataview plugin installed with JS queries enabled
+- [ ] Templater plugin installed pointing to `_cairn-pkm/templates`
 - [ ] Tasks plugin installed
-- [ ] Git submodule working (`cd _CAIRN && git status`)
+- [ ] Can create files using Templater templates
+- [ ] Example content visible and readable
 
 ---
 
-*Version: 1.0 | Last Updated: 2025-12-17*
+## Getting Help
+
+- **Documentation:** See `_cairn-pkm/llm/ARCHITECTURE.md` for complete system docs
+- **Issues:** https://github.com/SFZC-WebOps/cairn-pkm/issues
+- **Examples:** Explore the included example tracks, objects, and captures
+
+---
+
+*Version: 2.0 | Last Updated: 2024-12-18*
