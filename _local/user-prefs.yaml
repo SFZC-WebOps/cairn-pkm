@@ -10,7 +10,7 @@
 # ─────────────────────────────────────────────────────────────────────
 
 # Default name for task assignee field when not specified
-default_assignee: "Ted"
+default_assignee: ""
 
 # ─────────────────────────────────────────────────────────────────────
 # TIME
@@ -28,12 +28,11 @@ timezone: "America/Los_Angeles"
 #
 # display  - Show file contents for user to copy/paste manually
 # download - Create downloadable files (for web-based LLM like Claude.ai)
-# write    - Create/modify files directly in the vault
-# confirm  - Show proposed changes, wait for confirmation, then write
+# write    - Show content, ask confirmation, then create/modify files
 #
 file_operations: "display"
 
-# Where files are written (when file_operations is write or confirm)
+# Where files are written (when file_operations is write)
 #
 # local    - Direct filesystem (MCP server, desktop app, computer use)
 # gdrive   - Google Drive API (requires LLM with Drive tool access)

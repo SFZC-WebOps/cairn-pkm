@@ -8,7 +8,7 @@
 | `!qn` | Capture from conversation | Per user-prefs.yaml |
 | `!qn [topic]` | Capture specific topic | Per user-prefs.yaml |
 
-**Workflow:** Type `!qn` → Review proposed content → Confirm → Output per prefs
+**Workflow:** Type `!qn` â†’ Review proposed content â†’ Confirm â†’ Output per prefs
 
 ---
 
@@ -20,10 +20,10 @@
 - Timestamp generation
 
 **User Configuration:**
-- `_local/user-prefs.yaml` — file_operations setting, timezone
+- `_local/user-prefs.yaml` â€” file_operations setting, timezone
 
 **Vault Structure:**
-- `Capture/` — Inbox for unprocessed items
+- `Capture/` â€” Inbox for unprocessed items
 
 ---
 
@@ -99,10 +99,10 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 ### Phase 5: Completion
 ```
 OUTPUT:
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -155,56 +155,56 @@ Confirm to create
 ### Completion (display mode)
 
 ```
-📄 FILE CONTENT
-═══════════════════════════════════════
+ðŸ“„ FILE CONTENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: qn-2025-12-18-143022-api-integration-notes.md
 Path: {VAULT_PATH}/Capture/
 
 {complete file content}
 
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Copy this content and save to the path above.
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Completion (write mode)
 
 ```
-✓ Created {VAULT_PATH}/Capture/qn-2025-12-18-143022-api-integration-notes.md
+âœ“ Created {VAULT_PATH}/Capture/qn-2025-12-18-143022-api-integration-notes.md
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (confirm mode)
+### Completion (write mode)
 
 ```
-📄 PROPOSED FILE
-═══════════════════════════════════════
+ðŸ“„ PROPOSED FILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: qn-2025-12-18-143022-api-integration-notes.md
 Path: {VAULT_PATH}/Capture/
 
 {complete file content}
 
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Write this file? (yes/no)
 ```
 
 Then on confirmation:
 
 ```
-✓ Created {VAULT_PATH}/Capture/qn-2025-12-18-143022-api-integration-notes.md
+âœ“ Created {VAULT_PATH}/Capture/qn-2025-12-18-143022-api-integration-notes.md
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -215,7 +215,7 @@ Then on confirmation:
 |-----------|----------|
 | Conversation empty | "No context to capture. What should I note?" |
 | user-prefs.yaml missing | Use defaults: display mode, local target |
-| Write fails (write/confirm mode) | Report error, fall back to display mode |
+| Write fails (write mode) | Report error, fall back to display mode |
 
 ---
 

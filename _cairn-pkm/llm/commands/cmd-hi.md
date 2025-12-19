@@ -16,8 +16,8 @@
 
 **Assistant Capabilities:**
 - File system read access (always)
-- File system write access (if file_operations = write or confirm)
-- Directory creation (if file_operations = write or confirm)
+- File system write access (if file_operations = write)
+- Directory creation (if file_operations = write)
 - YAML frontmatter parsing
 - Session context tracking
 - Natural language interpretation
@@ -213,7 +213,7 @@ SWITCH file_operations:
     OUTPUT: ""
     CALL: OUTPUT_FILE(home_doc_path, content)
 
-  CASE "confirm":
+  CASE "write":
     OUTPUT: "Will create:"
     OUTPUT: "  - Folder: {folder_path}"
     OUTPUT: "  - Subfolders: resources/, tasks/, zzz/"
@@ -221,16 +221,24 @@ SWITCH file_operations:
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: EXECUTE writes
-    ELSE: OUTPUT "Area creation cancelled"
+    IF confirmed: 
+      CREATE: {VAULT_PATH}/Tracks/area-{domain}/
+      CREATE: {VAULT_PATH}/Tracks/area-{domain}/resources/
+      CREATE: {VAULT_PATH}/Tracks/area-{domain}/tasks/
+      CREATE: {VAULT_PATH}/Tracks/area-{domain}/zzz/
+      CREATE: home doc file
+      OUTPUT: "✓ Area created: area-{domain}"
+    ELSE: 
+      OUTPUT: "Area creation cancelled"
 
-  CASE "write":
-    CREATE: {VAULT_PATH}/Tracks/area-{domain}/
-    CREATE: {VAULT_PATH}/Tracks/area-{domain}/resources/
-    CREATE: {VAULT_PATH}/Tracks/area-{domain}/tasks/
-    CREATE: {VAULT_PATH}/Tracks/area-{domain}/zzz/
-    CREATE: home doc file
-    OUTPUT: "✓ Area created: area-{domain}"
+  CASE "download":
+    OUTPUT: "📁 CREATE THESE FOLDERS:"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/resources/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/tasks/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/zzz/"
+    OUTPUT: ""
+    CALL: OUTPUT_FILE(home_doc_path, content)
 ```
 
 See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
@@ -325,7 +333,7 @@ SWITCH file_operations:
     OUTPUT: ""
     CALL: OUTPUT_FILE(home_doc_path, content)
 
-  CASE "confirm":
+  CASE "write":
     OUTPUT: "Will create:"
     OUTPUT: "  - Folder: {folder_path}"
     OUTPUT: "  - Subfolders: resources/, tasks/, zzz/"
@@ -333,16 +341,24 @@ SWITCH file_operations:
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: EXECUTE writes
-    ELSE: OUTPUT "Project creation cancelled"
+    IF confirmed:
+      CREATE: {VAULT_PATH}/Tracks/{project_id}/
+      CREATE: {VAULT_PATH}/Tracks/{project_id}/resources/
+      CREATE: {VAULT_PATH}/Tracks/{project_id}/tasks/
+      CREATE: {VAULT_PATH}/Tracks/{project_id}/zzz/
+      CREATE: home doc file
+      OUTPUT: "✓ Project created: {project_id}"
+    ELSE:
+      OUTPUT: "Project creation cancelled"
 
-  CASE "write":
-    CREATE: {VAULT_PATH}/Tracks/{project_id}/
-    CREATE: {VAULT_PATH}/Tracks/{project_id}/resources/
-    CREATE: {VAULT_PATH}/Tracks/{project_id}/tasks/
-    CREATE: {VAULT_PATH}/Tracks/{project_id}/zzz/
-    CREATE: home doc file
-    OUTPUT: "✓ Project created: {project_id}"
+  CASE "download":
+    OUTPUT: "📁 CREATE THESE FOLDERS:"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/resources/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/tasks/"
+    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/zzz/"
+    OUTPUT: ""
+    CALL: OUTPUT_FILE(home_doc_path, content)
 ```
 
 See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
@@ -417,18 +433,26 @@ SWITCH file_operations:
     OUTPUT: "{YYYY-MM-DD HH:MM} - {type} - {user input}"
     OUTPUT: "---"
 
-  CASE "confirm":
+  CASE "write":
     OUTPUT: "Will append to [target] log:"
     OUTPUT: "  {YYYY-MM-DD HH:MM} - {type} - {user input}"
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: WRITE file
-    ELSE: OUTPUT "Log entry cancelled"
+    IF confirmed: 
+      WRITE: updated file
+      OUTPUT: "✓ Log entry added to [target]"
+    ELSE: 
+      OUTPUT: "Log entry cancelled"
 
-  CASE "write":
-    WRITE: updated file
-    OUTPUT: "✓ Log entry added to [target]"
+  CASE "download":
+    OUTPUT: "📋 ADD THIS LOG ENTRY TO:"
+    OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
+    OUTPUT: ""
+    OUTPUT: "In the Log section, add:"
+    OUTPUT: "---"
+    OUTPUT: "{YYYY-MM-DD HH:MM} - {type} - {user input}"
+    OUTPUT: "---"
 ```
 
 ### Completion
@@ -507,19 +531,32 @@ SWITCH file_operations:
     OUTPUT: "{log_entry}"
     OUTPUT: "---"
 
-  CASE "confirm":
+  CASE "write":
     OUTPUT: "Will update [target]:"
     IF status changed: OUTPUT: "  - Status: {old} → {new}"
     IF progress changed: OUTPUT: "  - Progress: {old}% → {new}%"
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: WRITE file
-    ELSE: OUTPUT "Update cancelled"
+    IF confirmed: 
+      WRITE: updated file
+      OUTPUT: "✓ [target] updated"
+    ELSE: 
+      OUTPUT: "Update cancelled"
 
-  CASE "write":
-    WRITE: updated file
-    OUTPUT: "✓ [target] updated"
+  CASE "download":
+    OUTPUT: "📋 UPDATE THIS FILE:"
+    OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
+    OUTPUT: ""
+    OUTPUT: "In frontmatter, set:"
+    IF status changed: OUTPUT: "  status: {new_status}"
+    IF progress changed: OUTPUT: "  progress: {new_progress}"
+    OUTPUT: "  modified: {YYYY-MM-DD}"
+    OUTPUT: ""
+    OUTPUT: "In Log section, add:"
+    OUTPUT: "---"
+    OUTPUT: "{log_entry}"
+    OUTPUT: "---"
 ```
 
 ### Completion

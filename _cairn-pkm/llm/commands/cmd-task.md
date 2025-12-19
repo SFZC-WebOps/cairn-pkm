@@ -11,8 +11,8 @@
 **Location:** `{VAULT_PATH}/Tracks/[track]/tasks/`
 
 **Workflow:**
-- **Create:** Discuss work → `!task-c` → Review draft → Provide required fields → `done` → Output per prefs
-- **Edit:** Upload task file → Discuss updates → `!task-e` → Review changes → `done` → Output per prefs
+- **Create:** Discuss work â†’ `!task-c` â†’ Review draft â†’ Provide required fields â†’ `done` â†’ Output per prefs
+- **Edit:** Upload task file â†’ Discuss updates â†’ `!task-e` â†’ Review changes â†’ `done` â†’ Output per prefs
 
 ---
 
@@ -26,10 +26,10 @@
 - File system access (if file_operations = write or confirm)
 
 **User Configuration:**
-- `_local/user-prefs.yaml` — file_operations setting, defaults
+- `_local/user-prefs.yaml` â€” file_operations setting, defaults
 
 **Vault Structure:**
-- `Tracks/[track]/tasks/` — Task files per track
+- `Tracks/[track]/tasks/` â€” Task files per track
 
 ---
 
@@ -53,7 +53,7 @@ HARDCODED DEFAULTS:
 
 ---
 
-## !task-c — Create Task
+## !task-c â€” Create Task
 
 ### Execution
 
@@ -89,7 +89,7 @@ HARDCODED DEFAULTS:
 
 ### Subtask Handling
 
-Subtasks are **body content only** — not stored in frontmatter.
+Subtasks are **body content only** â€” not stored in frontmatter.
 
 Assistant scans conversation for task breakdowns:
 - "Steps are: X, Y, Z"
@@ -172,7 +172,7 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ---
 
-## !task-e — Edit Task
+## !task-e â€” Edit Task
 
 ### Execution
 
@@ -235,10 +235,10 @@ CALL: OUTPUT_FILE(filepath, content)
 
 | Field | Look For |
 |-------|----------|
-| priority | "urgent/critical/emergency" → critical; "important/ASAP" → high; "nice to have/backlog" → low |
-| status | "working on" → active; "blocked by" → blocked; "waiting for" → waiting; "planned for" → scheduled |
-| phase | "scoping/planning" → planning; "building/implementing" → executing; "testing/verifying" → testing; "wrapping up" → closing |
-| effort | "quick fix" → simple; "complex/involved" → complex; default → moderate |
+| priority | "urgent/critical/emergency" â†’ critical; "important/ASAP" â†’ high; "nice to have/backlog" â†’ low |
+| status | "working on" â†’ active; "blocked by" â†’ blocked; "waiting for" â†’ waiting; "planned for" â†’ scheduled |
+| phase | "scoping/planning" â†’ planning; "building/implementing" â†’ executing; "testing/verifying" â†’ testing; "wrapping up" â†’ closing |
+| effort | "quick fix" â†’ simple; "complex/involved" â†’ complex; default â†’ moderate |
 | type | Match technical domains mentioned in conversation |
 
 ---
@@ -252,7 +252,7 @@ Current Date/Time: December 18, 2025 at 14:30 PST
 Creating new task...
 
 TASK DRAFT
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: 20251218-wp-environment-setup.md
 
 title: Set up new WordPress environment
@@ -265,7 +265,7 @@ Subtasks detected (3):
   - Create WP Engine account
   - Provision staging
   - Install theme
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Give me the priority and status values for this new task:
 - priority: low, medium, high, critical
@@ -277,56 +277,56 @@ Also, which track does this belong to?
 ### Completion (display mode)
 
 ```
-📄 FILE CONTENT
-═══════════════════════════════════════
+ðŸ“„ FILE CONTENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: 20251218-wp-environment-setup.md
 Path: {VAULT_PATH}/Tracks/area-webops/tasks/
 
 {complete file content with frontmatter and body}
 
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Copy this content and save to the path above.
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Completion (write mode)
 
 ```
-✓ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
+âœ“ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (confirm mode)
+### Completion (write mode)
 
 ```
-📄 PROPOSED FILE
-═══════════════════════════════════════
+ðŸ“„ PROPOSED FILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: 20251218-wp-environment-setup.md
 Path: {VAULT_PATH}/Tracks/area-webops/tasks/
 
 {complete file content}
 
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Write this file? (yes/no)
 ```
 
 Then on confirmation:
 
 ```
-✓ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
+âœ“ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -340,7 +340,7 @@ Then on confirmation:
 | Invalid priority/status | Show valid options, stay in edit loop |
 | Missing required field on done | List missing fields, stay in edit loop |
 | user-prefs.yaml missing | Use defaults: display mode, local target, empty assignee |
-| Write fails (write/confirm mode) | Report error, fall back to display mode |
+| Write fails (write mode) | Report error, fall back to display mode |
 
 ---
 

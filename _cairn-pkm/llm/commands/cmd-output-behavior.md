@@ -1,5 +1,5 @@
 # Output Behavior Pattern
-*Type: Include | Version: 1.2 | Updated: 2025-12-19*
+*Type: Include | Version: 1.0 | Updated: 2025-12-18*
 
 ## Overview
 
@@ -12,8 +12,8 @@ Shared pattern for file output operations. Commands reference this rather than d
 Read from `_local/user-prefs.yaml`:
 
 ```yaml
-file_operations: "display"    # display | download | write | confirm
-write_target: "local"         # local | gdrive (only used for write/confirm modes)
+file_operations: "display"    # display | write | confirm
+write_target: "local"         # local | gdrive
 gdrive_vault_path: ""         # Required if write_target is gdrive
 ```
 
@@ -41,23 +41,6 @@ OUTPUT_FILE(filepath, content):
       OUTPUT: "═══════════════════════════════════════"
       OUTPUT: "Copy this content and save to the path above."
       RETURN: displayed
-
-    CASE "download":
-      OUTPUT: "📥 DOWNLOADABLE FILE"
-      OUTPUT: "═══════════════════════════════════════"
-      OUTPUT: "Filename: {filename}"
-      OUTPUT: "Destination: {filepath}"
-      OUTPUT: ""
-      
-      # Create in outputs directory for download
-      output_path = /mnt/user-data/outputs/{filename}
-      CREATE: directory if not exists
-      WRITE: content to output_path
-      CALL: present_files([output_path])
-      
-      OUTPUT: ""
-      OUTPUT: "Download the file above and save to: {filepath}"
-      RETURN: downloaded
 
     CASE "confirm":
       OUTPUT: "📄 PROPOSED FILE"
@@ -127,17 +110,6 @@ CALL: OUTPUT_FILE(filepath, content)
 
 ---
 
-## Mode Comparison
-
-| Mode | How It Works | Best For |
-|------|--------------|----------|
-| `display` | Shows content to copy/paste | Manual control, any environment |
-| `download` | Creates downloadable file | Web-based LLM (Claude.ai), no filesystem access |
-| `write` | Writes directly to target | Desktop app, MCP, or Google Drive sync |
-| `confirm` | Shows content, asks, then writes | When you want to review before writing |
-
----
-
 ## Error Handling
 
 | Situation | Response |
@@ -151,7 +123,6 @@ CALL: OUTPUT_FILE(filepath, content)
 | Local write fails | Report error, show content for manual copy |
 | Google Drive write fails | Report error, show content for manual copy |
 | Google Drive not connected | Warn user, fall back to display |
-| present_files fails (download mode) | Report error, fall back to display |
 
 ---
 
@@ -166,16 +137,7 @@ ON write_error:
   EXECUTE: display mode output
 ```
 
-If download fails in "download" mode:
-
-```
-ON download_error:
-  OUTPUT: "⚠️ Could not create downloadable file: {error}"
-  OUTPUT: "Falling back to display mode..."
-  EXECUTE: display mode output
-```
-
-This ensures user never loses content due to a write or download failure.
+This ensures user never loses content due to a write failure.
 
 ### Google Drive Specific Fallbacks
 
@@ -204,4 +166,3 @@ IF write_target == "gdrive":
 |---------|------|---------|
 | 1.0 | 2025-12-18 | Initial version |
 | 1.1 | 2025-12-18 | Added write_target support (local, gdrive) |
-| 1.2 | 2025-12-19 | Added download mode for web-based LLM usage |

@@ -12,8 +12,8 @@
 | `!change-r [start] [end]` | Display changes in date range | Display only |
 
 **Workflow:** 
-- **Create:** Type `!change` → Review draft → Edit/provide missing fields → `save` → Output per prefs
-- **Review:** Type `!change-r` → View narrative history with filenames
+- **Create:** Type `!change` â†’ Review draft â†’ Edit/provide missing fields â†’ `save` â†’ Output per prefs
+- **Review:** Type `!change-r` â†’ View narrative history with filenames
 
 ---
 
@@ -26,10 +26,10 @@
 - Timestamp generation
 
 **User Configuration:**
-- `_local/user-prefs.yaml` — file_operations setting, timezone
+- `_local/user-prefs.yaml` â€” file_operations setting, timezone
 
 **Vault Structure:**
-- `_local/data/changelog/` — Change log storage with YYYY/MM subdirectories
+- `_local/data/changelog/` â€” Change log storage with YYYY/MM subdirectories
 
 ---
 
@@ -51,7 +51,7 @@ EXTRACT:
 
 ### Phase 1: DateTime
 ```
-OUTPUT: "🕐 Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
+OUTPUT: "ðŸ• Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 OUTPUT: "Extracting change information from conversation..."
 ```
 
@@ -88,17 +88,17 @@ Mark requested_by as empty (REQUIRES USER INPUT)
 
 ### Phase 4: Prompt for Missing
 ```
-OUTPUT: "📝 CHANGE ENTRY DRAFT"
+OUTPUT: "ðŸ“ CHANGE ENTRY DRAFT"
 OUTPUT: {formatted_yaml_preview}
 OUTPUT: ""
 OUTPUT: "Missing required field:"
-OUTPUT: "• requested_by: Who requested this change?"
+OUTPUT: "â€¢ requested_by: Who requested this change?"
 OUTPUT: ""
 OUTPUT: "Commands:"
-OUTPUT: "• Type 'edit [field]' to modify any field"
-OUTPUT: "• Type 'requested_by [name]' to set requester"
-OUTPUT: "• Type 'save' when ready to create file"
-OUTPUT: "• Type 'cancel' to discard"
+OUTPUT: "â€¢ Type 'edit [field]' to modify any field"
+OUTPUT: "â€¢ Type 'requested_by [name]' to set requester"
+OUTPUT: "â€¢ Type 'save' when ready to create file"
+OUTPUT: "â€¢ Type 'cancel' to discard"
 ```
 
 ### Phase 5: Interactive Edit
@@ -125,10 +125,10 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 ### Phase 7: Completion
 ```
 OUTPUT:
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 STOP
 ```
@@ -144,10 +144,10 @@ Display narrative history of changes with filename references.
 INPUT: user_command
 
 CASES:
-  "!change-r" → last_30_days
-  "!change-r 90" → last_N_days(90)
-  "!change-r 2025-12" → month(2025, 12)
-  "!change-r 2025-11-01 2025-12-31" → date_range(start, end)
+  "!change-r" â†’ last_30_days
+  "!change-r 90" â†’ last_N_days(90)
+  "!change-r 2025-12" â†’ month(2025, 12)
+  "!change-r 2025-11-01 2025-12-31" â†’ date_range(start, end)
 
 CALCULATE: start_date, end_date
 ```
@@ -176,10 +176,10 @@ FOR EACH file in chronological order (newest first):
 
 ### Phase 4: Display
 ```
-OUTPUT: "📋 CHANGE HISTORY"
+OUTPUT: "ðŸ“‹ CHANGE HISTORY"
 OUTPUT: "Period: {start_date} to {end_date}"
 OUTPUT: "Changes found: {count}"
-OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 OUTPUT: ""
 
 FOR EACH change (newest first):
@@ -194,17 +194,17 @@ FOR EACH change (newest first):
   OUTPUT: "---"
   OUTPUT: ""
 
-OUTPUT: "═══════════════════════════════════════════════"
-OUTPUT: "📁 Files located in: {VAULT_PATH}/_local/data/changelog/"
+OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+OUTPUT: "ðŸ“ Files located in: {VAULT_PATH}/_local/data/changelog/"
 ```
 
 ### Phase 5: Completion
 ```
 OUTPUT:
-✓ Review complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Review complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 STOP
 ```
@@ -247,10 +247,10 @@ VALIDATE: start_date <= end_date
 ### Review Output Example
 
 ```
-📋 CHANGE HISTORY
+ðŸ“‹ CHANGE HISTORY
 Period: 2025-11-19 to 2025-12-19
 Changes found: 2
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 ### 2025-12-19 - Fixed SSL certificate chain validation on staging.acme.com
 **File:** `CHG-20251219-143500.yaml`
@@ -272,12 +272,12 @@ Primary database server reaching capacity limits. Query performance degrading du
 
 ---
 
-═══════════════════════════════════════════════
-📁 Files located in: {VAULT_PATH}/_local/data/changelog/
-✓ Review complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ“ Files located in: {VAULT_PATH}/_local/data/changelog/
+âœ“ Review complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -411,11 +411,11 @@ updated: {timestamp}
 ### Draft Phase
 
 ```
-🕐 Current Date/Time: December 18, 2025 at 14:30 PST
+ðŸ• Current Date/Time: December 18, 2025 at 14:30 PST
 Extracting change information from conversation...
 
-📝 CHANGE ENTRY DRAFT
-═══════════════════════════════════════
+ðŸ“ CHANGE ENTRY DRAFT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 change_id: CHG-20251218-143000
 timestamp: 2025-12-18T14:30:00-08:00
 implemented_by: WebOps
@@ -429,71 +429,71 @@ technologies:
   - nginx
 problem_category: security
 ...
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Missing required field:
-• requested_by: Who requested this change?
+â€¢ requested_by: Who requested this change?
 
 Commands:
-• Type 'edit [field]' to modify any field
-• Type 'requested_by [name]' to set requester
-• Type 'save' when ready to create file
-• Type 'cancel' to discard
+â€¢ Type 'edit [field]' to modify any field
+â€¢ Type 'requested_by [name]' to set requester
+â€¢ Type 'save' when ready to create file
+â€¢ Type 'cancel' to discard
 ```
 
 ### Completion (display mode)
 
 ```
-📄 FILE CONTENT
-═══════════════════════════════════════
+ðŸ“„ FILE CONTENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: CHG-20251218-143000.yaml
 Path: {VAULT_PATH}/_local/data/changelog/2025/12/
 
 {complete YAML content}
 
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Copy this content and save to the path above.
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Completion (write mode)
 
 ```
-✓ Created {VAULT_PATH}/_local/data/changelog/2025/12/CHG-20251218-143000.yaml
+âœ“ Created {VAULT_PATH}/_local/data/changelog/2025/12/CHG-20251218-143000.yaml
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (confirm mode)
+### Completion (write mode)
 
 ```
-📄 PROPOSED FILE
-═══════════════════════════════════════
+ðŸ“„ PROPOSED FILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: CHG-20251218-143000.yaml
 Path: {VAULT_PATH}/_local/data/changelog/2025/12/
 
 {complete YAML content}
 
-═══════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Write this file? (yes/no)
 ```
 
 Then on confirmation:
 
 ```
-✓ Created {VAULT_PATH}/_local/data/changelog/2025/12/CHG-20251218-143000.yaml
+âœ“ Created {VAULT_PATH}/_local/data/changelog/2025/12/CHG-20251218-143000.yaml
 
-✓ Task complete
-═══════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -502,14 +502,14 @@ Then on confirmation:
 
 | Situation | Response |
 |-----------|----------|
-| Conversation too short (!change) | "⚠️ Not enough information. Please describe: system, problem, solution" |
+| Conversation too short (!change) | "âš ï¸ Not enough information. Please describe: system, problem, solution" |
 | Ambiguous systems (!change) | "Which system was actually changed?" |
-| Missing required on save (!change) | "❌ Missing required field: requested_by" |
-| No changelog directory (!change-r) | "⚠️ No changelog directory found at {path}" |
+| Missing required on save (!change) | "âŒ Missing required field: requested_by" |
+| No changelog directory (!change-r) | "âš ï¸ No changelog directory found at {path}" |
 | No changes in range (!change-r) | "No changes found for period {start} to {end}" |
-| Invalid date format (!change-r) | "⚠️ Invalid date format. Use: YYYY-MM-DD" |
-| Invalid date range (!change-r) | "⚠️ Start date must be before end date" |
-| YAML parse error (!change-r) | Skip file, note: "⚠️ Could not parse {filename}" |
+| Invalid date format (!change-r) | "âš ï¸ Invalid date format. Use: YYYY-MM-DD" |
+| Invalid date range (!change-r) | "âš ï¸ Start date must be before end date" |
+| YAML parse error (!change-r) | Skip file, note: "âš ï¸ Could not parse {filename}" |
 | user-prefs.yaml missing (!change) | Use defaults: display mode, local target |
 | Write fails (!change) | Report error, fall back to display mode |
 

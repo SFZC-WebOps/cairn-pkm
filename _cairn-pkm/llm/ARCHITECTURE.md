@@ -63,7 +63,7 @@ default_assignee: ""
 timezone: "America/Los_Angeles"
 
 # Output behavior
-file_operations: "display"    # display | download | write | confirm
+file_operations: "display"    # display | download | write
 write_target: "local"         # local | gdrive
 gdrive_vault_path: ""         # Required if write_target is gdrive
 ```
@@ -86,8 +86,7 @@ The `file_operations` setting controls how LLM commands handle file creation:
 |------|----------|----------|
 | `display` | Shows file content to copy/paste | Manual control, works anywhere |
 | `download` | Creates downloadable file | Web-based LLM (Claude.ai), no filesystem access |
-| `write` | Writes files directly | LLM has filesystem/Drive access, you trust it |
-| `confirm` | Shows content, waits for approval, then writes | LLM has access but you want to review |
+| `write` | Shows content, asks confirmation, then writes | LLM has filesystem/Drive access |
 
 ### Write Targets
 

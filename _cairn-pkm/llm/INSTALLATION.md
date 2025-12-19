@@ -56,7 +56,7 @@ default_assignee: "Your Name"
 timezone: "America/New_York"
 
 # How LLM commands output files (see below)
-file_operations: "display"    # display | download | write | confirm
+file_operations: "display"    # display | download | write
 write_target: "local"         # local | gdrive
 gdrive_vault_path: ""
 ```
@@ -69,9 +69,10 @@ gdrive_vault_path: ""
 | Web-based LLM (Claude.ai) | `file_operations: "download"` |
 | Desktop app or MCP with filesystem | `file_operations: "write"`, `write_target: "local"` |
 | Web-based LLM with Google Drive connected | `file_operations: "write"`, `write_target: "gdrive"`, `gdrive_vault_path: "Obsidian/YourVault"` |
-| Review before writing | `file_operations: "confirm"`, then set `write_target` |
 
 If unsure, leave as `display` — you can always change it later.
+
+**Note:** Write mode always asks for confirmation before creating/modifying files.
 
 ### 5. Explore Example Content
 
