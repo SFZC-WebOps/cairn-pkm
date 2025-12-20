@@ -12,7 +12,7 @@ viz: now
 type:
   - finance/expenses
   - administrative/processing
-
+section: Finance
 ---
 
 ### Task History

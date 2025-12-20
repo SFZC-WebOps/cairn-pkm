@@ -29,18 +29,22 @@ function formatDate(d) {
 function parseTaskHistory(fileContent) {
   if (!fileContent) return "No history available";
   
-  // Find the Task History section
-  const historyMatch = fileContent.match(/###\s+Task History\s*
-([\s\S]*?)(?=
----|
-###|$)/);
-  if (!historyMatch) return "No history recorded";
+  // Find the Task History section using string methods instead of regex
+  const historyStart = fileContent.indexOf('### Task History');
+  if (historyStart === -1) return "No history recorded";
   
-  const historySection = historyMatch[1];
+  // Get content after the heading
+  let afterHeading = fileContent.substring(historyStart);
+  
+  // Find the end (next section or end of file)
+  let endPos = afterHeading.indexOf('\n---');
+  if (endPos === -1) endPos = afterHeading.indexOf('\n###');
+  if (endPos === -1) endPos = afterHeading.length;
+  
+  const historySection = afterHeading.substring(0, endPos);
   
   // Extract bullet points (- YYYY-MM-DD: text)
-  const lines = historySection.split('
-')
+  const lines = historySection.split('\n')
     .map(line => line.trim())
     .filter(line => line.startsWith('-'))
     .slice(0, 3);  // Take top 3
