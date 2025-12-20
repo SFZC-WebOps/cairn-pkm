@@ -1,0 +1,67 @@
+change_id: CHG-20241219-142300
+timestamp: 2024-12-19T14:23:00-08:00
+title: Rename user preferences file and update all LLM command references
+
+systems_affected:
+  - Cairn-PKM distribution files
+  - LLM command specifications
+  - Installation documentation
+
+technologies_used:
+  - YAML configuration
+  - Markdown documentation
+  - sed/bash for bulk replacements
+
+problem: |
+  User preferences file was named "user-prefs.yaml" which didn't clearly 
+  indicate it was for LLM/Cairn-PKM system. Additionally, the file location 
+  strategy needed clarification - should it be in vault or project files?
+  Original references scattered across 6 command files created maintenance burden.
+
+solution: |
+  1. Renamed user-prefs.yaml to cairn-pkm-user-prefs.yaml for clarity
+  2. Updated distribution strategy:
+     - Template ships as LLM/cairn-pkm-user-prefs.yaml
+     - Users customize in _local/llm/cairn-pkm-user-prefs.yaml
+     - LLM reads from /mnt/project/cairn-pkm-user-prefs.yaml
+  3. Bulk updated all references in cmd-*.md files (6 files)
+  4. Added new section to INSTALLATION.md explaining two-file strategy
+  5. Fixed double-prefix issues from replacement operations
+
+files_touched:
+  - cairn-pkm-user-prefs.yaml (new)
+  - INSTALLATION.md
+  - cmd-changelog.md
+  - cmd-hi.md
+  - cmd-output-behavior.md
+  - cmd-quicknote.md
+  - cmd-readme.md
+  - cmd-task.md
+
+implemented_by: "gb"
+requested_by: "gb"
+
+ai_role: executor
+ai_contributions: |
+  - Created renamed preferences file with distribution path documentation
+  - Performed bulk sed replacements across all command files
+  - Added Section 5 to INSTALLATION.md with setup instructions
+  - Fixed encoding issues and duplicate section headers
+  - Verified all changes and prepared download package
+
+estimated_time_saved: "45 minutes"
+conversation_duration: "15 minutes"
+
+rollback_steps: |
+  1. Rename cairn-pkm-user-prefs.yaml back to user-prefs.yaml
+  2. Run: sed -i 's/cairn-pkm-user-prefs\.yaml/user-prefs.yaml/g' cmd-*.md
+  3. Run: sed -i 's|/mnt/project/cairn-pkm-user-prefs|_local/user-prefs|g' cmd-*.md
+  4. Remove Section 5 from INSTALLATION.md
+  5. Renumber sections 6-8 back to 5-7
+
+notes: |
+  This change establishes clear naming convention and distribution pattern
+  for LLM configuration files. The two-file approach (vault + project) 
+  ensures web UI sessions work while maintaining single source of truth.
+
+related_tasks: []
