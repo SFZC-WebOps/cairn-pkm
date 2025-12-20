@@ -1,4 +1,4 @@
-# !task - Task Management
+/mnt/project/# !task - Task Management
 *Type: Read/Write | Version: 0.8.0 | Updated: 2025-12-19*
 
 <!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
