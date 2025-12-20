@@ -1,5 +1,5 @@
 ## 📋 Tasks by Project/Viz
-- [x] Show all viz tags ✅ 2025-12-20
+- [ ] Show all viz tags
 ```dataviewjs
 // Helper functions
 function normStatus(s) {
@@ -22,6 +22,32 @@ function formatDate(d) {
     return dateStr.split('T')[0];
   }
   return dateStr;
+}
+
+
+// ===== TASK HISTORY PARSER =====
+function parseTaskHistory(fileContent) {
+  if (!fileContent) return "No history available";
+  
+  // Find the Task History section
+  const historyMatch = fileContent.match(/###\s+Task History\s*
+([\s\S]*?)(?=
+---|
+###|$)/);
+  if (!historyMatch) return "No history recorded";
+  
+  const historySection = historyMatch[1];
+  
+  // Extract bullet points (- YYYY-MM-DD: text)
+  const lines = historySection.split('
+')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('-'))
+    .slice(0, 3);  // Take top 3
+  
+  if (lines.length === 0) return "No history recorded";
+  
+  return lines.map(line => `• ${line.substring(1).trim()}`).join('<br><br>');
 }
 
 function formatTaskHistory(history) {
@@ -273,7 +299,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
   const status = clean(t.status) || "—";
   const priority = clean(t.priority);
   const due = formatDate(t.due_date);
-  const taskHistory = formatTaskHistory(t.last_update);
+  const taskHistory = parseTaskHistory(t.file.content);
   const phase = clean(t.phase);
   const effort = clean(t.effort);
   const otherTags = formatTags(t.other_tags);
@@ -281,9 +307,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
   
   const isOrphan = orphans.has(t.file.name);
   
-  let vizClass = "";
-  if (t.viz === 11) vizClass = "viz-11";
-  else if (t.viz) vizClass = `viz-${t.viz}`;
+  const vizLabel = t.viz ? getVizLabel(t.viz) : "";
   
   const statusClass = normStatus(status).replace(/[^a-z0-9]+/g, "-") || "unknown";
   const vizBg = getVizBackground(t.viz);
@@ -326,24 +350,33 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
     }
     
     if (hasDueDate) {
-      const dueDate = new Date(t.due_date);
-      const daysDiff = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+      const isComplete = normStatus(status) === "complete";
       
-      let daysText = "";
-      if (daysDiff < 0) {
-        daysText = `${Math.abs(daysDiff)} days overdue`;
-      } else if (daysDiff === 0) {
-        daysText = "due today";
+      if (isComplete) {
+        // Show completion status instead of due date calculations
+        const badgeStyle = "background: rgba(34, 197, 94, 0.15); color: #166534; border: 1px solid rgba(34, 197, 94, 0.3);";
+        detailsHtml += `<p style="margin: 4px 0 0 0;"><span style="padding: 6px 12px; border-radius: 6px; font-size: 0.9em; font-weight: 500; display: inline-block; ${badgeStyle}">✓ Completed (was due: ${due})</span></p>`;
       } else {
-        daysText = `${daysDiff} days until due`;
+        // Calculate overdue/upcoming for active tasks
+        const dueDate = new Date(t.due_date);
+        const daysDiff = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+        
+        let daysText = "";
+        if (daysDiff < 0) {
+          daysText = `${Math.abs(daysDiff)} days overdue`;
+        } else if (daysDiff === 0) {
+          daysText = "due today";
+        } else {
+          daysText = `${daysDiff} days until due`;
+        }
+        
+        const isOverdue = daysDiff < 0;
+        const badgeStyle = isOverdue 
+          ? "background: rgba(239, 68, 68, 0.2); color: #991b1b; border: 1px solid rgba(239, 68, 68, 0.3);"
+          : "background: rgba(59, 130, 246, 0.15); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.3);";
+        
+        detailsHtml += `<p style="margin: 4px 0 0 0;"><span style="padding: 6px 12px; border-radius: 6px; font-size: 0.9em; font-weight: 500; display: inline-block; ${badgeStyle}">📅 Due: ${due} (${daysText})</span></p>`;
       }
-      
-      const isOverdue = daysDiff < 0;
-      const badgeStyle = isOverdue 
-        ? "background: rgba(239, 68, 68, 0.2); color: #991b1b; border: 1px solid rgba(239, 68, 68, 0.3);"
-        : "background: rgba(59, 130, 246, 0.15); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.3);";
-      
-      detailsHtml += `<p style="margin: 4px 0 0 0;"><span style="padding: 6px 12px; border-radius: 6px; font-size: 0.9em; font-weight: 500; display: inline-block; ${badgeStyle}">📅 Due: ${due} (${daysText})</span></p>`;
     }
     
     detailsHtml += '</div>';
@@ -390,7 +423,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
     margin-bottom: 8px;
   ">
     ${orphanWarning}
-    ${vizClass ? `<span class="dashboard-badge ${vizClass}" style="
+    ${vizLabel ? `<span class="dashboard-badge viz" style="
       padding: 5px 12px; 
       border-radius: 6px; 
       font-size: 0.85em; 
@@ -398,7 +431,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
       background: rgba(0,0,0,0.08);
       color: #333;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    ">${vizClass}</span>` : ""}
+    ">${vizLabel}</span>` : ""}
     ${status !== "—" ? `<span class="dashboard-badge status-${statusClass}" style="
       padding: 5px 12px; 
       border-radius: 6px; 
@@ -407,7 +440,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
       background: rgba(34, 197, 94, 0.15);
       color: #166534;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    ">${status}</span>` : ""}
+    ">Status: ${status}</span>` : ""}
     ${priority ? `<span class="dashboard-badge priority" style="
       padding: 5px 12px; 
       border-radius: 6px; 
@@ -425,7 +458,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
       background: rgba(59, 130, 246, 0.15);
       color: #1e40af;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    ">${phase}</span>` : ""}
+    ">Phase: ${phase}</span>` : ""}
     ${effort ? `<span class="dashboard-badge effort" style="
       padding: 5px 12px; 
       border-radius: 6px; 
@@ -434,7 +467,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
       background: rgba(168, 85, 247, 0.15);
       color: #6b21a8;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    ">${effort}</span>` : ""}
+    ">Effort: ${effort}</span>` : ""}
     ${otherTags ? `<span class="dashboard-badge tags" style="
       padding: 5px 12px; 
       border-radius: 6px; 

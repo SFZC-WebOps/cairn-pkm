@@ -12,8 +12,7 @@ viz: soon
 type:
   - meetings/planning
   - team/coordination
-last_update:
-  - "2025-01-12: Created task - gather topics for quarterly meeting"
+
 ---
 
 ### Task History

@@ -236,10 +236,9 @@ status: active | blocked | complete | deferred | onhold | scheduled | waiting
 phase: planning | executing | testing | closing
 effort: simple | moderate | complex
 viz: now | next | soon | later | blocked | waiting
+section: ""
 type:
   - category/subcategory
-last_update:
-  - "YYYY-MM-DD: {action taken}"
 ---
 ```
 

@@ -12,9 +12,7 @@ viz: later
 type:
   - documentation/maintenance
   - team/information
-last_update:
-  - "2025-01-15: Updated with new hires and contact changes"
-  - "2025-01-08: Created task - quarterly directory review"
+
 ---
 
 ### Task History

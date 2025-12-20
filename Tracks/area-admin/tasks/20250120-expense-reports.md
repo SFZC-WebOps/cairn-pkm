@@ -12,8 +12,7 @@ viz: now
 type:
   - finance/expenses
   - administrative/processing
-last_update:
-  - "2025-01-20: Created task - monthly expense report cycle"
+
 ---
 
 ### Task History

@@ -12,9 +12,7 @@ viz: soon
 type:
   - planning/space
   - coordination/departments
-last_update:
-  - "2025-01-18: Incorporated feedback from facilities meeting"
-  - "2025-01-05: Created task - design office layout for new space"
+
 ---
 
 ### Task History

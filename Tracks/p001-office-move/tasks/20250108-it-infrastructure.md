@@ -12,9 +12,7 @@ viz: now
 type:
   - it/infrastructure
   - planning/technical
-last_update:
-  - "2025-01-10: Requirements meeting completed, creating checklist"
-  - "2025-01-08: Created task - plan new office IT setup"
+
 ---
 
 ### Task History

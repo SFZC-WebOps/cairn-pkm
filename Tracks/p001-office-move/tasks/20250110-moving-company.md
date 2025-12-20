@@ -13,9 +13,7 @@ viz: next
 type:
   - vendor/selection
   - contracts/negotiation
-last_update:
-  - "2025-01-15: Received three quotes, comparing services"
-  - "2025-01-10: Created task - get moving company proposals"
+
 ---
 
 ### Task History
