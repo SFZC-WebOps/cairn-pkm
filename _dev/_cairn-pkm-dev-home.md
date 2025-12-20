@@ -138,3 +138,14 @@ Completed major documentation streamlining of Cairn-PKM. Reduced 11 command file
 - Files: Created cmd-shared-patterns.md, streamlined 10 cmd-*.md files, renamed 4 system docs
 - AI Contribution: Assistant analyzed redundancies, designed centralization, rewrote all files, verified deployment
 - Change ID: CHG-20251219-224500
+
+---
+
+### 2025-12-20 09:18 - Development - !changelog workflow improvement
+
+Modified cmd-changelog.md to default the requested_by field to default_assignee from user preferences, eliminating unnecessary prompts during change entry creation. Field remains editable but no longer required. Tested successfully with CHG-20251220-091500.
+
+- Tracks: cairn-pkm
+- Files: Updated cmd-changelog.md (v0.9.0 → v0.10.0), created CHG-20251220-091500.yaml
+- AI Contribution: Assistant executed specification update with version policy compliance and encoding verification
+- Change ID: CHG-20251220-091500
