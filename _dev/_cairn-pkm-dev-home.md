@@ -128,3 +128,13 @@ Renamed user-prefs.yaml to cairn-pkm-user-prefs.yaml for clarity. Updated all re
 - Files: Created cairn-pkm-user-prefs.yaml; updated cmd-changelog, cmd-hi, cmd-output-behavior, cmd-quicknote, cmd-readme, cmd-task, INSTALLATION.md
 - AI Contribution: Assistant performed bulk replacements, fixed encoding issues, added installation section
 - Change ID: CHG-20241219-142300
+
+---
+
+### 2025-12-19 22:50 - Development - Cairn-PKM LLM command file streamlining
+
+Completed major documentation streamlining of Cairn-PKM. Reduced 11 command files from 102K to 43K (58% reduction) by centralizing common patterns into new cmd-shared-patterns.md. Restructured LLM folder with underscore-prefixed system docs (_ARCHITECTURE.md, _INSTALLATION.md, _VERSION-POLICY.md). Renamed instructions.md to llm-project-instructions.md. Deployed 14-file package to vault uploads/ folder and Claude project. Verified encoding clean, removed obsolete duplicates from project.
+
+- Files: Created cmd-shared-patterns.md, streamlined 10 cmd-*.md files, renamed 4 system docs
+- AI Contribution: Assistant analyzed redundancies, designed centralization, rewrote all files, verified deployment
+- Change ID: CHG-20251219-224500

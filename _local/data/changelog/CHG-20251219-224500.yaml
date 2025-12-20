@@ -1,0 +1,105 @@
+change_id: CHG-20251219-224500
+timestamp: 2025-12-19T22:45:00-08:00
+implemented_by: ""
+requested_by: "gb"
+
+title: "Streamlined Cairn-PKM LLM command files - 58% size reduction"
+systems_affected:
+  - Cairn-PKM
+  - Claude project (cairn-pkm)
+  - Obsidian vault (Cairn-PKM-dev)
+technologies:
+  - Markdown
+  - YAML
+  - UTF-8 encoding
+problem_category: configuration
+
+change_classification:
+  impact: medium
+  risk: low
+  reversibility: instant
+  scope: single-system
+
+description: |
+  Major documentation streamlining of Cairn-PKM LLM command specifications.
+  Reduced 11 command files from 102K to 43K (58% reduction) by eliminating
+  redundancies and centralizing common patterns. Restructured LLM folder
+  with underscore-prefixed system docs and organized uploads directory.
+
+problem: |
+  LLM command specification files had grown bloated with duplicated patterns
+  across multiple files. Common elements like initialization, error handling,
+  datetime output, and completion patterns were copy-pasted into each command
+  file, creating maintenance overhead and inconsistency risk.
+
+solution: |
+  1. Analyzed all 11 cmd-*.md files for redundancy patterns
+  2. Created cmd-shared-patterns.md to centralize:
+     - Initialization pattern (user prefs reading)
+     - DateTime output format
+     - Completion pattern
+     - Common error handling
+     - Encoding requirements (ftfy)
+     - Vault path references
+  3. Streamlined each command file to reference shared patterns
+  4. Renamed system docs with underscore prefix:
+     - ARCHITECTURE.md → _ARCHITECTURE.md
+     - INSTALLATION.md → _INSTALLATION.md
+     - VERSION-POLICY.md → _VERSION-POLICY.md
+  5. Renamed instructions.md → llm-project-instructions.md
+  6. Restructured into _cairn-pkm/llm/uploads/ folder
+  7. Verified encoding clean across all files
+  8. Deployed to vault and Claude project (14 files final)
+  9. Removed obsolete duplicates from Claude project
+
+files_modified:
+  - cmd-bye.md (streamlined)
+  - cmd-changelog.md (streamlined)
+  - cmd-hi.md (streamlined)
+  - cmd-object.md (streamlined)
+  - cmd-output-behavior.md (streamlined)
+  - cmd-quicknote.md (streamlined)
+  - cmd-readme.md (streamlined)
+  - cmd-shared-patterns.md (NEW - centralized patterns)
+  - cmd-skills.md (streamlined)
+  - cmd-task.md (streamlined)
+  - _ARCHITECTURE.md (renamed)
+  - _INSTALLATION.md (renamed)
+  - _VERSION-POLICY.md (renamed)
+  - llm-project-instructions.md (renamed from instructions.md)
+
+rollback:
+  complexity: simple
+  estimated_time: "15 minutes"
+  steps:
+    - action: "Restore previous cmd-*.md files from git"
+      validation: "Verify file sizes match pre-streamline state"
+    - action: "Remove cmd-shared-patterns.md"
+      validation: "Confirm no broken references"
+    - action: "Rename system docs back (remove underscore prefix)"
+      validation: "Verify cross-references still work"
+
+validation:
+  tested: true
+  test_environment: Claude.ai conversation + vault verification
+  test_results: "All files verified clean encoding, cross-references valid"
+
+ai_contribution:
+  role: executor
+  time_saved_estimate: 180
+  time_saved_basis: "Manual analysis of 11 files, pattern extraction, rewriting each file, testing cross-references"
+  specific_contributions:
+    - "Analyzed 11 command files for redundancy patterns"
+    - "Designed and created cmd-shared-patterns.md centralization"
+    - "Rewrote all command files in streamlined format"
+    - "Calculated compression ratios and validated savings"
+    - "Generated deployment package (cairn-pkm-llm.zip)"
+    - "Verified encoding and cross-references"
+    - "Identified false positive mojibake in preview rendering"
+
+related_changes: []
+track_context: "Cairn-PKM development"
+session_context: "Multi-part streamlining project spanning several conversation compactions"
+
+created: 2025-12-19T22:45:00-08:00
+updated: 2025-12-19T22:45:00-08:00
