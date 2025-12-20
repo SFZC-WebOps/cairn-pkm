@@ -118,3 +118,13 @@ Established pre-release versioning policy (0.x.y) for Cairn-PKM system with VERS
 - AI Contribution: 
   - Assistant implemented versioning scheme, executed systematic file updates following VERSION-POLICY.md
 - Change ID: CHG-20251219-143000
+
+---
+
+### 2025-12-19 17:25 - Refactor - User preferences file renamed
+
+Renamed user-prefs.yaml to cairn-pkm-user-prefs.yaml for clarity. Updated all references across 6 command files and INSTALLATION.md. Established distribution pattern: LLM/ (template), _local/llm/ (user customization), /mnt/project/ (LLM reads).
+
+- Files: Created cairn-pkm-user-prefs.yaml; updated cmd-changelog, cmd-hi, cmd-output-behavior, cmd-quicknote, cmd-readme, cmd-task, INSTALLATION.md
+- AI Contribution: Assistant performed bulk replacements, fixed encoding issues, added installation section
+- Change ID: CHG-20241219-142300
