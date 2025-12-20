@@ -48,9 +48,9 @@ rollback:
       validation: "Verify requested_by field is blank in YAML template"
 
 validation:
-  tested: false
-  test_environment: "Not yet tested - preparing for test now"
-  test_results: "Pending"
+  tested: true
+  test_environment: "local"
+  test_results: "passed"
 
 ai_contribution:
   role: executor

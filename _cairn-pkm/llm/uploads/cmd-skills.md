@@ -1,5 +1,5 @@
 # !skills - Skill Evidence Scraper
-*Type: Display/Write | Version: 0.8.0 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 0.8.1 | Updated: 2025-12-20*
 
 ## Quick Reference
 
@@ -8,7 +8,7 @@
 | `!skills` | Analyze current conversation | After technical discussions |
 | `!skills-report` | Generate portfolio snapshot | Monthly/quarterly, before reviews |
 
-**Workflow:** Technical work → `!skills` → Copy output → Paste to skill-evidence.md
+**Workflow:** Technical work â†’ `!skills` â†’ Copy output â†’ Paste to skill-evidence.md
 
 **Location:** `{VAULT_PATH}/System/tools/professional-development/`
 
@@ -16,7 +16,7 @@
 
 ---
 
-## !skills — Analyze Session
+## !skills â€” Analyze Session
 
 ### Process
 
@@ -29,9 +29,11 @@
 
 ```markdown
 ### YYYY-MM-DD - [Session Topic]
-**Source:** [Conversation context]
-**Context:** [What was accomplished]
-**Evidence Summary:** [One-line summary]
+**Source:** [Conversation context or empty]
+
+**Context:** [What was accomplished or empty]
+
+**Evidence Summary:** [One-line summary or empty]
 
 **Skills Identified:**
 - SKILL Level N: [single-line evidence]
@@ -54,7 +56,7 @@
 
 ---
 
-## !skills-report — Portfolio Analysis
+## !skills-report â€” Portfolio Analysis
 
 Comprehensive skill portfolio analysis across all documented evidence.
 
@@ -110,9 +112,9 @@ Comprehensive skill portfolio analysis across all documented evidence.
 
 ### Keyword + Action Combinations
 
-- "configured [technology]" → relevant skill Level 3
-- "maintained 99.9% uptime" → operations skill Level 4
-- "secured [system]" → security skill Level 3
+- "configured [technology]" â†’ relevant skill Level 3
+- "maintained 99.9% uptime" â†’ operations skill Level 4
+- "secured [system]" â†’ security skill Level 3
 
 ### Complexity Indicators
 
@@ -149,6 +151,7 @@ Comprehensive skill portfolio analysis across all documented evidence.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.8.1 | 2025-12-20 | Fixed output formatting - added line breaks between Source/Context/Evidence Summary fields |
 | 0.8.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
 | 0.7.1 | 2025-12-19 | Renamed from !sk to !skills |
 | 0.7.0 | 2025-12-19 | Reset to pre-release versioning |
