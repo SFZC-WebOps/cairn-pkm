@@ -25,19 +25,19 @@
 - Natural language interpretation
 
 **User Configuration:**
-- `_local/user-prefs.yaml` Ã¢â‚¬â€ file_operations setting, timezone, defaults
+- `/mnt/project/cairn-pkm-user-prefs.yaml` ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â file_operations setting, timezone, defaults
 
 **Vault Structure:**
-- `Tracks/` Ã¢â‚¬â€ Projects and areas
-- `Tracks/*/tasks/` Ã¢â‚¬â€ Task files per track
-- `Tracks/*/_*-home.md` Ã¢â‚¬â€ Home docs
+- `Tracks/` ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Projects and areas
+- `Tracks/*/tasks/` ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Task files per track
+- `Tracks/*/_*-home.md` ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Home docs
 
 ---
 
 ## Initialization
 
 ```
-READ: {VAULT_PATH}/_local/user-prefs.yaml
+READ: /mnt/project/cairn-pkm-user-prefs.yaml
 EXTRACT:
   - file_operations (default: "display")
   - write_target (default: "local")
@@ -48,11 +48,11 @@ EXTRACT:
 
 ---
 
-## !hi Ã¢â‚¬â€ Main Menu
+## !hi ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Main Menu
 
 ### Output
 ```
-Ã°Å¸Â§Â­ What would you like to do?
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ What would you like to do?
 
 1. Open a project or area
 2. Create a task
@@ -80,19 +80,19 @@ Enter number or describe what you need:
 
 | Selection | Action |
 |-----------|--------|
-| 1 | "Which track?" Ã¢â€ â€™ `!hi-[target]` flow |
+| 1 | "Which track?" ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `!hi-[target]` flow |
 | 2 | `!task-c` flow |
 | 3 | `!task-e` flow |
 | 4 | Create project flow |
 | 5 | Create area flow |
-| 6 | `!object` flow Ã¢â€ â€™ "Create or edit?" |
+| 6 | `!object` flow ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ "Create or edit?" |
 | 7 | `!quicknote` flow |
 | 8 | `!skills` flow |
 | 9 | `!bye` flow |
 
 ---
 
-## !hi-[target] Ã¢â‚¬â€ Focused Session
+## !hi-[target] ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Focused Session
 
 ### Phase 1: Brief Summary
 ```
@@ -104,7 +104,7 @@ EXTRACT: Last 3 log entries
 
 ### Output
 ```
-Ã°Å¸Â§Â­ [target]
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ [target]
 Status: [status] | Progress: [progress]%
 
 Recent:
@@ -143,17 +143,17 @@ Enter number or describe what you need:
 |-----------|--------|
 | 1 | Display full status + all tasks |
 | 2 | `!task-c` flow with track pre-filled |
-| 3 | "Which task?" Ã¢â€ â€™ `!task-e` flow |
+| 3 | "Which task?" ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `!task-e` flow |
 | 4 | Add log entry flow |
 | 5 | Update status/progress flow |
-| 6 | "Which track?" Ã¢â€ â€™ new `!hi-[target]` |
+| 6 | "Which track?" ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ new `!hi-[target]` |
 | 7 | `!bye` flow |
 
 ---
 
 ## Create Area Flow
 
-*Accessed via: Main menu Ã¢â€ â€™ 5*
+*Accessed via: Main menu ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ 5*
 
 ### Prompts
 ```
@@ -207,7 +207,7 @@ modified: {YYYY-MM-DD}
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "Ã°Å¸â€œÂ CREATE THESE FOLDERS:"
+    OUTPUT: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â CREATE THESE FOLDERS:"
     OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/"
     OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/resources/"
     OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/tasks/"
@@ -232,18 +232,18 @@ SWITCH file_operations:
     CREATE: {VAULT_PATH}/Tracks/area-{domain}/tasks/
     CREATE: {VAULT_PATH}/Tracks/area-{domain}/zzz/
     CREATE: home doc file
-    OUTPUT: "Ã¢Å“â€œ Area created: area-{domain}"
+    OUTPUT: "ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Area created: area-{domain}"
 ```
 
 See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Completion
 ```
-Ã¢Å“â€œ Area created: area-{domain}
+ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Area created: area-{domain}
   Path: {VAULT_PATH}/Tracks/area-{domain}/
-Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â
 
-Ã°Å¸Â§Â­ What would you like to do?
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ What would you like to do?
 
 1. Open area-{domain}
 2. Create a task for this area
@@ -256,7 +256,7 @@ Enter number or describe what you need:
 
 ## Create Project Flow
 
-*Accessed via: Main menu Ã¢â€ â€™ 4*
+*Accessed via: Main menu ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ 4*
 
 ### Prompts
 ```
@@ -319,7 +319,7 @@ modified: {YYYY-MM-DD}
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "Ã°Å¸â€œÂ CREATE THESE FOLDERS:"
+    OUTPUT: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â CREATE THESE FOLDERS:"
     OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/"
     OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/resources/"
     OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/tasks/"
@@ -344,18 +344,18 @@ SWITCH file_operations:
     CREATE: {VAULT_PATH}/Tracks/{project_id}/tasks/
     CREATE: {VAULT_PATH}/Tracks/{project_id}/zzz/
     CREATE: home doc file
-    OUTPUT: "Ã¢Å“â€œ Project created: {project_id}"
+    OUTPUT: "ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Project created: {project_id}"
 ```
 
 See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Completion
 ```
-Ã¢Å“â€œ Project created: {project_id}
+ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Project created: {project_id}
   Path: {VAULT_PATH}/Tracks/{project_id}/
-Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â
 
-Ã°Å¸Â§Â­ What would you like to do?
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ What would you like to do?
 
 1. Open {project_id}
 2. Create a task for this project
@@ -368,7 +368,7 @@ Enter number or describe what you need:
 
 ## Add Log Entry Flow
 
-*Accessed via: Focused session Ã¢â€ â€™ 4*
+*Accessed via: Focused session ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ 4*
 
 ### Prompts
 ```
@@ -411,7 +411,7 @@ UPDATE: modified date in frontmatter
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "Ã°Å¸â€œâ€¹ ADD THIS LOG ENTRY TO:"
+    OUTPUT: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ ADD THIS LOG ENTRY TO:"
     OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
     OUTPUT: ""
     OUTPUT: "In the Log section, add:"
@@ -430,15 +430,15 @@ SWITCH file_operations:
 
   CASE "write":
     WRITE: updated file
-    OUTPUT: "Ã¢Å“â€œ Log entry added to [target]"
+    OUTPUT: "ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Log entry added to [target]"
 ```
 
 ### Completion
 ```
-Ã¢Å“â€œ Log entry added to [target]
-Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Log entry added to [target]
+ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â
 
-Ã°Å¸Â§Â­ [target]
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ [target]
 [return to focused session menu]
 ```
 
@@ -446,7 +446,7 @@ SWITCH file_operations:
 
 ## Update Status/Progress Flow
 
-*Accessed via: Focused session Ã¢â€ â€™ 5*
+*Accessed via: Focused session ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ 5*
 
 ### Prompts
 ```
@@ -496,7 +496,7 @@ APPEND: log_entry to Log section
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "Ã°Å¸â€œâ€¹ UPDATE THIS FILE:"
+    OUTPUT: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ UPDATE THIS FILE:"
     OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
     OUTPUT: ""
     OUTPUT: "In frontmatter, set:"
@@ -511,8 +511,8 @@ SWITCH file_operations:
 
   CASE "confirm":
     OUTPUT: "Will update [target]:"
-    IF status changed: OUTPUT: "  - Status: {old} Ã¢â€ â€™ {new}"
-    IF progress changed: OUTPUT: "  - Progress: {old}% Ã¢â€ â€™ {new}%"
+    IF status changed: OUTPUT: "  - Status: {old} ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ {new}"
+    IF progress changed: OUTPUT: "  - Progress: {old}% ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ {new}%"
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
@@ -521,16 +521,16 @@ SWITCH file_operations:
 
   CASE "write":
     WRITE: updated file
-    OUTPUT: "Ã¢Å“â€œ [target] updated"
+    OUTPUT: "ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ [target] updated"
 ```
 
 ### Completion
 ```
-Ã¢Å“â€œ [target] updated
+ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ [target] updated
   Status: {status} | Progress: {progress}%
-Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â
 
-Ã°Å¸Â§Â­ [target]
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ [target]
 [return to focused session menu]
 ```
 
@@ -538,7 +538,7 @@ SWITCH file_operations:
 
 ## View Full Status + Tasks
 
-*Accessed via: Focused session Ã¢â€ â€™ 1*
+*Accessed via: Focused session ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ 1*
 
 ### Output
 ```
@@ -546,7 +546,7 @@ READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
 READ: All files in {VAULT_PATH}/Tracks/[target]/tasks/
 PARSE: Frontmatter for each task
 FILTER: status != complete
-SORT: By priority (critical Ã¢â€ â€™ high Ã¢â€ â€™ medium Ã¢â€ â€™ low), then created_date
+SORT: By priority (critical ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ high ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ medium ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ low), then created_date
 
 OUTPUT:
 ## [target] Overview
@@ -563,21 +563,21 @@ OUTPUT:
 
 ### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
 
-Ã¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â
-Ã°Å¸â€œâ€¹ [title]
+ÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚Â
+ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ [title]
 Status: [status] | Priority: [priority] | Effort: [effort]
-Created: [created_date] | Due: [due_date OR "(none)"] [Ã¢Å¡Â Ã¯Â¸Â OVERDUE if applicable]
+Created: [created_date] | Due: [due_date OR "(none)"] [ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â OVERDUE if applicable]
 
 [IF subtasks exist in body:]
 Subtasks:
-  Ã¢â€â€Ã¢â€â‚¬ [ ] or [x] [subtask text]
-Ã¢â€â€”Ã¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â
+  ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ [ ] or [x] [subtask text]
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬â€ÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚ÂÃƒÂ¢Ã¢â‚¬ÂÃ‚Â
 
 [Repeat for each task]
 
-Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â
 
-Ã°Å¸Â§Â­ [target]
+ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â­ [target]
 [return to focused session menu]
 ```
 
@@ -586,16 +586,16 @@ Subtasks:
 ## Freeform Input Examples
 
 **From main menu:**
-- `"I need to create a task for the storage migration"` Ã¢â€ â€™ Task creation, infers track
-- `"What projects are active?"` Ã¢â€ â€™ Lists active projects
-- `"Show me p14"` Ã¢â€ â€™ `!hi-p14` flow
-- `"!skills"` Ã¢â€ â€™ Direct to skill evidence flow
+- `"I need to create a task for the storage migration"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Task creation, infers track
+- `"What projects are active?"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Lists active projects
+- `"Show me p14"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `!hi-p14` flow
+- `"!skills"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Direct to skill evidence flow
 
 **From focused session:**
-- `"Mark the SSL task complete"` Ã¢â€ â€™ Finds task, updates status
-- `"What's blocking progress?"` Ã¢â€ â€™ Reviews tasks, identifies blockers
-- `"Add a note that we're waiting on vendor"` Ã¢â€ â€™ Log entry flow
-- `"Create a task to follow up next week"` Ã¢â€ â€™ Task creation with context
+- `"Mark the SSL task complete"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Finds task, updates status
+- `"What's blocking progress?"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Reviews tasks, identifies blockers
+- `"Add a note that we're waiting on vendor"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Log entry flow
+- `"Create a task to follow up next week"` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Task creation with context
 
 ---
 
@@ -619,8 +619,8 @@ CLEAR on !bye: Session state reset
 
 After each action completes:
 ```
-Ã¢Å“â€œ [Action completed message]
-Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ [Action completed message]
+ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â
 
 [Return to menu for current context]
 ```
@@ -656,7 +656,7 @@ Only `!bye` ends the session.
 ## Version History
 
 | Version | Date | Changes |
-| 0.9.1 | 2025-12-19 | Updated command references: !obj→!object, !qn→!quicknote, !sk→!skills |
+| 0.9.1 | 2025-12-19 | Updated command references: !objâ†’!object, !qnâ†’!quicknote, !skâ†’!skills |
 |---------|------|---------|
 | 0.9.0 | 2025-12-19 | Reset to pre-release versioning (was 12.0) |
 | 12.0 | 2025-12-19 | Refactored as interactive session with menus + freeform input; added create area, create project, add log entry, update status flows |

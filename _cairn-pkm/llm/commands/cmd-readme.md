@@ -7,10 +7,10 @@
 
 | Command | What Happens | Output Mode |
 |---------|--------------|-------------|
-| `!readme` | Analyze URL in current conversation | Per user-prefs.yaml |
-| `!readme [url]` | Fetch and analyze specific URL | Per user-prefs.yaml |
+| `!readme` | Analyze URL in current conversation | Per cairn-pkm-user-prefs.yaml |
+| `!readme [url]` | Fetch and analyze specific URL | Per cairn-pkm-user-prefs.yaml |
 
-**Workflow:** Paste URL â†’ `!readme` â†’ Get strategic analysis and score â†’ Output per prefs
+**Workflow:** Paste URL Ã¢â€ â€™ `!readme` Ã¢â€ â€™ Get strategic analysis and score Ã¢â€ â€™ Output per prefs
 
 ---
 
@@ -23,7 +23,7 @@
 - User context awareness (projects, interests)
 
 **User Configuration:**
-- `_local/user-prefs.yaml` â€” file_operations setting, references_folder
+- `/mnt/project/cairn-pkm-user-prefs.yaml` Ã¢â‚¬â€ file_operations setting, references_folder
 
 **Vault Structure:**
 - References folder for saving analyzed content (per references_folder setting)
@@ -33,7 +33,7 @@
 ## Initialization
 
 ```
-READ: {VAULT_PATH}/_local/user-prefs.yaml
+READ: /mnt/project/cairn-pkm-user-prefs.yaml
 EXTRACT:
   - file_operations (default: "display")
   - write_target (default: "local")
@@ -66,14 +66,14 @@ SUMMARIZE: 3-5 sentence synopsis
 ### Phase 3: Deep Context Research
 ```
 REQUIRED SEARCHES:
-1. "[author name]" â€” Who is this person, credibility, affiliations
-2. "[main topic] [current year]" â€” Is this current or outdated thinking
-3. "[tool/concept] alternatives comparison" â€” What else exists
+1. "[author name]" Ã¢â‚¬â€ Who is this person, credibility, affiliations
+2. "[main topic] [current year]" Ã¢â‚¬â€ Is this current or outdated thinking
+3. "[tool/concept] alternatives comparison" Ã¢â‚¬â€ What else exists
 
 CONDITIONAL SEARCHES:
-4. IF tool/product: "[product name] reviews problems" â€” Known issues
-5. IF technical: "[concept] implementation examples" â€” Practical application
-6. IF theory/research: "[concept] criticism" â€” Counterarguments
+4. IF tool/product: "[product name] reviews problems" Ã¢â‚¬â€ Known issues
+5. IF technical: "[concept] implementation examples" Ã¢â‚¬â€ Practical application
+6. IF theory/research: "[concept] criticism" Ã¢â‚¬â€ Counterarguments
 
 SYNTHESIZE:
 - Author credibility score (established expert | emerging voice | unknown | questionable)
@@ -89,10 +89,10 @@ LOAD USER CONTEXT:
 - Current pain points and goals
 
 EVALUATE AGAINST:
-1. Direct project application â€” Does this solve a current problem?
-2. Skill development â€” Does this build relevant capability?
-3. Future planning â€” Does this inform upcoming decisions?
-4. General enrichment â€” Interesting but no immediate use?
+1. Direct project application Ã¢â‚¬â€ Does this solve a current problem?
+2. Skill development Ã¢â‚¬â€ Does this build relevant capability?
+3. Future planning Ã¢â‚¬â€ Does this inform upcoming decisions?
+4. General enrichment Ã¢â‚¬â€ Interesting but no immediate use?
 
 ASSESS STRATEGIC FIT:
 - Timing: Right now | Next quarter | Someday | Never
@@ -119,10 +119,10 @@ CALCULATE UTILITY SCORE (1-10):
 -2 High effort, low certainty of payoff
 
 SCORE INTERPRETATION:
-8-10: ðŸ”¥ High Priority â€” Act on this soon
-5-7:  âœ… Worth Filing â€” Reference for future
-3-4:  ðŸ¤” Maybe â€” Skim and decide
-1-2:  âŒ Skip â€” Not worth your time
+8-10: Ã°Å¸â€Â¥ High Priority Ã¢â‚¬â€ Act on this soon
+5-7:  Ã¢Å“â€¦ Worth Filing Ã¢â‚¬â€ Reference for future
+3-4:  Ã°Å¸Â¤â€ Maybe Ã¢â‚¬â€ Skim and decide
+1-2:  Ã¢ÂÅ’ Skip Ã¢â‚¬â€ Not worth your time
 ```
 
 ### Phase 6: Output
@@ -186,56 +186,56 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 ### Completion (display mode)
 
 ```
-ðŸ“„ FILE CONTENT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã°Å¸â€œâ€ž FILE CONTENT
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Filename: 2025-12-18-7of10-api-design-patterns.md
 Path: {VAULT_PATH}/Objects/references/
 
 {complete report content}
 
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Copy this content and save to the path above.
 
-âœ“ Task complete
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Task complete
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ### Completion (write mode)
 
 ```
-âœ“ Created {VAULT_PATH}/Objects/references/2025-12-18-7of10-api-design-patterns.md
+Ã¢Å“â€œ Created {VAULT_PATH}/Objects/references/2025-12-18-7of10-api-design-patterns.md
 
-âœ“ Task complete
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Task complete
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ### Completion (confirm mode)
 
 ```
-ðŸ“„ PROPOSED FILE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã°Å¸â€œâ€ž PROPOSED FILE
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Filename: 2025-12-18-7of10-api-design-patterns.md
 Path: {VAULT_PATH}/Objects/references/
 
 {complete report content}
 
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Write this file? (yes/no)
 ```
 
 Then on confirmation:
 
 ```
-âœ“ Created {VAULT_PATH}/Objects/references/2025-12-18-7of10-api-design-patterns.md
+Ã¢Å“â€œ Created {VAULT_PATH}/Objects/references/2025-12-18-7of10-api-design-patterns.md
 
-âœ“ Task complete
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Task complete
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ---
@@ -244,11 +244,11 @@ Then on confirmation:
 
 | Situation | Response |
 |-----------|----------|
-| URL unreachable | "âš ï¸ Could not fetch [url] â€” check link or try again" |
-| Paywall/login required | "âš ï¸ Content behind paywall. Working with available preview..." Score -1 |
-| No author/date found | "Author: Unknown | Published: Unknown" â€” Credibility = unknown |
-| Search results sparse | "Limited context available â€” scoring may be less reliable" |
-| user-prefs.yaml missing | Use defaults: display mode, local target |
+| URL unreachable | "Ã¢Å¡Â Ã¯Â¸Â Could not fetch [url] Ã¢â‚¬â€ check link or try again" |
+| Paywall/login required | "Ã¢Å¡Â Ã¯Â¸Â Content behind paywall. Working with available preview..." Score -1 |
+| No author/date found | "Author: Unknown | Published: Unknown" Ã¢â‚¬â€ Credibility = unknown |
+| Search results sparse | "Limited context available Ã¢â‚¬â€ scoring may be less reliable" |
+| cairn-pkm-user-prefs.yaml missing | Use defaults: display mode, local target |
 | Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
@@ -257,7 +257,7 @@ Then on confirmation:
 
 | Purpose | Path |
 |---------|------|
-| User prefs | `{VAULT_PATH}/_local/user-prefs.yaml` |
+| User prefs | `/mnt/project/cairn-pkm-user-prefs.yaml` |
 | Output | `{VAULT_PATH}/Objects/references/` |
 | Filename pattern | `YYYY-MM-DD-Xof10-slug.md` |
 

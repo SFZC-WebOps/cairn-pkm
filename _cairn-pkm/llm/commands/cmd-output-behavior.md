@@ -11,7 +11,7 @@ Shared pattern for file output operations. Commands reference this rather than d
 
 ## Configuration
 
-Read from `_local/user-prefs.yaml`:
+Read from `/mnt/project/cairn-pkm-user-prefs.yaml`:
 
 ```yaml
 file_operations: "display"    # display | download | write | confirm
@@ -26,7 +26,7 @@ gdrive_vault_path: ""         # Required if write_target is gdrive
 ```
 OUTPUT_FILE(filepath, content):
 
-  READ: file_operations, write_target, gdrive_vault_path from {VAULT_PATH}/_local/user-prefs.yaml
+  READ: file_operations, write_target, gdrive_vault_path from /mnt/project/cairn-pkm-user-prefs.yaml
   DEFAULTS: 
     file_operations = "display" if not found
     write_target = "local" if not found
@@ -100,7 +100,7 @@ WRITE_TO_TARGET(filepath, content):
     CASE "gdrive":
       # Validate gdrive_vault_path is set
       IF gdrive_vault_path is empty:
-        OUTPUT: "⚠️ gdrive_vault_path not configured in user-prefs.yaml"
+        OUTPUT: "⚠️ gdrive_vault_path not configured in cairn-pkm-user-prefs.yaml"
         OUTPUT: "Falling back to display mode..."
         EXECUTE: display mode output
         RETURN: error
@@ -144,7 +144,7 @@ CALL: OUTPUT_FILE(filepath, content)
 
 | Situation | Response |
 |-----------|----------|
-| user-prefs.yaml missing | Use "display" mode, continue |
+| cairn-pkm-user-prefs.yaml missing | Use "display" mode, continue |
 | file_operations not set | Use "display" mode, continue |
 | write_target not set | Use "local" if file_operations requires write |
 | Invalid file_operations value | Use "display" mode, warn user |
@@ -190,7 +190,7 @@ IF write_target == "gdrive":
     EXECUTE: display mode output
 
   IF gdrive_vault_path not configured:
-    OUTPUT: "⚠️ gdrive_vault_path not set in user-prefs.yaml"
+    OUTPUT: "⚠️ gdrive_vault_path not set in cairn-pkm-user-prefs.yaml"
     OUTPUT: "Set this to your vault's location in Google Drive"
     OUTPUT: "Example: Obsidian/MyVault"
     OUTPUT: ""

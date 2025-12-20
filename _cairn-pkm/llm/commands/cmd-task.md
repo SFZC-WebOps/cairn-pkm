@@ -7,14 +7,14 @@
 
 | Command | Purpose | Output Mode |
 |---------|---------|-------------|
-| `!task-c` | Generate new task file from conversation | Per user-prefs.yaml |
-| `!task-e` | Generate edited task from uploaded file | Per user-prefs.yaml |
+| `!task-c` | Generate new task file from conversation | Per cairn-pkm-user-prefs.yaml |
+| `!task-e` | Generate edited task from uploaded file | Per cairn-pkm-user-prefs.yaml |
 
 **Location:** `{VAULT_PATH}/Tracks/[track]/tasks/`
 
 **Workflow:**
-- **Create:** Discuss work â†’ `!task-c` â†’ Review draft â†’ Provide required fields â†’ `done` â†’ Output per prefs
-- **Edit:** Upload task file â†’ Discuss updates â†’ `!task-e` â†’ Review changes â†’ `done` â†’ Output per prefs
+- **Create:** Discuss work Ã¢â€ â€™ `!task-c` Ã¢â€ â€™ Review draft Ã¢â€ â€™ Provide required fields Ã¢â€ â€™ `done` Ã¢â€ â€™ Output per prefs
+- **Edit:** Upload task file Ã¢â€ â€™ Discuss updates Ã¢â€ â€™ `!task-e` Ã¢â€ â€™ Review changes Ã¢â€ â€™ `done` Ã¢â€ â€™ Output per prefs
 
 ---
 
@@ -28,17 +28,17 @@
 - File system access (if file_operations = write or confirm)
 
 **User Configuration:**
-- `_local/user-prefs.yaml` â€” file_operations setting, defaults
+- `/mnt/project/cairn-pkm-user-prefs.yaml` Ã¢â‚¬â€ file_operations setting, defaults
 
 **Vault Structure:**
-- `Tracks/[track]/tasks/` â€” Task files per track
+- `Tracks/[track]/tasks/` Ã¢â‚¬â€ Task files per track
 
 ---
 
 ## Initialization
 
 ```
-READ: {VAULT_PATH}/_local/user-prefs.yaml
+READ: /mnt/project/cairn-pkm-user-prefs.yaml
 EXTRACT:
   - file_operations (default: "display")
   - write_target (default: "local")
@@ -55,12 +55,12 @@ HARDCODED DEFAULTS:
 
 ---
 
-## !task-c â€” Create Task
+## !task-c Ã¢â‚¬â€ Create Task
 
 ### Execution
 
 1. Display current date/time
-2. Read user-prefs.yaml for defaults and output mode
+2. Read cairn-pkm-user-prefs.yaml for defaults and output mode
 3. Infer track context (from !hi, conversation, or ask user)
 4. Extract from conversation: title, types, and any mentioned fields
 5. Generate filename: `{YYYYMMDD}-{slug}.md`
@@ -91,7 +91,7 @@ HARDCODED DEFAULTS:
 
 ### Subtask Handling
 
-Subtasks are **body content only** â€” not stored in frontmatter.
+Subtasks are **body content only** Ã¢â‚¬â€ not stored in frontmatter.
 
 Assistant scans conversation for task breakdowns:
 - "Steps are: X, Y, Z"
@@ -174,12 +174,12 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ---
 
-## !task-e â€” Edit Task
+## !task-e Ã¢â‚¬â€ Edit Task
 
 ### Execution
 
 1. Display current date/time
-2. Read user-prefs.yaml for output mode
+2. Read cairn-pkm-user-prefs.yaml for output mode
 3. Read uploaded task file
 4. Generate history entry from conversation context
 5. Interactive edit loop until user types `done`
@@ -237,10 +237,10 @@ CALL: OUTPUT_FILE(filepath, content)
 
 | Field | Look For |
 |-------|----------|
-| priority | "urgent/critical/emergency" â†’ critical; "important/ASAP" â†’ high; "nice to have/backlog" â†’ low |
-| status | "working on" â†’ active; "blocked by" â†’ blocked; "waiting for" â†’ waiting; "planned for" â†’ scheduled |
-| phase | "scoping/planning" â†’ planning; "building/implementing" â†’ executing; "testing/verifying" â†’ testing; "wrapping up" â†’ closing |
-| effort | "quick fix" â†’ simple; "complex/involved" â†’ complex; default â†’ moderate |
+| priority | "urgent/critical/emergency" Ã¢â€ â€™ critical; "important/ASAP" Ã¢â€ â€™ high; "nice to have/backlog" Ã¢â€ â€™ low |
+| status | "working on" Ã¢â€ â€™ active; "blocked by" Ã¢â€ â€™ blocked; "waiting for" Ã¢â€ â€™ waiting; "planned for" Ã¢â€ â€™ scheduled |
+| phase | "scoping/planning" Ã¢â€ â€™ planning; "building/implementing" Ã¢â€ â€™ executing; "testing/verifying" Ã¢â€ â€™ testing; "wrapping up" Ã¢â€ â€™ closing |
+| effort | "quick fix" Ã¢â€ â€™ simple; "complex/involved" Ã¢â€ â€™ complex; default Ã¢â€ â€™ moderate |
 | type | Match technical domains mentioned in conversation |
 
 ---
@@ -254,7 +254,7 @@ Current Date/Time: December 18, 2025 at 14:30 PST
 Creating new task...
 
 TASK DRAFT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Filename: 20251218-wp-environment-setup.md
 
 title: Set up new WordPress environment
@@ -267,7 +267,7 @@ Subtasks detected (3):
   - Create WP Engine account
   - Provision staging
   - Install theme
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 
 Give me the priority and status values for this new task:
 - priority: low, medium, high, critical
@@ -279,56 +279,56 @@ Also, which track does this belong to?
 ### Completion (display mode)
 
 ```
-ðŸ“„ FILE CONTENT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã°Å¸â€œâ€ž FILE CONTENT
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Filename: 20251218-wp-environment-setup.md
 Path: {VAULT_PATH}/Tracks/area-webops/tasks/
 
 {complete file content with frontmatter and body}
 
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Copy this content and save to the path above.
 
-âœ“ Task complete
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Task complete
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ### Completion (write mode)
 
 ```
-âœ“ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
+Ã¢Å“â€œ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
 
-âœ“ Task complete
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Task complete
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ### Completion (confirm mode)
 
 ```
-ðŸ“„ PROPOSED FILE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã°Å¸â€œâ€ž PROPOSED FILE
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Filename: 20251218-wp-environment-setup.md
 Path: {VAULT_PATH}/Tracks/area-webops/tasks/
 
 {complete file content}
 
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 Write this file? (yes/no)
 ```
 
 Then on confirmation:
 
 ```
-âœ“ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
+Ã¢Å“â€œ Created {VAULT_PATH}/Tracks/area-webops/tasks/20251218-wp-environment-setup.md
 
-âœ“ Task complete
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Task complete
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ---
@@ -341,7 +341,7 @@ Then on confirmation:
 | Can't infer title (!task-c) | Ask user to describe the task |
 | Invalid priority/status | Show valid options, stay in edit loop |
 | Missing required field on done | List missing fields, stay in edit loop |
-| user-prefs.yaml missing | Use defaults: display mode, local target, empty assignee |
+| cairn-pkm-user-prefs.yaml missing | Use defaults: display mode, local target, empty assignee |
 | Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
@@ -350,7 +350,7 @@ Then on confirmation:
 
 | Purpose | Path |
 |---------|------|
-| User prefs | `{VAULT_PATH}/_local/user-prefs.yaml` |
+| User prefs | `/mnt/project/cairn-pkm-user-prefs.yaml` |
 | Task location | `{VAULT_PATH}/Tracks/[track]/tasks/` |
 | Filename pattern | `{YYYYMMDD}-{slug}.md` |
 

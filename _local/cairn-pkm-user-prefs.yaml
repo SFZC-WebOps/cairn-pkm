@@ -1,8 +1,11 @@
-# _local/user-prefs.yaml
+# cairn-pkm-user-prefs.yaml
 # Cairn-PKM User Preferences
-# Vault-specific settings referenced by templates and LLM commands
+# Configuration for LLM behavior with Cairn-PKM commands
 # 
-# This file stays in _local/ and is never overwritten by Cairn updates.
+# DISTRIBUTION: Ships as LLM/cairn-pkm-user-prefs.yaml (template)
+# USER LOCATION: Customize in _local/llm/cairn-pkm-user-prefs.yaml
+# LLM PROJECT: Upload to Claude project as /mnt/project/cairn-pkm-user-prefs.yaml
+#
 # See cmd-output-behavior.md for additional options you can add here.
 
 # ─────────────────────────────────────────────────────────────────────
