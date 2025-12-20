@@ -1,5 +1,5 @@
 # !changelog - Change Tracking
-*Type: Read/Write | Version: 0.9.0 | Updated: 2025-12-19*
+*Type: Read/Write | Version: 0.10.0 | Updated: 2025-12-20*
 
 ## Quick Reference
 
@@ -12,7 +12,7 @@
 | `!changelog-r [start] [end]` | Display date range |
 
 **Workflow:**
-- **Create:** `!changelog` → Review draft → Edit/provide missing fields → `save`
+- **Create:** `!changelog` → Review draft → Edit/provide fields as needed → `save`
 - **Review:** `!changelog-r` → View narrative history
 
 **Location:** `{VAULT_PATH}/_local/data/changelog/`
@@ -32,9 +32,8 @@ Per `cmd-shared-patterns.md`
 1. Display current date/time
 2. Analyze conversation for change details
 3. Generate draft YAML with change_id `CHG-{YYYYMMDD}-{HHMMSS}`
-4. Prompt for missing required field (requested_by)
-5. Interactive edit loop until `save`
-6. Output per file_operations setting
+4. Interactive edit loop until `save`
+5. Output per file_operations setting
 
 ### Conversation Analysis
 
@@ -60,7 +59,7 @@ EXTRACT:
 
 ```
 save                   - Finalize and output
-requested_by [name]    - Set requester (required)
+requested_by [name]    - Set requester
 edit [field]           - Modify any field
 cancel                 - Discard entry
 ```
@@ -97,7 +96,7 @@ For each change (newest first):
 change_id: {auto-generated}
 timestamp: {auto-generated}
 implemented_by: {default_assignee from prefs}
-requested_by: ""  # REQUIRES USER INPUT
+requested_by: {default_assignee from prefs}  # Falls back to "" if default_assignee empty
 
 title: "{extracted}"
 systems_affected:
@@ -194,7 +193,6 @@ updated: {timestamp}
 |-----------|----------|
 | Conversation too short | "Not enough information. Describe: system, problem, solution" |
 | Ambiguous systems | "Which system was actually changed?" |
-| Missing required on save | "Missing required field: requested_by" |
 | No changelog directory (!changelog-r) | "No changelog directory found at {path}" |
 | No changes in range (!changelog-r) | "No changes found for period {start} to {end}" |
 | Invalid date format (!changelog-r) | "Invalid date format. Use: YYYY-MM-DD" |
@@ -208,6 +206,7 @@ Common errors: See `cmd-shared-patterns.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.10.0 | 2025-12-20 | Use default_assignee as default for requested_by field |
 | 0.9.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
 | 0.8.0 | 2025-12-19 | Renamed from !change to !changelog |
 | 0.7.0 | 2025-12-19 | Simplified to flat directory structure |
