@@ -1,5 +1,5 @@
 # !bye - Session Closure
-*Type: Display/Write | Version: 0.8.0 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 0.8.1 | Updated: 2025-12-20*
 
 ## Quick Reference
 
@@ -85,7 +85,8 @@ FORMAT:
 {Past_tense_description}
 - Tracks: {primary_track} [+ others if applicable]
 - Files: {action} {filenames}
-- AI Contribution: {contribution}
+- AI Contribution: 
+   - {contribution}
 - Change ID: {change_id if any}
 ```
 
@@ -183,6 +184,7 @@ Common errors: See `cmd-shared-patterns.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.8.1 | 2025-12-20 | Fixed AI Contribution formatting - moved to nested bullet for better readability |
 | 0.8.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
 | 0.7.1 | 2025-12-19 | Updated references from !change to !changelog |
 | 0.7.0 | 2025-12-19 | Reset to pre-release versioning |
