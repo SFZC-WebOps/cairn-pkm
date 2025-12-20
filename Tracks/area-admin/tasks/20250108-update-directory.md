@@ -8,7 +8,7 @@ priority: low
 status: active
 phase: executing
 effort: simple
-viz: routine
+viz: later
 type:
   - documentation/maintenance
   - team/information

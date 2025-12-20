@@ -8,7 +8,7 @@ priority: medium
 status: active
 phase: planning
 effort: simple
-viz: this-week
+viz: soon
 type:
   - meetings/planning
   - team/coordination

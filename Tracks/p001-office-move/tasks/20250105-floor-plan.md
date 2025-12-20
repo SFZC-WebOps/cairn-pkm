@@ -8,7 +8,7 @@ priority: high
 status: active
 phase: executing
 effort: moderate
-viz: this-week
+viz: soon
 type:
   - planning/space
   - coordination/departments

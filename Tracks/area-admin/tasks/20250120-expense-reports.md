@@ -8,7 +8,7 @@ priority: medium
 status: active
 phase: executing
 effort: moderate
-viz: today
+viz: now
 type:
   - finance/expenses
   - administrative/processing

@@ -8,7 +8,7 @@ priority: critical
 status: active
 phase: planning
 effort: complex
-viz: today
+viz: now
 type:
   - it/infrastructure
   - planning/technical

@@ -9,7 +9,7 @@ priority: high
 status: active
 phase: planning
 effort: moderate
-viz: review
+viz: next
 type:
   - vendor/selection
   - contracts/negotiation

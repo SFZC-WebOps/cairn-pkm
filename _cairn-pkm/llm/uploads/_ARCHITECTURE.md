@@ -235,7 +235,7 @@ priority: low | medium | high | critical
 status: active | blocked | complete | deferred | onhold | scheduled | waiting
 phase: planning | executing | testing | closing
 effort: simple | moderate | complex
-viz: "⚡" | "🔥" | "🎯" | "⏸️" | etc.
+viz: now | next | soon | later | blocked | waiting
 type:
   - category/subcategory
 last_update:
@@ -269,16 +269,22 @@ last_update:
 - **Child tasks:** Specific implementation steps
 - Link via `parent_task: YYYYMMDD-parent-slug.md`
 
-### Visualization Icons (viz field)
+### Visualization Field (viz)
 
-| Icon | Meaning | When to Use |
-|------|---------|-------------|
-| âš¡ | Quick win | Simple, high-value tasks |
-| 🔥 | Urgent | Time-sensitive work |
-| 🎯 | High priority | Important but not urgent |
-| ⏸️ | On hold | Waiting on external dependency |
-| 🔒 | Blocked | Cannot proceed |
-| ✅ | Complete | Finished work |
+The `viz` field controls how tasks surface in dashboards and views. It's about **attention and visibility**, not task state (use `status` for state).
+
+| Value | Meaning | When to Use |
+|-------|---------|-------------|
+| `now` | Active work | Working on this, needs discussion/immediate attention |
+| `next` | Keep eyes on | Monitor this, up next after current work |
+| `soon` | Near-term | On deck, planned for soon |
+| `later` | Backlog | Eventual work, future consideration |
+| `blocked` | Blocked | Cannot proceed, stuck |
+| `waiting` | Waiting | External dependency, waiting on others |
+
+**Default dashboard behavior:** Shows `now` + `next` only. Toggle to reveal full backlog.
+
+**Note:** Task completion state belongs in the `status` field (active, complete, etc.), not `viz`.
 
 ---
 
