@@ -1,5 +1,5 @@
 # !bye - Session Closure
-*Type: Display/Write | Version: 0.7.0 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 0.7.1 | Updated: 2025-12-19*
 
 <!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
@@ -22,7 +22,7 @@ Session context is derived from `!hi` session tracking.
 - File generation and presentation
 
 **Vault Structure:**
-- `Tracks/` — Projects and areas with home docs containing logs
+- `Tracks/` â€” Projects and areas with home docs containing logs
 
 ---
 
@@ -30,7 +30,7 @@ Session context is derived from `!hi` session tracking.
 
 ### Phase 1: DateTime
 ```
-OUTPUT: "🕐 Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
+OUTPUT: "ðŸ• Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 ```
 
 ### Phase 2: Session Summary
@@ -44,8 +44,8 @@ READ: session context
   - change_entries_created[]
 
 OUTPUT:
-📊 SESSION SUMMARY
-═══════════════════════════════════════════════
+ðŸ“Š SESSION SUMMARY
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Tracks visited:
 - [track 1]
@@ -69,7 +69,7 @@ Key decisions:
 - [decision 1]
 - [decision 2]
 
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Phase 3: Analyze Session
@@ -97,14 +97,14 @@ RULES:
 - No fluff
 
 OUTPUT:
-📝 SUGGESTED TASK HISTORY ENTRY:
-═══════════════════════════════════════════════
+ðŸ“ SUGGESTED TASK HISTORY ENTRY:
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 {history_entry}
 
 Copy this to the relevant task:
 - If working on specific task: Add to that task's history
 - If general work: Add to appropriate track catch-all task
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Phase 5: Generate Log Entry
@@ -163,14 +163,14 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 ### Phase 7: Completion
 ```
 OUTPUT:
-✓ Session closed successfully
-✓ Task history entry ready
-✓ Log entry ready
-✓ Session log created
+âœ“ Session closed successfully
+âœ“ Task history entry ready
+âœ“ Log entry ready
+âœ“ Session log created
 
-═══════════════════════════════════════════════
-🤖 Session ended. Start new session with !hi
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Session ended. Start new session with !hi
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 CLEAR: session context
 STOP
@@ -212,10 +212,10 @@ When session touched multiple tracks, select primary by:
 ### Session Summary and Task History (same for all modes)
 
 ```
-🕐 Current Date/Time: December 19, 2025 at 14:30 PST
+ðŸ• Current Date/Time: December 19, 2025 at 14:30 PST
 
-📊 SESSION SUMMARY
-═══════════════════════════════════════════════
+ðŸ“Š SESSION SUMMARY
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Tracks visited:
 - p014-stor-migr
@@ -237,54 +237,54 @@ Key decisions:
 - Chose S3 over local storage for backups
 - Scheduled migration for January maintenance window
 
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-📝 SUGGESTED TASK HISTORY ENTRY:
-═══════════════════════════════════════════════
+ðŸ“ SUGGESTED TASK HISTORY ENTRY:
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 2025-12-19: Created SSL renewal and backup validation tasks; decided on S3 storage
 
 Copy this to the relevant task:
 - If working on specific task: Add to that task's history
 - If general work: Add to appropriate track catch-all task
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ### Session Log Output (varies by mode)
 
 **Download mode:**
 ```
-📥 [session-log-2025-12-19-143022.md available for download]
+ðŸ“¥ [session-log-2025-12-19-143022.md available for download]
 
 Download the file above and save to: {VAULT_PATH}/Capture/session-log-2025-12-19-143022.md
 
-✓ Session closed successfully
-✓ Task history entry ready
-✓ Log entry ready
-✓ Session log created
+âœ“ Session closed successfully
+âœ“ Task history entry ready
+âœ“ Log entry ready
+âœ“ Session log created
 
-═══════════════════════════════════════════════
-🤖 Session ended. Start new session with !hi
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Session ended. Start new session with !hi
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **Write mode:**
 ```
-✓ Created {VAULT_PATH}/Capture/session-log-2025-12-19-143022.md
+âœ“ Created {VAULT_PATH}/Capture/session-log-2025-12-19-143022.md
 
-✓ Session closed successfully
-✓ Task history entry ready
-✓ Log entry ready
-✓ Session log created
+âœ“ Session closed successfully
+âœ“ Task history entry ready
+âœ“ Log entry ready
+âœ“ Session log created
 
-═══════════════════════════════════════════════
-🤖 Session ended. Start new session with !hi
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Session ended. Start new session with !hi
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 **Display mode:**
 ```
-📄 FILE CONTENT
-═══════════════════════════════════════════════
+ðŸ“„ FILE CONTENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Filename: session-log-2025-12-19-143022.md
 Path: {VAULT_PATH}/Capture/
 
@@ -314,21 +314,21 @@ Created SSL renewal and backup validation tasks. Decided on S3 storage for backu
 
 ## Session Details
 - Duration: 45 minutes
-- Commands used: !task-c, !change
+- Commands used: !task-c, !changelog
 - Tracks touched: p014-stor-migr, area-webops
 - Changes documented: CHG-20251219-143500
 
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Copy this content and save to the path above.
 
-✓ Session closed successfully
-✓ Task history entry ready
-✓ Log entry ready
-✓ Session log created
+âœ“ Session closed successfully
+âœ“ Task history entry ready
+âœ“ Log entry ready
+âœ“ Session log created
 
-═══════════════════════════════════════════════
-🤖 Session ended. Start new session with !hi
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Session ended. Start new session with !hi
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
@@ -357,7 +357,8 @@ Copy this content and save to the path above.
 | Version | Date | Changes |
 |---------|------|---------|
 | 0.7.0 | 2025-12-19 | Reset to pre-release versioning (was 4.2) |
-| 4.2 | 2025-12-19 | Added change tracking integration - references !change entries in session log |
+| 0.7.1 | 2025-12-19 | Updated references from !change to !changelog command |
+| 4.2 | 2025-12-19 | Added change tracking integration - references !changelog entries in session log |
 | 4.1 | 2025-12-19 | Unified to OUTPUT_FILE pattern, removed always-download behavior |
 | 4.0 | 2025-12-19 | Added session summary, multi-track support, downloadable output file |
 | 3.1 | 2025-12-16 | Previous version |

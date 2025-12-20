@@ -1,5 +1,5 @@
-# !change - Change Tracking
-*Type: Read/Write | Version: 0.7.0 | Updated: 2025-12-19*
+# !changelog - Change Tracking
+*Type: Read/Write | Version: 0.8.0 | Updated: 2025-12-19*
 
 <!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
@@ -7,15 +7,15 @@
 
 | Action | What Happens | Output Mode |
 |--------|--------------|-------------|
-| `!change` | Extract change from conversation, create YAML entry | Per user-prefs.yaml |
-| `!change-r` | Display change history (last 30 days default) | Display only |
-| `!change-r [days]` | Display last N days of changes | Display only |
-| `!change-r [YYYY-MM]` | Display changes for specific month | Display only |
-| `!change-r [start] [end]` | Display changes in date range | Display only |
+| `!changelog` | Extract change from conversation, create YAML entry | Per user-prefs.yaml |
+| `!changelog-r` | Display change history (last 30 days default) | Display only |
+| `!changelog-r [days]` | Display last N days of changes | Display only |
+| `!changelog-r [YYYY-MM]` | Display changes for specific month | Display only |
+| `!changelog-r [start] [end]` | Display changes in date range | Display only |
 
 **Workflow:** 
-- **Create:** Type `!change` Ã¢â€ â€™ Review draft Ã¢â€ â€™ Edit/provide missing fields Ã¢â€ â€™ `save` Ã¢â€ â€™ Output per prefs
-- **Review:** Type `!change-r` Ã¢â€ â€™ View narrative history with filenames
+- **Create:** Type `!changelog` Ã¢â€ â€™ Review draft Ã¢â€ â€™ Edit/provide missing fields Ã¢â€ â€™ `save` Ã¢â€ â€™ Output per prefs
+- **Review:** Type `!changelog-r` Ã¢â€ â€™ View narrative history with filenames
 
 ---
 
@@ -49,7 +49,7 @@ EXTRACT:
 
 ---
 
-## !change - Create Change Entry
+## !changelog - Create Change Entry
 
 ### Phase 1: DateTime
 ```
@@ -137,7 +137,7 @@ STOP
 
 ---
 
-## !change-r - Review Change History
+## !changelog-r - Review Change History
 
 Display narrative history of changes with filename references.
 
@@ -146,10 +146,10 @@ Display narrative history of changes with filename references.
 INPUT: user_command
 
 CASES:
-  "!change-r" Ã¢â€ â€™ last_30_days
-  "!change-r 90" Ã¢â€ â€™ last_N_days(90)
-  "!change-r 2025-12" Ã¢â€ â€™ month(2025, 12)
-  "!change-r 2025-11-01 2025-12-31" Ã¢â€ â€™ date_range(start, end)
+  "!changelog-r" Ã¢â€ â€™ last_30_days
+  "!changelog-r 90" Ã¢â€ â€™ last_N_days(90)
+  "!changelog-r 2025-12" Ã¢â€ â€™ month(2025, 12)
+  "!changelog-r 2025-11-01 2025-12-31" Ã¢â€ â€™ date_range(start, end)
 
 CALCULATE: start_date, end_date
 ```
@@ -408,7 +408,7 @@ updated: {timestamp}
 
 ---
 
-## Output Examples - !change
+## Output Examples - !changelog
 
 ### Draft Phase
 
@@ -504,16 +504,16 @@ Then on confirmation:
 
 | Situation | Response |
 |-----------|----------|
-| Conversation too short (!change) | "Ã¢Å¡Â Ã¯Â¸Â Not enough information. Please describe: system, problem, solution" |
-| Ambiguous systems (!change) | "Which system was actually changed?" |
-| Missing required on save (!change) | "Ã¢ÂÅ’ Missing required field: requested_by" |
-| No changelog directory (!change-r) | "Ã¢Å¡Â Ã¯Â¸Â No changelog directory found at {path}" |
-| No changes in range (!change-r) | "No changes found for period {start} to {end}" |
-| Invalid date format (!change-r) | "Ã¢Å¡Â Ã¯Â¸Â Invalid date format. Use: YYYY-MM-DD" |
-| Invalid date range (!change-r) | "Ã¢Å¡Â Ã¯Â¸Â Start date must be before end date" |
-| YAML parse error (!change-r) | Skip file, note: "Ã¢Å¡Â Ã¯Â¸Â Could not parse {filename}" |
-| user-prefs.yaml missing (!change) | Use defaults: display mode, local target |
-| Write fails (!change) | Report error, fall back to display mode |
+| Conversation too short (!changelog) | "Ã¢Å¡Â Ã¯Â¸Â Not enough information. Please describe: system, problem, solution" |
+| Ambiguous systems (!changelog) | "Which system was actually changed?" |
+| Missing required on save (!changelog) | "Ã¢ÂÅ’ Missing required field: requested_by" |
+| No changelog directory (!changelog-r) | "Ã¢Å¡Â Ã¯Â¸Â No changelog directory found at {path}" |
+| No changes in range (!changelog-r) | "No changes found for period {start} to {end}" |
+| Invalid date format (!changelog-r) | "Ã¢Å¡Â Ã¯Â¸Â Invalid date format. Use: YYYY-MM-DD" |
+| Invalid date range (!changelog-r) | "Ã¢Å¡Â Ã¯Â¸Â Start date must be before end date" |
+| YAML parse error (!changelog-r) | Skip file, note: "Ã¢Å¡Â Ã¯Â¸Â Could not parse {filename}" |
+| user-prefs.yaml missing (!changelog) | Use defaults: display mode, local target |
+| Write fails (!changelog) | Report error, fall back to display mode |
 
 ---
 
@@ -531,8 +531,9 @@ Then on confirmation:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.8.0 | 2025-12-19 | Renamed command from !change to !changelog for clarity |
 | 0.7.0 | 2025-12-19 | Simplified to flat directory structure - removed YYYY/MM subdirectories |
 | 0.6.0 | 2025-12-19 | Reset to pre-release versioning (was 3.1) |
-| 3.1 | 2025-12-19 | Added !change-r subcommand for reviewing change history |
+| 3.1 | 2025-12-19 | Added !changelog-r subcommand for reviewing change history |
 | 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
 | 2.1 | 2025-12-16 | Previous version (confirmation required) |

@@ -1,5 +1,5 @@
-# !obj - Object Management
-*Type: Display/Write | Version: 0.5.0 | Updated: 2025-12-19*
+# !object - Object Management
+*Type: Display/Write | Version: 0.5.1 | Updated: 2025-12-19*
 
 <!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
@@ -7,9 +7,9 @@
 
 | Command | Purpose | Permission |
 |---------|---------|------------|
-| `!obj` | Show usage help | None |
-| `!obj-c {type}` | Create new object | Display only |
-| `!obj-e` | Edit existing object | Display only |
+| `!object` | Show usage help | None |
+| `!object-c {type}` | Create new object | Display only |
+| `!object-e` | Edit existing object | Display only |
 
 Objects are things you *have* or *manage* (accounts, devices, contacts), not things you *do* (tasks, projects).
 
@@ -28,9 +28,9 @@ Objects are things you *have* or *manage* (accounts, devices, contacts), not thi
 
 ---
 
-## !obj-c Ã¢â‚¬â€ Create Object
+## !object-c Ã¢â‚¬â€ Create Object
 
-**Syntax:** `!obj-c {type} [details]`
+**Syntax:** `!object-c {type} [details]`
 
 ### Object Types
 
@@ -80,9 +80,9 @@ User saves to appropriate location based on scope:
 
 ---
 
-## !obj-e Ã¢â‚¬â€ Edit Object
+## !object-e Ã¢â‚¬â€ Edit Object
 
-**Syntax:** `!obj-e` (user uploads file first)
+**Syntax:** `!object-e` (user uploads file first)
 
 ### Supported Edits
 
@@ -113,7 +113,7 @@ See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 ### Example
 
 ```
-User: !obj-e
+User: !object-e
 [uploads credit-card-chase-prime.md]
 Update credit limit to $12,000 and add note: "December 2024 - CLI increase approved"
 
@@ -150,7 +150,7 @@ Type-specific fields are added based on the object type.
 |-----------|----------|
 | Unknown object type | List available types, ask user to clarify |
 | Missing required fields | Populate with TBD, note in output |
-| File not uploaded for !obj-e | Prompt user to upload file |
+| File not uploaded for !object-e | Prompt user to upload file |
 | Conflicting information | Ask user to clarify before applying |
 
 ---
@@ -168,6 +168,7 @@ Type-specific fields are added based on the object type.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.5.1 | 2025-12-19 | Renamed command from !obj to !object for clarity |
 | 0.5.0 | 2025-12-19 | Reset to pre-release versioning (was 2.1) |
 | 1.0 | Ã¢â‚¬â€ | Initial OGB version |
 | 2.0 | 2025-12-15 | LLM-agnostic refactor |

@@ -1,5 +1,5 @@
-# !sk - Skill Evidence Scraper
-*Type: Display/Write | Version: 0.7.0 | Updated: 2025-12-19*
+# !skills - Skill Evidence Scraper
+*Type: Display/Write | Version: 0.7.1 | Updated: 2025-12-19*
 
 <!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
@@ -7,10 +7,10 @@
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `!sk` | Analyze current conversation | After every technical discussion |
-| `!sk-report` | Generate portfolio snapshot | Monthly/quarterly reviews, before performance reviews |
+| `!skills` | Analyze current conversation | After every technical discussion |
+| `!skills-report` | Generate portfolio snapshot | Monthly/quarterly reviews, before performance reviews |
 
-**Workflow:** Complete technical work Ã¢â€ â€™ Run `!sk` Ã¢â€ â€™ Copy output Ã¢â€ â€™ Paste to skill-evidence.md
+**Workflow:** Complete technical work Ã¢â€ â€™ Run `!skills` Ã¢â€ â€™ Copy output Ã¢â€ â€™ Paste to skill-evidence.md
 
 ---
 
@@ -30,7 +30,7 @@
 
 ---
 
-## !sk Ã¢â‚¬â€ Analyze Session
+## !skills Ã¢â‚¬â€ Analyze Session
 
 ### Inputs
 - Current conversation history
@@ -73,7 +73,7 @@
 
 ---
 
-## !sk-report Ã¢â‚¬â€ Portfolio Analysis
+## !skills-report Ã¢â‚¬â€ Portfolio Analysis
 
 ### Purpose
 Comprehensive skill portfolio analysis showing current standing across all skills.
@@ -179,12 +179,12 @@ Project/track identifiers indicate skill domains.
 
 1. **Output per user preferences** â€” Use OUTPUT_FILE pattern from cmd-output-behavior.md
 2. **NO permission gates** â€” Commands execute immediately
-3. **ALWAYS use single-line evidence format** for !sk output
+3. **ALWAYS use single-line evidence format** for !skills output
 4. **ALWAYS include confidence distribution** in output
 5. **ALWAYS stop after completion pattern**
 6. **Read actual files** â€” Don't work from memory, use filesystem
 
-**Note:** While !sk generates output per user preferences, the skill-evidence.md file is append-only and should be updated manually by the user after reviewing the generated evidence.
+**Note:** While !skills generates output per user preferences, the skill-evidence.md file is append-only and should be updated manually by the user after reviewing the generated evidence.
 
 ---
 ## Completion Pattern
@@ -213,6 +213,7 @@ Project/track identifiers indicate skill domains.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.7.1 | 2025-12-19 | Renamed command from !sk to !skills for clarity |
 | 0.7.0 | 2025-12-19 | Reset to pre-release versioning (was 5.1) |
 | 5.1 | 2025-12-16 | Standardized format |
 | 5.0 | 2025-12-15 | LLM-agnostic refactor |
