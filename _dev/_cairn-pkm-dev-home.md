@@ -106,3 +106,15 @@ Simplified file output behavior from four modes to three by removing redundant "
 - AI Contribution: 
   - Assistant designed three-mode simplification, updated all command specs, integrated change tracking into session closure
 - Change ID: CHG-20251219-153000
+
+---
+
+### 2025-12-19 16:24 - Development - Versioning & Command Naming
+
+Established pre-release versioning policy (0.x.y) for Cairn-PKM system with VERSION-POLICY.md defining maturity ranges and update rules. Reset all command files to appropriate 0.x versions based on maturity. Standardized command names by renaming abbreviated commands to full descriptive names (!change→!changelog, !obj→!object, !qn→!quicknote, !sk→!skills). Simplified changelog storage from hierarchical YYYY/MM subdirectories to flat structure.
+
+- Tracks: Cairn-PKM
+- Files: created VERSION-POLICY.md, renamed 4 command specs, updated 14 files total
+- AI Contribution: 
+  - Assistant implemented versioning scheme, executed systematic file updates following VERSION-POLICY.md
+- Change ID: CHG-20251219-143000
