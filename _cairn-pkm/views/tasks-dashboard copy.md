@@ -147,8 +147,7 @@ const allTasks = dv.pages('"Tracks"')
     if (showAllViz) {
       return viz !== null && viz !== undefined && viz !== "";
     } else {
-      // Focus on active work and what's next
-      return viz === "now" || viz === "next";
+      return viz === 11 || viz === "eyeson";
     }
   });
 
@@ -162,52 +161,52 @@ function cmpDate(a, b) {
 }
 
 function getVizLabel(viz) {
-  if (viz === "now") return "⚡ now";
-  if (viz === "next") return "👁️ next";
-  if (viz === "soon") return "📅 soon";
-  if (viz === "later") return "📋 later";
-  if (viz === "blocked") return "🚫 blocked";
-  if (viz === "waiting") return "⏳ waiting";
+  if (viz === 11) return "🎯 viz-11";
+  if (viz === "eyeson") return "👁️ viz-eyeson";
+  if (viz === "backlog") return "📋 viz-backlog";
+  if (viz === "scheduled") return "📅 viz-scheduled";
+  if (viz === "system") return "🔧 viz-system";
+  if (viz === "reviewing") return "🔍 viz-reviewing";
   return "❓ no-viz";
 }
 
 function getVizOrder(viz) {
-  if (viz === "now") return 1;      // Active work first
-  if (viz === "next") return 2;     // Keep eyes on second
-  if (viz === "soon") return 3;     // Near-term third
-  if (viz === "blocked") return 4;  // Blocked fourth
-  if (viz === "waiting") return 5;  // Waiting fifth
-  if (viz === "later") return 6;    // Backlog last
+  if (viz === 11) return 1;
+  if (viz === "eyeson") return 2;
+  if (viz === "reviewing") return 3;
+  if (viz === "scheduled") return 4;
+  if (viz === "backlog") return 5;
+  if (viz === "system") return 6;
   return 99;
 }
 
 function getVizBackground(viz) {
-  if (viz === "now") return "linear-gradient(135deg, #ffe5e5 0%, #ffd5d5 100%)";      // Red - active work
-  if (viz === "next") return "linear-gradient(135deg, #fff9e5 0%, #ffedd5 100%)";     // Orange - eyes on
-  if (viz === "soon") return "linear-gradient(135deg, #f0ecf9 0%, #e5dff5 100%)";     // Purple - near-term
-  if (viz === "later") return "linear-gradient(135deg, #e5f9f5 0%, #d5f0eb 100%)";    // Green - backlog
-  if (viz === "blocked") return "linear-gradient(135deg, #f0f0f2 0%, #e5e5e8 100%)";  // Gray - blocked
-  if (viz === "waiting") return "linear-gradient(135deg, #fff0eb 0%, #ffe5d9 100%)";  // Light orange - waiting
+  if (viz === 11) return "linear-gradient(135deg, #ffe5e5 0%, #ffd5d5 100%)";
+  if (viz === "eyeson") return "linear-gradient(135deg, #fff9e5 0%, #ffedd5 100%)";
+  if (viz === "backlog") return "linear-gradient(135deg, #e5f9f5 0%, #d5f0eb 100%)";
+  if (viz === "scheduled") return "linear-gradient(135deg, #f0ecf9 0%, #e5dff5 100%)";
+  if (viz === "system") return "linear-gradient(135deg, #f0f0f2 0%, #e5e5e8 100%)";
+  if (viz === "reviewing") return "linear-gradient(135deg, #fff0eb 0%, #ffe5d9 100%)";
   return "linear-gradient(135deg, #f5f5f5 0%, #ececec 100%)";
 }
 
 function getVizBorderColor(viz) {
-  if (viz === "now") return "#ff4444";      // Red
-  if (viz === "next") return "#ffaa00";     // Orange
-  if (viz === "soon") return "#8b5cf6";     // Purple
-  if (viz === "later") return "#00b8a9";    // Green
-  if (viz === "blocked") return "#6b7280";  // Gray
-  if (viz === "waiting") return "#ff6b35";  // Light orange
+  if (viz === 11) return "#ff4444";
+  if (viz === "eyeson") return "#ffaa00";
+  if (viz === "backlog") return "#00b8a9";
+  if (viz === "scheduled") return "#8b5cf6";
+  if (viz === "system") return "#6b7280";
+  if (viz === "reviewing") return "#ff6b35";
   return "#999999";
 }
 
 function getVizIndent(viz) {
-  if (viz === "now") return 0;
-  if (viz === "next") return 10;
-  if (viz === "soon") return 20;
-  if (viz === "blocked") return 30;
-  if (viz === "waiting") return 40;
-  if (viz === "later") return 50;
+  if (viz === 11) return 0;
+  if (viz === "eyeson") return 10;
+  if (viz === "reviewing") return 20;
+  if (viz === "scheduled") return 30;
+  if (viz === "backlog") return 40;
+  if (viz === "system") return 50;
   return 0;
 }
 
@@ -487,7 +486,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
 // Display filter mode indicator + collapse controls
 const modeText = showAllViz 
   ? "🔓 Showing ALL viz tags" 
-  : "⚡ Focused: now + next only";
+  : "🎯 Focused: viz-11 and viz-eyeson only";
 
 const controlsHtml = `
 <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;">
@@ -509,7 +508,7 @@ for (let projectGroup of projectGroups) {
   const projectTasks = projectGroup.rows;
   
   // Check if any task in this project has viz = 11
-  const hasNow = projectTasks.some(t => t.viz === "now");
+  const hasViz11 = projectTasks.some(t => t.viz === 11);
   
   // Build parent-child relationships for this project
   const { parentMap, tasksByFile } = buildParentChildMap(projectTasks);
@@ -564,8 +563,8 @@ for (let projectGroup of projectGroups) {
   }
   
   // Build the complete details element HTML with red dot indicator for viz-11
-  const nowIndicator = hasNow ? '<span style="color: #ff4444; margin-left: 8px; font-size: 0.9em;">●</span>' : '';
-  const projectHeaderHtml = `📁 ${projectGroup.key} (${projectTasks.length} tasks)${statusText}${nowIndicator}`;
+  const viz11Indicator = hasViz11 ? '<span style="color: #ff4444; margin-left: 8px; font-size: 0.9em;">●</span>' : '';
+  const projectHeaderHtml = `📁 ${projectGroup.key} (${projectTasks.length} tasks)${statusText}${viz11Indicator}`;
   const projectId = projectGroup.key.replace(/[^a-zA-Z0-9]/g, '-');
   
   const fullDetailsHtml = `
