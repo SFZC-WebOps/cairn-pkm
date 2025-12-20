@@ -1,5 +1,7 @@
 # !hi - Work Session
-*Type: Interactive | Version: 12.0 | Updated: 2025-12-19*
+*Type: Interactive | Version: 0.9.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -16,19 +18,19 @@
 
 **Assistant Capabilities:**
 - File system read access (always)
-- File system write access (if file_operations = write)
-- Directory creation (if file_operations = write)
+- File system write access (if file_operations = write or confirm)
+- Directory creation (if file_operations = write or confirm)
 - YAML frontmatter parsing
 - Session context tracking
 - Natural language interpretation
 
 **User Configuration:**
-- `_local/user-prefs.yaml` — file_operations setting, timezone, defaults
+- `_local/user-prefs.yaml` â€” file_operations setting, timezone, defaults
 
 **Vault Structure:**
-- `Tracks/` — Projects and areas
-- `Tracks/*/tasks/` — Task files per track
-- `Tracks/*/_*-home.md` — Home docs
+- `Tracks/` â€” Projects and areas
+- `Tracks/*/tasks/` â€” Task files per track
+- `Tracks/*/_*-home.md` â€” Home docs
 
 ---
 
@@ -46,11 +48,11 @@ EXTRACT:
 
 ---
 
-## !hi — Main Menu
+## !hi â€” Main Menu
 
 ### Output
 ```
-🧭 What would you like to do?
+ðŸ§­ What would you like to do?
 
 1. Open a project or area
 2. Create a task
@@ -78,19 +80,19 @@ Enter number or describe what you need:
 
 | Selection | Action |
 |-----------|--------|
-| 1 | "Which track?" → `!hi-[target]` flow |
+| 1 | "Which track?" â†’ `!hi-[target]` flow |
 | 2 | `!task-c` flow |
 | 3 | `!task-e` flow |
 | 4 | Create project flow |
 | 5 | Create area flow |
-| 6 | `!obj` flow → "Create or edit?" |
+| 6 | `!obj` flow â†’ "Create or edit?" |
 | 7 | `!qn` flow |
 | 8 | `!sk` flow |
 | 9 | `!bye` flow |
 
 ---
 
-## !hi-[target] — Focused Session
+## !hi-[target] â€” Focused Session
 
 ### Phase 1: Brief Summary
 ```
@@ -102,7 +104,7 @@ EXTRACT: Last 3 log entries
 
 ### Output
 ```
-🧭 [target]
+ðŸ§­ [target]
 Status: [status] | Progress: [progress]%
 
 Recent:
@@ -141,17 +143,17 @@ Enter number or describe what you need:
 |-----------|--------|
 | 1 | Display full status + all tasks |
 | 2 | `!task-c` flow with track pre-filled |
-| 3 | "Which task?" → `!task-e` flow |
+| 3 | "Which task?" â†’ `!task-e` flow |
 | 4 | Add log entry flow |
 | 5 | Update status/progress flow |
-| 6 | "Which track?" → new `!hi-[target]` |
+| 6 | "Which track?" â†’ new `!hi-[target]` |
 | 7 | `!bye` flow |
 
 ---
 
 ## Create Area Flow
 
-*Accessed via: Main menu → 5*
+*Accessed via: Main menu â†’ 5*
 
 ### Prompts
 ```
@@ -205,7 +207,7 @@ modified: {YYYY-MM-DD}
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "📁 CREATE THESE FOLDERS:"
+    OUTPUT: "ðŸ“ CREATE THESE FOLDERS:"
     OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/"
     OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/resources/"
     OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/tasks/"
@@ -213,7 +215,7 @@ SWITCH file_operations:
     OUTPUT: ""
     CALL: OUTPUT_FILE(home_doc_path, content)
 
-  CASE "write":
+  CASE "confirm":
     OUTPUT: "Will create:"
     OUTPUT: "  - Folder: {folder_path}"
     OUTPUT: "  - Subfolders: resources/, tasks/, zzz/"
@@ -221,35 +223,27 @@ SWITCH file_operations:
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: 
-      CREATE: {VAULT_PATH}/Tracks/area-{domain}/
-      CREATE: {VAULT_PATH}/Tracks/area-{domain}/resources/
-      CREATE: {VAULT_PATH}/Tracks/area-{domain}/tasks/
-      CREATE: {VAULT_PATH}/Tracks/area-{domain}/zzz/
-      CREATE: home doc file
-      OUTPUT: "✓ Area created: area-{domain}"
-    ELSE: 
-      OUTPUT: "Area creation cancelled"
+    IF confirmed: EXECUTE writes
+    ELSE: OUTPUT "Area creation cancelled"
 
-  CASE "download":
-    OUTPUT: "📁 CREATE THESE FOLDERS:"
-    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/"
-    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/resources/"
-    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/tasks/"
-    OUTPUT: "  {VAULT_PATH}/Tracks/area-{domain}/zzz/"
-    OUTPUT: ""
-    CALL: OUTPUT_FILE(home_doc_path, content)
+  CASE "write":
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/resources/
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/tasks/
+    CREATE: {VAULT_PATH}/Tracks/area-{domain}/zzz/
+    CREATE: home doc file
+    OUTPUT: "âœ“ Area created: area-{domain}"
 ```
 
 See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Completion
 ```
-✓ Area created: area-{domain}
+âœ“ Area created: area-{domain}
   Path: {VAULT_PATH}/Tracks/area-{domain}/
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-🧭 What would you like to do?
+ðŸ§­ What would you like to do?
 
 1. Open area-{domain}
 2. Create a task for this area
@@ -262,7 +256,7 @@ Enter number or describe what you need:
 
 ## Create Project Flow
 
-*Accessed via: Main menu → 4*
+*Accessed via: Main menu â†’ 4*
 
 ### Prompts
 ```
@@ -325,7 +319,7 @@ modified: {YYYY-MM-DD}
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "📁 CREATE THESE FOLDERS:"
+    OUTPUT: "ðŸ“ CREATE THESE FOLDERS:"
     OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/"
     OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/resources/"
     OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/tasks/"
@@ -333,7 +327,7 @@ SWITCH file_operations:
     OUTPUT: ""
     CALL: OUTPUT_FILE(home_doc_path, content)
 
-  CASE "write":
+  CASE "confirm":
     OUTPUT: "Will create:"
     OUTPUT: "  - Folder: {folder_path}"
     OUTPUT: "  - Subfolders: resources/, tasks/, zzz/"
@@ -341,35 +335,27 @@ SWITCH file_operations:
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed:
-      CREATE: {VAULT_PATH}/Tracks/{project_id}/
-      CREATE: {VAULT_PATH}/Tracks/{project_id}/resources/
-      CREATE: {VAULT_PATH}/Tracks/{project_id}/tasks/
-      CREATE: {VAULT_PATH}/Tracks/{project_id}/zzz/
-      CREATE: home doc file
-      OUTPUT: "✓ Project created: {project_id}"
-    ELSE:
-      OUTPUT: "Project creation cancelled"
+    IF confirmed: EXECUTE writes
+    ELSE: OUTPUT "Project creation cancelled"
 
-  CASE "download":
-    OUTPUT: "📁 CREATE THESE FOLDERS:"
-    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/"
-    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/resources/"
-    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/tasks/"
-    OUTPUT: "  {VAULT_PATH}/Tracks/{project_id}/zzz/"
-    OUTPUT: ""
-    CALL: OUTPUT_FILE(home_doc_path, content)
+  CASE "write":
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/resources/
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/tasks/
+    CREATE: {VAULT_PATH}/Tracks/{project_id}/zzz/
+    CREATE: home doc file
+    OUTPUT: "âœ“ Project created: {project_id}"
 ```
 
 See `cmd-output-behavior.md` for OUTPUT_FILE pattern.
 
 ### Completion
 ```
-✓ Project created: {project_id}
+âœ“ Project created: {project_id}
   Path: {VAULT_PATH}/Tracks/{project_id}/
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-🧭 What would you like to do?
+ðŸ§­ What would you like to do?
 
 1. Open {project_id}
 2. Create a task for this project
@@ -382,7 +368,7 @@ Enter number or describe what you need:
 
 ## Add Log Entry Flow
 
-*Accessed via: Focused session → 4*
+*Accessed via: Focused session â†’ 4*
 
 ### Prompts
 ```
@@ -425,7 +411,7 @@ UPDATE: modified date in frontmatter
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "📋 ADD THIS LOG ENTRY TO:"
+    OUTPUT: "ðŸ“‹ ADD THIS LOG ENTRY TO:"
     OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
     OUTPUT: ""
     OUTPUT: "In the Log section, add:"
@@ -433,34 +419,26 @@ SWITCH file_operations:
     OUTPUT: "{YYYY-MM-DD HH:MM} - {type} - {user input}"
     OUTPUT: "---"
 
-  CASE "write":
+  CASE "confirm":
     OUTPUT: "Will append to [target] log:"
     OUTPUT: "  {YYYY-MM-DD HH:MM} - {type} - {user input}"
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: 
-      WRITE: updated file
-      OUTPUT: "✓ Log entry added to [target]"
-    ELSE: 
-      OUTPUT: "Log entry cancelled"
+    IF confirmed: WRITE file
+    ELSE: OUTPUT "Log entry cancelled"
 
-  CASE "download":
-    OUTPUT: "📋 ADD THIS LOG ENTRY TO:"
-    OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
-    OUTPUT: ""
-    OUTPUT: "In the Log section, add:"
-    OUTPUT: "---"
-    OUTPUT: "{YYYY-MM-DD HH:MM} - {type} - {user input}"
-    OUTPUT: "---"
+  CASE "write":
+    WRITE: updated file
+    OUTPUT: "âœ“ Log entry added to [target]"
 ```
 
 ### Completion
 ```
-✓ Log entry added to [target]
-═══════════════════════════════════════════════
+âœ“ Log entry added to [target]
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-🧭 [target]
+ðŸ§­ [target]
 [return to focused session menu]
 ```
 
@@ -468,7 +446,7 @@ SWITCH file_operations:
 
 ## Update Status/Progress Flow
 
-*Accessed via: Focused session → 5*
+*Accessed via: Focused session â†’ 5*
 
 ### Prompts
 ```
@@ -518,7 +496,7 @@ APPEND: log_entry to Log section
 SWITCH file_operations:
 
   CASE "display":
-    OUTPUT: "📋 UPDATE THIS FILE:"
+    OUTPUT: "ðŸ“‹ UPDATE THIS FILE:"
     OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
     OUTPUT: ""
     OUTPUT: "In frontmatter, set:"
@@ -531,41 +509,28 @@ SWITCH file_operations:
     OUTPUT: "{log_entry}"
     OUTPUT: "---"
 
-  CASE "write":
+  CASE "confirm":
     OUTPUT: "Will update [target]:"
-    IF status changed: OUTPUT: "  - Status: {old} → {new}"
-    IF progress changed: OUTPUT: "  - Progress: {old}% → {new}%"
+    IF status changed: OUTPUT: "  - Status: {old} â†’ {new}"
+    IF progress changed: OUTPUT: "  - Progress: {old}% â†’ {new}%"
     OUTPUT: ""
     OUTPUT: "Proceed? (yes/no)"
     WAIT FOR: confirmation
-    IF confirmed: 
-      WRITE: updated file
-      OUTPUT: "✓ [target] updated"
-    ELSE: 
-      OUTPUT: "Update cancelled"
+    IF confirmed: WRITE file
+    ELSE: OUTPUT "Update cancelled"
 
-  CASE "download":
-    OUTPUT: "📋 UPDATE THIS FILE:"
-    OUTPUT: "{VAULT_PATH}/Tracks/[target]/_*-home.md"
-    OUTPUT: ""
-    OUTPUT: "In frontmatter, set:"
-    IF status changed: OUTPUT: "  status: {new_status}"
-    IF progress changed: OUTPUT: "  progress: {new_progress}"
-    OUTPUT: "  modified: {YYYY-MM-DD}"
-    OUTPUT: ""
-    OUTPUT: "In Log section, add:"
-    OUTPUT: "---"
-    OUTPUT: "{log_entry}"
-    OUTPUT: "---"
+  CASE "write":
+    WRITE: updated file
+    OUTPUT: "âœ“ [target] updated"
 ```
 
 ### Completion
 ```
-✓ [target] updated
+âœ“ [target] updated
   Status: {status} | Progress: {progress}%
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-🧭 [target]
+ðŸ§­ [target]
 [return to focused session menu]
 ```
 
@@ -573,7 +538,7 @@ SWITCH file_operations:
 
 ## View Full Status + Tasks
 
-*Accessed via: Focused session → 1*
+*Accessed via: Focused session â†’ 1*
 
 ### Output
 ```
@@ -581,7 +546,7 @@ READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
 READ: All files in {VAULT_PATH}/Tracks/[target]/tasks/
 PARSE: Frontmatter for each task
 FILTER: status != complete
-SORT: By priority (critical → high → medium → low), then created_date
+SORT: By priority (critical â†’ high â†’ medium â†’ low), then created_date
 
 OUTPUT:
 ## [target] Overview
@@ -598,21 +563,21 @@ OUTPUT:
 
 ### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 [title]
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+ðŸ“‹ [title]
 Status: [status] | Priority: [priority] | Effort: [effort]
-Created: [created_date] | Due: [due_date OR "(none)"] [⚠️ OVERDUE if applicable]
+Created: [created_date] | Due: [due_date OR "(none)"] [âš ï¸ OVERDUE if applicable]
 
 [IF subtasks exist in body:]
 Subtasks:
-  └─ [ ] or [x] [subtask text]
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  â””â”€ [ ] or [x] [subtask text]
+â”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 [Repeat for each task]
 
-═══════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-🧭 [target]
+ðŸ§­ [target]
 [return to focused session menu]
 ```
 
@@ -621,16 +586,16 @@ Subtasks:
 ## Freeform Input Examples
 
 **From main menu:**
-- `"I need to create a task for the storage migration"` → Task creation, infers track
-- `"What projects are active?"` → Lists active projects
-- `"Show me p14"` → `!hi-p14` flow
-- `"!sk"` → Direct to skill evidence flow
+- `"I need to create a task for the storage migration"` â†’ Task creation, infers track
+- `"What projects are active?"` â†’ Lists active projects
+- `"Show me p14"` â†’ `!hi-p14` flow
+- `"!sk"` â†’ Direct to skill evidence flow
 
 **From focused session:**
-- `"Mark the SSL task complete"` → Finds task, updates status
-- `"What's blocking progress?"` → Reviews tasks, identifies blockers
-- `"Add a note that we're waiting on vendor"` → Log entry flow
-- `"Create a task to follow up next week"` → Task creation with context
+- `"Mark the SSL task complete"` â†’ Finds task, updates status
+- `"What's blocking progress?"` â†’ Reviews tasks, identifies blockers
+- `"Add a note that we're waiting on vendor"` â†’ Log entry flow
+- `"Create a task to follow up next week"` â†’ Task creation with context
 
 ---
 
@@ -654,8 +619,8 @@ CLEAR on !bye: Session state reset
 
 After each action completes:
 ```
-✓ [Action completed message]
-═══════════════════════════════════════════════
+âœ“ [Action completed message]
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 [Return to menu for current context]
 ```
@@ -692,5 +657,6 @@ Only `!bye` ends the session.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 11.1 | 2025-12-16 | Deep-dive view with task display |
+| 0.9.0 | 2025-12-19 | Reset to pre-release versioning (was 12.0) |
 | 12.0 | 2025-12-19 | Refactored as interactive session with menus + freeform input; added create area, create project, add log entry, update status flows |
+| 11.1 | 2025-12-16 | Deep-dive view with task display |

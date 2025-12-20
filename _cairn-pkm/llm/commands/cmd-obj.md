@@ -1,5 +1,7 @@
 # !obj - Object Management
-*Type: Display/Write | Version: 2.2 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 0.5.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -21,12 +23,12 @@ Objects are things you *have* or *manage* (accounts, devices, contacts), not thi
 - Frontmatter parsing
 
 **Vault Structure:**
-- `Objects/` â€” Cross-cutting objects
-- `Tracks/*/resources/` â€” Track-specific objects
+- `Objects/` Ã¢â‚¬â€ Cross-cutting objects
+- `Tracks/*/resources/` Ã¢â‚¬â€ Track-specific objects
 
 ---
 
-## !obj-c â€” Create Object
+## !obj-c Ã¢â‚¬â€ Create Object
 
 **Syntax:** `!obj-c {type} [details]`
 
@@ -72,13 +74,13 @@ User saves to appropriate location based on scope:
 | Scope | Destination | Example |
 |-------|-------------|---------|
 | Cross-cutting (multiple tracks) | `{VAULT_PATH}/Objects/` | contacts, shared devices |
-| Track-specific | `{VAULT_PATH}/Tracks/{track}/resources/` | credit cards â†’ area-finance |
+| Track-specific | `{VAULT_PATH}/Tracks/{track}/resources/` | credit cards Ã¢â€ â€™ area-finance |
 
 **Guideline:** If referenced by multiple tracks or doesn't clearly belong to one area, put in `Objects/`. If only relevant to one track, put in that track's `resources/` folder.
 
 ---
 
-## !obj-e â€” Edit Object
+## !obj-e Ã¢â‚¬â€ Edit Object
 
 **Syntax:** `!obj-e` (user uploads file first)
 
@@ -87,7 +89,7 @@ User saves to appropriate location based on scope:
 - Update frontmatter fields
 - Add log entries or notes
 - Fix or add backlinks
-- Update status (active â†’ inactive â†’ archived)
+- Update status (active Ã¢â€ â€™ inactive Ã¢â€ â€™ archived)
 - Refresh `lastmod` date
 
 ### Execution
@@ -166,6 +168,7 @@ Type-specific fields are added based on the object type.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0 | â€” | Initial OGB version |
+| 0.5.0 | 2025-12-19 | Reset to pre-release versioning (was 2.1) |
+| 1.0 | Ã¢â‚¬â€ | Initial OGB version |
 | 2.0 | 2025-12-15 | LLM-agnostic refactor |
 | 2.1 | 2025-12-16 | Standardized format |

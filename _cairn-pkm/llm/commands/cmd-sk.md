@@ -1,5 +1,7 @@
 # !sk - Skill Evidence Scraper
-*Type: Display/Write | Version: 5.2 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 0.7.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -8,7 +10,7 @@
 | `!sk` | Analyze current conversation | After every technical discussion |
 | `!sk-report` | Generate portfolio snapshot | Monthly/quarterly reviews, before performance reviews |
 
-**Workflow:** Complete technical work â†’ Run `!sk` â†’ Copy output â†’ Paste to skill-evidence.md
+**Workflow:** Complete technical work Ã¢â€ â€™ Run `!sk` Ã¢â€ â€™ Copy output Ã¢â€ â€™ Paste to skill-evidence.md
 
 ---
 
@@ -20,15 +22,15 @@
 - Skill level determination
 
 **Vault Structure:**
-- `System/tools/professional-development/skills-registry.md` â€” Skill definitions
-- `System/tools/professional-development/detection-patterns.md` â€” Pattern rules
-- `System/tools/professional-development/skill-evidence.md` â€” Evidence log
+- `System/tools/professional-development/skills-registry.md` Ã¢â‚¬â€ Skill definitions
+- `System/tools/professional-development/detection-patterns.md` Ã¢â‚¬â€ Pattern rules
+- `System/tools/professional-development/skill-evidence.md` Ã¢â‚¬â€ Evidence log
 
 **Note:** Uses SFIA (Skills Framework for the Information Age) by default, but can be adapted to other competency frameworks.
 
 ---
 
-## !sk â€” Analyze Session
+## !sk Ã¢â‚¬â€ Analyze Session
 
 ### Inputs
 - Current conversation history
@@ -71,7 +73,7 @@
 
 ---
 
-## !sk-report â€” Portfolio Analysis
+## !sk-report Ã¢â‚¬â€ Portfolio Analysis
 
 ### Purpose
 Comprehensive skill portfolio analysis showing current standing across all skills.
@@ -148,9 +150,9 @@ Comprehensive skill portfolio analysis showing current standing across all skill
 ### Pattern Recognition
 
 **1. Keyword + Action Combinations**
-- "configured [technology]" â†’ relevant skill Level 3
-- "maintained 99.9% uptime" â†’ operations skill Level 4
-- "secured [system]" â†’ security skill Level 3
+- "configured [technology]" Ã¢â€ â€™ relevant skill Level 3
+- "maintained 99.9% uptime" Ã¢â€ â€™ operations skill Level 4
+- "secured [system]" Ã¢â€ â€™ security skill Level 3
 
 **2. Complexity Indicators**
 | Level | Keywords |
@@ -175,12 +177,12 @@ Project/track identifiers indicate skill domains.
 
 ## Operational Rules
 
-1. **Output per user preferences** — Use OUTPUT_FILE pattern from cmd-output-behavior.md
-2. **NO permission gates** — Commands execute immediately
+1. **Output per user preferences** â€” Use OUTPUT_FILE pattern from cmd-output-behavior.md
+2. **NO permission gates** â€” Commands execute immediately
 3. **ALWAYS use single-line evidence format** for !sk output
 4. **ALWAYS include confidence distribution** in output
 5. **ALWAYS stop after completion pattern**
-6. **Read actual files** — Don't work from memory, use filesystem
+6. **Read actual files** â€” Don't work from memory, use filesystem
 
 **Note:** While !sk generates output per user preferences, the skill-evidence.md file is append-only and should be updated manually by the user after reviewing the generated evidence.
 
@@ -188,10 +190,10 @@ Project/track identifiers indicate skill domains.
 ## Completion Pattern
 
 ```
-âœ“ Analysis complete - N evidence items validated
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ¤– Waiting for next instruction
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Ã¢Å“â€œ Analysis complete - N evidence items validated
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+Ã°Å¸Â¤â€“ Waiting for next instruction
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ---
@@ -211,6 +213,7 @@ Project/track identifiers indicate skill domains.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 4.0 | 2025-11-07 | Previous version |
-| 5.0 | 2025-12-15 | LLM-agnostic refactor |
+| 0.7.0 | 2025-12-19 | Reset to pre-release versioning (was 5.1) |
 | 5.1 | 2025-12-16 | Standardized format |
+| 5.0 | 2025-12-15 | LLM-agnostic refactor |
+| 4.0 | 2025-11-07 | Previous version |

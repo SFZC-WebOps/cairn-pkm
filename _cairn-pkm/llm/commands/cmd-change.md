@@ -1,5 +1,7 @@
 # !change - Change Tracking
-*Type: Read/Write | Version: 3.1 | Updated: 2025-12-19*
+*Type: Read/Write | Version: 0.6.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -471,7 +473,7 @@ Copy this content and save to the path above.
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (write mode)
+### Completion (confirm mode)
 
 ```
 ðŸ“„ PROPOSED FILE
@@ -529,6 +531,7 @@ Then on confirmation:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 2.1 | 2025-12-16 | Previous version (confirmation required) |
-| 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
+| 0.6.0 | 2025-12-19 | Reset to pre-release versioning (was 3.1) |
 | 3.1 | 2025-12-19 | Added !change-r subcommand for reviewing change history |
+| 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
+| 2.1 | 2025-12-16 | Previous version (confirmation required) |

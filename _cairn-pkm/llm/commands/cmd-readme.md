@@ -1,5 +1,7 @@
 # !readme - Reference Research
-*Type: Read + Web Search + Write | Version: 3.0 | Updated: 2025-12-18*
+*Type: Read + Web Search + Write | Version: 0.6.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -211,7 +213,7 @@ Copy this content and save to the path above.
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (write mode)
+### Completion (confirm mode)
 
 ```
 ðŸ“„ PROPOSED FILE
@@ -247,7 +249,7 @@ Then on confirmation:
 | No author/date found | "Author: Unknown | Published: Unknown" â€” Credibility = unknown |
 | Search results sparse | "Limited context available â€” scoring may be less reliable" |
 | user-prefs.yaml missing | Use defaults: display mode, local target |
-| Write fails (write mode) | Report error, fall back to display mode |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -265,5 +267,6 @@ Then on confirmation:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 2.1 | 2025-12-16 | Previous version (auto-save) |
+| 0.6.0 | 2025-12-19 | Reset to pre-release versioning (was 3.0) |
 | 3.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
+| 2.1 | 2025-12-16 | Previous version (auto-save) |

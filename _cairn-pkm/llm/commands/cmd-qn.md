@@ -1,5 +1,7 @@
 # !qn - Quick Note
-*Type: Read/Write | Version: 4.0 | Updated: 2025-12-18*
+*Type: Read/Write | Version: 0.6.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -182,7 +184,7 @@ Copy this content and save to the path above.
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (write mode)
+### Completion (confirm mode)
 
 ```
 ðŸ“„ PROPOSED FILE
@@ -215,7 +217,7 @@ Then on confirmation:
 |-----------|----------|
 | Conversation empty | "No context to capture. What should I note?" |
 | user-prefs.yaml missing | Use defaults: display mode, local target |
-| Write fails (write mode) | Report error, fall back to display mode |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -234,5 +236,6 @@ Then on confirmation:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.1 | 2025-12-16 | Previous version (display only) |
+| 0.6.0 | 2025-12-19 | Reset to pre-release versioning (was 4.0) |
 | 4.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
+| 3.1 | 2025-12-16 | Previous version (display only) |

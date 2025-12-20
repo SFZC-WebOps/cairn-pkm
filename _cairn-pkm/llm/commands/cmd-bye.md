@@ -1,5 +1,7 @@
 # !bye - Session Closure
-*Type: Display/Write | Version: 4.2 | Updated: 2025-12-19*
+*Type: Display/Write | Version: 0.7.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -354,7 +356,8 @@ Copy this content and save to the path above.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.1 | 2025-12-16 | Previous version |
-| 4.0 | 2025-12-19 | Added session summary, multi-track support, downloadable output file |
-| 4.1 | 2025-12-19 | Unified to OUTPUT_FILE pattern, removed always-download behavior |
+| 0.7.0 | 2025-12-19 | Reset to pre-release versioning (was 4.2) |
 | 4.2 | 2025-12-19 | Added change tracking integration - references !change entries in session log |
+| 4.1 | 2025-12-19 | Unified to OUTPUT_FILE pattern, removed always-download behavior |
+| 4.0 | 2025-12-19 | Added session summary, multi-track support, downloadable output file |
+| 3.1 | 2025-12-16 | Previous version |

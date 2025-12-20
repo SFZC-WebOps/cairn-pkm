@@ -1,5 +1,7 @@
 # !task - Task Management
-*Type: Read/Write | Version: 5.0 | Updated: 2025-12-18*
+*Type: Read/Write | Version: 0.8.0 | Updated: 2025-12-19*
+
+<!-- Before updating version: Read /mnt/project/VERSION-POLICY.md -->
 
 ## Quick Reference
 
@@ -304,7 +306,7 @@ Copy this content and save to the path above.
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
-### Completion (write mode)
+### Completion (confirm mode)
 
 ```
 ðŸ“„ PROPOSED FILE
@@ -340,7 +342,7 @@ Then on confirmation:
 | Invalid priority/status | Show valid options, stay in edit loop |
 | Missing required field on done | List missing fields, stay in edit loop |
 | user-prefs.yaml missing | Use defaults: display mode, local target, empty assignee |
-| Write fails (write mode) | Report error, fall back to display mode |
+| Write fails (write/confirm mode) | Report error, fall back to display mode |
 
 ---
 
@@ -368,5 +370,6 @@ Then on confirmation:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 4.2 | 2025-12-16 | Previous version (display only) |
+| 0.8.0 | 2025-12-19 | Reset to pre-release versioning (was 5.0) |
 | 5.0 | 2025-12-18 | Added user-prefs support, configurable output mode |
+| 4.2 | 2025-12-16 | Previous version (display only) |
