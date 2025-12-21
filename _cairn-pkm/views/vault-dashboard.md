@@ -1,40 +1,77 @@
-# 📋 Unified Dashboard
+# 📋 Vault Dashboard
 
-## 🚨 Dashboard Alerts
+## 📊 Vault Stats
 
 ```dataviewjs
-const allPages = dv.pages('"Tracks"');
-const allFileTasks = allPages.file.tasks;
+const tracks = dv.pages('"Tracks"');
+const projects = tracks.where(p => p.type === "project" && p.status === "active").length;
+const areas = tracks.where(p => p.type === "area" && p.status === "active").length;
 
-// Count overdue tasks
-const overdue = allFileTasks
-  .where(t => !t.completed && t.due && t.due < dv.date("today"))
-  .length;
+const allTasks = tracks.file.tasks;
+const open = allTasks.where(t => !t.completed).length;
+const completed = allTasks.where(t => t.completed).length;
+const overdueCount = allTasks.where(t => !t.completed && t.due && t.due < dv.date("today")).length;
 
-// Count blocked/waiting tasks
-const blockedWaiting = allPages
-  .where(p => p.file.folder.includes('/tasks'))
-  .where(p => p.status === "blocked" || p.status === "waiting" || p.viz === "blocked" || p.viz === "waiting")
-  .where(p => p.status !== "complete")
-  .length;
-
-// Display alerts - ONLY urgent/overdue/blocked
-let alerts = [];
-if (overdue > 0) {
-  alerts.push(`🔴 **${overdue}** overdue tasks`);
-}
-if (blockedWaiting > 0) {
-  alerts.push(`⏸️ **${blockedWaiting}** blocked/waiting tasks`);
-}
-
-if (alerts.length === 0) {
-  dv.paragraph("✅ **All clear!** No urgent items.");
-} else {
-  dv.paragraph(alerts.join(" • "));
+dv.paragraph(`**Active:** ${projects} projects, ${areas} areas`);
+dv.paragraph(`**Tasks:** ${open} open, ${completed} done`);
+if (overdueCount > 0) {
+  dv.paragraph(`**⚠️ Overdue:** ${overdueCount}`);
 }
 ```
 
----
+## 🚨 Alerts
+
+```dataviewjs
+const allPages = dv.pages('"Tracks"');
+
+// Get overdue tasks
+const overdueTasks = allPages
+  .where(p => p.file.folder.includes('/tasks'))
+  .where(p => p.due_date && p.due_date < dv.date("today"))
+  .where(p => p.status !== "complete")
+  .sort(p => p.due_date, 'asc');
+
+// Get blocked/waiting tasks
+const blockedWaitingTasks = allPages
+  .where(p => p.file.folder.includes('/tasks'))
+  .where(p => p.status === "blocked" || p.status === "waiting" || p.viz === "blocked" || p.viz === "waiting")
+  .where(p => p.status !== "complete");
+
+// Display alerts
+let hasAlerts = false;
+
+if (overdueTasks.length > 0) {
+  hasAlerts = true;
+  dv.header(4, "🔴 Overdue Tasks");
+  dv.table(
+    ["Task", "Due", "Project", "Priority"],
+    overdueTasks.map(t => [
+      t.file.link,
+      t.due_date,
+      t.project,
+      t.priority || "-"
+    ])
+  );
+}
+
+if (blockedWaitingTasks.length > 0) {
+  hasAlerts = true;
+  dv.header(4, "⏸️ Blocked & Waiting Tasks");
+  dv.table(
+    ["Task", "Status", "Project", "Section"],
+    blockedWaitingTasks.map(t => [
+      t.file.link,
+      t.status || t.viz,
+      t.project,
+      t.section || "-"
+    ])
+  );
+}
+
+if (!hasAlerts) {
+  dv.paragraph("✅ **All clear!** No urgent items.");
+}
+```
 
 ---
 
@@ -109,63 +146,6 @@ if (inboxCount) inboxCount.textContent = items.length;
 ```
 
 </details>
-
----
-
-## ⏸️ Blocked & Waiting
-
-<details open>
-<summary style="cursor: pointer; font-size: 1.1em; font-weight: 600; padding: 8px 0;">
-Tasks Needing Attention
-</summary>
-
-```dataviewjs
-const blockedWaiting = dv.pages('"Tracks"')
-  .where(p => p.file.folder.includes('/tasks'))
-  .where(p => p.status === "blocked" || p.status === "waiting" || p.viz === "blocked" || p.viz === "waiting")
-  .where(p => p.status !== "complete");
-
-if (blockedWaiting.length === 0) {
-  dv.paragraph("✅ No blocked or waiting tasks");
-} else {
-  dv.table(
-    ["Task", "Project", "Status", "Viz"],
-    blockedWaiting.map(t => [
-      t.file.link,
-      t.project,
-      t.status || "-",
-      t.viz || "-"
-    ])
-  );
-}
-```
-
-</details>
-
----
-
-## 📊 Dashboard Stats
-
-```dataviewjs
-const tracks = dv.pages('"Tracks"');
-const projects = tracks.where(p => p.type === "project" && p.status === "active").length;
-const areas = tracks.where(p => p.type === "area" && p.status === "active").length;
-
-const allTasks = tracks.file.tasks;
-const open = allTasks.where(t => !t.completed).length;
-const completed = allTasks.where(t => t.completed).length;
-const overdueCount = allTasks.where(t => !t.completed && t.due && t.due < dv.date("today")).length;
-
-dv.paragraph(`**Active:** ${projects} projects, ${areas} areas`);
-dv.paragraph(`**Tasks:** ${open} open, ${completed} done`);
-if (overdueCount > 0) {
-  dv.paragraph(`**⚠️ Overdue:** ${overdueCount}`);
-}
-```
-
----
-
-*Dashboard updated: `= date(today)`*
 
 ---
 
