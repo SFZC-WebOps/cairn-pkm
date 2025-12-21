@@ -1,5 +1,58 @@
-## 📋 Tasks by Project/Viz
+# 📋 Unified Dashboard
 - [ ] Show all viz tags
+
+## 🚨 Dashboard Alerts
+
+```dataviewjs
+const allPages = dv.pages('"Tracks"');
+const allFileTasks = allPages.file.tasks;
+
+// Count overdue tasks
+const overdue = allFileTasks
+  .where(t => !t.completed && t.due && t.due < dv.date("today"))
+  .length;
+
+// Count inbox items
+const inboxItems = dv.pages('"Capture"');
+const inboxCount = inboxItems.length;
+const oldInbox = inboxItems.filter(p => {
+  const age = (new Date() - new Date(p.file.ctime)) / (1000 * 60 * 60 * 24);
+  return age > 7;
+}).length;
+
+// Count blocked/waiting tasks
+const blockedWaiting = allPages
+  .where(p => p.file.folder.includes('/tasks'))
+  .where(p => p.status === "blocked" || p.status === "waiting" || p.viz === "blocked" || p.viz === "waiting")
+  .length;
+
+// Display alerts
+let alerts = [];
+if (overdue > 0) {
+  alerts.push(`🔴 **${overdue}** overdue tasks`);
+}
+if (inboxCount > 0) {
+  const ageWarning = oldInbox > 0 ? ` (${oldInbox} older than 7 days)` : '';
+  alerts.push(`📥 **${inboxCount}** inbox items${ageWarning}`);
+}
+if (blockedWaiting > 0) {
+  alerts.push(`⏸️ **${blockedWaiting}** blocked/waiting tasks`);
+}
+
+if (alerts.length === 0) {
+  dv.paragraph("✅ **All clear!** No urgent items.");
+} else {
+  dv.paragraph(alerts.join(" • "));
+}
+```
+
+---
+
+<details id="main-tasks-view">
+<summary style="cursor: pointer; font-size: 1.2em; font-weight: 600; padding: 12px 0; margin-bottom: 16px;">
+Tasks by Project/Viz (<span id="task-count">loading...</span> tasks)
+</summary>
+
 ```dataviewjs
 // Helper functions
 function normStatus(s) {
@@ -688,4 +741,144 @@ styleEl.innerHTML = `
     display: none;
   }
 `;
+
+// Update task count in summary
+const taskCount = allTasks.length;
+const summaryCount = document.getElementById('task-count');
+if (summaryCount) summaryCount.textContent = taskCount;
 ```
+
+</details>
+
+---
+
+
+
+## 📅 Due This Week
+
+<details open>
+<summary style="cursor: pointer; font-size: 1.1em; font-weight: 600; padding: 8px 0;">
+This Week's Tasks
+</summary>
+
+```dataviewjs
+const weekStart = dv.date("today");
+const weekEnd = weekStart.plus({days: 7});
+
+const dueTasks = dv.pages('"Tracks"')
+  .where(p => p.file.folder.includes('/tasks'))
+  .where(p => p.due_date && p.due_date >= weekStart && p.due_date <= weekEnd)
+  .where(p => p.status !== "complete")
+  .sort(p => p.due_date, 'asc');
+
+if (dueTasks.length === 0) {
+  dv.paragraph("✅ No tasks due this week");
+} else {
+  dv.table(
+    ["Task", "Project", "Due", "Priority", "Status"],
+    dueTasks.map(t => [
+      t.file.link,
+      t.project,
+      t.due_date,
+      t.priority || "-",
+      t.status || "active"
+    ])
+  );
+}
+```
+
+</details>
+
+---
+
+## 📥 Inbox Items
+
+<details open>
+<summary style="cursor: pointer; font-size: 1.1em; font-weight: 600; padding: 8px 0;">
+Capture Inbox (<span id="inbox-count">loading...</span> items)
+</summary>
+
+```dataviewjs
+const items = dv.pages('"Capture"')
+  .sort(p => p.file.ctime, 'asc');
+
+if (items.length === 0) {
+  dv.paragraph("✅ **Inbox Zero!**");
+} else {
+  dv.table(
+    ["Item", "Captured", "Age"],
+    items.map(p => {
+      const age = Math.round((new Date() - new Date(p.file.ctime)) / (1000 * 60 * 60 * 24));
+      const ageWarning = age > 7 ? "⚠️ " : "";
+      return [
+        p.file.link,
+        p.file.ctime.toFormat("yyyy-MM-dd"),
+        ageWarning + age + " days"
+      ];
+    })
+  );
+}
+
+// Update count
+const inboxCount = document.getElementById('inbox-count');
+if (inboxCount) inboxCount.textContent = items.length;
+```
+
+</details>
+
+---
+
+## ⏸️ Blocked & Waiting
+
+<details open>
+<summary style="cursor: pointer; font-size: 1.1em; font-weight: 600; padding: 8px 0;">
+Tasks Needing Attention
+</summary>
+
+```dataviewjs
+const blockedWaiting = dv.pages('"Tracks"')
+  .where(p => p.file.folder.includes('/tasks'))
+  .where(p => p.status === "blocked" || p.status === "waiting" || p.viz === "blocked" || p.viz === "waiting")
+  .where(p => p.status !== "complete");
+
+if (blockedWaiting.length === 0) {
+  dv.paragraph("✅ No blocked or waiting tasks");
+} else {
+  dv.table(
+    ["Task", "Project", "Status", "Viz"],
+    blockedWaiting.map(t => [
+      t.file.link,
+      t.project,
+      t.status || "-",
+      t.viz || "-"
+    ])
+  );
+}
+```
+
+</details>
+
+---
+
+## 📊 Dashboard Stats
+
+```dataviewjs
+const tracks = dv.pages('"Tracks"');
+const projects = tracks.where(p => p.type === "project" && p.status === "active").length;
+const areas = tracks.where(p => p.type === "area" && p.status === "active").length;
+
+const allTasks = tracks.file.tasks;
+const open = allTasks.where(t => !t.completed).length;
+const completed = allTasks.where(t => t.completed).length;
+const overdueCount = allTasks.where(t => !t.completed && t.due && t.due < dv.date("today")).length;
+
+dv.paragraph(`**Active:** ${projects} projects, ${areas} areas`);
+dv.paragraph(`**Tasks:** ${open} open, ${completed} done`);
+if (overdueCount > 0) {
+  dv.paragraph(`**⚠️ Overdue:** ${overdueCount}`);
+}
+```
+
+---
+
+*Dashboard updated: `= date(today)`*
