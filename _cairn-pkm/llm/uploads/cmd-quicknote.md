@@ -1,5 +1,5 @@
 # !quicknote - Quick Note
-*Type: Read/Write | Version: 0.7.0 | Updated: 2025-12-19*
+*Type: Read/Write | Updated: 2025-12-19*
 
 ## Quick Reference
 
@@ -86,13 +86,3 @@ Examples:
 | Conversation empty | "No context to capture. What should I note?" |
 
 Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.7.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
-| 0.6.1 | 2025-12-19 | Renamed from !qn to !quicknote |
-| 0.6.0 | 2025-12-19 | Reset to pre-release versioning |

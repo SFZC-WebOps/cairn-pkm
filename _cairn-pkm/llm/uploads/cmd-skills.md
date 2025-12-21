@@ -1,5 +1,5 @@
 # !skills - Skill Evidence Tracker
-*Type: Display/Write | Version: 0.1.0 | Updated: 2025-12-21*
+*Type: Display/Write | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -397,17 +397,3 @@ levels:
 | Write fails | Report error, fall back to display |
 
 Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.10.0 | 2025-12-21 | Added output-behavior support: display for approval, then write/download/display per prefs |
-| 0.9.1 | 2025-12-21 | Fixed paths to match actual structure (_cairn-pkm/tools/skills/) |
-| 0.9.0 | 2025-12-21 | Removed SFIA dependency, framework-agnostic with shipped default registry |
-| 0.8.1 | 2025-12-20 | Fixed output formatting - added line breaks between Source/Context/Evidence Summary fields |
-| 0.8.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
-| 0.7.1 | 2025-12-19 | Renamed from !sk to !skills |
-| 0.7.0 | 2025-12-19 | Reset to pre-release versioning |

@@ -1,5 +1,5 @@
 # !readme - Reference Research
-*Type: Read + Web Search + Write | Version: 0.7.0 | Updated: 2025-12-19*
+*Type: Read + Web Search + Write | Updated: 2025-12-19*
 
 ## Quick Reference
 
@@ -163,13 +163,3 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 | Search results sparse | "Limited context — scoring may be less reliable" |
 
 Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.7.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
-| 0.6.0 | 2025-12-19 | Reset to pre-release versioning |
-| 3.0 | 2025-12-18 | Added user-prefs support |

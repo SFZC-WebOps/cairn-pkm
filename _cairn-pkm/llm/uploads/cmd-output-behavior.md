@@ -1,5 +1,5 @@
 # Output Behavior Pattern
-*Type: Include | Version: 0.5.0 | Updated: 2025-12-21*
+*Type: Include | Updated: 2025-12-21*
 
 Shared pattern for file output operations. Commands reference this rather than duplicating logic.
 
@@ -179,14 +179,3 @@ CALL: OUTPUT_FILE(filepath, content)
 | Google Drive unavailable | Warn, fall back per GFC |
 
 **Core principle:** User never loses content due to write/download failure. Always fall back to display mode showing full content with clear messaging about what happened.
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.5.0 | 2025-12-21 | Added GFC fallback chain with visibility messaging |
-| 0.4.0 | 2025-12-19 | Streamlined, added encoding reference |
-| 0.3.0 | 2025-12-19 | Reset to pre-release versioning |
-| 1.2 | 2025-12-19 | Added download mode |

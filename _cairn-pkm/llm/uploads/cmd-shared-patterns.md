@@ -1,5 +1,5 @@
 # Shared Command Patterns
-*Type: Include | Version: 0.3.0 | Updated: 2025-12-21*
+*Type: Include | Updated: 2025-12-21*
 
 Reference document for patterns used across multiple commands. Commands should reference this rather than duplicating.
 
@@ -173,14 +173,3 @@ Common paths:
 - Capture: `{VAULT_PATH}/Capture/`
 - Objects: `{VAULT_PATH}/Objects/`
 - Changelog: `{VAULT_PATH}/_local/data/changelog/`
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.3.0 | 2025-12-21 | Removed SSA - focusing on VBM, GFC, RC |
-| 0.2.1 | 2025-12-20 | Simplified SSA - reconstruct from conversation, no explicit tracking |
-| 0.2.0 | 2025-12-20 | Added Robustness Principles section (VBM, GFC, SSA, RC) |
-| 0.1.0 | 2025-12-19 | Initial creation - consolidated from cmd-* files |
