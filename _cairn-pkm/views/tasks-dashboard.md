@@ -1,5 +1,5 @@
 ## 📋 Tasks by Project/Viz
-- [ ] Show all viz tags
+- [x] Show all viz tags ✅ 2025-12-20
 ```dataviewjs
 // Helper functions
 function normStatus(s) {
