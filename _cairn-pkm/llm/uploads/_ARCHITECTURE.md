@@ -15,20 +15,11 @@ Personal knowledge management system built on plain markdown files. Designed for
 5. **AI-friendly** — LLMs can read and work with your notes directly
 
 
-## Versioning
+## Status
 
-⚠️ **Cairn-PKM is in active development (pre-release).**
+⚠️ **Cairn-PKM is in active development (pre-release version 0.5.0).**
 
-All components use semantic versioning with 0.x.y format:
-- **0.x.y signals**: Subject to breaking changes, interfaces may evolve
-- **MINOR (0.x.0)**: New features, workflow changes
-- **PATCH (0.x.y)**: Bug fixes, documentation improvements
-
-See _VERSION-POLICY.md for complete versioning rules and update guidelines.
-
-**Current system version: 0.5.0**
-
-Individual commands may be at different versions based on their maturity level.
+Breaking changes may occur between releases. Commands and workflows may evolve as the system matures.
 
 ---
 

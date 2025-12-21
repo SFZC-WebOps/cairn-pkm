@@ -1,6 +1,6 @@
 # Cairn-PKM Installation Guide
 
-⚠️ **Pre-Release Software**: Cairn-PKM is in active development (version 0.5.0). Commands and workflows may change between versions. See _VERSION-POLICY.md for details.
+⚠️ **Pre-Release Software**: Cairn-PKM is in active development (version 0.5.0). Commands and workflows may change between versions.
 
 Instructions for setting up a new Cairn-based Obsidian vault.
 

@@ -1,5 +1,5 @@
 # !hi - Work Session
-*Type: Interactive | Version: 2.0.0 | Updated: 2025-12-20*
+*Type: Interactive | Updated: 2025-12-20*
 
 ## Quick Reference
 
@@ -254,14 +254,3 @@ CLEAR on !bye:
 | Large (30+ tasks) | ~3-4 seconds |
 
 For very large tracks (50+ tasks), consider filtering by viz field or status for faster display.
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 2.0.0 | 2025-12-20 | Removed creation/editing flows, route to !create/!edit instead |
-| 1.0.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
-| 0.9.1 | 2025-12-19 | Updated command references |
-| 0.9.0 | 2025-12-19 | Reset to pre-release versioning |

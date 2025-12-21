@@ -1,5 +1,5 @@
 # !bye - Session Closure
-*Type: Display/Write | Version: 0.10.0 | Updated: 2025-12-21*
+*Type: Display/Write | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -183,17 +183,3 @@ STOP
 | Output failure | Fall back per GFC (see cmd-output-behavior.md) |
 
 Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.10.0 | 2025-12-21 | Removed SSA phase - focusing on RC for rationale capture |
-| 0.9.1 | 2025-12-20 | Simplified SSA - reconstruct from conversation |
-| 0.9.0 | 2025-12-20 | Added Phase 2 SSA session state summary, enhanced RC in task history |
-| 0.8.1 | 2025-12-20 | Fixed AI Contribution formatting - moved to nested bullet |
-| 0.8.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
-| 0.7.1 | 2025-12-19 | Updated references from !change to !changelog |
-| 0.7.0 | 2025-12-19 | Reset to pre-release versioning |

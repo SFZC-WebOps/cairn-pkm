@@ -1,5 +1,5 @@
 # !create - Unified Creation Command
-*Type: Write | Version: 0.1.0 | Updated: 2025-12-20*
+*Type: Write | Updated: 2025-12-20*
 
 ## Quick Reference
 
@@ -367,11 +367,3 @@ Common errors: See `cmd-shared-patterns.md`
 | !hi | Uses session context for track inference |
 | !edit | Created entities can be edited |
 | !bye | Logs creation in session summary |
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.1.0 | 2025-12-20 | Initial consolidation of area/project/task/object creation |

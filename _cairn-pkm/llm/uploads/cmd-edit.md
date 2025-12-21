@@ -1,5 +1,5 @@
 # !edit - Unified Edit Command
-*Type: Read/Write | Version: 0.1.0 | Updated: 2025-12-20*
+*Type: Read/Write | Updated: 2025-12-20*
 
 ## Quick Reference
 
@@ -435,11 +435,3 @@ Type 'done' when finished.
 | !create | Edit entities created via !create |
 | !hi | Can edit track home docs |
 | !bye | Logs edits in session summary |
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.1.0 | 2025-12-20 | Initial consolidation of area/project/task/object editing |

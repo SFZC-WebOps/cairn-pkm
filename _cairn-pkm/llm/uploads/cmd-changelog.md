@@ -1,5 +1,5 @@
 # !changelog - Change Tracking
-*Type: Read/Write | Version: 0.11.0 | Updated: 2025-12-21*
+*Type: Read/Write | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -218,15 +218,3 @@ Extract the business or technical driver for the change:
 | YAML parse error (!changelog-r) | Skip file, note: "Could not parse {filename}" |
 
 Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 0.11.0 | 2025-12-21 | Added rationale field and extraction rules (RC principle) |
-| 0.10.0 | 2025-12-20 | Use default_assignee as default for requested_by field |
-| 0.9.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
-| 0.8.0 | 2025-12-19 | Renamed from !change to !changelog |
-| 0.7.0 | 2025-12-19 | Simplified to flat directory structure |
