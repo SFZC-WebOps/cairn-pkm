@@ -1,0 +1,69 @@
+change_id: CHG-20251221-143100
+timestamp: 2025-12-21T14:31:00-08:00
+implemented_by: gb
+requested_by: gb
+
+title: "Implemented Apollo TSC robustness principles in Cairn-PKM"
+rationale: "System needed improved reliability and error handling to prevent data loss and provide better user visibility during failures"
+
+systems_affected:
+  - Cairn-PKM command system
+  - LLM command specifications
+
+technologies:
+  - Markdown documentation
+  - YAML specifications
+
+problem_category: feature
+
+change_classification:
+  impact: medium
+  risk: low
+  reversibility: hours
+  scope: single-system
+
+description: |
+  Implemented three robustness principles derived from Apollo Terminal Sequence Countdown procedures to improve Cairn-PKM reliability and user experience.
+  
+problem: |
+  Commands lacked systematic verification before operations and graceful error handling. No consistent rationale capture in logging.
+  
+solution: |
+  1. Added VBM (Verify-Before-Modify) - state operations before execution
+  2. Added GFC (Graceful Fallback Chain) - write → download → display fallback
+  3. Added RC (Rationale Capture) - "action - reason" format in logs
+  4. Updated four command files: cmd-shared-patterns.md, cmd-output-behavior.md, cmd-bye.md, cmd-changelog.md
+
+files_modified:
+  - _cairn-pkm/llm/commands/cmd-shared-patterns.md
+  - _cairn-pkm/llm/commands/cmd-output-behavior.md
+  - _cairn-pkm/llm/commands/cmd-bye.md
+  - _cairn-pkm/llm/commands/cmd-changelog.md
+
+rollback:
+  complexity: simple
+  estimated_time: "15 minutes"
+  steps:
+    - action: "Restore previous versions from git history"
+      validation: "Verify old command specs work"
+
+validation:
+  tested: true
+  test_environment: Cairn-PKM-dev vault
+  test_results: "Smoke tests passed: VBM outputs operation before execution, RC captures rationale in !bye and !changelog"
+
+ai_contribution:
+  role: executor
+  time_saved_estimate: 120
+  time_saved_basis: "Manual documentation writing and testing would take ~2 hours"
+  specific_contributions:
+    - "Updated four command specification files with new principles"
+    - "Implemented FALLBACK_WITH_VISIBILITY function"
+    - "Added rationale field extraction logic"
+
+related_changes: []
+track_context: "Cairn-PKM development"
+session_context: "Smoke testing Apollo TSC robustness principles implementation"
+
+created: 2025-12-21T14:31:00-08:00
+updated: 2025-12-21T14:31:00-08:00
