@@ -1,5 +1,5 @@
 # !bye - Session Closure
-*Type: Display/Write | Version: 0.8.1 | Updated: 2025-12-20*
+*Type: Display/Write | Version: 0.10.0 | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -20,13 +20,13 @@ Per `cmd-shared-patterns.md`
 ### Phase 2: Session Summary
 
 ```
-READ: session context
-  - tracks_viewed[]
-  - files_created[]
-  - files_edited[]
-  - decisions[]
-  - log_entries_added[]
-  - change_entries_created[]
+ANALYZE conversation for:
+  - tracks_viewed
+  - files_created
+  - files_edited
+  - decisions
+  - log_entries_added
+  - change_entries_created
 
 OUTPUT:
 📊 SESSION SUMMARY
@@ -56,15 +56,20 @@ SCAN FOR:
 SYNTHESIZE: Problem-focused summary of session
 ```
 
-### Phase 4: Task History Entry
+### Phase 4: Task History Entry (with Rationale)
 
 ```
-CREATE: "{YYYY-MM-DD}: {problem_focused_summary}"
+CREATE: "{YYYY-MM-DD}: {action} - {rationale}"
 
 RULES:
 - One line, <100 chars
-- Problem/solution focused
+- Format: "action - reason" (RC principle)
 - Technical, factual, past tense
+
+EXAMPLES:
+  GOOD: "2025-12-20: Fixed SSL chain - certs were expiring"
+  GOOD: "2025-12-20: Deferred migration - waiting on API access"
+  BAD:  "2025-12-20: Worked on SSL stuff"
 
 OUTPUT:
 📝 SUGGESTED TASK HISTORY ENTRY:
@@ -114,7 +119,6 @@ Paste to: {VAULT_PATH}/Tracks/{primary_track}/_*-home.md (Log section)
 ---
 
 ## Session Details
-- Duration: [estimated]
 - Commands used: [list]
 - Tracks touched: [list]
 - Changes documented: [list or "None"]
@@ -137,7 +141,6 @@ OUTPUT:
 🤖 Session ended. Start new session with !hi
 ═══════════════════════════════════════════════
 
-CLEAR: session context
 STOP
 ```
 
@@ -145,12 +148,14 @@ STOP
 
 ## Synthesis Rules
 
-**Task History:**
+**Task History (with RC - Rationale Capture):**
 - One line, <100 chars, technical
-- Format: `YYYY-MM-DD: {what was fixed/done/resolved}`
+- Format: `YYYY-MM-DD: {action} - {reason}`
+- The "- {reason}" clause captures rationale
 - Examples:
-  - `2025-01-28: Fixed SSL certificate chain validation issue`
-  - `2025-01-28: Implemented CSV parser for task display`
+  - `2025-01-28: Fixed SSL certificate chain - validation was failing on renewal`
+  - `2025-01-28: Implemented CSV parser - needed for task dashboard display`
+  - `2025-01-28: Deferred API integration - waiting on auth documentation`
 
 **Log Entry:**
 - Past tense, max 3 lines
@@ -174,7 +179,8 @@ STOP
 |-----------|----------|
 | No session context | Analyze conversation directly, note "No formal session detected" |
 | No tracks touched | "General session - no specific track context" |
-| Empty session | "No significant work detected this session" |
+| Empty session | Note in summary, proceed with close |
+| Output failure | Fall back per GFC (see cmd-output-behavior.md) |
 
 Common errors: See `cmd-shared-patterns.md`
 
@@ -184,7 +190,10 @@ Common errors: See `cmd-shared-patterns.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.8.1 | 2025-12-20 | Fixed AI Contribution formatting - moved to nested bullet for better readability |
+| 0.10.0 | 2025-12-21 | Removed SSA phase - focusing on RC for rationale capture |
+| 0.9.1 | 2025-12-20 | Simplified SSA - reconstruct from conversation |
+| 0.9.0 | 2025-12-20 | Added Phase 2 SSA session state summary, enhanced RC in task history |
+| 0.8.1 | 2025-12-20 | Fixed AI Contribution formatting - moved to nested bullet |
 | 0.8.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
 | 0.7.1 | 2025-12-19 | Updated references from !change to !changelog |
 | 0.7.0 | 2025-12-19 | Reset to pre-release versioning |

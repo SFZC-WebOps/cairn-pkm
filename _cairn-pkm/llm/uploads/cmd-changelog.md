@@ -1,5 +1,5 @@
 # !changelog - Change Tracking
-*Type: Read/Write | Version: 0.10.0 | Updated: 2025-12-20*
+*Type: Read/Write | Version: 0.11.0 | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -45,11 +45,13 @@ SCAN FOR:
 - solution_implemented: Steps taken, commands run, fixes applied
 - files_touched: Config files, code files, certificates
 - ai_contributions: What assistant suggested, generated, validated
+- rationale: Why this change was necessary (RC principle)
 
 EXTRACT:
 - Title: Concise one-line summary (action-oriented)
 - Problem: Problem description with context
 - Solution: Step-by-step solution from conversation
+- Rationale: Why this change was made (business/technical driver)
 - AI role: advisor/executor/validator/researcher
 - Time saved: Estimate based on complexity
 - Rollback steps: Inferred reverse operations
@@ -60,6 +62,7 @@ EXTRACT:
 ```
 save                   - Finalize and output
 requested_by [name]    - Set requester
+rationale [text]       - Set/update rationale (RC principle)
 edit [field]           - Modify any field
 cancel                 - Discard entry
 ```
@@ -84,6 +87,7 @@ cancel                 - Discard entry
 For each change (newest first):
 - Date and title
 - Filename
+- Rationale (if present)
 - Systems affected
 - Implemented by
 - Problem summary (first 150 chars)
@@ -99,6 +103,7 @@ implemented_by: {default_assignee from prefs}
 requested_by: {default_assignee from prefs}  # Falls back to "" if default_assignee empty
 
 title: "{extracted}"
+rationale: "{why this change was necessary}"  # RC principle - captures the 'why'
 systems_affected:
   - {extracted}
 technologies:
@@ -156,6 +161,19 @@ updated: {timestamp}
 
 **Title:** Action verb + object ("Fixed X", "Updated Y"), under 80 chars
 
+**Rationale (RC Principle):**
+Extract the business or technical driver for the change:
+- Look for: "because", "due to", "since", "needed to", "required for"
+- If not explicit, infer from problem description
+- Format: One sentence explaining *why* the change was necessary
+
+| Conversation Context | Extracted Rationale |
+|---------------------|---------------------|
+| "SSL certs were expiring and causing outages" | "Certificates approaching expiration caused service interruptions" |
+| "Users complained about slow page loads" | "Performance issues impacting user experience" |
+| "Security audit flagged this configuration" | "Compliance requirement from security audit" |
+| "We need this for the new feature" | "Prerequisite for upcoming feature deployment" |
+
 **Problem Category:**
 
 | Context | Category |
@@ -193,6 +211,7 @@ updated: {timestamp}
 |-----------|----------|
 | Conversation too short | "Not enough information. Describe: system, problem, solution" |
 | Ambiguous systems | "Which system was actually changed?" |
+| No rationale found | Prompt: "Why was this change necessary?" |
 | No changelog directory (!changelog-r) | "No changelog directory found at {path}" |
 | No changes in range (!changelog-r) | "No changes found for period {start} to {end}" |
 | Invalid date format (!changelog-r) | "Invalid date format. Use: YYYY-MM-DD" |
@@ -206,6 +225,7 @@ Common errors: See `cmd-shared-patterns.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.11.0 | 2025-12-21 | Added rationale field and extraction rules (RC principle) |
 | 0.10.0 | 2025-12-20 | Use default_assignee as default for requested_by field |
 | 0.9.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
 | 0.8.0 | 2025-12-19 | Renamed from !change to !changelog |
