@@ -1,5 +1,5 @@
 # !skills - Skill Evidence Tracker
-*Type: Display/Write | Version: 0.9.1 | Updated: 2025-12-21*
+*Type: Display/Write | Version: 0.10.0 | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -130,6 +130,12 @@ level_rules:
 2. Match against skill patterns (registry or built-in)
 3. Apply level determination rules
 4. Generate evidence summary
+5. Display for approval
+6. On approval: Output per `file_operations` setting
+   - `display`: Show with copy instructions
+   - `download`: Create downloadable file
+   - `write`: Append to `_local/data/skills/skill-evidence.md`
+   - `confirm`: Show, ask, then append
 
 ### Output Format
 
@@ -168,11 +174,18 @@ Comprehensive skill portfolio analysis across all documented evidence.
 
 ### Process
 
-1. Parse all entries in skill-evidence.md
-2. Count instances per skill
-3. Apply accumulation rules for achieved level
-4. Group by level, calculate trends
-5. Identify gaps, generate recommendations
+1. Read `_local/data/skills/skill-evidence.md`
+2. Parse all entries
+3. Count instances per skill
+4. Apply accumulation rules for achieved level
+5. Group by level, calculate trends
+6. Identify gaps, generate recommendations
+7. Display for approval
+8. On approval: Output per `file_operations` setting
+   - `display`: Show with copy instructions
+   - `download`: Create downloadable file
+   - `write`: Create `_local/data/skills/archive/skill-portfolio-report-YYYY-QN.md`
+   - `confirm`: Show, ask, then create
 
 ### Output Format
 
@@ -273,9 +286,10 @@ _cairn-pkm/tools/skills/
 └── skills-registry.yaml     # Shipped default (Professional Skills)
 
 _local/data/skills/
-├── skill-evidence.md        # Your accumulated evidence (append-only)
+├── skill-evidence.md        # Your accumulated evidence (!skills appends here)
 ├── skills-registry.yaml     # Optional custom framework (overrides default)
-└── archive/                 # Historical reports
+└── archive/                 # Quarterly reports (!skills-report writes here)
+    └── skill-portfolio-report-YYYY-QN.md
 ```
 
 ### skill-evidence.md Format
@@ -307,15 +321,23 @@ _local/data/skills/
 
 ---
 
+## Initialization
+
+Per `cmd-shared-patterns.md`
+
+---
+
 ## Operational Rules
 
-1. Execute immediately (no permission gates)
+1. Display output for approval before writing
 2. Use single-line evidence format
 3. Always include confidence distribution
 4. Read actual files (don't work from memory)
-5. skill-evidence.md is append-only (user pastes after review)
-6. Check `_local/` first for custom registry, then `_cairn-pkm/` for default
-7. Fall back to built-in patterns if no registry found
+5. Check `_local/` first for custom registry, then `_cairn-pkm/` for default
+6. Fall back to built-in patterns if no registry found
+7. Output per `file_operations` setting (see `cmd-output-behavior.md`)
+   - `!skills`: Appends to existing skill-evidence.md
+   - `!skills-report`: Creates new file in archive/
 
 **Complete:** Per `cmd-shared-patterns.md`
 
@@ -369,8 +391,10 @@ levels:
 |-----------|----------|
 | No technical content | "No skill-relevant activities detected in this conversation" |
 | Registry parse error | "Could not parse skills-registry.yaml: {error}. Using defaults." |
-| skill-evidence.md not found | "skill-evidence.md not found. Output will be displayed for manual creation." |
+| skill-evidence.md not found (write mode) | Create new file with header, then append |
+| archive/ folder missing (write mode) | Create folder, then write report |
 | Unknown skill pattern | Capture anyway with generic category, note for user review |
+| Write fails | Report error, fall back to display |
 
 Common errors: See `cmd-shared-patterns.md`
 
@@ -380,6 +404,7 @@ Common errors: See `cmd-shared-patterns.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.10.0 | 2025-12-21 | Added output-behavior support: display for approval, then write/download/display per prefs |
 | 0.9.1 | 2025-12-21 | Fixed paths to match actual structure (_cairn-pkm/tools/skills/) |
 | 0.9.0 | 2025-12-21 | Removed SFIA dependency, framework-agnostic with shipped default registry |
 | 0.8.1 | 2025-12-20 | Fixed output formatting - added line breaks between Source/Context/Evidence Summary fields |
