@@ -1,7 +1,7 @@
 # Professional Skills Registry
 # Default skill framework shipped with Cairn-PKM
 # 
-# Location: _cairn-pkm/data/skills/skills-registry.yaml
+# Location: _cairn-pkm/tools/skills/skills-registry.yaml
 # 
 # To customize: Copy to _local/data/skills/skills-registry.yaml and modify.
 # Your local version will override this default.

@@ -1,5 +1,5 @@
 # !skills - Skill Evidence Tracker
-*Type: Display/Write | Version: 0.9.0 | Updated: 2025-12-21*
+*Type: Display/Write | Version: 0.9.1 | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -45,16 +45,15 @@ If no custom registry exists, uses this 5-level scale:
 
 The command searches for a skills registry in this order:
 
-1. `_local/data/skills/skills-registry.yaml` (user custom)
-2. Built-in defaults (no file needed)
+1. `_local/data/skills/skills-registry.yaml` (user override)
+2. `_cairn-pkm/tools/skills/skills-registry.yaml` (shipped default)
+3. Built-in patterns (hardcoded fallback)
 
-If no registry file exists, built-in detection patterns and the default 5-level scale are used.
+Cairn-PKM ships with a general "Professional Skills" registry that works out of the box.
 
 ### Custom Skill Registry (Optional)
 
-Create `_local/data/skills/skills-registry.yaml` to define your own framework.
-
-See `_cairn-pkm/templates/examples/skills-registry-professional.yaml` for a complete example.
+To use a different framework (SFIA, custom competency matrix, etc.), create `_local/data/skills/skills-registry.yaml` with your own definitions. This overrides the shipped default.
 
 ```yaml
 # Example: Custom skill registry
@@ -270,10 +269,13 @@ When no custom registry exists, uses these patterns:
 ## File Structure
 
 ```
+_cairn-pkm/tools/skills/
+└── skills-registry.yaml     # Shipped default (Professional Skills)
+
 _local/data/skills/
-├── skill-evidence.md        # Accumulated evidence (append-only)
-├── skills-registry.yaml     # Optional custom framework
-└── archive/                  # Historical reports
+├── skill-evidence.md        # Your accumulated evidence (append-only)
+├── skills-registry.yaml     # Optional custom framework (overrides default)
+└── archive/                 # Historical reports
 ```
 
 ### skill-evidence.md Format
@@ -312,14 +314,16 @@ _local/data/skills/
 3. Always include confidence distribution
 4. Read actual files (don't work from memory)
 5. skill-evidence.md is append-only (user pastes after review)
-6. If custom registry exists, use its definitions
-7. If no registry, use built-in defaults
+6. Check `_local/` first for custom registry, then `_cairn-pkm/` for default
+7. Fall back to built-in patterns if no registry found
 
 **Complete:** Per `cmd-shared-patterns.md`
 
 ---
 
 ## Example Custom Frameworks
+
+The shipped default (`_cairn-pkm/tools/skills/skills-registry.yaml`) provides a complete example of the YAML format. Here are alternative frameworks you could implement:
 
 ### Software Engineering Ladder
 
@@ -376,7 +380,8 @@ Common errors: See `cmd-shared-patterns.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.9.0 | 2025-12-21 | Removed SFIA dependency, added framework-agnostic design with custom registry support |
+| 0.9.1 | 2025-12-21 | Fixed paths to match actual structure (_cairn-pkm/tools/skills/) |
+| 0.9.0 | 2025-12-21 | Removed SFIA dependency, framework-agnostic with shipped default registry |
 | 0.8.1 | 2025-12-20 | Fixed output formatting - added line breaks between Source/Context/Evidence Summary fields |
 | 0.8.0 | 2025-12-19 | Streamlined format, moved common patterns to shared |
 | 0.7.1 | 2025-12-19 | Renamed from !sk to !skills |
