@@ -1,5 +1,5 @@
 ## 📋 Tasks by Project/Viz
-- [x] Show all viz tags ✅ 2025-12-20
+- [ ] Show all viz tags
 ```dataviewjs
 // Helper functions
 function normStatus(s) {
@@ -192,13 +192,13 @@ function cmpDate(a, b) {
 }
 
 function getVizLabel(viz) {
-  if (viz === "now") return "⚡ now";
-  if (viz === "next") return "👁️ next";
-  if (viz === "soon") return "📅 soon";
-  if (viz === "later") return "📋 later";
-  if (viz === "blocked") return "🚫 blocked";
-  if (viz === "waiting") return "⏳ waiting";
-  return "❓ no-viz";
+  if (viz === "now") return "Viz: now";
+  if (viz === "next") return "Viz: next";
+  if (viz === "soon") return "Viz: soon";
+  if (viz === "later") return "Viz: later";
+  if (viz === "blocked") return "Viz: blocked";
+  if (viz === "waiting") return "Viz: waiting";
+  return "Viz: no-viz";
 }
 
 function getVizOrder(viz) {
@@ -252,6 +252,17 @@ function getSectionOrder(section) {
 
 const vaultName = dv.app.vault.getName();
 
+// ===== BATCH LOAD FILE CONTENTS =====
+const fileContents = new Map();
+for (let t of allTasks) {
+  try {
+    const fileContent = await dv.io.load(t.file.path);
+    fileContents.set(t.file.path, fileContent);
+  } catch (e) {
+    fileContents.set(t.file.path, null);
+  }
+}
+
 // ===== PARENT-CHILD RELATIONSHIP FUNCTIONS =====
 
 function buildParentChildMap(tasks) {
@@ -303,7 +314,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
   const status = clean(t.status) || "—";
   const priority = clean(t.priority);
   const due = formatDate(t.due_date);
-  const taskHistory = parseTaskHistory(t.file.content);
+  const taskHistory = parseTaskHistory(fileContents.get(t.file.path));
   const phase = clean(t.phase);
   const effort = clean(t.effort);
   const otherTags = formatTags(t.other_tags);
@@ -313,7 +324,7 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
   
   const vizLabel = t.viz ? getVizLabel(t.viz) : "";
   
-  const statusClass = normStatus(status).replace(/[^a-z0-9]+/g, "-") || "unknown";
+  const statusClass = normStatus(status).replace(/[^a-z0-9]+/g, "—") || "unknown";
   const vizBg = getVizBackground(t.viz);
   const vizBorderColor = getVizBorderColor(t.viz);
   

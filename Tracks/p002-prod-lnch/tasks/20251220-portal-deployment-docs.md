@@ -3,7 +3,7 @@ title: Document portal deployment procedures
 project: p002-prod-lnch
 created_date: 2025-12-20
 assignee: DevOps Engineer
-parent_task: 20251219-test-customer-portal.md
+parent_task: 20251219-test-customer-portal
 priority: high
 status: active
 phase: closing
