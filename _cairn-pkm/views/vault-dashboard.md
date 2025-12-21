@@ -1,6 +1,6 @@
 # 📋 Vault Dashboard
 
-## 📊 Vault Stats
+## 📊 Stats
 
 ```dataviewjs
 const tracks = dv.pages('"Tracks"');
