@@ -1,5 +1,5 @@
 # !skills - Skill Evidence Tracker
-*Type: Display/Write | Version: 0.10.0 | Updated: 2025-12-21*
+*Type: Display/Write | Version: 0.1.0 | Updated: 2025-12-21*
 
 ## Quick Reference
 
