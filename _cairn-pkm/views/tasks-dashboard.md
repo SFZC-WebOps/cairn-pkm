@@ -1,15 +1,5 @@
-```dataviewjs
-dv.table(["File", "Project", "Viz"], 
-     dv.pages('"Tracks"')
-       .where(p => p.title === "Plan Q2 marketing campaign")
-       .map(p => [p.file.name, p.project, p.viz])
-   )
-```
-
-
-
 ## 📋 Tasks by Project/Viz
-- [x] Show all viz tags ✅ 2025-12-20
+- [ ] Show all viz tags
 ```dataviewjs
 // Helper functions
 function normStatus(s) {
@@ -61,7 +51,7 @@ function parseTaskHistory(fileContent) {
   
   if (lines.length === 0) return "No history recorded";
   
-  return lines.map(line => `• ${line.substring(1).trim()}`).join('<br><br>');
+  return lines.map(line => `• ${line.substring(1).trim()}`).join('<br>');
 }
 
 function formatTaskHistory(history) {
@@ -69,7 +59,7 @@ function formatTaskHistory(history) {
   
   if (Array.isArray(history)) {
     const recentEntries = history.slice(0, 3);
-    return recentEntries.map(entry => `• ${entry}`).join('<br><br>');
+    return recentEntries.map(entry => `• ${entry}`).join('<br>');
   }
   
   return `• ${history}`;
@@ -519,10 +509,10 @@ function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName
     ${subtaskBadge}
   </div>
   ${detailsHtml}
-  <div class="dashboard-update" style="margin-top: 15px;">
-    <p style="margin: 0; line-height: 1.6; color: #333;">
+  <div class="dashboard-update" style="margin-top: 12px;">
+    <p style="margin: 0; line-height: 1.4; color: #333;">
       <strong style="color: #1a1a1a; font-size: 0.95em;">📋 Task History:</strong><br>
-      <span style="margin-top: 8px; display: block; font-size: 0.95em;">${taskHistory}</span>
+      <span style="margin-top: 4px; display: block; font-size: 0.95em;">${taskHistory}</span>
     </p>
   </div>
   ${subtasksHtml}
