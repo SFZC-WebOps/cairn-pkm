@@ -1,3 +1,13 @@
+```dataviewjs
+dv.table(["File", "Project", "Viz"], 
+     dv.pages('"Tracks"')
+       .where(p => p.title === "Plan Q2 marketing campaign")
+       .map(p => [p.file.name, p.project, p.viz])
+   )
+```
+
+
+
 ## 📋 Tasks by Project/Viz
 - [x] Show all viz tags ✅ 2025-12-20
 ```dataviewjs
