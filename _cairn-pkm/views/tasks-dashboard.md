@@ -1,5 +1,5 @@
 ## 📋 Tasks by Project/Viz
-- [ ] Show all viz tags
+- [x] Show all viz tags ✅ 2025-12-20
 ```dataviewjs
 // Helper functions
 function normStatus(s) {
@@ -275,8 +275,12 @@ function buildParentChildMap(tasks) {
   }
   
   for (let t of tasks) {
-    const parentFile = clean(t.parent_task);
+    let parentFile = clean(t.parent_task);
     if (parentFile) {
+      // Strip .md extension if present
+      if (parentFile.endsWith('.md')) {
+        parentFile = parentFile.slice(0, -3);
+      }
       if (!parentMap.has(parentFile)) {
         parentMap.set(parentFile, []);
       }
@@ -294,18 +298,28 @@ function buildParentChildMap(tasks) {
 function identifyOrphans(tasks, tasksByFile) {
   const orphans = new Set();
   for (let t of tasks) {
-    const parentFile = clean(t.parent_task);
-    if (parentFile && !tasksByFile.has(parentFile)) {
-      orphans.add(t.file.name);
+    let parentFile = clean(t.parent_task);
+    if (parentFile) {
+      // Strip .md extension if present
+      if (parentFile.endsWith('.md')) {
+        parentFile = parentFile.slice(0, -3);
+      }
+      if (!tasksByFile.has(parentFile)) {
+        orphans.add(t.file.name);
+      }
     }
   }
   return orphans;
 }
 
 function isNonOrphanedChild(task, tasksByFile, orphans) {
-  const parentFile = clean(task.parent_task);
+  let parentFile = clean(task.parent_task);
   if (!parentFile) return false;
   if (orphans.has(task.file.name)) return false;
+  // Strip .md extension if present
+  if (parentFile.endsWith('.md')) {
+    parentFile = parentFile.slice(0, -3);
+  }
   return tasksByFile.has(parentFile);
 }
 
