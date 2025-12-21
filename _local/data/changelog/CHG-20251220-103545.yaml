@@ -1,0 +1,92 @@
+change_id: CHG-20251220-103545
+timestamp: 2025-12-20T10:35:45-08:00
+implemented_by: gb
+requested_by: product-team
+
+title: "Deployed customer self-service portal to production"
+rationale: "Reduce support ticket volume by enabling customers to manage accounts independently"
+systems_affected:
+  - portal.example.com
+  - api.example.com
+  - db-prod-01
+technologies:
+  - Django
+  - PostgreSQL
+  - Redis
+  - Nginx
+  - Docker
+problem_category: feature
+
+change_classification:
+  impact: high
+  risk: medium
+  reversibility: hours
+  scope: organization-wide
+
+description: |
+  Deployed new customer self-service portal allowing account management, billing
+  history, and support ticket creation without agent assistance. Expected to
+  reduce support workload by 40% based on beta testing results.
+  
+problem: |
+  Customer support team handling high volume of routine requests:
+  - Password resets (150/week)
+  - Billing history requests (80/week)
+  - Account information updates (60/week)
+  - Support ticket creation requiring email/phone handoff
+  Total support time spent: ~25 hours/week on automatable tasks
+  
+solution: |
+  1. Deployed Django application to portal.example.com
+  2. Configured PostgreSQL connection pool for user database
+  3. Set up Redis for session management and caching
+  4. Implemented OAuth 2.0 authentication with existing user system
+  5. Configured nginx reverse proxy with SSL
+  6. Set up Docker Compose for service orchestration
+  7. Configured automated database backups
+  8. Implemented monitoring with Prometheus/Grafana
+  9. Created rollback procedure and tested in staging
+  10. Deployed with zero-downtime strategy using blue-green deployment
+
+files_modified:
+  - /opt/customer-portal/docker-compose.yml
+  - /opt/customer-portal/config/settings.py
+  - /etc/nginx/sites-available/portal.example.com
+  - /opt/customer-portal/config/gunicorn.conf.py
+  - /var/backup/scripts/portal-db-backup.sh
+
+rollback:
+  complexity: medium
+  estimated_time: "1 hour"
+  steps:
+    - action: "Switch nginx upstream to maintenance page"
+      validation: "nginx -t && systemctl reload nginx"
+    - action: "Stop Docker containers"
+      validation: "docker-compose down"
+    - action: "Restore previous database state if needed"
+      validation: "Run backup restore script with timestamp"
+    - action: "Notify users of temporary maintenance"
+      validation: "Email sent via notification system"
+
+validation:
+  tested: true
+  test_environment: staging.example.com/portal
+  test_results: "Beta testing with 50 customers for 2 weeks, 95% task completion rate, zero critical bugs, positive user feedback"
+
+ai_contribution:
+  role: advisor
+  time_saved_estimate: 120
+  time_saved_basis: "Provided deployment checklist, reviewed configuration files, suggested monitoring setup, explained rollback strategy"
+  specific_contributions:
+    - "Generated comprehensive deployment checklist"
+    - "Reviewed and optimized Docker Compose configuration"
+    - "Suggested blue-green deployment strategy"
+    - "Provided Prometheus alerting rules for critical metrics"
+    - "Explained database connection pooling best practices"
+
+related_changes: []
+track_context: "p002-prod-lnch/tasks/20251220-portal-deployment-docs.md"
+session_context: "Major feature deployment with careful staging and rollback planning"
+
+created: 2025-12-20T10:35:45-08:00
+updated: 2025-12-20T10:35:45-08:00
