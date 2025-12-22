@@ -8,7 +8,7 @@
 | `!readme` | Analyze URL in current conversation |
 | `!readme [url]` | Fetch and analyze specific URL |
 
-**Workflow:** Paste URL → `!readme` → Strategic analysis + utility score → Output
+**Workflow:** Paste URL â†’ `!readme` â†’ Strategic analysis + utility score â†’ Output
 
 **Location:** `{VAULT_PATH}/Objects/references/`
 
@@ -45,9 +45,9 @@ SUMMARIZE: 3-5 sentence synopsis
 
 ```
 REQUIRED SEARCHES:
-1. "[author name]" — Credibility, affiliations
-2. "[main topic] [current year]" — Current or outdated?
-3. "[tool/concept] alternatives comparison" — What else exists
+1. "[author name]" â€” Credibility, affiliations
+2. "[main topic] [current year]" â€” Current or outdated?
+3. "[tool/concept] alternatives comparison" â€” What else exists
 
 CONDITIONAL SEARCHES:
 4. IF tool/product: "[product name] reviews problems"
@@ -64,10 +64,10 @@ SYNTHESIZE:
 
 ```
 EVALUATE AGAINST USER CONTEXT:
-1. Direct project application — Solves current problem?
-2. Skill development — Builds relevant capability?
-3. Future planning — Informs upcoming decisions?
-4. General enrichment — Interesting but no immediate use?
+1. Direct project application â€” Solves current problem?
+2. Skill development â€” Builds relevant capability?
+3. Future planning â€” Informs upcoming decisions?
+4. General enrichment â€” Interesting but no immediate use?
 
 ASSESS:
 - Timing: Right now | Next quarter | Someday | Never
@@ -95,10 +95,10 @@ CALCULATE (1-10):
 -2 High effort, low certainty of payoff
 
 INTERPRETATION:
-8-10: 🔥 High Priority — Act on this soon
-5-7:  ✅ Worth Filing — Reference for future
-3-4:  🤔 Maybe — Skim and decide
-1-2:  ❌ Skip — Not worth your time
+8-10: ðŸ”¥ High Priority â€” Act on this soon
+5-7:  âœ… Worth Filing â€” Reference for future
+3-4:  ðŸ¤” Maybe â€” Skim and decide
+1-2:  âŒ Skip â€” Not worth your time
 ```
 
 ### Phase 6: Output
@@ -157,9 +157,9 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 
 | Situation | Response |
 |-----------|----------|
-| URL unreachable | "Could not fetch [url] — check link or try again" |
+| URL unreachable | "Could not fetch [url] â€” check link or try again" |
 | Paywall/login required | "Content behind paywall. Working with preview..." Score -1 |
-| No author/date found | "Author: Unknown | Published: Unknown" — Credibility = unknown |
-| Search results sparse | "Limited context — scoring may be less reliable" |
+| No author/date found | "Author: Unknown | Published: Unknown" â€” Credibility = unknown |
+| Search results sparse | "Limited context â€” scoring may be less reliable" |
 
 Common errors: See `cmd-shared-patterns.md`

@@ -1,5 +1,5 @@
 # !hi - Work Session
-*Type: Interactive | Updated: 2025-12-20*
+*Type: Interactive | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -67,6 +67,21 @@ FILTER: status != complete (unless showing archive)
 SORT: priority (critical → low), then created_date
 ```
 
+### Date Calculations
+
+**Overdue detection:**
+- Compare due_date < current_date in user's timezone
+- Timezone from cairn-pkm-user-prefs.yaml
+
+**Due this week:**
+- due_date <= (current_date + 7 days)
+- Calendar days, not business days
+
+**Display:**
+- ⚠️ OVERDUE: Red, appears after due date
+- 🔴 Overdue: N tasks/subtasks (in summary)
+- 📅 Due This Week: N tasks/subtasks (in summary)
+
 **Output:**
 
 ```markdown
@@ -84,19 +99,19 @@ SORT: priority (critical → low), then created_date
 
 ### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 [title]
 Status: [status] | Priority: [priority] | Viz: [viz] | Effort: [effort]
 Phase: [phase] | Assignee: [assignee]
 Created: [created_date] | Due: [due_date] ⚠️ OVERDUE
 
 Inline Subtasks (N):
-  └─ [x] Completed subtask
+  ├─ [x] Completed subtask
   └─ [ ] Pending subtask (due YYYY-MM-DD)
 
-Subtask Files (N):
-  → Child task title (status, due date)
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Child Tasks (N):
+  → Child task title (status, priority, due: YYYY-MM-DD)
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [Repeat for each task]
 
@@ -138,6 +153,12 @@ After displaying overview, show mini-menu for common actions. User can:
 - Enter command directly
 - Type freeform request
 
+### Progress Note
+
+**Note on Progress:** The progress field in project/area frontmatter must be manually updated via `!edit`. It does not auto-calculate from task completion. Progress represents overall track completion, not just task counts.
+
+To update: `!edit [track-home]` → `progress [0-100]`
+
 ---
 
 ## Task Parsing
@@ -177,6 +198,7 @@ Body checkboxes in Subtasks section:
 - Parent task: Higher-level work item
 - Child tasks: Implementation steps linked via `parent_task` field
 - Display shows hierarchy with indentation/arrows
+- Child tasks show: title, status, priority, due date (if set)
 
 ---
 

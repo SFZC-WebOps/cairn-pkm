@@ -2,7 +2,7 @@
 
 Personal knowledge management system built on plain markdown files. Designed for clarity, portability, and longevity.
 
-*Version: 0.5.0 | Last Updated: 2024-12-19*
+*Version: 0.5.0 | Last Updated: 2024-12-21*
 
 ---
 
@@ -187,11 +187,19 @@ start_date: YYYY-MM-DD
 end_date: YYYY-MM-DD
 budget: "5000"
 priority: low | medium | high | critical
+progress: 0                   # 0-100, manually updated via !edit
 
 # Area-specific fields
 review_cycle: weekly | monthly | quarterly | yearly
 ---
 ```
+
+**Progress Field (Projects):**
+- Range: 0-100 (percentage)
+- Manual updates only (does not auto-calculate from tasks)
+- Represents overall track completion, not just task counts
+- Update via: `!edit [track-home]` → `progress [0-100]`
+- Optional: Can be omitted if not tracking percentage completion
 
 ### Required Sections
 
@@ -487,6 +495,8 @@ Object creation uses flexible template discovery:
 
 This allows custom object types while providing sensible defaults.
 
+**Note on Templates:** If templates are not present in your vault, the system will use base templates with standard fields. Template files are not required for the system to function - they provide customization when needed.
+
 ### Command Documentation
 
 Each command has a specification file (cmd-*.md) with:
@@ -571,4 +581,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*Architecture Version: 0.5.0 | Last Updated: 2024-12-19*
+*Architecture Version: 0.5.0 | Last Updated: 2024-12-21*

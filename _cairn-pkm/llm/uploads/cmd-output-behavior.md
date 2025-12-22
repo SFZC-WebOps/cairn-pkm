@@ -45,13 +45,13 @@ OUTPUT_FILE(filepath, content):
   SWITCH file_operations:
 
     CASE "display":
-      OUTPUT: "📄 FILE CONTENT"
-      OUTPUT: "═══════════════════════════════════════"
+      OUTPUT: "ðŸ“„ FILE CONTENT"
+      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
       OUTPUT: "Filename: {filename}"
       OUTPUT: "Path: {filepath}"
       OUTPUT: ""
       OUTPUT: {content}
-      OUTPUT: "═══════════════════════════════════════"
+      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
       OUTPUT: "Copy this content and save to the path above."
 
     CASE "download":
@@ -64,10 +64,10 @@ OUTPUT_FILE(filepath, content):
         CALL: FALLBACK_WITH_VISIBILITY("download", error, filepath, content)
 
     CASE "confirm":
-      OUTPUT: "📄 PROPOSED FILE"
-      OUTPUT: "═══════════════════════════════════════"
+      OUTPUT: "ðŸ“„ PROPOSED FILE"
+      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
       OUTPUT: {content}
-      OUTPUT: "═══════════════════════════════════════"
+      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
       OUTPUT: "Write this file? (yes/no)"
       IF confirmed: 
         TRY:
@@ -91,14 +91,14 @@ WRITE_TO_TARGET(filepath, content):
     CASE "local":
       CREATE: directory if not exists
       WRITE: content to filepath
-      OUTPUT: "✓ Created {filepath}"
+      OUTPUT: "âœ“ Created {filepath}"
 
     CASE "gdrive":
       IF gdrive_vault_path empty: 
         THROW: "Google Drive path not configured"
       gdrive_path = gdrive_vault_path + "/" + relative_path
       CALL: google_drive_create_or_update(gdrive_path, content)
-      OUTPUT: "✓ Created {gdrive_path} in Google Drive"
+      OUTPUT: "âœ“ Created {gdrive_path} in Google Drive"
 ```
 
 ---
@@ -111,41 +111,41 @@ When operations fail, degrade gracefully with full visibility:
 FALLBACK_WITH_VISIBILITY(failed_mode, error, filepath, content):
 
   # Report failure clearly
-  OUTPUT: "⚠ {failed_mode} failed: {error}"
+  OUTPUT: "âš  {failed_mode} failed: {error}"
   
   # Show fallback path
   SWITCH failed_mode:
     CASE "write":
-      OUTPUT: "↳ Falling back to download mode"
+      OUTPUT: "â†³ Falling back to download mode"
       TRY:
         output_path = /mnt/user-data/outputs/{filename}
         WRITE: content to output_path
         CALL: present_files([output_path])
-        OUTPUT: "↳ Download the file above and save to: {filepath}"
+        OUTPUT: "â†³ Download the file above and save to: {filepath}"
         RETURN
       ON FAILURE:
-        OUTPUT: "↳ Download also failed: {error}"
-        OUTPUT: "↳ Falling back to display mode"
+        OUTPUT: "â†³ Download also failed: {error}"
+        OUTPUT: "â†³ Falling back to display mode"
         # Fall through to display
         
     CASE "download":
-      OUTPUT: "↳ Falling back to display mode"
+      OUTPUT: "â†³ Falling back to display mode"
       # Fall through to display
 
   # Final fallback: display (always works)
-  OUTPUT: "↳ Content preserved below"
+  OUTPUT: "â†³ Content preserved below"
   OUTPUT: ""
-  OUTPUT: "📄 FILE CONTENT"
-  OUTPUT: "═══════════════════════════════════════"
+  OUTPUT: "ðŸ“„ FILE CONTENT"
+  OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
   OUTPUT: "Filename: {filename}"
   OUTPUT: "Path: {filepath}"
   OUTPUT: ""
   OUTPUT: {content}
-  OUTPUT: "═══════════════════════════════════════"
+  OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
   OUTPUT: "Copy this content and save to the path above."
 ```
 
-**Fallback chain order:** write → download → display
+**Fallback chain order:** write â†’ download â†’ display
 
 **Principle:** User never loses content. Display mode is the ultimate safety net.
 
@@ -174,8 +174,8 @@ CALL: OUTPUT_FILE(filepath, content)
 | Invalid file_operations | Use display mode, warn |
 | Invalid write_target | Use local, warn |
 | gdrive_vault_path empty | Warn, fall back per GFC |
-| Write fails | Fall back per GFC (write → download → display) |
-| Download fails | Fall back per GFC (download → display) |
+| Write fails | Fall back per GFC (write â†’ download â†’ display) |
+| Download fails | Fall back per GFC (download â†’ display) |
 | Google Drive unavailable | Warn, fall back per GFC |
 
 **Core principle:** User never loses content due to write/download failure. Always fall back to display mode showing full content with clear messaging about what happened.

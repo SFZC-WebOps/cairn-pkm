@@ -8,7 +8,7 @@
 | `!skills` | Analyze current conversation | After technical discussions |
 | `!skills-report` | Generate portfolio snapshot | Monthly/quarterly, before reviews |
 
-**Workflow:** Technical work → `!skills` → Copy output → Paste to skill-evidence.md
+**Workflow:** Technical work â†’ `!skills` â†’ Copy output â†’ Paste to skill-evidence.md
 
 **Location:** `{VAULT_PATH}/_local/data/skills/`
 
@@ -122,7 +122,7 @@ level_rules:
 
 ---
 
-## !skills — Analyze Session
+## !skills â€” Analyze Session
 
 ### Process
 
@@ -168,7 +168,7 @@ level_rules:
 
 ---
 
-## !skills-report — Portfolio Analysis
+## !skills-report â€” Portfolio Analysis
 
 Comprehensive skill portfolio analysis across all documented evidence.
 
@@ -283,13 +283,13 @@ When no custom registry exists, uses these patterns:
 
 ```
 _cairn-pkm/tools/skills/
-└── skills-registry.yaml     # Shipped default (Professional Skills)
+â””â”€â”€ skills-registry.yaml     # Shipped default (Professional Skills)
 
 _local/data/skills/
-├── skill-evidence.md        # Your accumulated evidence (!skills appends here)
-├── skills-registry.yaml     # Optional custom framework (overrides default)
-└── archive/                 # Quarterly reports (!skills-report writes here)
-    └── skill-portfolio-report-YYYY-QN.md
+â”œâ”€â”€ skill-evidence.md        # Your accumulated evidence (!skills appends here)
+â”œâ”€â”€ skills-registry.yaml     # Optional custom framework (overrides default)
+â””â”€â”€ archive/                 # Quarterly reports (!skills-report writes here)
+    â””â”€â”€ skill-portfolio-report-YYYY-QN.md
 ```
 
 ### skill-evidence.md Format

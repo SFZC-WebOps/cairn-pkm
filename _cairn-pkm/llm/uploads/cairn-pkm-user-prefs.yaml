@@ -1,39 +1,6 @@
 # cairn-pkm-user-prefs.yaml
-# Cairn-PKM User Preferences
-#
-# Location: Upload to Claude project as /mnt/project/cairn-pkm-user-prefs.yaml
-# See cmd-output-behavior.md for file_operations details.
-
-# ─────────────────────────────────────────────────────────────────────
-# IDENTITY
-# ─────────────────────────────────────────────────────────────────────
-
-# Name for task assignee field
-default_assignee: ""
-
-# ─────────────────────────────────────────────────────────────────────
-# TIME
-# ─────────────────────────────────────────────────────────────────────
-
-# IANA timezone (e.g., America/New_York, Europe/London)
+default_assignee: "test-user"
 timezone: "America/Los_Angeles"
-
-# ─────────────────────────────────────────────────────────────────────
-# OUTPUT BEHAVIOR
-# ─────────────────────────────────────────────────────────────────────
-
-# How files are output:
-#   display  - Show content to copy/paste (default, works anywhere)
-#   download - Create downloadable file (web-based LLM)
-#   write    - Write directly to target
-#   confirm  - Show content, ask, then write
-file_operations: "display"
-
-# Where to write (when file_operations is write/confirm):
-#   local  - Direct filesystem (MCP, desktop app)
-#   gdrive - Google Drive API
+file_operations: "write"
 write_target: "local"
-
-# Vault path in Google Drive (required if write_target is gdrive)
-# Example: "Obsidian/MyVault"
 gdrive_vault_path: ""

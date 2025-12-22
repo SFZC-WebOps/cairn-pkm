@@ -1,5 +1,5 @@
 # !create - Unified Creation Command
-*Type: Write | Updated: 2025-12-20*
+*Type: Write | Updated: 2025-12-21*
 
 ## Quick Reference
 
@@ -48,6 +48,18 @@ Creating new area...
 2. Brief description? (1-2 sentences)
 ```
 
+### Title Generation
+
+Title is auto-generated from domain name:
+- Capitalizes first letter of domain
+- If description starts with capitalized phrase, uses that
+- Otherwise uses "{Domain} Management" pattern
+
+**Examples:**
+- Domain: "finance" + Description: "Personal finance tracking" → Title: "Personal Finance"
+- Domain: "facilities" + Description: "Office space management" → Title: "Facilities Management"
+- Domain: "webops" + Description: "Web operations and infrastructure" → Title: "Web Operations"
+
 ### Generation
 
 ```
@@ -56,11 +68,23 @@ CONSTRUCT: home_doc = {folder_path}_area-{domain}-home.md
 CREATE: subfolders resources/, tasks/, zzz/
 ```
 
+### Confirmation Preview
+
+```
+**Proposed Area:**
+- Name: area-{domain}
+- Title: {title}
+- Folder: {VAULT_PATH}/Tracks/area-{domain}/
+- Subfolders: resources/, tasks/, zzz/
+
+[Full YAML shown below for reference]
+```
+
 ### Template
 
 ```yaml
 ---
-title: {user input}
+title: {generated_title}
 type: area
 status: active
 created: {YYYY-MM-DD}
@@ -96,11 +120,47 @@ modified: {YYYY-MM-DD}
 ```
 Creating new project...
 
-1. System code? (4 letters) - blog, home, work, sfzc
-2. Action code? (4 letters) - migr, setup, audt, docs
+1. System code? (3-5 letters) - What system/area is affected?
+   Examples: blog, home, work, sfzc, infra, site
+
+2. Action code? (3-5 letters) - What action is being taken?
+   Examples: migr (migration), setup, audt (audit), docs, upgr (upgrade)
+
 3. Project title?
+
 4. Brief description? (1-2 sentences)
 ```
+
+### Project Naming Best Practices
+
+**System codes** represent what's being changed:
+- blog - Blog/website
+- infra - Infrastructure  
+- home - Home/personal systems
+- work - Work systems
+- sfzc - Organization name
+- site - Website/web property
+- facl - Facilities
+
+**Action codes** represent what you're doing:
+- migr - Migration
+- upgr - Upgrade
+- setup - Initial setup
+- audt - Audit/review
+- docs - Documentation
+- reno - Renovation
+- hvac - HVAC work
+- impl - Implementation
+
+**Good examples:**
+- p001-blog-migr (migrate blog platform)
+- p002-infra-upgr (upgrade infrastructure)
+- p003-home-reno (home renovation)
+- p004-site-setup (new site setup)
+
+**Avoid:**
+- p001-fix-stuff (too vague)
+- p002-blog-migration (action code too long)
 
 ### Generation
 
@@ -154,11 +214,26 @@ modified: {YYYY-MM-DD}
 
 1. Display current date/time
 2. Infer track context (from !hi, conversation, or ask user)
-3. Extract from conversation: title, types, mentioned fields
-4. Generate filename: `{YYYYMMDD}-{slug}.md`
-5. Show draft with inferred values
-6. Interactive edit loop until `done`
-7. Output per file_operations setting
+3. Prompt user for task description
+4. Extract from input: title, types, mentioned fields
+5. Generate filename: `{YYYYMMDD}-{slug}.md`
+6. Show proposed filename
+7. Show draft with inferred values
+8. Interactive edit loop until `done`
+9. Output per file_operations setting
+
+### Initial Prompt
+
+```
+Creating new task...
+
+Describe the task in 1-2 sentences. I'll extract the title and generate fields.
+
+Example: "Create SSL certificate renewal script that runs monthly and emails results"
+Example: "Review Q4 budget and prepare presentation for board meeting"
+
+What task would you like to create?
+```
 
 ### Required Fields
 
@@ -183,6 +258,8 @@ priority [value]     - Change priority
 phase [value]        - planning | executing | testing | closing
 effort [value]       - simple | moderate | complex
 viz [value]          - now | next | soon | later | blocked | waiting
+due [YYYY-MM-DD]     - Set due date
+due clear            - Remove due date
 type add [type]      - Add type tag
 type remove [type]   - Remove type tag
 ```
@@ -207,7 +284,7 @@ type:
 ---
 
 ### Task History
-- YYYY-MM-DD: Created task - {summary}
+- YYYY-MM-DD: Created task - {reason for creation}
 
 ---
 
@@ -221,11 +298,27 @@ type:
 ---
 ```
 
+**Note on Task History:** Include rationale (why this task is needed) per RC principle.
+
+Examples:
+- `2025-12-21: Created task - SSL certs expiring next month`
+- `2025-12-21: Created task - board meeting requires budget review`
+
 **Output:** Per `cmd-output-behavior.md`
 
 ---
 
 ## !create object
+
+### Execution Flow
+
+1. Identify object type
+2. **Determine placement FIRST** (ask before gathering fields)
+3. Apply type-specific template
+4. Populate fields from conversation/prompts
+5. Use `TBD` for missing required fields
+6. Interactive edit loop until `done`
+7. Output per file_operations setting
 
 ### Syntax
 
@@ -235,6 +328,20 @@ Examples:
 - `!create object contact`
 - `!create credit-card`
 - `!create device`
+
+### Placement Question (Asked First)
+
+```
+Creating new object ({type})...
+
+Is this {type} cross-cutting (multiple tracks) or specific to one track?
+
+Enter 'cross' for Objects/, or track name like 'p003-facl-hvac'
+```
+
+**Destination:**
+- Cross-cutting: `{VAULT_PATH}/Objects/`
+- Track-specific: `{VAULT_PATH}/Tracks/{track}/resources/`
 
 ### Supported Types
 
@@ -251,23 +358,50 @@ Examples:
 | medication | `medication-{name}.md` | `medication-lisinopril.md` |
 | provider | `provider-{name}.md` | `provider-dr-smith.md` |
 
-### Execution
+### Field Requirements by Object Type
 
-1. Identify object type
-2. Apply type-specific template
-3. Populate fields from conversation/prompts
-4. Use `TBD` for missing required fields
-5. Interactive edit loop until `done`
-6. Output per file_operations setting
+**contact:**
+- Required: first_name, last_name
+- Recommended: role, organization, email (for professional contacts), phone
+- Optional: aliases, tags, notes
 
-### Destination
+**device:**
+- Required: device_type, identifier
+- Recommended: manufacturer, model
+- Optional: serial_number, purchase_date, warranty_expiration
 
-| Scope | Location |
-|-------|----------|
-| Cross-cutting (multiple tracks) | `{VAULT_PATH}/Objects/` |
-| Track-specific | `{VAULT_PATH}/Tracks/{track}/resources/` |
+**credit-card:**
+- Required: issuer, name
+- Recommended: last_four, credit_limit
+- Optional: annual_fee, rewards_program
 
-Ask user if unclear: "Is this for multiple tracks (Objects/) or specific to one track?"
+**account:**
+- Required: institution, account_type
+- Recommended: account_number (last 4), status
+- Optional: balance, interest_rate
+
+**medication:**
+- Required: name
+- Recommended: dosage, frequency, prescriber
+- Optional: purpose, side_effects, start_date
+
+**provider:**
+- Required: name, provider_type
+- Recommended: specialty, phone, address
+- Optional: insurance_accepted, office_hours
+
+### Example Prompts (contact)
+
+```
+Contact Information:
+
+1. First name?
+2. Last name?
+3. Role/Title? (recommended for professional contacts)
+4. Organization? (recommended for professional contacts)
+5. Email? (optional)
+6. Phone? (optional)
+```
 
 ### Base Template
 
@@ -292,6 +426,8 @@ tags: []
 ```
 
 Type-specific fields added based on object type.
+
+**Note:** full_name for contacts is auto-generated from first_name + last_name, not prompted separately.
 
 **Output:** Per `cmd-output-behavior.md`
 

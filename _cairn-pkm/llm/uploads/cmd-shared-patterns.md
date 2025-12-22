@@ -28,6 +28,37 @@ BEFORE file write:
 Creating 20251220-ssl-fix.md in Tracks/p014-blog-migr/tasks/
 ```
 
+**VBM Examples for All Write Operations:**
+
+```
+BEFORE task creation:
+  VERIFY: Track context is correct (p014-blog-migr)
+  VERIFY: tasks/ directory exists
+  STATE: "Creating 20251220-ssl-fix.md in Tracks/p014-blog-migr/tasks/"
+  EXECUTE: Write operation
+  VERIFY: File created successfully
+
+BEFORE task edit:
+  VERIFY: Target file exists (20251220-ssl-fix.md found in tasks/)
+  VERIFY: File is parseable (YAML frontmatter valid)
+  STATE: "Updating 20251220-ssl-fix.md in Tracks/p014-blog-migr/tasks/"
+  EXECUTE: Write operation
+  VERIFY: File updated successfully
+
+BEFORE area creation:
+  VERIFY: area-{domain} does not already exist
+  STATE: "Creating Tracks/area-facilities/"
+  EXECUTE: mkdir, file creation
+  VERIFY: Directory and home doc created
+
+BEFORE object creation:
+  VERIFY: Placement decision confirmed (Objects/ or track/resources/)
+  VERIFY: Target directory exists
+  STATE: "Creating contact-jennifer-martinez.md in Tracks/p003-facl-hvac/resources/"
+  EXECUTE: Write operation
+  VERIFY: File created successfully
+```
+
 ### Graceful Fallback Chain (GFC)
 
 When operations fail, degrade gracefully with user visibility:
@@ -58,12 +89,61 @@ GOOD: rationale: "Certificates expiring caused service outage"
 BAD:  (no rationale field)
 ```
 
-**Formats:**
-- Task history: `YYYY-MM-DD: {action} - {reason}`
-- Changelog: Include `rationale:` field
-- Log entries: Context for future reference
-
 **Purpose:** Future-you (and collaborators) understand decision context.
+
+---
+
+## Rationale Capture (RC) Principle - Usage Guide
+
+RC principle applies to these entry types:
+
+### Task History
+
+**Format:** `YYYY-MM-DD: {action} - {reason}`
+
+**Required:** Always include reason
+
+**Examples:**
+- "2025-12-21: Increased priority - blocking launch"
+- "2025-12-21: Set viz to blocked - waiting on vendor"
+- "2025-12-21: Updated due date - aligned with project deadline"
+- "2025-12-21: Marked complete - verified in production"
+
+### Changelog
+
+**Field:** `rationale: "{why change was necessary}"`
+
+**Required:** Always populate
+
+**Examples:**
+- `rationale: "Certificates expiring caused service outage"`
+- `rationale: "Performance degradation impacting user experience"`
+- `rationale: "Security audit requirement"`
+- `rationale: "Project dependency for Q2 launch"`
+
+### Log Entries (Project/Area)
+
+**Format:** `Type - {what} - {why/context}`
+
+**Recommended:** Include context when non-obvious
+
+**Examples:**
+- "Update - Email template assigned - needed for Jan 15 launch"
+- "Decision - Switching to quarterly reviews - monthly too frequent"
+- "Milestone - Migration complete - ready for testing"
+- "Issue - SSL certificate expired - renewed and monitoring added"
+
+### When RC is Optional
+
+- Simple status updates ("Setup", "Closed", "Created")
+- Routine maintenance logs
+- Self-explanatory actions
+- Obvious outcomes
+
+**Examples where RC not needed:**
+- "Setup - Area created"
+- "Closed - Session ended"
+- "Created - Task added"
 
 ---
 
@@ -102,9 +182,9 @@ Standard ending for all commands:
 ```
 OUTPUT:
 ✓ Task complete
-═══════════════════════════════════════
+═══════════════════════════════════════════════
 🤖 Waiting for next instruction
-═══════════════════════════════════════
+═══════════════════════════════════════════════
 
 STOP
 ```
@@ -157,6 +237,28 @@ content = ftfy.fix_text(content)
 ```
 
 This prevents mojibake (double-encoded UTF-8). Non-negotiable.
+
+### Encoding Verification
+
+All commands that create or edit files must apply ftfy encoding fix:
+
+**Standard pattern:**
+```python
+import ftfy
+
+# Before writing/presenting file
+content = ftfy.fix_text(content)
+
+# Then write or display
+```
+
+**Purpose:** Prevents Ã, â€ and other mojibake characters from appearing in markdown files.
+
+**When to apply:**
+- After generating any file content
+- Before writing to filesystem
+- Before displaying to user
+- After reading files for editing
 
 ---
 

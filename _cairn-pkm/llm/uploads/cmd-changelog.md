@@ -188,20 +188,120 @@ Extract the business or technical driver for the change:
 
 **Risk:** low (simple, tested, reversible) → medium (complex but tested) → high (risky, limited testing)
 
-**AI Role:**
+---
 
-| Role | Description |
-|------|-------------|
-| advisor | Suggested approach, explained concept |
-| executor | Wrote working code/config |
-| validator | Verified solution would work |
-| researcher | Found docs, compared options |
+## AI Role Selection Guide
 
-**Time Saved Estimate:**
-- Simple fix: 15-30 min
-- Research + solution: 30-60 min
-- Complex debugging: 60-120 min
-- Code generation: 30-90 min
+Choose the role that best describes the AI's primary contribution:
+
+### advisor
+
+**Select when:** AI provided guidance, suggestions, or explained concepts but human implemented
+
+**Examples:**
+- "You suggested using X approach instead of Y"
+- "You explained how the template system works"
+- "You recommended checking the logs for errors"
+- "You pointed out a potential security issue"
+
+**Contributions to log:**
+- "Suggested nginx reverse proxy approach"
+- "Explained OAuth flow and token refresh"
+- "Recommended rate limiting strategy"
+
+### executor
+
+**Select when:** AI wrote working code, configuration, or scripts that were used directly
+
+**Examples:**
+- "You generated the Python script and it worked"
+- "You created the nginx config file"
+- "You wrote the SQL query that solved the problem"
+- "You produced the shell script for automation"
+
+**Contributions to log:**
+- "Generated complete SSL renewal script"
+- "Created nginx.conf with all required directives"
+- "Wrote data migration SQL with validation"
+
+### validator
+
+**Select when:** AI verified, tested, or confirmed a solution would work
+
+**Examples:**
+- "You checked my config and found the error"
+- "You validated the SQL query syntax"
+- "You confirmed the approach was correct"
+- "You reviewed the code and spotted the bug"
+
+**Contributions to log:**
+- "Verified SSL certificate chain validity"
+- "Validated regex pattern against test cases"
+- "Confirmed nginx config syntax correct"
+
+### researcher
+
+**Select when:** AI searched documentation, compared options, or provided reference material
+
+**Examples:**
+- "You found the API documentation"
+- "You compared different database engines"
+- "You looked up the correct syntax"
+- "You researched alternative approaches"
+
+**Contributions to log:**
+- "Found official AWS documentation on IAM policies"
+- "Compared nginx vs Apache for use case"
+- "Researched Python asyncio best practices"
+
+**Multiple roles:** If AI performed multiple roles, select the primary one and note others in specific_contributions.
+
+---
+
+## Time Saved Estimation Guide
+
+Estimate time saved by AI assistance compared to doing the work manually.
+
+### Estimation Framework
+
+**Simple fix (15-30 min):**
+- Syntax corrections
+- Single config change with known solution
+- Lookup of documented command/setting
+- **Basis:** "Quick syntax fix from documentation"
+
+**Research + solution (30-60 min):**
+- Finding correct documentation
+- Comparing 2-3 options
+- Generating standard boilerplate code
+- **Basis:** "Documentation search and configuration generation"
+
+**Complex debugging (60-120 min):**
+- Multi-step troubleshooting
+- Identifying root cause in complex system
+- Testing multiple solutions
+- **Basis:** "Systematic debugging saved trial-and-error"
+
+**Code generation (30-90 min):**
+- Writing tested, working code
+- Complete script with error handling
+- Configuration from scratch
+- **Basis:** "Generated working code with validation"
+
+### Example Estimates with Reasoning
+
+| Task | Estimate | Basis |
+|------|----------|-------|
+| Generated SSL renewal script | 60 min | "Script generation, cron setup, testing" |
+| Found correct API endpoint in docs | 20 min | "Documentation search and verification" |
+| Debugged nginx routing issue | 90 min | "Systematic testing of config combinations" |
+| Fixed Python syntax error | 15 min | "Immediate syntax correction" |
+| Compared 3 database options | 45 min | "Research, comparison, recommendation" |
+| Created complete YAML config | 40 min | "Template creation with validation" |
+
+**Conservative estimates:** When uncertain, estimate lower. It's better to underestimate than overestimate.
+
+**Compound tasks:** Sum the components. Script generation (40 min) + documentation (20 min) + testing (10 min) = 70 min total.
 
 ---
 
