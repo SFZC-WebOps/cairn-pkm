@@ -10,7 +10,7 @@
 | `!create task` | Create new task |
 | `!create object [type]` | Create new object |
 
-**Workflow:** Specify type → Interactive prompts → Review draft → Confirm → Output
+**Workflow:** Specify type â†’ Interactive prompts â†’ Review draft â†’ Confirm â†’ Output
 
 ---
 
@@ -25,10 +25,10 @@ Per `cmd-shared-patterns.md`
 ```
 PARSE: user input
 MATCH:
-  - "area" | "area-*" → CREATE_AREA
-  - "project" | "p###-*" → CREATE_PROJECT
-  - "task" → CREATE_TASK
-  - "object [type]" | "[object-type]" → CREATE_OBJECT
+  - "area" | "area-*" â†’ CREATE_AREA
+  - "project" | "p###-*" â†’ CREATE_PROJECT
+  - "task" â†’ CREATE_TASK
+  - "object [type]" | "[object-type]" â†’ CREATE_OBJECT
   
 IF ambiguous: Ask "Create what? (area | project | task | object [type])"
 ```
@@ -56,9 +56,9 @@ Title is auto-generated from domain name:
 - Otherwise uses "{Domain} Management" pattern
 
 **Examples:**
-- Domain: "finance" + Description: "Personal finance tracking" → Title: "Personal Finance"
-- Domain: "facilities" + Description: "Office space management" → Title: "Facilities Management"
-- Domain: "webops" + Description: "Web operations and infrastructure" → Title: "Web Operations"
+- Domain: "finance" + Description: "Personal finance tracking" â†’ Title: "Personal Finance"
+- Domain: "facilities" + Description: "Office space management" â†’ Title: "Facilities Management"
+- Domain: "webops" + Description: "Web operations and infrastructure" â†’ Title: "Web Operations"
 
 ### Generation
 
@@ -268,7 +268,7 @@ Describe the task in 1-2 sentences. I'll extract the title and generate fields.
 Example: "Create SSL certificate renewal script that runs monthly and emails results"
 Example: "Review Q4 budget and prepare presentation for board meeting"
 
-What task would you like to create?
+What task would you like to create? (help for options after draft)
 ```
 
 ### Intelligent Field Extraction
@@ -319,6 +319,7 @@ due [YYYY-MM-DD]     - Set due date
 due clear            - Remove due date
 type add [type]      - Add type tag
 type remove [type]   - Remove type tag
+help                 - Show available commands
 ```
 
 ### Template

@@ -9,8 +9,8 @@
 | `!edit` | Edit uploaded file (auto-detects type) |
 
 **Workflow:**
-- **By filename:** `!edit 20251220-ssl-fix.md` → Interactive loop → Confirm → Output
-- **By upload:** Upload file → `!edit` → Interactive loop → Confirm → Output
+- **By filename:** `!edit 20251220-ssl-fix.md` â†’ Interactive loop â†’ Confirm â†’ Output
+- **By upload:** Upload file â†’ `!edit` â†’ Interactive loop â†’ Confirm â†’ Output
 
 ---
 
@@ -50,22 +50,22 @@ READ: uploaded file
 DETECT entity type:
 
 1. Check frontmatter "type" field
-   - type: area → EDIT_AREA
-   - type: project → EDIT_PROJECT
-   - type: task → EDIT_TASK
-   - type: {object-type} → EDIT_OBJECT
+   - type: area â†’ EDIT_AREA
+   - type: project â†’ EDIT_PROJECT
+   - type: task â†’ EDIT_TASK
+   - type: {object-type} â†’ EDIT_OBJECT
 
 2. Check filename pattern
-   - _area-*-home.md → EDIT_AREA
-   - _p###-*-home.md → EDIT_PROJECT
-   - YYYYMMDD-*.md in tasks/ → EDIT_TASK
-   - contact-*.md, device-*.md, etc. → EDIT_OBJECT
+   - _area-*-home.md â†’ EDIT_AREA
+   - _p###-*-home.md â†’ EDIT_PROJECT
+   - YYYYMMDD-*.md in tasks/ â†’ EDIT_TASK
+   - contact-*.md, device-*.md, etc. â†’ EDIT_OBJECT
 
 3. Check file location
-   - Tracks/area-*/ → EDIT_AREA
-   - Tracks/p###-*/ → EDIT_PROJECT
-   - */tasks/ → EDIT_TASK
-   - Objects/ → EDIT_OBJECT
+   - Tracks/area-*/ â†’ EDIT_AREA
+   - Tracks/p###-*/ â†’ EDIT_PROJECT
+   - */tasks/ â†’ EDIT_TASK
+   - Objects/ â†’ EDIT_OBJECT
 
 IF unable to detect: "Could not determine file type. Is this an area, project, task, or object?"
 ```
@@ -121,7 +121,7 @@ Editing area-finance...
 - Created: 2025-11-15
 - Modified: 2025-12-10
 
-What changes?
+What changes? (help for options, done to finish)
 
 > log decision Switching to quarterly review cycle
 
@@ -149,7 +149,7 @@ Editing area-finance...
 - Created: 2025-11-15
 - Modified: 2025-12-10
 
-What changes?
+What changes? (help for options, done to finish)
 
 > log decision Switching to quarterly review cycle - monthly too frequent
 
@@ -205,7 +205,7 @@ Editing p014-blog-migr...
 - Created: 2025-11-01
 - Modified: 2025-12-15
 
-What changes?
+What changes? (help for options, done to finish)
 
 > progress 75
 
@@ -287,7 +287,7 @@ Editing task: Fix SSL certificate chain validation...
 - Due date: (not set)
 - Assignee: devops-team
 
-What changes?
+What changes? (help for options, done to finish)
 
 > status complete
 
@@ -376,22 +376,22 @@ READ: uploaded file
 DETECT entity type:
 
 1. Check frontmatter "type" field
-   - type: area → EDIT_AREA
-   - type: project → EDIT_PROJECT
-   - type: task → EDIT_TASK
-   - type: {object-type} → EDIT_OBJECT
+   - type: area â†’ EDIT_AREA
+   - type: project â†’ EDIT_PROJECT
+   - type: task â†’ EDIT_TASK
+   - type: {object-type} â†’ EDIT_OBJECT
 
 2. Check filename pattern
-   - _area-*-home.md → EDIT_AREA
-   - _p###-*-home.md → EDIT_PROJECT
-   - YYYYMMDD-*.md in tasks/ → EDIT_TASK
-   - contact-*.md, device-*.md, etc. → EDIT_OBJECT
+   - _area-*-home.md â†’ EDIT_AREA
+   - _p###-*-home.md â†’ EDIT_PROJECT
+   - YYYYMMDD-*.md in tasks/ â†’ EDIT_TASK
+   - contact-*.md, device-*.md, etc. â†’ EDIT_OBJECT
 
 3. Check file location
-   - Tracks/area-*/ → EDIT_AREA
-   - Tracks/p###-*/ → EDIT_PROJECT
-   - */tasks/ → EDIT_TASK
-   - Objects/ → EDIT_OBJECT
+   - Tracks/area-*/ â†’ EDIT_AREA
+   - Tracks/p###-*/ â†’ EDIT_PROJECT
+   - */tasks/ â†’ EDIT_TASK
+   - Objects/ â†’ EDIT_OBJECT
 
 IF unable to detect: "Could not determine file type. Is this an area, project, task, or object?"
 ```
@@ -447,7 +447,7 @@ Editing area-finance...
 - Created: 2025-11-15
 - Modified: 2025-12-10
 
-What changes?
+What changes? (help for options, done to finish)
 
 > log decision Switching to quarterly review cycle
 
@@ -475,7 +475,7 @@ Editing area-finance...
 - Created: 2025-11-15
 - Modified: 2025-12-10
 
-What changes?
+What changes? (help for options, done to finish)
 
 > log decision Switching to quarterly review cycle - monthly too frequent
 
@@ -531,7 +531,7 @@ Editing p014-blog-migr...
 - Created: 2025-11-01
 - Modified: 2025-12-15
 
-What changes?
+What changes? (help for options, done to finish)
 
 > progress 75
 
@@ -613,7 +613,7 @@ Editing task: Fix SSL certificate chain validation...
 - Due date: (not set)
 - Assignee: devops-team
 
-What changes?
+What changes? (help for options, done to finish)
 
 > status complete
 
@@ -690,7 +690,7 @@ Editing contact-hazel-frost...
 - Organization: TechCorp
 - Email: (not set)
 
-What changes?
+What changes? (help for options, done to finish)
 
 > field email hazel.frost@example.com
 
@@ -726,10 +726,10 @@ All entity types follow this flow:
 2. Read file (uploaded or from vault)
 3. Detect entity type
 4. Show current state (relevant fields)
-5. Prompt: "What changes?"
+5. Prompt: "What changes? (help for options, done to finish)"
 6. Apply changes
 7. Show updated state
-8. Loop until 'done'
+8. Loop until 'done' (subsequent prompts: "Continue editing or type 'done'.")
 9. Output per file_operations setting
 ```
 
@@ -769,22 +769,22 @@ PROMPT: "Use this or provide your own?"
 
 | Command | All Types | Areas/Projects | Tasks | Objects |
 |---------|-----------|----------------|-------|---------|
-| `done` | ✓ | ✓ | ✓ | ✓ |
-| `status [value]` | ✓ | ✓ | ✓ | ✓ |
-| `field [name] [value]` | ✓ | ✓ | ✓ | ✓ |
-| `log [type] [text]` | — | ✓ | — | — |
-| `progress [0-100]` | — | ✓ (projects only) | — | — |
-| `history [text]` | — | — | ✓ | — |
-| `priority [value]` | — | — | ✓ | — |
-| `phase [value]` | — | — | ✓ | — |
-| `effort [value]` | — | — | ✓ | — |
-| `viz [value]` | — | — | ✓ | — |
-| `due [date]` | — | — | ✓ | — |
-| `type add/remove` | — | — | ✓ | — |
-| `subtask [text]` | — | — | ✓ | — |
-| `note [text]` | — | — | — | ✓ |
-| `alias [text]` | — | — | — | ✓ |
-| `tag [text]` | — | — | — | ✓ |
+| `done` | âœ“ | âœ“ | âœ“ | âœ“ |
+| `status [value]` | âœ“ | âœ“ | âœ“ | âœ“ |
+| `field [name] [value]` | âœ“ | âœ“ | âœ“ | âœ“ |
+| `log [type] [text]` | â€” | âœ“ | â€” | â€” |
+| `progress [0-100]` | â€” | âœ“ (projects only) | â€” | â€” |
+| `history [text]` | â€” | â€” | âœ“ | â€” |
+| `priority [value]` | â€” | â€” | âœ“ | â€” |
+| `phase [value]` | â€” | â€” | âœ“ | â€” |
+| `effort [value]` | â€” | â€” | âœ“ | â€” |
+| `viz [value]` | â€” | â€” | âœ“ | â€” |
+| `due [date]` | â€” | â€” | âœ“ | â€” |
+| `type add/remove` | â€” | â€” | âœ“ | â€” |
+| `subtask [text]` | â€” | â€” | âœ“ | â€” |
+| `note [text]` | â€” | â€” | â€” | âœ“ |
+| `alias [text]` | â€” | â€” | â€” | âœ“ |
+| `tag [text]` | â€” | â€” | â€” | âœ“ |
 
 ---
 
@@ -814,6 +814,8 @@ Available commands for {entity_type}:
 
 Type 'done' when finished.
 ```
+
+See `cmd-help.md` for full help system details.
 
 ---
 

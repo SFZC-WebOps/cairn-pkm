@@ -12,8 +12,8 @@
 | `!changelog-r [start] [end]` | Display date range |
 
 **Workflow:**
-- **Create:** `!changelog` → Review draft → Edit/provide fields as needed → `save`
-- **Review:** `!changelog-r` → View narrative history
+- **Create:** `!changelog` â†’ Review draft â†’ Edit/provide fields as needed â†’ `save`
+- **Review:** `!changelog-r` â†’ View narrative history
 
 **Location:** `{VAULT_PATH}/_local/data/changelog/`
 
@@ -65,6 +65,7 @@ requested_by [name]    - Set requester
 rationale [text]       - Set/update rationale (RC principle)
 edit [field]           - Modify any field
 cancel                 - Discard entry
+help                   - Show available commands
 ```
 
 **Complete:** Per `cmd-shared-patterns.md`
@@ -184,9 +185,9 @@ Extract the business or technical driver for the change:
 | New capability/enhancement | feature |
 | Config/deployment/setup | configuration |
 
-**Impact:** low (minor component) → medium (some user visibility) → high (critical systems) → critical (production down)
+**Impact:** low (minor component) â†’ medium (some user visibility) â†’ high (critical systems) â†’ critical (production down)
 
-**Risk:** low (simple, tested, reversible) → medium (complex but tested) → high (risky, limited testing)
+**Risk:** low (simple, tested, reversible) â†’ medium (complex but tested) â†’ high (risky, limited testing)
 
 ---
 

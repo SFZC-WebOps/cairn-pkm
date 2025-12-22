@@ -342,9 +342,9 @@ tags: []
 
 ### Capture File Naming
 
-`cap-YYYY-MM-DD-HHMMSS-{slug}.md`
+`qn-YYYY-MM-DD-HHMMSS-{slug}.md`
 
-Example: `cap-2025-12-18-143022-api-integration-notes.md`
+Example: `qn-2025-12-18-143022-api-integration-notes.md`
 
 ---
 
@@ -446,6 +446,7 @@ Cairn-PKM provides conversational commands for working with the system through L
 **Workflow Management:**
 - `!hi` - Open interactive session menu or display track overview
 - `!bye` - Close session with comprehensive logging and task history generation
+- `!help` - Show available commands and usage
 
 **Entity Creation & Editing:**
 - `!create [type]` - Unified creation (area | project | task | object [type])

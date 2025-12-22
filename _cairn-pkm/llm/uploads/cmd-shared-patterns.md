@@ -71,7 +71,7 @@ ON FAILURE:
   4. NEVER lose content silently
 ```
 
-**Fallback chain:** write → download → display
+**Fallback chain:** write â†’ download â†’ display
 
 **Purpose:** User never loses work due to system/permission errors.
 
@@ -185,7 +185,7 @@ The preferences file exists in two contexts:
 When command needs to display current time:
 
 ```
-OUTPUT: "🕐 Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
+OUTPUT: "ðŸ• Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 ```
 
 ---
@@ -196,10 +196,10 @@ Standard ending for all commands:
 
 ```
 OUTPUT:
-✓ Task complete
-═══════════════════════════════════════════════
-🤖 Waiting for next instruction
-═══════════════════════════════════════════════
+âœ“ Task complete
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ðŸ¤– Waiting for next instruction
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 STOP
 ```
@@ -228,6 +228,7 @@ These errors apply to all commands unless overridden:
 
 | Situation | Response |
 |-----------|----------|
+| Unknown command | "Unknown command. Try !help" |
 | cairn-pkm-user-prefs.yaml missing | Use defaults, continue |
 | Write fails (write/confirm mode) | Report error, fall back per GFC |
 | Download fails | Report error, fall back to display per GFC |
@@ -235,9 +236,9 @@ These errors apply to all commands unless overridden:
 
 **GFC messaging pattern:**
 ```
-⚠️ {operation} failed: {reason}
-↳ Falling back to {fallback_mode}
-↳ Content preserved below
+âš ï¸ {operation} failed: {reason}
+â†³ Falling back to {fallback_mode}
+â†³ Content preserved below
 ```
 
 ---
@@ -267,7 +268,7 @@ content = ftfy.fix_text(content)
 # Then write or display
 ```
 
-**Purpose:** Prevents Ã, â€ and other mojibake characters from appearing in markdown files.
+**Purpose:** Prevents Ãƒ, Ã¢â‚¬ and other mojibake characters from appearing in markdown files.
 
 **When to apply:**
 - After generating any file content
