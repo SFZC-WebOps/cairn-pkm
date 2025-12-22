@@ -1,5 +1,5 @@
 # Shared Command Patterns
-*Type: Include | Updated: 2025-12-21*
+*Type: Include | Updated: 2025-12-22*
 
 Reference document for patterns used across multiple commands. Commands should reference this rather than duplicating.
 
@@ -163,6 +163,21 @@ EXTRACT:
 ON FILE NOT FOUND: Use defaults, continue execution
 ```
 
+**Note on User Preferences File Locations:**
+
+The preferences file exists in two contexts:
+
+1. **Claude Project Context:** `/mnt/project/cairn-pkm-user-prefs.yaml`
+   - This is where Claude reads the file when uploaded to a Claude project
+   - Upload your customized prefs here for Claude to use
+
+2. **Vault Storage:** `_local/cairn-pkm-user-prefs.yaml`
+   - This is where the file lives in your Obsidian vault
+   - Edit this file to customize your preferences
+   - Keep this synchronized with what you upload to Claude
+
+**Workflow:** Edit `_local/cairn-pkm-user-prefs.yaml` in your vault, then upload a copy to your Claude project as `/mnt/project/cairn-pkm-user-prefs.yaml`.
+
 ---
 
 ## DateTime Output
@@ -220,7 +235,7 @@ These errors apply to all commands unless overridden:
 
 **GFC messaging pattern:**
 ```
-⚠ {operation} failed: {reason}
+⚠️ {operation} failed: {reason}
 ↳ Falling back to {fallback_mode}
 ↳ Content preserved below
 ```

@@ -1,5 +1,5 @@
 # !create - Unified Creation Command
-*Type: Write | Updated: 2025-12-21*
+*Type: Write | Updated: 2025-12-22*
 
 ## Quick Reference
 
@@ -65,7 +65,11 @@ Title is auto-generated from domain name:
 ```
 CONSTRUCT: folder_path = {VAULT_PATH}/Tracks/area-{domain}/
 CONSTRUCT: home_doc = {folder_path}_area-{domain}-home.md
-CREATE: subfolders resources/, tasks/, zzz/
+
+CREATE subfolders (CRITICAL - create separately to avoid shell expansion issues):
+  mkdir -p {folder_path}resources
+  mkdir -p {folder_path}tasks
+  mkdir -p {folder_path}zzz
 ```
 
 ### Confirmation Preview
@@ -76,6 +80,8 @@ CREATE: subfolders resources/, tasks/, zzz/
 - Title: {title}
 - Folder: {VAULT_PATH}/Tracks/area-{domain}/
 - Subfolders: resources/, tasks/, zzz/
+
+Review the content below before confirming:
 
 [Full YAML shown below for reference]
 ```
@@ -133,30 +139,41 @@ Creating new project...
 
 ### Project Naming Best Practices
 
-**System codes** represent what's being changed:
+**Understanding System vs Action Codes:**
+
+Codes are flexible and context-dependent. A code can function as either system or action depending on your project:
+
+**Typically System Codes** (what's being changed):
 - blog - Blog/website
 - infra - Infrastructure  
 - home - Home/personal systems
 - work - Work systems
-- sfzc - Organization name
 - site - Website/web property
 - facl - Facilities
+- hvac - HVAC system
 
-**Action codes** represent what you're doing:
+**Typically Action Codes** (what you're doing):
 - migr - Migration
 - upgr - Upgrade
 - setup - Initial setup
 - audt - Audit/review
 - docs - Documentation
 - reno - Renovation
-- hvac - HVAC work
 - impl - Implementation
+
+**Context matters:** The code "hvac" could be:
+- A system code in "p003-hvac-upgr" (upgrading the HVAC system)
+- An action code in "p003-facl-hvac" (doing HVAC work on facilities)
+
+Choose codes that make sense for your project context.
 
 **Good examples:**
 - p001-blog-migr (migrate blog platform)
 - p002-infra-upgr (upgrade infrastructure)
 - p003-home-reno (home renovation)
 - p004-site-setup (new site setup)
+- p005-facl-hvac (HVAC work on facilities)
+- p006-hvac-upgr (upgrading HVAC system)
 
 **Avoid:**
 - p001-fix-stuff (too vague)
@@ -170,7 +187,25 @@ CALCULATE: next_number = highest + 1, zero-padded to 3 digits
 CONSTRUCT: project_id = p{next_number}-{system}-{action}
 CONSTRUCT: folder_path = {VAULT_PATH}/Tracks/{project_id}/
 CONSTRUCT: home_doc = {folder_path}_{project_id}-home.md
-CREATE: subfolders resources/, tasks/, zzz/
+
+CREATE subfolders (CRITICAL - create separately to avoid shell expansion issues):
+  mkdir -p {folder_path}resources
+  mkdir -p {folder_path}tasks
+  mkdir -p {folder_path}zzz
+```
+
+### Confirmation Preview
+
+```
+**Proposed Project:**
+- Project ID: {project_id}
+- Title: {title}
+- Folder: {VAULT_PATH}/Tracks/{project_id}/
+- Subfolders: resources/, tasks/, zzz/
+
+Review the content below before confirming:
+
+[Full YAML shown below for reference]
 ```
 
 ### Template
@@ -216,11 +251,12 @@ modified: {YYYY-MM-DD}
 2. Infer track context (from !hi, conversation, or ask user)
 3. Prompt user for task description
 4. Extract from input: title, types, mentioned fields
-5. Generate filename: `{YYYYMMDD}-{slug}.md`
-6. Show proposed filename
-7. Show draft with inferred values
-8. Interactive edit loop until `done`
-9. Output per file_operations setting
+5. **Auto-generate subtasks** from task description (see below)
+6. Generate filename: `{YYYYMMDD}-{slug}.md`
+7. Show proposed filename
+8. Show draft with inferred values
+9. Interactive edit loop until `done`
+10. Output per file_operations setting
 
 ### Initial Prompt
 
@@ -234,6 +270,27 @@ Example: "Review Q4 budget and prepare presentation for board meeting"
 
 What task would you like to create?
 ```
+
+### Intelligent Field Extraction
+
+The system intelligently extracts and infers:
+- **Title:** Main task description
+- **Types:** Based on keywords (vendor, infrastructure, security, etc.)
+- **Phase:** planning/executing/testing/closing from context
+- **Effort:** simple/moderate/complex from scope
+- **Subtasks:** Automatically broken down from task description
+
+**Subtask Auto-Generation:**
+The system analyzes your task description and automatically creates logical subtasks. For example:
+
+Input: "Schedule HVAC vendor site assessment and get quotes"
+Auto-generated subtasks:
+- [ ] Research qualified HVAC vendors
+- [ ] Contact vendors for availability
+- [ ] Schedule site assessment
+- [ ] Receive and compare quotes
+
+You can modify these during the interactive edit loop.
 
 ### Required Fields
 
