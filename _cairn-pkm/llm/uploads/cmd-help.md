@@ -11,14 +11,14 @@
 
 ---
 
-## !help "” List Commands
+## !help "" List Commands
 
 ```
 SCAN: /mnt/project/cmd-*.md files
 EXCLUDE: cmd-shared-patterns.md, cmd-output-behavior.md (include files, not commands)
 
 FOR EACH cmd-*.md:
-  EXTRACT: command name from filename (cmd-{name}.md â†’ !{name})
+  EXTRACT: command name from filename (cmd-{name}.md → !{name})
   EXTRACT: description from title line (# !cmd - {Description})
 
 OUTPUT:
@@ -33,13 +33,13 @@ OUTPUT:
 
 ---
 
-## !help [cmd] "” Specific Command
+## !help [cmd] "" Specific Command
 
 Extract and display from target cmd-*.md:
 
-1. **Quick Reference table** "” command variants and what they do
-2. **Basic workflow** "” one-line description from file header
-3. **Interactive commands** "” if applicable (edit loops)
+1. **Quick Reference table** "" command variants and what they do
+2. **Basic workflow** "" one-line description from file header
+3. **Interactive commands** "" if applicable (edit loops)
 
 **Example output for `!help edit`:**
 
@@ -51,7 +51,7 @@ Extract and display from target cmd-*.md:
 | !edit [filename] | Edit file by name |
 | !edit | Edit uploaded file |
 
-Workflow: Provide filename or upload â†’ Interactive loop â†’ Confirm â†’ Output
+Workflow: Provide filename or upload → Interactive loop → Confirm → Output
 
 Interactive commands: status, priority, phase, effort, viz, due, history, 
                       log, progress, field, subtask, done, help

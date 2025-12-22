@@ -198,7 +198,7 @@ Standard ending for all commands:
 OUTPUT:
 ✓ Task complete
 ═══════════════════════════════════════════════
-📋Â¤"“ Waiting for next instruction
+📋¤"" Waiting for next instruction
 ═══════════════════════════════════════════════
 
 STOP

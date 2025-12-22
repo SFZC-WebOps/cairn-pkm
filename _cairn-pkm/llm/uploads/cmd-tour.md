@@ -15,7 +15,7 @@
 
 ## Overview
 
-Interactive walkthrough for new users. Teaches core concepts through hands-on exploration of sample data. Creates nothing permanent"”shows what *would* happen.
+Interactive walkthrough for new users. Teaches core concepts through hands-on exploration of sample data. Creates nothing permanent""shows what *would* happen.
 
 **Philosophy:** Learn by doing, not reading. Cover the 80/20.
 
@@ -54,16 +54,16 @@ Step 3 (task creation) has special input handling for task description.
 
 ```
 OUTPUT:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸ—ºï¸  CAIRN-PKM TOUR
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
+🗺️  CAIRN-PKM TOUR
+═══════════════════════════════════════════════════════════════
 
 Welcome! This 5-minute tour will show you how Cairn-PKM works.
 
 You'll learn to:
 "¢ Navigate the vault structure
 "¢ View a project and its tasks
-"¢ Create a task (preview only"”nothing saved)
+"¢ Create a task (preview only""nothing saved)
 "¢ Close a session properly
 
 Everything is non-destructive. You're just exploring.
@@ -72,54 +72,54 @@ Everything is non-destructive. You're just exploring.
 2. Exit
 
 Enter number:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 ```
 
 ### Step 1: Orient (30-60 sec)
 
 ```
 OUTPUT:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 STEP 1 of 5: THE VAULT STRUCTURE
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 Cairn-PKM organizes everything into five domains:
 
-ðŸ“ _cairn-pkm/     System files (don't edit"”replace to update)
-ðŸ“ _local/         Your customizations (templates, data, views)
-ðŸ“ Capture/        Inbox for quick notes
-ðŸ“ Objects/        Cross-cutting entities (contacts, devices, etc.)
-ðŸ“ Tracks/         Where work lives
+📁 _cairn-pkm/     System files (don't edit""replace to update)
+📁 _local/         Your customizations (templates, data, views)
+📁 Capture/        Inbox for quick notes
+📁 Objects/        Cross-cutting entities (contacts, devices, etc.)
+📁 Tracks/         Where work lives
 
 Inside Tracks/, you have two types:
 
-  ðŸ“‚ area-{name}/      Ongoing domains (finance, health, work)
-  ðŸ“‚ p###-{sys}-{act}/ Temporary projects (p001-blog-migr)
+  📂 area-{name}/      Ongoing domains (finance, health, work)
+  📂 p###-{sys}-{act}/ Temporary projects (p001-blog-migr)
 
 Each track has the same internal structure:
-  _*-home.md    â† Source of truth
-  resources/    â† Supporting materials  
-  tasks/        â† Work items
-  zzz/          â† Completed/archived
+  _*-home.md    ← Source of truth
+  resources/    ← Supporting materials  
+  tasks/        ← Work items
+  zzz/          ← Completed/archived
 
 That's it. Five domains, two track types, consistent structure.
 
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 1. Continue
 2. Skip this step
 3. Exit tour
 
 Enter number:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 ```
 
 ### Step 2: Explore a Track (1-2 min)
 
 ```
 OUTPUT:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 STEP 2 of 5: EXPLORING A PROJECT
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 Let's look at a sample project. In real use, you'd type:
 
@@ -133,38 +133,38 @@ EXECUTE:
   DISPLAY: Track overview (same format as !hi-[target])
 
 OUTPUT after track display:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 What you just saw:
 
-"¢ **Overview** "” What this project is about
-"¢ **Current Focus** "” What's happening now
-"¢ **Recent Activity** "” Log entries with timestamps
-"¢ **Active Tasks** "” All open work items with status, priority, due dates
-"¢ **Task Summary** "” Counts by status and priority
+"¢ **Overview** "" What this project is about
+"¢ **Current Focus** "" What's happening now
+"¢ **Recent Activity** "" Log entries with timestamps
+"¢ **Active Tasks** "" All open work items with status, priority, due dates
+"¢ **Task Summary** "" Counts by status and priority
 
 The !hi-[track] command is your main way to see what's happening.
 
 TIP: Notice how tasks show parent-child relationships and subtasks.
      This helps you see both the big picture and the details.
 
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 1. Continue
 2. Skip this step  
 3. Go back
 4. Exit tour
 
 Enter number:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 ```
 
 ### Step 3: Create a Task (2-3 min)
 
 ```
 OUTPUT:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 STEP 3 of 5: CREATING A TASK
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 Now let's create a task. In real use, you'd type:
 
@@ -172,7 +172,7 @@ Now let's create a task. In real use, you'd type:
 
 Then describe what you need. Let me walk you through it...
 
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 Creating new task...
 
@@ -193,7 +193,7 @@ PARSE INPUT:
   ELSE: USE input as task description
 
 OUTPUT:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 I extracted from your description:
 
@@ -213,8 +213,8 @@ I extracted from your description:
 
 GENERATE and display full task file:
 
-ðŸ“„ FILE PREVIEW (tour mode"”not saved)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+📄 FILE PREVIEW (tour mode""not saved)
+═══════════════════════════════════════════════════════════════
 Filename: 20251222-schedule-stakeholder-demo.md
 Path: Tracks/p002-prod-lnch/tasks/20251222-schedule-stakeholder-demo.md
 
@@ -251,7 +251,7 @@ type:
 ### Notes
 
 ---
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 
 In real use, you could edit any field before saving:
   "¢ priority high
@@ -261,23 +261,23 @@ In real use, you could edit any field before saving:
 
 This is PREVIEW ONLY. Nothing was saved.
 
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 1. Continue
 2. Skip this step
 3. Go back
 4. Exit tour
 
 Enter number:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 ```
 
 ### Step 4: Close a Session (1 min)
 
 ```
 OUTPUT:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 STEP 4 of 5: CLOSING A SESSION
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 When you're done working, close with:
 
@@ -293,8 +293,8 @@ Here's what !bye would produce for this tour session:
 
 GENERATE sample !bye output:
 
-ðŸ“Š SESSION SUMMARY
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+📊 SESSION SUMMARY
+═══════════════════════════════════════════════════════════════
 
 Tracks visited: p002-prod-lnch
 Files created: 0 (tour mode)
@@ -302,49 +302,49 @@ Files edited: 0
 Log entries added: 0
 Key decisions: Explored task creation workflow
 
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 
-ðŸ“ SUGGESTED TASK HISTORY ENTRY:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+📝 SUGGESTED TASK HISTORY ENTRY:
+═══════════════════════════════════════════════════════════════
 2025-12-22: Completed Cairn-PKM tour - learning system basics
 
 Copy to relevant task or track catch-all task.
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 
 Why close sessions? It builds a log of what you did and why.
 Your future self will thank you.
 
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 1. Continue
 2. Skip this step
 3. Go back
 4. Exit tour
 
 Enter number:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 ```
 
 ### Step 5: Next Steps (30 sec)
 
 ```
 OUTPUT:
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 STEP 5 of 5: WHAT'S NEXT
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 
 You've seen the core workflow:
 
-  !hi          â†’ Open menu or view a track
-  !create      â†’ Make areas, projects, tasks, objects
-  !edit        â†’ Modify anything
-  !bye         â†’ Close session with logging
+  !hi          → Open menu or view a track
+  !create      → Make areas, projects, tasks, objects
+  !edit        → Modify anything
+  !bye         → Close session with logging
 
 Other commands to explore:
 
-  !capture     â†’ Save ideas and links quickly
-  !changelog   â†’ Document system changes
-  !skills      â†’ Track skill evidence
-  !help        â†’ Command reference
+  !capture     → Save ideas and links quickly
+  !changelog   → Document system changes
+  !skills      → Track skill evidence
+  !help        → Command reference
 
 **Recommended first steps:**
 
@@ -365,27 +365,27 @@ Other commands to explore:
 
 **Getting help:**
 
-"¢ _ARCHITECTURE.md "” Full system documentation
-"¢ _INSTALLATION.md "” Setup and configuration
-"¢ cmd-*.md files "” Detailed command specs
+"¢ _ARCHITECTURE.md "" Full system documentation
+"¢ _INSTALLATION.md "" Setup and configuration
+"¢ cmd-*.md files "" Detailed command specs
 
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+───────────────────────────────────────────────────────────────
 ```
 
 ### Completion
 
 ```
 OUTPUT:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-ðŸŽ‰ TOUR COMPLETE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
+🎉 TOUR COMPLETE
+═══════════════════════════════════════════════════════════════
 
 You're ready to use Cairn-PKM.
 
 Remember:
-"¢ Start small "” one area, a few tasks
-"¢ Grow organically "” add structure when you need it
-"¢ Close sessions with !bye "” your logs will thank you
+"¢ Start small "" one area, a few tasks
+"¢ Grow organically "" add structure when you need it
+"¢ Close sessions with !bye "" your logs will thank you
 
 What's next?
 
@@ -394,7 +394,7 @@ What's next?
 3. Retake tour (!tour)
 
 Enter number or any command:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 
 CLEAR: tour_active = false
 
@@ -414,7 +414,7 @@ STOP
 ON input "4" (exit) at any step:
 
 OUTPUT:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 
 Tour ended early. No problem!
 
@@ -429,7 +429,7 @@ What's next?
 4. Create first area (!create area)
 
 Enter number or any command:
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════════════════════
 
 CLEAR: tour_active = false
 
@@ -463,10 +463,10 @@ OUTPUT: "Invalid step. Use !tour 1 through !tour 5"
 
 The tour uses the example content included in the distribution:
 
-- `Tracks/area-admin/` "” Example area
-- `Tracks/p002-prod-lnch/` "” Example project (primary tour focus)
-- `Objects/` "” Sample object files
-- `Capture/` "” Example quick notes
+- `Tracks/area-admin/` "" Example area
+- `Tracks/p002-prod-lnch/` "" Example project (primary tour focus)
+- `Objects/` "" Sample object files
+- `Capture/` "" Example quick notes
 
 If user has already deleted sample data, the tour gracefully degrades (see Error Handling).
 
@@ -476,7 +476,7 @@ If user has already deleted sample data, the tour gracefully degrades (see Error
 
 | Situation | Response |
 |-----------|----------|
-| Sample data missing | "Sample project (p002-prod-lnch) not found. Already cleaned up? No problem"”I'll demonstrate with a hypothetical example instead." Then continue with simulated data. |
+| Sample data missing | "Sample project (p002-prod-lnch) not found. Already cleaned up? No problem""I'll demonstrate with a hypothetical example instead." Then continue with simulated data. |
 | Sample data partial | Use what exists, simulate what's missing |
 | Step out of range | "Invalid step. Use !tour 1 through !tour 5" |
 | Unknown command during tour | "Tour command not recognized. Type 'help' for controls." |
@@ -503,6 +503,6 @@ If user has already deleted sample data, the tour gracefully degrades (see Error
 
 **Why display-only?** Removes fear of breaking things. They can experiment freely, then commit when ready.
 
-**Why 5 steps?** Cognitive limit. More steps = more dropoff. These five cover the essential loop: navigate â†’ create â†’ close.
+**Why 5 steps?** Cognitive limit. More steps = more dropoff. These five cover the essential loop: navigate → create → close.
 
 **Why sample project?** Abstract explanations don't stick. Seeing real (sample) data makes concepts concrete.

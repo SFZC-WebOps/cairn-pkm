@@ -8,7 +8,7 @@
 | `!hi` | Open main menu |
 | `!hi-[target]` | Display track overview with tasks |
 
-**Session model:** `!hi` opens â†’ work via commands â†’ `!bye` closes with logging
+**Session model:** `!hi` opens → work via commands → `!bye` closes with logging
 
 ---
 
@@ -18,10 +18,10 @@ Per `cmd-shared-patterns.md`
 
 ---
 
-## !hi "” Main Menu
+## !hi "" Main Menu
 
 ```
-ðŸ§­ What would you like to do?
+🧭 What would you like to do?
 
 1. Open a project or area
 2. Create something new
@@ -49,16 +49,16 @@ New here? Try !tour for a guided walkthrough
 
 | # | Action |
 |---|--------|
-| 1 | "Which track?" â†’ `!hi-[target]` |
-| 2 | "Create what? (area \| project \| task \| object [type])" â†’ `!create [type]` |
-| 3 | "Edit what? (filename or upload file)" â†’ `!edit [filename]` |
+| 1 | "Which track?" → `!hi-[target]` |
+| 2 | "Create what? (area \| project \| task \| object [type])" → `!create [type]` |
+| 3 | "Edit what? (filename or upload file)" → `!edit [filename]` |
 | 4 | `!capture` flow |
 | 5 | `!skills` flow |
 | 6 | `!bye` flow |
 
 ---
 
-## !hi-[target] "” Track Overview
+## !hi-[target] "" Track Overview
 
 ### Display Format
 
@@ -67,7 +67,7 @@ READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
 READ: All task files in [target]/tasks/
 PARSE: Task hierarchy (parent-child relationships)
 FILTER: status != complete (unless showing archive)
-SORT: priority (critical â†’ low), then created_date
+SORT: priority (critical → low), then created_date
 ```
 
 ### Date Calculations
@@ -81,13 +81,13 @@ SORT: priority (critical â†’ low), then created_date
 - Calendar days, not business days
 
 **Display:**
-- âš ï¸ OVERDUE: Standard overdue (appears after due date with day count)
-- âš ï¸ CRITICALLY OVERDUE (review needed): For tasks >90 days overdue
-- ðŸ”´ Overdue: N tasks/subtasks (in summary)
-- ðŸ“… Due This Week: N tasks/subtasks (in summary)
+- ⚠️ OVERDUE: Standard overdue (appears after due date with day count)
+- ⚠️ CRITICALLY OVERDUE (review needed): For tasks >90 days overdue
+- 🔴 Overdue: N tasks/subtasks (in summary)
+- 📅 Due This Week: N tasks/subtasks (in summary)
 
 **Critical Overdue Threshold:**
-When a task is more than 90 days overdue, display "âš ï¸ CRITICALLY OVERDUE (review needed)" instead of showing the day count. This highlights tasks that likely need urgent review or cleanup rather than just completion.
+When a task is more than 90 days overdue, display "⚠️ CRITICALLY OVERDUE (review needed)" instead of showing the day count. This highlights tasks that likely need urgent review or cleanup rather than just completion.
 
 **Output:**
 
@@ -112,21 +112,21 @@ When a task is more than 90 days overdue, display "âš ï¸ CRITICALLY OVERD
 
 ### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
 
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
-ðŸ“‹ [title]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 [title]
 Status: [status] | Priority: [priority] | Viz: [viz] | Effort: [effort]
 Phase: [phase] | Assignee: [assignee]
-Created: [created_date] | Due: [due_date] âš ï¸ OVERDUE (45 days)
+Created: [created_date] | Due: [due_date] ⚠️ OVERDUE (45 days)
                                          OR
-Created: [created_date] | Due: [due_date] âš ï¸ CRITICALLY OVERDUE (review needed)
+Created: [created_date] | Due: [due_date] ⚠️ CRITICALLY OVERDUE (review needed)
 
 Inline Subtasks (N):
-  â”œâ”€ [x] Completed subtask
-  â””â”€ [ ] Pending subtask (due YYYY-MM-DD)
+  ├─ [x] Completed subtask
+  └─ [ ] Pending subtask (due YYYY-MM-DD)
 
 Child Tasks (N):
-  â†’ Child task title (status, priority, due: YYYY-MM-DD)
-â”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+  → Child task title (status, priority, due: YYYY-MM-DD)
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [Repeat for each task]
 
@@ -144,21 +144,21 @@ Child Tasks (N):
 - Low: N
 
 **Time Alerts:**
-- ðŸ”´ Overdue: N tasks/subtasks
-- ðŸ“… Due This Week: N tasks/subtasks
+- 🔴 Overdue: N tasks/subtasks
+- 📅 Due This Week: N tasks/subtasks
 
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-âœ… Context set to [target] for !bye command
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+═══════════════════════════════════════════════
+✅ Context set to [target] for !bye command
+═══════════════════════════════════════════════
 
-ðŸ§­ What next?
+🧭 What next?
 
-1. Create a task â†’ !create task
-2. Edit a task â†’ !edit [filename]
-3. Add log entry â†’ !edit [track-home]
-4. Update status/progress â†’ !edit [track-home]
-5. Switch track â†’ !hi-[other-track]
-6. Close session â†’ !bye
+1. Create a task → !create task
+2. Edit a task → !edit [filename]
+3. Add log entry → !edit [track-home]
+4. Update status/progress → !edit [track-home]
+5. Switch track → !hi-[other-track]
+6. Close session → !bye
 ```
 
 ### Interactive Menu (Optional)
@@ -172,7 +172,7 @@ After displaying overview, show mini-menu for common actions. User can:
 
 **Note on Progress:** The progress field in project/area frontmatter must be manually updated via `!edit`. It does not auto-calculate from task completion. Progress represents overall track completion, not just task counts.
 
-To update: `!edit [track-home]` â†’ `progress [0-100]`
+To update: `!edit [track-home]` → `progress [0-100]`
 
 ---
 
@@ -244,15 +244,15 @@ CLEAR on !bye:
 ## Freeform Input Examples
 
 **Main menu:**
-- "Create a task for the storage migration" â†’ Prompts for track, then `!create task`
-- "What projects are active?" â†’ Lists active projects from Tracks/
-- "Show me p14" â†’ `!hi-p014` (with correction if needed)
-- "Edit my finance area" â†’ `!edit _area-finance-home.md`
+- "Create a task for the storage migration" → Prompts for track, then `!create task`
+- "What projects are active?" → Lists active projects from Tracks/
+- "Show me p14" → `!hi-p014` (with correction if needed)
+- "Edit my finance area" → `!edit _area-finance-home.md`
 
 **After track overview:**
-- "Mark the SSL task complete" â†’ `!edit 20251220-ssl-cert.md` with status suggestion
-- "Add a note that we're waiting on vendor" â†’ `!edit _[track]-home.md` with log entry suggestion
-- "Create a task to follow up next week" â†’ `!create task` with track pre-filled
+- "Mark the SSL task complete" → `!edit 20251220-ssl-cert.md` with status suggestion
+- "Add a note that we're waiting on vendor" → `!edit _[track]-home.md` with log entry suggestion
+- "Create a task to follow up next week" → `!create task` with track pre-filled
 
 ---
 
@@ -277,8 +277,8 @@ CLEAR on !bye:
 | Track not found | "Track not found. Available: [list]" |
 | Can't interpret request | "I didn't understand. Try !help for commands." |
 | No tasks found | "No active tasks in [track]" CONTINUE |
-| Task file parse error | "âš ï¸ Could not parse: [filename]" CONTINUE |
-| Home doc missing | "âš ï¸ Track home doc not found. Check track name." STOP |
+| Task file parse error | "⚠️ Could not parse: [filename]" CONTINUE |
+| Home doc missing | "⚠️ Track home doc not found. Check track name." STOP |
 
 ---
 
