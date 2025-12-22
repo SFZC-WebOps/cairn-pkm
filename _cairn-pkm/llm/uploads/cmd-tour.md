@@ -1,5 +1,5 @@
 # !tour - Guided Onboarding
-*Type: Interactive | Updated: 2025-12-21*
+*Type: Interactive | Updated: 2025-12-22*
 
 ## Quick Reference
 
@@ -35,16 +35,16 @@ SET: current_step = 1
 
 ## Tour Controls
 
-Available at any prompt during tour:
+Numerical menu at each step:
 
-| Command | Action |
-|---------|--------|
-| `next` / `n` / Enter | Proceed to next step |
-| `skip` | Skip current step |
-| `back` | Return to previous step |
-| `done` / `exit` / `q` | Exit tour early |
-| `help` | Show controls |
-| `step [1-5]` | Jump to specific step |
+| Input | Action |
+|-------|--------|
+| `1` | Continue to next step |
+| `2` | Skip current step |
+| `3` | Go back to previous step |
+| `4` | Exit tour |
+
+Step 3 (task creation) has special input handling for task description.
 
 ---
 
@@ -68,9 +68,10 @@ You'll learn to:
 
 Everything is non-destructive. You're just exploring.
 
-Controls: [Enter] next | [skip] skip step | [done] exit tour
+1. Start tour
+2. Exit
 
-Ready? Press Enter to start...
+Enter number:
 ═══════════════════════════════════════════════════════════════
 ```
 
@@ -104,7 +105,11 @@ Each track has the same internal structure:
 That's it. Five domains, two track types, consistent structure.
 
 ───────────────────────────────────────────────────────────────
-[Enter] continue | [skip] skip to next step | [done] exit
+1. Continue
+2. Skip this step
+3. Exit tour
+
+Enter number:
 ───────────────────────────────────────────────────────────────
 ```
 
@@ -144,7 +149,12 @@ TIP: Notice how tasks show parent-child relationships and subtasks.
      This helps you see both the big picture and the details.
 
 ───────────────────────────────────────────────────────────────
-[Enter] continue | [skip] skip to next step | [done] exit
+1. Continue
+2. Skip this step  
+3. Go back
+4. Exit tour
+
+Enter number:
 ───────────────────────────────────────────────────────────────
 ```
 
@@ -162,17 +172,25 @@ Now let's create a task. In real use, you'd type:
 
 Then describe what you need. Let me walk you through it...
 
-SIMULATE creation flow:
+───────────────────────────────────────────────────────────────
 
-OUTPUT:
 Creating new task...
 
-Describe the task in 1-2 sentences:
+Describe the task in 1-2 sentences, or:
 
-PROMPT: (User can type anything or press Enter for example)
+1. Use example task
+2. Skip this step
+3. Go back
+4. Exit tour
 
-IF user provides input: USE their input
-ELSE: USE example "Schedule walkthrough with building manager to review office layout"
+Enter description or number:
+
+PARSE INPUT:
+  IF "1" or "example": USE "Schedule walkthrough with building manager to review office layout"
+  IF "2": SKIP to Step 4
+  IF "3": GO BACK to Step 2
+  IF "4": EXIT tour
+  ELSE: USE input as task description
 
 OUTPUT:
 ───────────────────────────────────────────────────────────────
@@ -196,13 +214,13 @@ GENERATE and display full task file:
 
 📄 FILE PREVIEW (tour mode—not saved)
 ═══════════════════════════════════════════════════════════════
-Filename: 20251221-schedule-walkthrough.md
-Path: Tracks/p001-office-move/tasks/20251221-schedule-walkthrough.md
+Filename: 20251222-schedule-walkthrough.md
+Path: Tracks/p001-office-move/tasks/20251222-schedule-walkthrough.md
 
 ---
 title: "Schedule walkthrough with building manager"
 project: "p001-office-move"
-created_date: 2025-12-21
+created_date: 2025-12-22
 due_date: 
 assignee: ""
 parent_task: 
@@ -216,7 +234,7 @@ type:
 ---
 
 ### Task History
-- 2025-12-21: Created task - needed to review office layout before move
+- 2025-12-22: Created task - needed to review office layout before move
 
 ---
 
@@ -242,7 +260,12 @@ In real use, you could edit any field before saving:
 This is PREVIEW ONLY. Nothing was saved.
 
 ───────────────────────────────────────────────────────────────
-[Enter] continue | [skip] skip to next step | [done] exit
+1. Continue
+2. Skip this step
+3. Go back
+4. Exit tour
+
+Enter number:
 ───────────────────────────────────────────────────────────────
 ```
 
@@ -281,7 +304,7 @@ Key decisions: Explored task creation workflow
 
 📝 SUGGESTED TASK HISTORY ENTRY:
 ═══════════════════════════════════════════════════════════════
-2025-12-21: Completed Cairn-PKM tour - learning system basics
+2025-12-22: Completed Cairn-PKM tour - learning system basics
 
 Copy to relevant task or track catch-all task.
 ═══════════════════════════════════════════════════════════════
@@ -290,7 +313,12 @@ Why close sessions? It builds a log of what you did and why.
 Your future self will thank you.
 
 ───────────────────────────────────────────────────────────────
-[Enter] continue | [skip] skip to next step | [done] exit
+1. Continue
+2. Skip this step
+3. Go back
+4. Exit tour
+
+Enter number:
 ───────────────────────────────────────────────────────────────
 ```
 
@@ -311,10 +339,10 @@ You've seen the core workflow:
 
 Other commands to explore:
 
-  !quicknote   → Capture ideas quickly
+  !capture     → Save ideas and links quickly
   !changelog   → Document system changes
   !skills      → Track skill evidence
-  !readme      → Analyze web content
+  !help        → Command reference
 
 **Recommended first steps:**
 
@@ -357,14 +385,21 @@ Remember:
 • Grow organically — add structure when you need it
 • Close sessions with !bye — your logs will thank you
 
-Start working:  !hi
-Get help:       Ask me anything
+What's next?
 
-═══════════════════════════════════════════════════════════════
-🧭 Tour ended. Ready for your first command.
+1. Start working (!hi)
+2. Create your first area (!create area)
+3. Retake tour (!tour)
+
+Enter number or any command:
 ═══════════════════════════════════════════════════════════════
 
 CLEAR: tour_active = false
+
+IF input is 1: EXECUTE !hi
+IF input is 2: EXECUTE !create area
+IF input is 3: EXECUTE !tour
+ELSE: EXECUTE input as command
 
 STOP
 ```
@@ -374,7 +409,7 @@ STOP
 ## Early Exit Handling
 
 ```
-ON "done" or "exit" or "q":
+ON input "4" (exit) at any step:
 
 OUTPUT:
 ═══════════════════════════════════════════════════════════════
@@ -384,17 +419,23 @@ Tour ended early. No problem!
 You completed: Steps 1-{current_step - 1}
 You skipped: Steps {current_step}-5
 
-Resume anytime:  !tour
-Start fresh:     !tour 1
-Jump to step:    !tour [1-5]
+What's next?
 
-Or just start using the system:
-  !hi          → Open menu
-  !create area → Create your first area
+1. Resume tour (!tour)
+2. Start fresh (!tour 1)  
+3. Start working (!hi)
+4. Create first area (!create area)
 
+Enter number or any command:
 ═══════════════════════════════════════════════════════════════
 
 CLEAR: tour_active = false
+
+IF input is 1: EXECUTE !tour (resumes at current_step)
+IF input is 2: EXECUTE !tour 1
+IF input is 3: EXECUTE !hi
+IF input is 4: EXECUTE !create area
+ELSE: EXECUTE input as command
 
 STOP
 ```
