@@ -26,7 +26,7 @@ Per `cmd-shared-patterns.md`
 1. Open a project or area
 2. Create something new
 3. Edit something
-4. Quick note
+4. Capture something
 5. Record skill evidence
 6. Close session
 
@@ -49,7 +49,7 @@ Enter number or describe what you need:
 | 1 | "Which track?" → `!hi-[target]` |
 | 2 | "Create what? (area \| project \| task \| object [type])" → `!create [type]` |
 | 3 | "Edit what? (filename or upload file)" → `!edit [filename]` |
-| 4 | `!quicknote` flow |
+| 4 | `!capture` flow |
 | 5 | `!skills` flow |
 | 6 | `!bye` flow |
 

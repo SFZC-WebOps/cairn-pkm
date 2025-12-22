@@ -121,7 +121,6 @@ Commands use hardcoded defaults for most settings. If you need to override them,
 # Optional overrides (add only if needed)
 default_priority: "high"          # Override task default
 default_status: "scheduled"       # Override task default
-references_folder: "Resources"    # Override !readme output location
 ```
 
 See individual command specs for available overrides.
@@ -452,10 +451,9 @@ Cairn-PKM provides conversational commands for working with the system through L
 - `!edit [target]` - Unified editing (auto-detects entity type from filename or upload)
 
 **Capture & Documentation:**
-- `!quicknote` - Capture insights from conversation context
+- `!capture` - Quick capture from conversation (URLs or insights)
 - `!skills` - Track skill evidence with framework-agnostic competency analysis
 - `!changelog` - Document changes with YAML-structured entries
-- `!readme` - Analyze and score web content for strategic fit
 
 ### How Commands Work
 
