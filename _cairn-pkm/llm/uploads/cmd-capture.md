@@ -8,7 +8,7 @@
 | `!capture` | Capture from conversation context (URL or insight) |
 | `!capture [topic]` | Capture with explicit topic focus |
 
-**Workflow:** `!capture` → Auto-detect content type → Extract → Save to Capture/
+**Workflow:** `!capture` â†’ Auto-detect content type â†’ Extract â†’ Save to Capture/
 
 ---
 
@@ -28,8 +28,8 @@ Per `cmd-shared-patterns.md`
 
 ```
 SCAN conversation for:
-  1. URL presence → URL_CAPTURE
-  2. No URL → INSIGHT_CAPTURE
+  1. URL presence â†’ URL_CAPTURE
+  2. No URL â†’ INSIGHT_CAPTURE
 ```
 
 ### Phase 3: Extract
@@ -56,7 +56,7 @@ EXTRACT:
 ### Phase 4: Generate File
 
 ```
-FILENAME: qn-{YYYY}-{MM}-{DD}-{HHMMSS}-{slug}.md
+FILENAME: cap-{YYYY}-{MM}-{DD}-{HHMMSS}-{slug}.md
 PATH: {VAULT_PATH}/Capture/{filename}
 
 # Apply encoding fix (see cmd-shared-patterns.md)
@@ -66,13 +66,13 @@ content = ftfy.fix_text(content)
 ### Phase 5: Propose & Confirm
 
 ```
-OUTPUT: "📋 PROPOSED CAPTURE"
-OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: "ðŸ“‹ PROPOSED CAPTURE"
+OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 OUTPUT: "Filename: {filename}"
 OUTPUT: "Path: {filepath}"
 OUTPUT: ""
 OUTPUT: {content}
-OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 OUTPUT: ""
 OUTPUT: "Save this? (yes / edit / cancel)"
 
@@ -161,8 +161,8 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 - Remove articles (a, an, the)
 
 **Examples:**
-- "How to Configure SSL Certificates" → `ssl-certificates-config`
-- "Discussion about Q1 budget priorities" → `q1-budget-priorities`
+- "How to Configure SSL Certificates" â†’ `ssl-certificates-config`
+- "Discussion about Q1 budget priorities" â†’ `q1-budget-priorities`
 
 ---
 
@@ -190,7 +190,7 @@ The "Why Captured" field implements Rationale Capture (RC) - preserving the *why
 | Paywall/login required | Save with available meta info, note: "Content behind paywall" |
 | Empty conversation | "Nothing to capture. What should I save?" |
 | URL + insights both present | Prioritize URL capture, include insights in Notes section |
-| Write fails | Fall back per GFC (write → download → display) |
+| Write fails | Fall back per GFC (write â†’ download â†’ display) |
 
 Common errors: See `cmd-shared-patterns.md`
 
