@@ -1,5 +1,5 @@
 # !hi - Work Session
-*Type: Interactive | Updated: 2025-12-21*
+*Type: Interactive | Updated: 2025-12-22*
 
 ## Quick Reference
 
@@ -78,9 +78,13 @@ SORT: priority (critical → low), then created_date
 - Calendar days, not business days
 
 **Display:**
-- ⚠️ OVERDUE: Red, appears after due date
+- ⚠️ OVERDUE: Standard overdue (appears after due date with day count)
+- ⚠️ CRITICALLY OVERDUE (review needed): For tasks >90 days overdue
 - 🔴 Overdue: N tasks/subtasks (in summary)
 - 📅 Due This Week: N tasks/subtasks (in summary)
+
+**Critical Overdue Threshold:**
+When a task is more than 90 days overdue, display "⚠️ CRITICALLY OVERDUE (review needed)" instead of showing the day count. This highlights tasks that likely need urgent review or cleanup rather than just completion.
 
 **Output:**
 
@@ -94,7 +98,13 @@ SORT: priority (critical → low), then created_date
 ### Current Focus
 [Current Focus section from home doc]
 
-### Recent Activity (Last 10-15 entries)
+### Recent Activity
+
+**Display Logic:**
+- Show all log entries if fewer than 10 exist
+- Show last 10-15 entries if 10 or more exist
+- Most recent entries first (reverse chronological)
+
 [Log entries with timestamps]
 
 ### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
@@ -103,7 +113,9 @@ SORT: priority (critical → low), then created_date
 📋 [title]
 Status: [status] | Priority: [priority] | Viz: [viz] | Effort: [effort]
 Phase: [phase] | Assignee: [assignee]
-Created: [created_date] | Due: [due_date] ⚠️ OVERDUE
+Created: [created_date] | Due: [due_date] ⚠️ OVERDUE (45 days)
+                                         OR
+Created: [created_date] | Due: [due_date] ⚠️ CRITICALLY OVERDUE (review needed)
 
 Inline Subtasks (N):
   ├─ [x] Completed subtask
