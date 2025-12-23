@@ -1,6 +1,4 @@
 # cairn-pkm-user-prefs.yaml
-default_assignee: "test-user"
+default_assignee: ""
 timezone: "America/Los_Angeles"
-file_operations: "write"
-write_target: "local"
-gdrive_vault_path: ""
+file_operations: "display"    # display | write
