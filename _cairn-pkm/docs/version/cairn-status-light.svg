@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="60" viewBox="0 0 280 60">
+  <!-- Background -->
+  <rect width="280" height="60" rx="6" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- Version badge area -->
+  <rect x="8" y="8" width="70" height="44" rx="4" fill="#edf2f7"/>
+  
+  <!-- Version label -->
+  <text x="43" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#718096" text-anchor="middle">LATEST</text>
+  
+  <!-- Version number - EDIT THIS -->
+  <text x="43" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#38a169" text-anchor="middle">v0.5.0</text>
+  
+  <!-- Message area -->
+  <!-- Main message - EDIT THIS -->
+  <text x="90" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#2d3748">Initial public release</text>
+  
+  <!-- Sub message - EDIT THIS -->
+  <text x="90" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#718096">View release notes →</text>
+</svg>
