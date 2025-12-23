@@ -1,10 +1,10 @@
 # Cairn-PKM Project Instructions
 
-*Copy the content below into Claude project settings (not uploaded as a file)*
+*Copy the content below into your LLM's project settings or system prompt*
 
 ---
 
-For details on this project, read the files in /mnt/project/
+For details on this project, read the uploaded project files.
 
 _ARCHITECTURE.md and _INSTALLATION.md describe the Cairn-PKM system
 Files starting with cmd-*.md are LLM command specifications — read the relevant one before executing any ! command

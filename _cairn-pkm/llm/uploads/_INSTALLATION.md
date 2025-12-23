@@ -69,7 +69,7 @@ gdrive_vault_path: ""
 |------------|----------|
 | Copy/paste manually (safest) | `file_operations: "display"` |
 | Web-based LLM with Google Drive (read-only) | `file_operations: "display"` or `"download"` (see section 4a) |
-| Desktop app or MCP with filesystem | `file_operations: "write"`, `write_target: "local"` |
+| LLM with filesystem access | `file_operations: "write"`, `write_target: "local"` |
 | Review before writing | `file_operations: "confirm"`, then set `write_target` |
 
 If unsure, leave as `display` — you can always change it later.
@@ -116,7 +116,7 @@ If you're using Cairn-PKM with a web-based LLM interface (e.g., claude.ai, ChatG
 - You maintain full control and visibility over what changes
 - Works from any device with browser access
 - No desktop app or server hosting required
-- Can upgrade to write mode later with a desktop LLM application with MCP access
+- Can upgrade to write mode later with an LLM that has filesystem access
 
 **Limitations:**
 
@@ -124,7 +124,7 @@ If you're using Cairn-PKM with a web-based LLM interface (e.g., claude.ai, ChatG
 - No automated write-through to cloud storage
 - Each file creation/edit requires manual copy/paste step
 
-**For Desktop Users:** If you use a desktop LLM application with MCP filesystem access, you can use `file_operations: "write"` for automated file creation. See section 5 below.
+**For Desktop Users:** If your LLM has filesystem access, you can use `file_operations: "write"` for automated file creation. See section 5 below.
 
 ### 5. Configure LLM Preferences (Optional)
 
@@ -140,7 +140,7 @@ If you use the Cairn-PKM LLM commands, configure the LLM preferences file for us
 
 **In your LLM interface (if using project files):**
 1. Upload `_local/llm/cairn-pkm-user-prefs.yaml` to your project files
-2. The LLM will read settings from `/mnt/project/cairn-pkm-user-prefs.yaml`
+2. The LLM will read settings from the uploaded project files
 
 **Why two files?**
 - `_local/user-prefs.yaml` — Template/reference in your vault

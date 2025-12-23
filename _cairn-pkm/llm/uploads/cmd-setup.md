@@ -22,7 +22,7 @@ Per `cmd-shared-patterns.md`
 
 **First-run detection:**
 ```
-CHECK: /mnt/project/cairn-pkm-user-prefs.yaml exists
+CHECK: Project files accessible (cairn-pkm-user-prefs.yaml exists)
 CHECK: Vault structure present (Tracks/, Objects/, Capture/, _local/)
 
 IF prefs missing OR structure incomplete:
@@ -78,7 +78,7 @@ OUTPUT:
 
 Verifying I can access project files...
 
-ATTEMPT: List files in /mnt/project/ (or equivalent)
+ATTEMPT: List project files
 
 IF files visible:
   OUTPUT:
@@ -196,8 +196,8 @@ IF first_run OR user says "update":
      How should I output files?
      
      - display  → Show content to copy/paste (safest, works everywhere)
-     - download → Create downloadable file (web-based Claude)
-     - write    → Write directly to filesystem (needs MCP or Drive access)
+     - download → Create downloadable file (web interface)
+     - write    → Write directly to filesystem (needs filesystem or Drive access)
      - confirm  → Show content, ask, then write
      
      Recommended for most users: display
@@ -206,7 +206,7 @@ IF first_run OR user says "update":
   4. **Write Target** (only if write/confirm selected)
      Where should files be written?
      
-     - local  → Direct filesystem (needs MCP or desktop access)
+     - local  → Direct filesystem (needs filesystem access)
      - gdrive → Google Drive (needs Drive tool connected)
      > 
 
@@ -238,7 +238,7 @@ ON "yes":
     ATTEMPT: Write to _local/cairn-pkm-user-prefs.yaml
   ELSE:
     OUTPUT: Save this file as: _local/cairn-pkm-user-prefs.yaml
-    OUTPUT: Also upload to your Claude project for LLM access.
+    OUTPUT: Also upload to your LLM project.
 ```
 
 ### Phase 5: Vault Access Verification
@@ -279,8 +279,7 @@ IF write_target == "local":
     ✗ Cannot access local filesystem
     
     This usually means:
-    - MCP server not connected (Claude desktop app)
-    - Computer use not enabled (Claude.ai with computer use)
+    - Filesystem tools not connected or enabled
     - Path permissions issue
     
     Options:
@@ -338,11 +337,11 @@ IF write_target == "gdrive":
     ✗ Cannot access Google Drive
     
     This usually means:
-    - Google Drive tool not connected to this Claude conversation
+    - Google Drive tool not connected
     - Drive permissions not granted
     
     To connect Google Drive:
-    1. Look for the tools/integrations menu in Claude
+    1. Look for tools or integrations in your LLM interface
     2. Connect Google Drive
     3. Grant read/write permissions
     
@@ -671,15 +670,15 @@ Quick fixes for common post-setup issues:
 
 | Symptom | Fix |
 |---------|-----|
-| "Cannot access local filesystem" | MCP server not connected, or computer use not enabled |
-| "Cannot access Google Drive" | Drive tool not connected — check Claude's integrations/tools menu |
+| "Cannot access local filesystem" | Filesystem tools not connected or enabled |
+| "Cannot access Google Drive" | Drive tool not connected — check your LLM's integrations/tools |
 | Wrong vault contents shown | Path is incorrect — provide full path to vault root |
 | Can list files but can't write | Permission issue — check folder permissions or try different mode |
 | gdrive path "not found" | Path is case-sensitive — verify exact folder names in Drive |
 
 **Testing access manually:**
-- Local: Ask Claude to "list files in /path/to/your/vault"
-- Drive: Ask Claude to "search Google Drive for _cairn-pkm"
+- Local: Ask the LLM to "list files in /path/to/your/vault"
+- Drive: Ask the LLM to "search Google Drive for _cairn-pkm"
 
 ### Structure Issues
 
@@ -687,7 +686,7 @@ Quick fixes for common post-setup issues:
 |---------|-----|
 | "Track not found" | Check Tracks/ folder exists and contains area-*/p###-*/ folders |
 | "Home doc not found" | Verify _[track-name]-home.md exists in track folder |
-| Commands can't find prefs | Upload cairn-pkm-user-prefs.yaml to Claude project |
+| Commands can't find prefs | Upload cairn-pkm-user-prefs.yaml to LLM project |
 
 Run `!setup check` to verify current configuration state.
 

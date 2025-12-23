@@ -10,7 +10,7 @@ Welcome! This guide gets you from download to working system in about 10 minutes
 
 Cairn-PKM is a personal knowledge management system that works with:
 - **Obsidian** — Your notes live here as plain markdown files
-- **An LLM** (Claude, etc.) — Helps you work with your notes via conversational commands
+- **An LLM** — Helps you work with your notes via conversational commands
 
 The system has two parts:
 1. **Vault files** — The folders and templates that go in Obsidian
@@ -45,15 +45,14 @@ Go to **Settings → Community Plugins → Browse** and install:
 
 The LLM needs access to command specifications to understand `!` commands.
 
-### For Claude (claude.ai)
+### Create a Project
 
-1. Go to **claude.ai → Projects** (left sidebar)
-2. Click **"Create Project"**
-3. Name it (e.g., "Cairn-PKM" or "My PKM")
+Most LLM interfaces support projects or custom contexts. Create one for Cairn-PKM:
+
+1. Look for **Projects**, **Custom Instructions**, or **Context** in your LLM interface
+2. Create a new project (e.g., "Cairn-PKM" or "My PKM")
 
 ### Upload Files to Project
-
-In your new project, click **"Add content" → "Upload files"**
 
 Upload **all files** from `_cairn-pkm/llm/uploads/` in your vault.
 
@@ -61,17 +60,9 @@ This folder contains everything the LLM needs — architecture docs, command spe
 
 ### Add Project Instructions
 
-In **Project Settings → Instructions**, copy the content from:
-
-`_cairn-pkm/llm/llm-project-instructions.md`
+Copy the content from `_cairn-pkm/llm/llm-project-instructions.md` into your project's instructions or system prompt area.
 
 (This file contains the instructions to paste — it's not uploaded as a project file.)
-
-### For Other LLMs
-
-The same files work with other LLMs that support project/context features:
-- Upload the same files to your LLM's project or context system
-- Adapt the instructions format as needed for your platform
 
 ---
 
@@ -101,11 +92,11 @@ gdrive_vault_path: ""
 | Mode | What Happens | Best For |
 |------|--------------|----------|
 | `display` | Shows content to copy/paste | Getting started, maximum control |
-| `download` | Creates downloadable file | Web-based Claude without filesystem access |
-| `write` | Writes directly to vault | Desktop app with MCP, or Google Drive connected |
+| `download` | Creates downloadable file | Web interface without filesystem access |
+| `write` | Writes directly to vault | LLM with filesystem or Google Drive access |
 | `confirm` | Shows content, asks, then writes | Write access but want to review first |
 
-**Recommendation:** Start with `display` until you're comfortable, then upgrade to `write` if you have filesystem/Drive access.
+**Recommendation:** Start with `display` until you're comfortable, then upgrade to `write` if your LLM has filesystem/Drive access.
 
 ---
 
@@ -145,7 +136,7 @@ After setup completes, try these commands:
 | Problem | Solution |
 |---------|----------|
 | Commands don't work | Are you in the LLM project? (not a standalone chat) |
-| "File not found" errors | Check all cmd-*.md files are uploaded |
+| "File not found" errors | Check all files from `uploads/` are uploaded |
 | Dataview shows code blocks | Settings → Dataview → Enable "JavaScript Queries" |
 | Templates not expanding | Settings → Templater → Template folder = `_cairn-pkm/templates/` |
 | Can't write to vault | Check file_operations mode, verify access with `!setup check` |
