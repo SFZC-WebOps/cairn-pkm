@@ -30,7 +30,7 @@ vault/
 ├── .obsidian/              # Obsidian settings (don't track in git)
 ├── _cairn-pkm/             # Portable system (replace to update)
 │   ├── llm/               # LLM command specifications
-│   │   ├── commands/      # Command definitions (cmd-*.md)
+│   │   ├── uploads/       # Files to upload to LLM project
 │   │   ├── cmd-shared-patterns.md
 │   │   ├── cmd-output-behavior.md
 │   │   ├── _ARCHITECTURE.md
@@ -66,7 +66,7 @@ vault/
 
 Cairn uses a simple preferences file for vault-specific settings that LLM commands need.
 
-**Location:** `_local/user-prefs.yaml`
+**Location:** `_local/user-prefs.yaml` (also upload to LLM project)
 
 ```yaml
 # Identity
@@ -76,9 +76,7 @@ default_assignee: ""
 timezone: "America/Los_Angeles"
 
 # Output behavior
-file_operations: "display"    # display | download | write | confirm
-write_target: "local"         # local | gdrive
-gdrive_vault_path: ""         # Required if write_target is gdrive
+file_operations: "display"    # display | write
 ```
 
 ### Settings
@@ -88,8 +86,6 @@ gdrive_vault_path: ""         # Required if write_target is gdrive
 | `default_assignee` | Name used in task assignee field | (empty) |
 | `timezone` | IANA timezone for timestamps | America/Los_Angeles |
 | `file_operations` | How LLM outputs files | display |
-| `write_target` | Where files are written | local |
-| `gdrive_vault_path` | Vault path in Google Drive | (empty) |
 
 ### Output Behavior
 
@@ -97,21 +93,10 @@ The `file_operations` setting controls how LLM commands handle file creation:
 
 | Mode | Behavior | Use When |
 |------|----------|----------|
-| `display` | Shows file content to copy/paste | Manual control, works anywhere |
-| `download` | Creates downloadable file | Web-based LLM (Claude.ai), no filesystem access |
-| `write` | Writes files directly | LLM has filesystem/Drive access, you trust it |
-| `confirm` | Shows content, waits for approval, then writes | LLM has access but you want to review |
+| `display` | Shows content + presents downloadable file | Universal — works everywhere |
+| `write` | Writes files directly to filesystem | LLM has filesystem access |
 
-### Write Targets
-
-When `file_operations` is `write` or `confirm`, the `write_target` determines where files go:
-
-| Target | How It Works | Setup Required |
-|--------|--------------|----------------|
-| `local` | Direct filesystem write | LLM needs MCP, desktop app, or computer use access |
-| `gdrive` | Google Drive API | LLM with Drive tool connected; set `gdrive_vault_path` |
-
-**Google Drive workflow:** LLM writes to Google Drive → Drive syncs to local → Obsidian sees the file.
+**Recommendation:** Start with `display`. It works everywhere and gives you both viewable content and a downloadable file.
 
 ### Extending Preferences
 
@@ -121,7 +106,6 @@ Commands use hardcoded defaults for most settings. If you need to override them,
 # Optional overrides (add only if needed)
 default_priority: "high"          # Override task default
 default_status: "scheduled"       # Override task default
-references_folder: "Resources"    # Override !readme output location
 ```
 
 See individual command specs for available overrides.
@@ -346,9 +330,9 @@ tags: []
 
 ### Capture File Naming
 
-`qn-YYYY-MM-DD-HHMMSS-{slug}.md`
+`cap-YYYY-MM-DD-HHMMSS-{slug}.md`
 
-Example: `qn-2025-12-18-143022-api-integration-notes.md`
+Example: `cap-2025-12-18-143022-api-integration-notes.md`
 
 ---
 
@@ -443,12 +427,13 @@ Instead of git submodule (previous approach), use the **replace-folder method**:
 
 ## LLM Commands
 
-Cairn-PKM provides conversational commands for working with the system through LLMs like Claude. Commands are defined in `_cairn-pkm/llm/commands/` and follow shared patterns for consistency.
+Cairn-PKM provides conversational commands for working with the system through LLMs. Commands are defined in `_cairn-pkm/llm/uploads/` and follow shared patterns for consistency.
 
 ### Command Categories
 
 **Onboarding:**
 - `!tour` - Guided 5-minute walkthrough for new users
+- `!setup` - Interactive configuration wizard
 
 **Workflow Management:**
 - `!hi` - Open interactive session menu or display track overview
@@ -468,9 +453,8 @@ Cairn-PKM provides conversational commands for working with the system through L
 ### How Commands Work
 
 **Configuration:**
-Commands read settings from `_local/user-prefs.yaml`:
-- `file_operations` - Controls output mode (display | download | write | confirm)
-- `write_target` - Destination for writes (local | gdrive)
+Commands read settings from `cairn-pkm-user-prefs.yaml`:
+- `file_operations` - Controls output mode (display | write)
 - `default_assignee` - Default name for task assignments
 - `timezone` - IANA timezone for timestamps
 
@@ -481,7 +465,7 @@ All commands follow patterns defined in:
 
 **Robustness Principles:**
 - **Verify-Before-Modify (VBM)** - Confirm state before write operations
-- **Graceful Fallback Chain (GFC)** - Degrade safely (write → download → display)
+- **Graceful Fallback Chain (GFC)** - Degrade safely (write → display)
 - **Rationale Capture (RC)** - Log the "why" behind changes, not just "what"
 
 ### Session Model
@@ -514,7 +498,7 @@ Each command has a specification file (cmd-*.md) with:
 - Error handling patterns
 - Version history
 
-See individual command files in `_cairn-pkm/llm/commands/` for complete details.
+See individual command files in `_cairn-pkm/llm/uploads/` for complete details.
 
 ---
 
@@ -526,8 +510,8 @@ See individual command files in `_cairn-pkm/llm/commands/` for complete details.
 2. Unzip to your desired location
 3. Open in Obsidian
 4. Install plugins: Dataview, Templater, Tasks
-5. Explore example content in `Tracks/`, `Objects/`, `Capture/`
-6. When ready, replace examples with your own content
+5. See START-HERE.md for LLM project setup
+6. Explore example content in `Tracks/`, `Objects/`, `Capture/`
 
 ### First Steps
 

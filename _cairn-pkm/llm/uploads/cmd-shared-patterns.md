@@ -71,7 +71,7 @@ ON FAILURE:
   4. NEVER lose content silently
 ```
 
-**Fallback chain:** write → download → display
+**Fallback chain:** write → display
 
 **Purpose:** User never loses work due to system/permission errors.
 
@@ -152,31 +152,23 @@ RC principle applies to these entry types:
 All commands that use user preferences:
 
 ```
-READ: /mnt/project/cairn-pkm-user-prefs.yaml
+READ: cairn-pkm-user-prefs.yaml from project files
 EXTRACT:
   - file_operations (default: "display")
-  - write_target (default: "local")
-  - gdrive_vault_path (default: "")
   - timezone (default: "America/Los_Angeles")
   - default_assignee (default: "")
 
 ON FILE NOT FOUND: Use defaults, continue execution
 ```
 
-**Note on User Preferences File Locations:**
+**Note on User Preferences File:**
 
-The preferences file exists in two contexts:
+The preferences file should be uploaded to your LLM project along with command files.
 
-1. **Claude Project Context:** `/mnt/project/cairn-pkm-user-prefs.yaml`
-   - This is where Claude reads the file when uploaded to a Claude project
-   - Upload your customized prefs here for Claude to use
+- **Location in vault:** `_local/cairn-pkm-user-prefs.yaml`
+- **Upload to:** Your LLM project (with other files from `_cairn-pkm/llm/uploads/`)
 
-2. **Vault Storage:** `_local/cairn-pkm-user-prefs.yaml`
-   - This is where the file lives in your Obsidian vault
-   - Edit this file to customize your preferences
-   - Keep this synchronized with what you upload to Claude
-
-**Workflow:** Edit `_local/cairn-pkm-user-prefs.yaml` in your vault, then upload a copy to your Claude project as `/mnt/project/cairn-pkm-user-prefs.yaml`.
+**Workflow:** Edit in your vault, then upload to your LLM project.
 
 ---
 
@@ -185,7 +177,7 @@ The preferences file exists in two contexts:
 When command needs to display current time:
 
 ```
-OUTPUT: "📋═ Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
+OUTPUT: "📋 Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 ```
 
 ---
@@ -197,9 +189,9 @@ Standard ending for all commands:
 ```
 OUTPUT:
 ✓ Task complete
-═══════════════════════════════════════════════
-📋¤"" Waiting for next instruction
-═══════════════════════════════════════════════
+═══════════════════════════════════════════════
+📋 Waiting for next instruction
+═══════════════════════════════════════════════
 
 STOP
 ```
@@ -218,7 +210,7 @@ CALL: OUTPUT_FILE(filepath, content)
 ON FAILURE: GFC principle (fallback chain with visibility)
 ```
 
-Output varies by `file_operations` setting (display/download/write/confirm). See `cmd-output-behavior.md` for behavior details and fallback handling.
+Output varies by `file_operations` setting (display | write). See `cmd-output-behavior.md` for behavior details and fallback handling.
 
 ---
 
@@ -230,14 +222,12 @@ These errors apply to all commands unless overridden:
 |-----------|----------|
 | Unknown command | "Unknown command. Try !help" |
 | cairn-pkm-user-prefs.yaml missing | Use defaults, continue |
-| Write fails (write/confirm mode) | Report error, fall back per GFC |
-| Download fails | Report error, fall back to display per GFC |
-| Google Drive not connected | Warn user, fall back to display per GFC |
+| Write fails (write mode) | Report error, fall back to display per GFC |
 
 **GFC messaging pattern:**
 ```
-⚠ ️ {operation} failed: {reason}
-↳ Falling back to {fallback_mode}
+⚠️ {operation} failed: {reason}
+↳ Falling back to display mode
 ↳ Content preserved below
 ```
 
