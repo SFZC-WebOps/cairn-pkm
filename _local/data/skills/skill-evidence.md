@@ -6,6 +6,25 @@ Evidence collected from work sessions. Append new entries at the top.
 
 ## 2025-12
 
+### 2025-12-22 - Cairn-PKM Beta Documentation & Architecture
+**Source:** Development session
+
+**Context:** Beta readiness review and implementation of simplified 2-mode output system with LLM-agnostic documentation.
+
+**Evidence Summary:** Architecture simplification and cross-platform documentation refinement
+
+**Skills Identified:**
+- Technical Documentation Level 4: Created onboarding guide, updated 8+ spec files
+- System Architecture Level 4: Simplified 4-mode × 2-target to 2 universal modes
+- Configuration Design Level 3: Reduced prefs from 5 to 3 settings
+- Technical Writing Level 3: LLM-agnostic language across documentation
+- Requirements Analysis Level 3: Beta blocker triage and prioritization
+
+**Total Evidence:** 5 entries
+**Confidence Distribution:** HIGH: 3, MEDIUM: 2
+
+---
+
 ### 2025-12-20 - Portal Deployment Documentation
 **Source:** p002-prod-lnch task work
 
