@@ -1,5 +1,5 @@
 # !setup - Guided Setup
-*Type: Interactive | Updated: 2025-12-21*
+*Type: Interactive | Updated: 2025-12-22*
 
 ## Quick Reference
 
@@ -100,7 +100,7 @@ IF files not visible OR key files missing:
   
   **To fix:**
   1. See START-HERE.md in your vault for setup instructions
-  2. Upload all files from _cairn-pkm/llm/ to your LLM project
+  2. Upload all files from _cairn-pkm/llm/uploads/ to your LLM project
   3. Start a new conversation within the project
   4. Run !setup again
   
@@ -174,7 +174,6 @@ IF existing prefs found:
   - Default assignee: {current_value or "(not set)"}
   - Timezone: {current_value}
   - File operations: {current_value}
-  - Write target: {current_value}
   
   Keep these settings? (yes / update)
 
@@ -195,24 +194,10 @@ IF first_run OR user says "update":
   3. **File Operations Mode**
      How should I output files?
      
-     - display  → Show content to copy/paste (safest, works everywhere)
-     - download → Create downloadable file (web interface)
-     - write    → Write directly to filesystem (needs filesystem or Drive access)
-     - confirm  → Show content, ask, then write
+     - display → Show content + present downloadable file (works everywhere)
+     - write   → Write directly to filesystem (needs filesystem access)
      
-     Recommended for most users: display
-     > 
-
-  4. **Write Target** (only if write/confirm selected)
-     Where should files be written?
-     
-     - local  → Direct filesystem (needs filesystem access)
-     - gdrive → Google Drive (needs Drive tool connected)
-     > 
-
-  5. **Google Drive Path** (only if gdrive selected)
-     Path to your vault in Google Drive:
-     Example: Obsidian/MyVault
+     Recommended: display (universal, you get both viewable content and download)
      > 
 
 GENERATE: cairn-pkm-user-prefs.yaml content
@@ -225,8 +210,6 @@ OUTPUT:
 default_assignee: "{value}"
 timezone: "{value}"
 file_operations: "{value}"
-write_target: "{value}"
-gdrive_vault_path: "{value}"
 ```
 
 Save this configuration? (yes / edit)
@@ -234,7 +217,7 @@ Save this configuration? (yes / edit)
 ON "yes":
   RECORD: prefs_configured = true
   
-  IF file_operations allows writing:
+  IF file_operations == "write":
     ATTEMPT: Write to _local/cairn-pkm-user-prefs.yaml
   ELSE:
     OUTPUT: Save this file as: _local/cairn-pkm-user-prefs.yaml
@@ -249,9 +232,9 @@ OUTPUT:
 🔌 Step 4/7: Vault Access Check
 ───────────────────────────────────────────────
 
-IF write_target == "local":
+IF file_operations == "write":
   OUTPUT:
-  Testing local filesystem access...
+  Testing filesystem access...
   
   ATTEMPT: List contents of vault root path
   
@@ -276,89 +259,28 @@ IF write_target == "local":
       
   IF failed:
     OUTPUT:
-    ✗ Cannot access local filesystem
+    ✗ Cannot access filesystem
     
     This usually means:
     - Filesystem tools not connected or enabled
     - Path permissions issue
     
     Options:
-    1. Fix access and retry
-    2. Switch to 'download' mode (I'll create files for you to download)
-    3. Switch to 'display' mode (I'll show content to copy/paste)
-    4. Switch to 'gdrive' mode (if you have Google Drive connected)
+    1. Fix filesystem access and retry
+    2. Switch to 'display' mode (I'll show content + downloadable file)
     
     > 
     
-    ON selection: Update file_operations/write_target accordingly
+    ON "2": Update file_operations to "display"
 
-IF write_target == "gdrive":
+IF file_operations == "display":
   OUTPUT:
-  Testing Google Drive access...
+  ℹ️ Access check not needed for display mode
   
-  ATTEMPT: google_drive_search for files in gdrive_vault_path
+  In display mode, I'll show file content and present a downloadable file.
+  You place files in your vault manually.
   
-  IF successful AND files found:
-    OUTPUT:
-    ✓ Google Drive access confirmed
-    
-    Found vault at: {gdrive_vault_path}
-    Detected contents:
-    {list folders/files found}
-    
-    Does this look correct? (yes / no / path issue)
-    
-    IF "no" or "path issue":
-      OUTPUT:
-      Let's find the right path.
-      
-      I'll search for Cairn-PKM or Obsidian folders in your Drive...
-      
-      ATTEMPT: google_drive_search for "_cairn-pkm" or "Obsidian"
-      
-      IF found:
-        OUTPUT:
-        Found these potential vault locations:
-        {list paths}
-        
-        Which one is your vault? (enter number or provide path)
-        > 
-      ELSE:
-        OUTPUT:
-        Couldn't find vault automatically.
-        What's the exact path in Google Drive?
-        Example: Obsidian/Cairn-PKM-dev
-        > 
-      
-      UPDATE: gdrive_vault_path with correct value
-      
-  IF failed (no Drive access):
-    OUTPUT:
-    ✗ Cannot access Google Drive
-    
-    This usually means:
-    - Google Drive tool not connected
-    - Drive permissions not granted
-    
-    To connect Google Drive:
-    1. Look for tools or integrations in your LLM interface
-    2. Connect Google Drive
-    3. Grant read/write permissions
-    
-    Options:
-    1. Connect Drive and retry
-    2. Switch to 'download' mode
-    3. Switch to 'display' mode
-    4. Switch to 'local' mode (if you have filesystem access)
-    
-    > 
-
-IF file_operations in ["display", "download"]:
-  OUTPUT:
-  ℹ️ Access check not needed for {file_operations} mode
-  
-  Note: In this mode, I'll output files for you to place in your vault manually.
-  You can switch to 'write' mode later if you set up filesystem or Drive access.
+  You can switch to 'write' mode later if you set up filesystem access.
 
 RECORD: access_verified = true
 ```
@@ -522,7 +444,7 @@ OUTPUT:
 {display current prefs or "Not configured"}
 
 **Vault Access:**
-✓/✗ {write_target} access verified
+✓/✗ Filesystem access verified (write mode only)
 
 **Structure:**
 ✓/✗ for each required directory
@@ -556,15 +478,8 @@ default_assignee: "{user_input}"
 timezone: "{user_input}"
 
 # How LLM commands output files
-# Options: display | download | write | confirm
+# Options: display | write
 file_operations: "{user_input}"
-
-# Where files are written (when file_operations is write/confirm)
-# Options: local | gdrive
-write_target: "{user_input}"
-
-# Vault path in Google Drive (required if write_target is gdrive)
-gdrive_vault_path: "{user_input}"
 ```
 
 ---
@@ -612,7 +527,6 @@ This allows users to:
 | Prefs file invalid YAML | "Preferences file has syntax errors. Would you like to recreate it?" |
 | Can't create directories | "Unable to create directories. Check permissions or create manually." |
 | User quits mid-setup | "Setup paused. Run !setup to continue where you left off." |
-| Conflicting settings | "You selected gdrive but gdrive_vault_path is empty. Please provide path." |
 
 Common errors: See `cmd-shared-patterns.md`
 
@@ -627,9 +541,9 @@ Quick fixes for common post-setup issues:
 | Symptom | Fix |
 |---------|-----|
 | Commands not recognized | Are you in the LLM project? (not a standalone chat) |
-| "File not found" for commands | Upload all cmd-*.md files to project |
+| "File not found" for commands | Upload all files from _cairn-pkm/llm/uploads/ to project |
 | Setup can't see project files | Start new conversation within the project |
-| Commands partially work | Some cmd-*.md files may be missing — re-upload all |
+| Commands partially work | Some files may be missing — re-upload all from uploads/ |
 
 **First-time setup:** See START-HERE.md in your vault for complete LLM project setup instructions.
 
@@ -663,22 +577,18 @@ Quick fixes for common post-setup issues:
 | Symptom | Fix |
 |---------|-----|
 | "Write failed" errors | Check file_operations mode matches your environment |
-| Google Drive writes failing | Verify gdrive_vault_path is set and Drive tool connected |
-| Files not appearing in vault | If using gdrive, wait for sync; check gdrive_vault_path matches actual path |
+| Files not appearing | If using display mode, download and place file in vault manually |
 
 ### Vault Access Issues
 
 | Symptom | Fix |
 |---------|-----|
-| "Cannot access local filesystem" | Filesystem tools not connected or enabled |
-| "Cannot access Google Drive" | Drive tool not connected — check your LLM's integrations/tools |
+| "Cannot access filesystem" | Filesystem tools not connected or enabled |
 | Wrong vault contents shown | Path is incorrect — provide full path to vault root |
-| Can list files but can't write | Permission issue — check folder permissions or try different mode |
-| gdrive path "not found" | Path is case-sensitive — verify exact folder names in Drive |
+| Can list files but can't write | Permission issue — check folder permissions or use display mode |
 
 **Testing access manually:**
-- Local: Ask the LLM to "list files in /path/to/your/vault"
-- Drive: Ask the LLM to "search Google Drive for _cairn-pkm"
+- Ask the LLM to "list files in /path/to/your/vault"
 
 ### Structure Issues
 
