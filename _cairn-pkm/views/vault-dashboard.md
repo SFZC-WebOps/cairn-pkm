@@ -1,7 +1,8 @@
 # 📋 Vault Dashboard
 
-[![Latest Release](https://img.shields.io/github/v/release/SFZC-WebOps/cairn-pkm)](https://github.com/SFZC-WebOps/cairn-pkm/releases/latest)
+**Cairn-PKM** · Installed: `$= dv.io.load("_cairn-pkm/VERSION").then(v => v.trim())`
 
+[![Status](https://cairn.gregbilke.me/_cairn-pkm/docs/version/cairn-status.svg)](https://github.com/SFZC-WebOps/cairn-pkm/releases/latest)
 
 ## 📊 Stats
 
