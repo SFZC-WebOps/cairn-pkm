@@ -2,7 +2,6 @@
 
 [![Latest Release](https://img.shields.io/github/v/release/SFZC-WebOps/cairn-pkm)](https://github.com/SFZC-WebOps/cairn-pkm/releases/latest)
 
-![Test](https://img.shields.io/badge/test-passing-green)
 
 ## 📊 Stats
 
