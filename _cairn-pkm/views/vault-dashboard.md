@@ -1,10 +1,8 @@
 # 📋 Vault Dashboard
 
+**Cairn-PKM** · Installed: `$= dv.io.load("_cairn-pkm/VERSION").then(v => v.trim())`
 
-**Cairn-PKM**
-- Installed: `$= dv.io.load("_cairn-pkm/VERSION").then(v => v.trim())`
-- Latest: [![Status](https://cairn.gregbilke.me/_cairn-pkm/docs/version/cairn-status.svg)](https://github.com/SFZC-WebOps/cairn-pkm/releases/latest)
-
+[![Status](https://cairn.gregbilke.me/_cairn-pkm/docs/version/cairn-status.svg)](https://github.com/SFZC-WebOps/cairn-pkm/releases/latest)
 
 ## 📊 Stats
 
