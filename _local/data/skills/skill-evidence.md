@@ -215,3 +215,27 @@ Evidence collected from work sessions. Append new entries at the top.
 **Confidence Distribution:** HIGH: 2, MEDIUM: 1
 
 ---
+
+
+### 2025-12-23 - Release Workflow & Infrastructure Setup
+
+**Source:** Work session with Claude
+
+**Context:** Set up complete release workflow for Cairn-PKM including GitHub releases, version notification system, custom domain, and branch management.
+
+**Evidence Summary:** Independent configuration of multi-component release infrastructure
+
+**Skills Identified:**
+
+- **Git/Version Control Level 4:** Established release workflow with dev/stable branching, tagging (v0.5.0), merging, and conflict resolution
+- **GitHub Administration Level 4:** Configured GitHub Releases, GitHub Pages with custom domain, public repo settings
+- **DNS/Domain Management Level 3:** Set up CNAME records, domain forwarding (301 redirects), SSL configuration via SquareSpace
+- **Web Infrastructure Level 3:** Configured GitHub Pages, resolved Jekyll underscore-folder issue with .nojekyll, set up asset hosting
+- **SVG/Graphics Level 2:** Created and deployed version status badge with editable text elements
+- **Obsidian/PKM Level 3:** Integrated Dataview inline queries with external assets for version display
+- **Troubleshooting Level 3:** Diagnosed and resolved multiple issues (Jekyll blocking, merge conflicts, shields.io caching, DNS propagation)
+
+**Total Evidence:** 7 entries
+**Confidence Distribution:** HIGH: 5, MEDIUM: 2
+
+---
