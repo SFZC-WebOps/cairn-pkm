@@ -1,4 +1,4 @@
 # cairn-pkm-user-prefs.yaml
 default_assignee: ""
 timezone: "America/Los_Angeles"
-file_operations: "display"    # display | write
+file_operations: "download"    # download | write
