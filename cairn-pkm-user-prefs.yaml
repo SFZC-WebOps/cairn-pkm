@@ -1,0 +1,42 @@
+# cairn-pkm-user-prefs.yaml
+# Cairn-PKM User Preferences
+#
+# Location: Upload to LLM project as /mnt/project/cairn-pkm-user-prefs.yaml
+# See cmd-output-behavior.md for file_operations details.
+
+# ─────────────────────────────────────────────────────────────────────
+# IDENTITY
+# ─────────────────────────────────────────────────────────────────────
+
+# Name for task assignee field
+default_assignee: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# TIME
+# ─────────────────────────────────────────────────────────────────────
+
+# IANA timezone (e.g., America/New_York, Europe/London)
+timezone: "America/Los_Angeles"
+
+# ─────────────────────────────────────────────────────────────────────
+# VAULT LOCATION
+# ─────────────────────────────────────────────────────────────────────
+
+# Where vault files are located :
+#   local  - LLM has direct filesystem access (MCP server, desktop app)
+#   cloud - Vault synced to cloudbased file service (requires LLM connector)
+vault_location: "local"
+
+# Path to vault root in cloud
+# Example: "Obsidian/MyVault" or "My Drive/Notes/PersonalVault"
+cloud_vault_path: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# OUTPUT BEHAVIOR
+# ─────────────────────────────────────────────────────────────────────
+
+# How files are output:
+#   download - Show content + create downloadable file (local filesystem or web-based LLM)
+#   write    - Write directly to local filesystem 
+file_operations: "download"
+
