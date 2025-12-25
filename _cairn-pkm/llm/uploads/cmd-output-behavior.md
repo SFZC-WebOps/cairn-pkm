@@ -11,6 +11,8 @@ Read from `/mnt/project/cairn-pkm-user-prefs.yaml`:
 
 ```yaml
 file_operations: "download"    # download | write
+vault_location: "local"        # local | cloud
+cloud_vault_path: ""           # Required if vault_location is cloud
 ```
 
 ---
@@ -19,8 +21,8 @@ file_operations: "download"    # download | write
 
 | Mode | How It Works | Best For |
 |------|--------------|----------|
-| `download` | Shows content + creates downloadable file | Web-based LLM, manual control, works anywhere |
-| `write` | Writes directly to filesystem | Desktop app with MCP access |
+| `download` | Shows content + creates downloadable file | Web-based LLM OR local filesystem, works anywhere |
+| `write` | Writes directly to filesystem | Desktop app with MCP/filesystem access |
 
 ---
 
@@ -42,13 +44,13 @@ OUTPUT_FILE(filepath, content):
 
     CASE "download":
       # Show content on screen
-      OUTPUT: "📋 FILE CONTENT"
-      OUTPUT: "═══════════════════════════════════════"
+      OUTPUT: "ðŸ“‹ FILE CONTENT"
+      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
       OUTPUT: "Filename: {filename}"
       OUTPUT: "Path: {filepath}"
       OUTPUT: ""
       OUTPUT: {content}
-      OUTPUT: "═══════════════════════════════════════"
+      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
       
       # Also create downloadable file
       TRY:
@@ -56,18 +58,18 @@ OUTPUT_FILE(filepath, content):
         WRITE: content to output_path
         CALL: present_files([output_path])
         OUTPUT: ""
-        OUTPUT: "💾 Download the file above and save to: {filepath}"
+        OUTPUT: "ðŸ’¾ Download the file above and save to: {filepath}"
       ON FAILURE:
         # If download creation fails, content is still visible above
         OUTPUT: ""
-        OUTPUT: "⚠️  Could not create download file: {error}"
+        OUTPUT: "âš ï¸  Could not create download file: {error}"
         OUTPUT: "Copy the content above and save manually."
 
     CASE "write":
       TRY:
         CREATE: directory if not exists
         WRITE: content to filepath
-        OUTPUT: "✓ Created {filepath}"
+        OUTPUT: "âœ“ Created {filepath}"
       ON FAILURE:
         CALL: FALLBACK_WITH_VISIBILITY("write", error, filepath, content)
 ```
@@ -76,39 +78,41 @@ OUTPUT_FILE(filepath, content):
 
 ## Graceful Fallback Chain (GFC)
 
-When write operations fail, fall back to download mode:
+When write operations fail, fall back with content visibility:
+
+**Fallback chain order:** write → download
 
 ```
 FALLBACK_WITH_VISIBILITY(failed_mode, error, filepath, content):
 
   # Report failure clearly
-  OUTPUT: "⚠️  {failed_mode} failed: {error}"
-  OUTPUT: "↳ Falling back to download mode"
+  OUTPUT: "âš ï¸  {failed_mode} failed: {error}"
+  OUTPUT: "â†³ Falling back to download mode"
   OUTPUT: ""
   
   # Show content + attempt download
-  OUTPUT: "📋 FILE CONTENT"
-  OUTPUT: "═══════════════════════════════════════"
+  OUTPUT: "ðŸ“‹ FILE CONTENT"
+  OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
   OUTPUT: "Filename: {filename}"
   OUTPUT: "Path: {filepath}"
   OUTPUT: ""
   OUTPUT: {content}
-  OUTPUT: "═══════════════════════════════════════"
+  OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
   
   TRY:
     output_path = /mnt/user-data/outputs/{filename}
     WRITE: content to output_path
     CALL: present_files([output_path])
     OUTPUT: ""
-    OUTPUT: "💾 Download the file above and save to: {filepath}"
+    OUTPUT: "ðŸ’¾ Download the file above and save to: {filepath}"
   ON FAILURE:
     # If even download fails, content is still visible
     OUTPUT: ""
-    OUTPUT: "⚠️  Could not create download file: {error}"
+    OUTPUT: "âš ï¸  Could not create download file: {error}"
     OUTPUT: "Copy the content above and save manually."
 ```
 
-**Fallback chain order:** write → download (with visible content)
+**Fallback chain order:** write â†’ download (with visible content)
 
 **Principle:** User never loses content. Download mode always shows content on screen even if file creation fails.
 

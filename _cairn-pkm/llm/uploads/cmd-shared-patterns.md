@@ -71,7 +71,7 @@ ON FAILURE:
   4. NEVER lose content silently
 ```
 
-**Fallback chain:** write → display
+**Fallback chain:** write â†’ download â†’ display
 
 **Purpose:** User never loses work due to system/permission errors.
 
@@ -152,23 +152,27 @@ RC principle applies to these entry types:
 All commands that use user preferences:
 
 ```
-READ: cairn-pkm-user-prefs.yaml from project files
+READ: /mnt/project/cairn-pkm-user-prefs.yaml
 EXTRACT:
-  - file_operations (default: "display")
+  - file_operations (default: "download")
+  - vault_location (default: "local")
+  - cloud_vault_path (default: "")
   - timezone (default: "America/Los_Angeles")
   - default_assignee (default: "")
 
 ON FILE NOT FOUND: Use defaults, continue execution
 ```
 
-**Note on User Preferences File:**
+**Preferences File Location:**
 
-The preferences file should be uploaded to your LLM project along with command files.
+Commands read from `/mnt/project/cairn-pkm-user-prefs.yaml` (the uploaded project file).
 
-- **Location in vault:** `_local/cairn-pkm-user-prefs.yaml`
-- **Upload to:** Your LLM project (with other files from `_cairn-pkm/llm/uploads/`)
+**Template location:** `_cairn-pkm/llm/uploads/cairn-pkm-user-prefs.yaml`
 
-**Workflow:** Edit in your vault, then upload to your LLM project.
+**User workflow:**
+1. Edit template in `_cairn-pkm/llm/uploads/`
+2. Upload to LLM project
+3. Commands read settings from project files
 
 ---
 
@@ -177,7 +181,7 @@ The preferences file should be uploaded to your LLM project along with command f
 When command needs to display current time:
 
 ```
-OUTPUT: "📋 Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
+OUTPUT: "ðŸ“‹â•Â Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 ```
 
 ---
@@ -188,10 +192,10 @@ Standard ending for all commands:
 
 ```
 OUTPUT:
-✓ Task complete
-═══════════════════════════════════════════════
-📋 Waiting for next instruction
-═══════════════════════════════════════════════
+âœ“ Task complete
+â•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Â
+ðŸ“‹Â¤"" Waiting for next instruction
+â•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Â
 
 STOP
 ```
@@ -210,7 +214,7 @@ CALL: OUTPUT_FILE(filepath, content)
 ON FAILURE: GFC principle (fallback chain with visibility)
 ```
 
-Output varies by `file_operations` setting (display | write). See `cmd-output-behavior.md` for behavior details and fallback handling.
+Output varies by `file_operations` setting (display/download/write/confirm). See `cmd-output-behavior.md` for behavior details and fallback handling.
 
 ---
 
@@ -222,13 +226,15 @@ These errors apply to all commands unless overridden:
 |-----------|----------|
 | Unknown command | "Unknown command. Try !help" |
 | cairn-pkm-user-prefs.yaml missing | Use defaults, continue |
-| Write fails (write mode) | Report error, fall back to display per GFC |
+| Write fails (write/confirm mode) | Report error, fall back per GFC |
+| Download fails | Report error, fall back to display per GFC |
+| Google Drive not connected | Warn user, fall back to display per GFC |
 
 **GFC messaging pattern:**
 ```
-⚠️ {operation} failed: {reason}
-↳ Falling back to display mode
-↳ Content preserved below
+âš Â ï¸Â {operation} failed: {reason}
+â†³ Falling back to {fallback_mode}
+â†³ Content preserved below
 ```
 
 ---
@@ -258,7 +264,7 @@ content = ftfy.fix_text(content)
 # Then write or display
 ```
 
-**Purpose:** Prevents mojibake characters (garbled text like Ã, â€, etc.) from appearing in markdown files.
+**Purpose:** Prevents mojibake characters (garbled text like Ãƒ, Ã¢â‚¬, etc.) from appearing in markdown files.
 
 **When to apply:**
 - After generating any file content
