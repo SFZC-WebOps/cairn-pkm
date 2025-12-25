@@ -57,47 +57,55 @@ default_assignee: "Your Name"
 # Your timezone (IANA format)
 timezone: "America/New_York"
 
-# How LLM commands output files
-file_operations: "display"    # display | write
+# How LLM commands output files (see below)
+file_operations: "display"    # display | download | write | confirm
+write_target: "local"         # local | gdrive
+gdrive_vault_path: ""
 ```
 
 **Choose your output mode:**
 
-| Mode | What Happens | Use When |
-|------|--------------|----------|
-| `display` | Shows content + presents downloadable file | Universal — works everywhere |
-| `write` | Writes directly to filesystem | LLM has filesystem access |
+| Your Setup | Settings |
+|------------|----------|
+| Copy/paste manually (safest) | `file_operations: "display"` |
+| Web-based LLM (Claude.ai) | `file_operations: "download"` |
+| Desktop app or MCP with filesystem | `file_operations: "write"`, `write_target: "local"` |
+| Web-based LLM with Google Drive connected | `file_operations: "write"`, `write_target: "gdrive"`, `gdrive_vault_path: "Obsidian/YourVault"` |
+| Review before writing | `file_operations: "confirm"`, then set `write_target` |
 
-**Recommendation:** Start with `display`. It works everywhere and gives you both viewable content and a downloadable file.
+If unsure, leave as `display` — you can always change it later.
 
-### 5. Configure LLM Project
+### 5. Configure LLM Preferences (Optional)
 
-If you use the Cairn-PKM LLM commands:
+If you use LLM commands (like Claude with the `!` commands), configure the LLM preferences file:
 
-**Set up your LLM project:**
-1. Create a project in your LLM interface (look for Projects, Custom Instructions, or Context)
-2. Upload all files from `_cairn-pkm/llm/uploads/` to your project
-3. Copy content from `_cairn-pkm/llm/llm-project-instructions.md` into project instructions
+**In your vault:**
+1. Copy the template to your local configuration:
+   ```bash
+   cp LLM/cairn-pkm-user-prefs.yaml _local/llm/cairn-pkm-user-prefs.yaml
+   ```
 
-**For web-based LLMs with cloud sync:**
-- Sync your entire vault to a cloud service (Google Drive, etc.)
-- Enable cloud connector in your LLM interface
-- LLM can read your vault (read-only) to display tracks, tasks, etc.
-- Use `display` mode — download files and place in your synced vault manually
+2. Edit `_local/llm/cairn-pkm-user-prefs.yaml` with your settings (same as above)
 
-**For LLMs with filesystem access:**
-- Use `write` mode for automatic file creation
-- Or use `display` mode if you prefer to review before placing files
+**In your LLM project (Claude.ai, etc.):**
+1. Upload `_local/llm/cairn-pkm-user-prefs.yaml` to your project files
+2. The LLM will read settings from `/mnt/project/cairn-pkm-user-prefs.yaml`
 
-See START-HERE.md for complete LLM project setup instructions.
+**Why two files?**
+- `_local/user-prefs.yaml` — Template/reference in your vault
+- `_local/llm/cairn-pkm-user-prefs.yaml` — Your customized version for LLM uploads
+- Keep both synchronized if you update settings
+
+**Note:** LLM commands reference your vault structure. With `download` mode (default), you manually place files. With `write` mode, the LLM writes files directly.
 
 **Available Commands:**
-Once configured, you can use conversational commands:
-- `!tour` — 5-minute guided walkthrough (recommended for new users)
-- `!hi` / `!bye` — Session management with logging
-- `!create` / `!edit` — Entity creation and editing
-- `!capture` / `!skills` / `!changelog` — Capture and documentation
-- `!help` — Command reference
+Once configured, you can use conversational commands with your LLM:
+- `!help` - Command reference and usage
+- `!hi` / `!bye` - Session management with logging
+- `!create` / `!edit` - Entity creation and editing (auto-detects types)
+- `!capture` / `!skills` / `!changelog` - Capture and documentation
+
+See `_cairn-pkm/llm/commands/` for complete command documentation.
 
 ### 6. Explore Example Content
 
@@ -107,6 +115,11 @@ Once configured, you can use conversational commands:
 - **Capture/** — Example quick notes
 
 Review these to understand the structure, then delete and replace with your own content.
+
+**Try the LLM commands:** If using with an LLM like Claude:
+- `!tour` — 5-minute guided walkthrough (recommended for new users)
+- `!hi` — Open interactive session menu
+- `!help` — Command reference
 
 ### 7. Create Your First Area
 
@@ -420,7 +433,7 @@ vault/
 ├── .obsidian/              # Obsidian settings (don't track in git)
 ├── _cairn-pkm/             # Portable system (replace to update)
 │   ├── llm/               # LLM command specs
-│   │   ├── uploads/       # Files to upload to LLM project
+│   │   ├── commands/      # Individual command docs
 │   │   ├── _ARCHITECTURE.md
 │   │   └── _INSTALLATION.md
 │   ├── templates/         # Shared templates
@@ -527,9 +540,9 @@ ls Tracks/ | grep "^p" | sort | tail -1
 ## Getting Help
 
 ### Documentation
-- **START-HERE.md** — Quick setup guide
 - **_ARCHITECTURE.md** — Complete system documentation
-- **Command docs** — `_cairn-pkm/llm/uploads/cmd-*.md`
+- **Command docs** — `_cairn-pkm/llm/commands/cmd-*.md`
+- **README.md** — Overview and quick reference
 
 ### Community
 - GitHub Issues: Report bugs or request features

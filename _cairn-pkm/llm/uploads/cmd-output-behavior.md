@@ -1,5 +1,5 @@
 # Output Behavior Pattern
-*Type: Include | Updated: 2025-12-22*
+*Type: Include | Updated: 2025-12-23*
 
 Shared pattern for file output operations. Commands reference this rather than duplicating logic.
 
@@ -7,10 +7,10 @@ Shared pattern for file output operations. Commands reference this rather than d
 
 ## Configuration
 
-Read from project files `cairn-pkm-user-prefs.yaml`:
+Read from `/mnt/project/cairn-pkm-user-prefs.yaml`:
 
 ```yaml
-file_operations: "display"    # display | write
+file_operations: "download"    # download | write
 ```
 
 ---
@@ -19,8 +19,8 @@ file_operations: "display"    # display | write
 
 | Mode | How It Works | Best For |
 |------|--------------|----------|
-| `display` | Shows content + presents downloadable file | Universal — works everywhere |
-| `write` | Writes directly to filesystem | Desktop app with filesystem access |
+| `download` | Shows content + creates downloadable file | Web-based LLM, manual control, works anywhere |
+| `write` | Writes directly to filesystem | Desktop app with MCP access |
 
 ---
 
@@ -36,26 +36,32 @@ OUTPUT_FILE(filepath, content):
   OUTPUT: "{operation} {filename} in {directory}"
 
   READ: file_operations from prefs
-  DEFAULT: file_operations = "display"
+  DEFAULT: file_operations = "download"
 
   SWITCH file_operations:
 
-    CASE "display":
+    CASE "download":
+      # Show content on screen
       OUTPUT: "📋 FILE CONTENT"
-      OUTPUT: "═══════════════════════════════════════════"
+      OUTPUT: "═══════════════════════════════════════"
       OUTPUT: "Filename: {filename}"
       OUTPUT: "Path: {filepath}"
       OUTPUT: ""
       OUTPUT: {content}
-      OUTPUT: "═══════════════════════════════════════════"
+      OUTPUT: "═══════════════════════════════════════"
       
+      # Also create downloadable file
       TRY:
         output_path = /mnt/user-data/outputs/{filename}
         WRITE: content to output_path
         CALL: present_files([output_path])
-        OUTPUT: "Download above or copy content to: {filepath}"
+        OUTPUT: ""
+        OUTPUT: "💾 Download the file above and save to: {filepath}"
       ON FAILURE:
-        OUTPUT: "Copy this content and save to the path above."
+        # If download creation fails, content is still visible above
+        OUTPUT: ""
+        OUTPUT: "⚠️  Could not create download file: {error}"
+        OUTPUT: "Copy the content above and save manually."
 
     CASE "write":
       TRY:
@@ -70,38 +76,41 @@ OUTPUT_FILE(filepath, content):
 
 ## Graceful Fallback Chain (GFC)
 
-When write operations fail, degrade gracefully with full visibility:
+When write operations fail, fall back to download mode:
 
 ```
 FALLBACK_WITH_VISIBILITY(failed_mode, error, filepath, content):
 
   # Report failure clearly
-  OUTPUT: "⚠️ {failed_mode} failed: {error}"
-  OUTPUT: "↳ Falling back to display mode"
-  
-  # Final fallback: display (always works)
-  OUTPUT: "↳ Content preserved below"
+  OUTPUT: "⚠️  {failed_mode} failed: {error}"
+  OUTPUT: "↳ Falling back to download mode"
   OUTPUT: ""
+  
+  # Show content + attempt download
   OUTPUT: "📋 FILE CONTENT"
-  OUTPUT: "═══════════════════════════════════════════"
+  OUTPUT: "═══════════════════════════════════════"
   OUTPUT: "Filename: {filename}"
   OUTPUT: "Path: {filepath}"
   OUTPUT: ""
   OUTPUT: {content}
-  OUTPUT: "═══════════════════════════════════════════"
+  OUTPUT: "═══════════════════════════════════════"
   
   TRY:
     output_path = /mnt/user-data/outputs/{filename}
     WRITE: content to output_path
     CALL: present_files([output_path])
-    OUTPUT: "Download above or copy content to: {filepath}"
+    OUTPUT: ""
+    OUTPUT: "💾 Download the file above and save to: {filepath}"
   ON FAILURE:
-    OUTPUT: "Copy this content and save to the path above."
+    # If even download fails, content is still visible
+    OUTPUT: ""
+    OUTPUT: "⚠️  Could not create download file: {error}"
+    OUTPUT: "Copy the content above and save manually."
 ```
 
-**Fallback chain:** write → display
+**Fallback chain order:** write → download (with visible content)
 
-**Principle:** User never loses content. Display mode is the ultimate safety net.
+**Principle:** User never loses content. Download mode always shows content on screen even if file creation fails.
 
 ---
 
@@ -124,9 +133,9 @@ CALL: OUTPUT_FILE(filepath, content)
 
 | Situation | Response |
 |-----------|----------|
-| prefs file missing | Use display mode |
-| Invalid file_operations | Use display mode, warn |
-| Write fails | Fall back to display with download |
-| Download fails | Show content for copy/paste |
+| prefs file missing | Use download mode |
+| Invalid file_operations | Use download mode, warn |
+| Write fails | Fall back to download mode |
+| Download file creation fails | Show content anyway (copy/paste) |
 
-**Core principle:** User never loses content due to write failure. Always fall back to display mode showing full content with clear messaging about what happened.
+**Core principle:** User never loses content. Download mode always displays content on screen, with downloadable file as convenience when possible.

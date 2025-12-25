@@ -1,4 +1,28 @@
 # cairn-pkm-user-prefs.yaml
+# Cairn-PKM User Preferences
+#
+# Location: Upload to Claude project as /mnt/project/cairn-pkm-user-prefs.yaml
+# See cmd-output-behavior.md for file_operations details.
+
+# ─────────────────────────────────────────────────────────────────────
+# IDENTITY
+# ─────────────────────────────────────────────────────────────────────
+
+# Name for task assignee field
 default_assignee: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# TIME
+# ─────────────────────────────────────────────────────────────────────
+
+# IANA timezone (e.g., America/New_York, Europe/London)
 timezone: "America/Los_Angeles"
-file_operations: "download"    # download | write
+
+# ─────────────────────────────────────────────────────────────────────
+# OUTPUT BEHAVIOR
+# ─────────────────────────────────────────────────────────────────────
+
+# How files are output:
+#   download - Show content + create downloadable file (default, works anywhere)
+#   write    - Write directly to filesystem (requires MCP/desktop app access)
+file_operations: "download"

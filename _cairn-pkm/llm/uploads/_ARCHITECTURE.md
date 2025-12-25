@@ -30,7 +30,7 @@ vault/
 ├── .obsidian/              # Obsidian settings (don't track in git)
 ├── _cairn-pkm/             # Portable system (replace to update)
 │   ├── llm/               # LLM command specifications
-│   │   ├── uploads/       # Files to upload to LLM project
+│   │   ├── commands/      # Command definitions (cmd-*.md)
 │   │   ├── cmd-shared-patterns.md
 │   │   ├── cmd-output-behavior.md
 │   │   ├── _ARCHITECTURE.md
@@ -66,7 +66,7 @@ vault/
 
 Cairn uses a simple preferences file for vault-specific settings that LLM commands need.
 
-**Location:** `_local/user-prefs.yaml` (also upload to LLM project)
+**Location:** `_local/user-prefs.yaml`
 
 ```yaml
 # Identity
@@ -76,7 +76,7 @@ default_assignee: ""
 timezone: "America/Los_Angeles"
 
 # Output behavior
-file_operations: "display"    # display | write
+file_operations: "download"    # download | write
 ```
 
 ### Settings
@@ -85,7 +85,7 @@ file_operations: "display"    # display | write
 |---------|---------|---------|
 | `default_assignee` | Name used in task assignee field | (empty) |
 | `timezone` | IANA timezone for timestamps | America/Los_Angeles |
-| `file_operations` | How LLM outputs files | display |
+| `file_operations` | How LLM outputs files | download |
 
 ### Output Behavior
 
@@ -93,10 +93,12 @@ The `file_operations` setting controls how LLM commands handle file creation:
 
 | Mode | Behavior | Use When |
 |------|----------|----------|
-| `display` | Shows content + presents downloadable file | Universal — works everywhere |
-| `write` | Writes files directly to filesystem | LLM has filesystem access |
+| `download` | Shows content + creates downloadable file | Web-based LLM, manual control (default, works anywhere) |
+| `write` | Writes directly to filesystem | Desktop app with MCP access |
 
-**Recommendation:** Start with `display`. It works everywhere and gives you both viewable content and a downloadable file.
+**Download mode workflow:** LLM shows content on screen AND creates downloadable file → You save to vault location.
+
+**Write mode workflow:** LLM writes directly to filesystem → File appears in vault automatically.
 
 ### Extending Preferences
 
@@ -106,9 +108,11 @@ Commands use hardcoded defaults for most settings. If you need to override them,
 # Optional overrides (add only if needed)
 default_priority: "high"          # Override task default
 default_status: "scheduled"       # Override task default
+references_folder: "Resources"    # Override !readme output location
 ```
 
 See individual command specs for available overrides.
+
 
 ---
 
@@ -330,9 +334,9 @@ tags: []
 
 ### Capture File Naming
 
-`cap-YYYY-MM-DD-HHMMSS-{slug}.md`
+`qn-YYYY-MM-DD-HHMMSS-{slug}.md`
 
-Example: `cap-2025-12-18-143022-api-integration-notes.md`
+Example: `qn-2025-12-18-143022-api-integration-notes.md`
 
 ---
 
@@ -427,13 +431,12 @@ Instead of git submodule (previous approach), use the **replace-folder method**:
 
 ## LLM Commands
 
-Cairn-PKM provides conversational commands for working with the system through LLMs. Commands are defined in `_cairn-pkm/llm/uploads/` and follow shared patterns for consistency.
+Cairn-PKM provides conversational commands for working with the system through LLMs like Claude. Commands are defined in `_cairn-pkm/llm/commands/` and follow shared patterns for consistency.
 
 ### Command Categories
 
 **Onboarding:**
 - `!tour` - Guided 5-minute walkthrough for new users
-- `!setup` - Interactive configuration wizard
 
 **Workflow Management:**
 - `!hi` - Open interactive session menu or display track overview
@@ -453,8 +456,8 @@ Cairn-PKM provides conversational commands for working with the system through L
 ### How Commands Work
 
 **Configuration:**
-Commands read settings from `cairn-pkm-user-prefs.yaml`:
-- `file_operations` - Controls output mode (display | write)
+Commands read settings from `_local/user-prefs.yaml`:
+- `file_operations` - Controls output mode (download | write)
 - `default_assignee` - Default name for task assignments
 - `timezone` - IANA timezone for timestamps
 
@@ -465,7 +468,7 @@ All commands follow patterns defined in:
 
 **Robustness Principles:**
 - **Verify-Before-Modify (VBM)** - Confirm state before write operations
-- **Graceful Fallback Chain (GFC)** - Degrade safely (write → display)
+- **Graceful Fallback Chain (GFC)** - Degrade safely (write → download → display)
 - **Rationale Capture (RC)** - Log the "why" behind changes, not just "what"
 
 ### Session Model
@@ -498,7 +501,7 @@ Each command has a specification file (cmd-*.md) with:
 - Error handling patterns
 - Version history
 
-See individual command files in `_cairn-pkm/llm/uploads/` for complete details.
+See individual command files in `_cairn-pkm/llm/commands/` for complete details.
 
 ---
 
@@ -510,8 +513,8 @@ See individual command files in `_cairn-pkm/llm/uploads/` for complete details.
 2. Unzip to your desired location
 3. Open in Obsidian
 4. Install plugins: Dataview, Templater, Tasks
-5. See START-HERE.md for LLM project setup
-6. Explore example content in `Tracks/`, `Objects/`, `Capture/`
+5. Explore example content in `Tracks/`, `Objects/`, `Capture/`
+6. When ready, replace examples with your own content
 
 ### First Steps
 
