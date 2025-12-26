@@ -1,5 +1,5 @@
 # !bye - Session Closure
-*Type: Display/Write | Updated: 2025-12-21*
+*Type: Display/Write | Updated: 2025-12-25*
 
 ## Quick Reference
 
@@ -217,6 +217,14 @@ Example: General planning discussion, no files created
 
 **Track deleted/renamed during session:**
 - Use most recent valid track name
+
+**Multi-day sessions:**
+- Use the closing date/time for all timestamps
+- Session log filename uses closing date: `session-log-{closing-date}-{HHMMSS}.md`
+- Task history entry uses closing date
+- Log entry timestamp uses closing date/time
+- If significant work occurred across multiple days, note in summary: "Session spanned {start-date} to {end-date}"
+- For very long sessions (3+ days), consider breaking into logical segments in the summary
 
 ---
 

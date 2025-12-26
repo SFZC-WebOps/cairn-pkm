@@ -1,5 +1,5 @@
 # !edit - Unified Edit Command
-*Type: Read/Write | Updated: 2025-12-21*
+*Type: Read/Write | Updated: 2025-12-25*
 
 ## Quick Reference
 
@@ -168,6 +168,8 @@ APPEND: log entry to Log section
   {YYYY-MM-DD HH:MM} - {Type} - {Text}
 ```
 
+**Auto-update behavior:** The `modified` field in frontmatter is automatically updated to the current date whenever any edit is made to an area.
+
 **Output:** Per `cmd-output-behavior.md`
 
 ---
@@ -229,6 +231,8 @@ UPDATE: frontmatter status (if changed)
 APPEND: log entry to Log section
   {YYYY-MM-DD HH:MM} - {Type} - {Text}
 ```
+
+**Auto-update behavior:** The `modified` field in frontmatter is automatically updated to the current date whenever any edit is made to a project.
 
 **Output:** Per `cmd-output-behavior.md`
 
@@ -393,6 +397,8 @@ UPDATE: frontmatter lastmod date
 UPDATE: frontmatter fields (as modified)
 APPEND: notes to Notes section (if added)
 ```
+
+**Auto-update behavior:** The `lastmod` field is automatically updated to the current date whenever any edit is made to an object, regardless of which fields are modified. This includes adding notes, updating fields, adding aliases/tags, or changing status.
 
 **Output:** Per `cmd-output-behavior.md`
 

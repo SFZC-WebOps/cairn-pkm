@@ -48,6 +48,20 @@ Creating new area...
 2. Brief description? (1-2 sentences)
 ```
 
+### Domain Validation
+
+```
+VALIDATE domain:
+  - Length: 3-15 characters
+  - Characters: lowercase letters only (a-z)
+  - No spaces, numbers, or special characters
+
+ON INVALID:
+  OUTPUT: "Invalid domain: '{input}'"
+  OUTPUT: "Domain must be 3-15 lowercase letters (e.g., 'finance', 'health')"
+  PROMPT: Re-enter domain
+```
+
 ### Title Generation
 
 Title is auto-generated from domain name:
@@ -588,6 +602,8 @@ CHECK in order:
 | Track not found | List available tracks |
 | Conflicting information | Ask user to clarify |
 | Folder already exists (area/project) | "Already exists. Use !edit instead?" |
+| Invalid domain name | Show validation rules, prompt for valid input |
+| Invalid project code | Show validation rules, prompt for valid input |
 
 Common errors: See `cmd-shared-patterns.md`
 
