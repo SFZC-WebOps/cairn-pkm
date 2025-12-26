@@ -123,13 +123,13 @@ STEP 2 of 5: EXPLORING A PROJECT
 
 Let's look at a sample project. In real use, you'd type:
 
-  !hi-p002-prod-lnch
+  !hi-p001-home-office
 
 I'll show you what that displays...
 
 EXECUTE: 
-  READ: {VAULT_PATH}/Tracks/p002-prod-lnch/_p002-prod-lnch-home.md
-  READ: All tasks in p002-prod-lnch/tasks/
+  READ: {VAULT_PATH}/Tracks/p001-home-office/_p001-home-office-home.md
+  READ: All tasks in p001-home-office/tasks/
   DISPLAY: Track overview (same format as !hi-[target])
 
 OUTPUT after track display:
@@ -199,7 +199,7 @@ I extracted from your description:
 
 **Proposed Task:**
 - Title: Schedule stakeholder demo for portal review
-- Track: p002-prod-lnch (from tour context)
+- Track: p001-home-office (from tour context)
 - Priority: medium (default)
 - Status: active (default)
 - Phase: planning (inferred from "schedule")
@@ -216,11 +216,11 @@ GENERATE and display full task file:
 📄 FILE PREVIEW (tour mode""not saved)
 ═══════════════════════════════════════════════════════════════
 Filename: 20251222-schedule-stakeholder-demo.md
-Path: Tracks/p002-prod-lnch/tasks/20251222-schedule-stakeholder-demo.md
+Path: Tracks/p001-home-office/tasks/20251222-schedule-stakeholder-demo.md
 
 ---
 title: "Schedule stakeholder demo for portal review"
-project: "p002-prod-lnch"
+project: "p001-home-office"
 created_date: 2025-12-22
 due_date: 
 assignee: ""
@@ -296,7 +296,7 @@ GENERATE sample !bye output:
 📊 SESSION SUMMARY
 ═══════════════════════════════════════════════════════════════
 
-Tracks visited: p002-prod-lnch
+Tracks visited: p001-home-office
 Files created: 0 (tour mode)
 Files edited: 0
 Log entries added: 0
@@ -359,7 +359,7 @@ Other commands to explore:
    Something you actually need to do
 
 3. Explore the sample project more:
-   !hi-p002-prod-lnch
+   !hi-p001-home-office
    
    Try editing a task: !edit [filename]
 
@@ -464,7 +464,7 @@ OUTPUT: "Invalid step. Use !tour 1 through !tour 5"
 The tour uses the example content included in the distribution:
 
 - `Tracks/area-admin/` "" Example area
-- `Tracks/p002-prod-lnch/` "" Example project (primary tour focus)
+- `Tracks/p001-home-office/` "" Example project (primary tour focus)
 - `Objects/` "" Sample object files
 - `Capture/` "" Example quick notes
 
@@ -476,7 +476,7 @@ If user has already deleted sample data, the tour gracefully degrades (see Error
 
 | Situation | Response |
 |-----------|----------|
-| Sample data missing | "Sample project (p002-prod-lnch) not found. Already cleaned up? No problem""I'll demonstrate with a hypothetical example instead." Then continue with simulated data. |
+| Sample data missing | "Sample project (p001-home-office) not found. Already cleaned up? No problem""I'll demonstrate with a hypothetical example instead." Then continue with simulated data. |
 | Sample data partial | Use what exists, simulate what's missing |
 | Step out of range | "Invalid step. Use !tour 1 through !tour 5" |
 | Unknown command during tour | "Tour command not recognized. Type 'help' for controls." |
@@ -493,7 +493,7 @@ If user has already deleted sample data, the tour gracefully degrades (see Error
 | !hi | Tour demonstrates !hi-[target] usage |
 | !create | Tour simulates !create task flow |
 | !bye | Tour shows !bye output format |
-| Sample data | Requires p002-prod-lnch with tasks |
+| Sample data | Requires p001-home-office with tasks |
 
 ---
 
