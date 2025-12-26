@@ -1,5 +1,5 @@
 # !edit - Unified Edit Command
-*Type: Read/Write | Updated: 2025-12-25*
+*Type: Read/Write | Updated: 2025-12-26*
 
 ## Quick Reference
 
@@ -163,12 +163,11 @@ Added log entry. Continue editing or type 'done'.
 ### Updates Applied
 
 ```
-UPDATE: frontmatter modified date
-APPEND: log entry to Log section
+ALWAYS UPDATE: frontmatter `modified` field to current date (YYYY-MM-DD)
+UPDATE: other frontmatter fields as changed
+APPEND: log entry to Log section (if added)
   {YYYY-MM-DD HH:MM} - {Type} - {Text}
 ```
-
-**Auto-update behavior:** The `modified` field in frontmatter is automatically updated to the current date whenever any edit is made to an area.
 
 **Output:** Per `cmd-output-behavior.md`
 
@@ -231,15 +230,13 @@ Added log entry. Continue editing or type 'done'.
 ### Updates Applied
 
 ```
-UPDATE: frontmatter modified date
+ALWAYS UPDATE: frontmatter `modified` field to current date (YYYY-MM-DD)
 UPDATE: frontmatter progress (if changed)
 UPDATE: frontmatter status (if changed)
 UPDATE: frontmatter summary (if changed)
-APPEND: log entry to Log section
+APPEND: log entry to Log section (if added)
   {YYYY-MM-DD HH:MM} - {Type} - {Text}
 ```
-
-**Auto-update behavior:** The `modified` field in frontmatter is automatically updated to the current date whenever any edit is made to a project.
 
 **Output:** Per `cmd-output-behavior.md`
 
@@ -337,14 +334,13 @@ Examples following RC principle:
 ### Updates Applied
 
 ```
-PREPEND: history entry to Task History section
+PREPEND: history entry to Task History section (if added)
   - YYYY-MM-DD: {entry}
-UPDATE: last_update in frontmatter (if present)
 UPDATE: frontmatter fields (status, priority, etc.)
 APPEND: subtasks to Subtasks section (if added)
 ```
 
-**Note:** Task history entries use date only (YYYY-MM-DD) while project/area log entries use date + time (YYYY-MM-DD HH:MM). This distinguishes task-level events from track-level events.
+**Note:** Tasks do NOT have a `modified` date field. The Task History section serves as the audit trail for changes. Each edit should include a history entry to document the change.
 
 **RC Format Reminder:** All history entries should follow "action - reason" format to capture rationale (RC principle). The command should gently remind users if this format is missing.
 
@@ -400,12 +396,10 @@ Added note. Continue editing or type 'done'.
 ### Updates Applied
 
 ```
-UPDATE: frontmatter lastmod date
-UPDATE: frontmatter fields (as modified)
+ALWAYS UPDATE: frontmatter `lastmod` field to current date (YYYY-MM-DD)
+UPDATE: frontmatter fields as modified
 APPEND: notes to Notes section (if added)
 ```
-
-**Auto-update behavior:** The `lastmod` field is automatically updated to the current date whenever any edit is made to an object, regardless of which fields are modified. This includes adding notes, updating fields, adding aliases/tags, or changing status.
 
 **Output:** Per `cmd-output-behavior.md`
 
@@ -424,8 +418,24 @@ All entity types follow this flow:
 6. Apply changes
 7. Show updated state
 8. Loop until 'done' (subsequent prompts: "Continue editing or type 'done'.")
-9. Output per file_operations setting
+9. Apply auto-update fields (see below)
+10. Output per file_operations setting
 ```
+
+### Auto-Update Fields (Mandatory)
+
+On ANY edit operation, these fields are ALWAYS updated automatically:
+
+| Entity Type | Field | Format | Notes |
+|-------------|-------|--------|-------|
+| Area | `modified` | YYYY-MM-DD | In frontmatter |
+| Project | `modified` | YYYY-MM-DD | In frontmatter |
+| Object | `lastmod` | YYYY-MM-DD | In frontmatter |
+| Task | *(none)* | — | History entries serve as audit trail |
+
+**This is mandatory, not optional.** Every edit to an area, project, or object updates the date field, regardless of which other fields are modified.
+
+**Tasks are different:** Tasks don't have a modified date field because the Task History section provides a detailed audit trail. Each change should be documented with a history entry.
 
 ---
 
