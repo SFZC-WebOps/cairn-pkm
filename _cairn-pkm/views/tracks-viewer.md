@@ -1,7 +1,7 @@
-## 📊 All Projects/Tasks
+## 🔊 All Projects/Tasks
 
 ```dataviewjs
-// ===== 📊 ALL PROJECTS & TASKS =====
+// ===== 🔊 ALL PROJECTS & TASKS =====
 // ===== PROJECT FILTER DROPDOWN =====
 
 const container = dv.container;
@@ -211,6 +211,7 @@ function renderProjectContent(selectedProject) {
   let homeDoc = null;
   let projectSummary = null;
   let projectStatus = null;
+  let projectProgress = null;
   
   if (selectedProject.toLowerCase() === "system") {
     // System home doc is at System/_system-home.md
@@ -232,6 +233,7 @@ function renderProjectContent(selectedProject) {
   if (homeDoc) {
     projectSummary = homeDoc.summary || null;
     projectStatus = homeDoc.status || null;
+    projectProgress = homeDoc.progress || null;
   }
 
   // Build parent-child map
@@ -357,16 +359,49 @@ function renderProjectContent(selectedProject) {
   // Main render
   const title = homeDoc?.title || selectedProject;
   const statusEmoji = projectStatus ? getStatusEmoji(projectStatus) : "";
-  const statusText = projectStatus ? ` • ${statusEmoji} ${projectStatus}` : "";
 
-  dv.el("div", `📁 ${selectedProject} - ${title} (${topLevelTasks.length} tasks)${statusText}`, {
-    attr: { style: "font-size: 1.4em; font-weight: 700; margin: 20px 0 15px 0; border-bottom: 2px solid #ddd; padding-bottom: 8px;" }
+  dv.el("div", `🏗 ${selectedProject} - ${title} (${topLevelTasks.length} tasks)`, {
+    attr: { style: "font-size: 1.4em; font-weight: 700; margin: 20px 0 10px 0; border-bottom: 2px solid #ddd; padding-bottom: 8px;" }
   });
 
-  if (projectSummary) {
-    dv.el("div", projectSummary, {
-      attr: { style: "color: #555; margin-bottom: 20px; line-height: 1.5;" }
-    });
+  // Project info box
+  if (projectStatus || projectProgress !== null || projectSummary) {
+    let infoHtml = '<div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 15px; border-radius: 8px; border-left: 4px solid #0ea5e9; margin-bottom: 20px;">';
+    
+    // Status and Progress on same line
+    if (projectStatus || projectProgress !== null) {
+      infoHtml += '<div style="display: flex; gap: 15px; margin-bottom: 10px; flex-wrap: wrap;">';
+      
+      if (projectStatus) {
+        const statusStyle = getStatusBadgeStyle(projectStatus);
+        infoHtml += `<span style="padding: 6px 12px; border-radius: 6px; font-size: 0.95em; font-weight: 600; ${statusStyle}">${statusEmoji} ${projectStatus}</span>`;
+      }
+      
+      if (projectProgress !== null) {
+        const progressPercent = projectProgress || 0;
+        const progressColor = progressPercent >= 75 ? '#059669' : progressPercent >= 50 ? '#0ea5e9' : progressPercent >= 25 ? '#f59e0b' : '#6b7280';
+        infoHtml += `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-weight: 600; color: #334155;">Progress:</span>
+            <div style="width: 200px; height: 20px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+              <div style="width: ${progressPercent}%; height: 100%; background: ${progressColor}; transition: width 0.3s;"></div>
+            </div>
+            <span style="font-weight: 600; color: ${progressColor};">${progressPercent}%</span>
+          </div>
+        `;
+      }
+      
+      infoHtml += '</div>';
+    }
+    
+    // Summary
+    if (projectSummary) {
+      infoHtml += `<div style="color: #334155; line-height: 1.6; font-size: 0.95em;"><strong>Summary:</strong> ${projectSummary}</div>`;
+    }
+    
+    infoHtml += '</div>';
+    
+    dv.el("div", infoHtml);
   }
 
   if (topLevelTasks.length === 0) {

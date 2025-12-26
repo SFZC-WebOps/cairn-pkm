@@ -295,6 +295,21 @@ function loadProjectStatuses() {
   return statusMap;
 }
 
+// ===== LOAD PROJECT PROGRESS =====
+function loadProjectProgress() {
+  const projectPages = dv.pages('"Tracks"')
+    .where(p => p.file.name.endsWith('-home') && p.project_id);
+  
+  const progressMap = {};
+  for (let page of projectPages) {
+    const progress = page.progress;
+    if (progress !== null && progress !== undefined) {
+      progressMap[page.project_id] = progress;
+    }
+  }
+  return progressMap;
+}
+
 // ===== STATUS EMOJI MAPPING =====
 function getStatusEmoji(status) {
   const s = clean(status).toLowerCase();
@@ -305,6 +320,20 @@ function getStatusEmoji(status) {
   if (s === "complete") return "✅";
   if (s === "archived") return "📦";
   return "📌";
+}
+
+// ===== STATUS BADGE STYLE =====
+function getStatusBadgeStyle(status) {
+  const s = clean(status).toLowerCase();
+  const styles = {
+    "active": "background: #22c55e20; color: #166534; border: 1px solid #22c55e40;",
+    "blocked": "background: #ef444420; color: #991b1b; border: 1px solid #ef444440;",
+    "complete": "background: #a855f720; color: #6b21a8; border: 1px solid #a855f740;",
+    "planning": "background: #3b82f620; color: #1e40af; border: 1px solid #3b82f640;",
+    "review": "background: #f59e0b20; color: #92400e; border: 1px solid #f59e0b40;",
+    "archived": "background: #6b728020; color: #374151; border: 1px solid #6b728040;"
+  };
+  return styles[s] || "background: #6b728020; color: #374151; border: 1px solid #6b728040;";
 }
 
 const today = (() => {
@@ -321,6 +350,7 @@ const showAllViz = currentFile.file.tasks?.some(t =>
 
 const projectSummaries = loadProjectSummaries();
 const projectStatuses = loadProjectStatuses();
+const projectProgress = loadProjectProgress();
 
 // UPDATED: Tasks now live in Tracks/*/tasks/ folders
 const allTasks = dv.pages('"Tracks"')
@@ -351,98 +381,45 @@ function getVizLabel(viz) {
   if (viz === "later") return "Viz: later";
   if (viz === "blocked") return "Viz: blocked";
   if (viz === "waiting") return "Viz: waiting";
-  return "Viz: no-viz";
+  return viz ? `Viz: ${viz}` : "";
 }
 
 function getVizOrder(viz) {
-  if (viz === "now") return 1;      // Active work first
-  if (viz === "next") return 2;     // Keep eyes on second
-  if (viz === "soon") return 3;     // Near-term third
-  if (viz === "blocked") return 4;  // Blocked fourth
-  if (viz === "waiting") return 5;  // Waiting fifth
-  if (viz === "later") return 6;    // Backlog last
-  return 99;
-}
-
-function getVizBackground(viz) {
-  if (viz === "now") return "linear-gradient(135deg, #ffe5e5 0%, #ffd5d5 100%)";      // Red - active work
-  if (viz === "next") return "linear-gradient(135deg, #fff9e5 0%, #ffedd5 100%)";     // Orange - eyes on
-  if (viz === "soon") return "linear-gradient(135deg, #f0ecf9 0%, #e5dff5 100%)";     // Purple - near-term
-  if (viz === "later") return "linear-gradient(135deg, #e5f9f5 0%, #d5f0eb 100%)";    // Green - backlog
-  if (viz === "blocked") return "linear-gradient(135deg, #f0f0f2 0%, #e5e5e8 100%)";  // Gray - blocked
-  if (viz === "waiting") return "linear-gradient(135deg, #fff0eb 0%, #ffe5d9 100%)";  // Light orange - waiting
-  return "linear-gradient(135deg, #f5f5f5 0%, #ececec 100%)";
-}
-
-function getVizBorderColor(viz) {
-  if (viz === "now") return "#ff4444";      // Red
-  if (viz === "next") return "#ffaa00";     // Orange
-  if (viz === "soon") return "#8b5cf6";     // Purple
-  if (viz === "later") return "#00b8a9";    // Green
-  if (viz === "blocked") return "#6b7280";  // Gray
-  if (viz === "waiting") return "#ff6b35";  // Light orange
-  return "#999999";
-}
-
-function getVizIndent(viz) {
-  if (viz === "now") return 0;
-  if (viz === "next") return 10;
-  if (viz === "soon") return 20;
-  if (viz === "blocked") return 30;
-  if (viz === "waiting") return 40;
-  if (viz === "later") return 50;
-  return 0;
+  if (viz === "now") return 1;
+  if (viz === "next") return 2;
+  if (viz === "soon") return 3;
+  if (viz === "later") return 4;
+  if (viz === "blocked") return 5;
+  if (viz === "waiting") return 6;
+  return 10;
 }
 
 function getSectionOrder(section) {
-  const s = (section ?? "").toLowerCase();
-  if (s === "in progress") return 1;
-  if (s === "review") return 2;
-  if (s === "blocked") return 3;
-  if (s === "backlog") return 4;
-  return 99;
+  if (section === "In Progress") return 1;
+  if (section === "Review") return 2;
+  if (section === "Blocked") return 3;
+  if (section === "Backlog") return 4;
+  if (section === "Complete") return 5;
+  return 10;
 }
 
-const vaultName = dv.app.vault.getName();
-
-// ===== BATCH LOAD FILE CONTENTS =====
-const fileContents = new Map();
-for (let t of allTasks) {
-  try {
-    const fileContent = await dv.io.load(t.file.path);
-    fileContents.set(t.file.path, fileContent);
-  } catch (e) {
-    fileContents.set(t.file.path, null);
-  }
-}
-
-// ===== PARENT-CHILD RELATIONSHIP FUNCTIONS =====
-
+// ===== PARENT-CHILD RELATIONSHIP HELPERS =====
 function buildParentChildMap(tasks) {
-  const parentMap = new Map();
   const tasksByFile = new Map();
+  const parentMap = new Map();
   
-  for (let t of tasks) {
-    const filename = t.file.name;
-    tasksByFile.set(filename, t);
+  for (let task of tasks) {
+    tasksByFile.set(task.file.name, task);
   }
   
-  for (let t of tasks) {
-    let parentFile = clean(t.parent_task);
+  for (let task of tasks) {
+    const parentFile = clean(task.parent_task);
     if (parentFile) {
-      // Strip .md extension if present
-      if (parentFile.endsWith('.md')) {
-        parentFile = parentFile.slice(0, -3);
-      }
       if (!parentMap.has(parentFile)) {
         parentMap.set(parentFile, []);
       }
-      parentMap.get(parentFile).push(t);
+      parentMap.get(parentFile).push(task);
     }
-  }
-  
-  for (let [parent, children] of parentMap.entries()) {
-    children.sort((a, b) => a.file.ctime - b.file.ctime);
   }
   
   return { parentMap, tasksByFile };
@@ -450,158 +427,126 @@ function buildParentChildMap(tasks) {
 
 function identifyOrphans(tasks, tasksByFile) {
   const orphans = new Set();
-  for (let t of tasks) {
-    let parentFile = clean(t.parent_task);
-    if (parentFile) {
-      // Strip .md extension if present
-      if (parentFile.endsWith('.md')) {
-        parentFile = parentFile.slice(0, -3);
-      }
-      if (!tasksByFile.has(parentFile)) {
-        orphans.add(t.file.name);
-      }
+  for (let task of tasks) {
+    const parentFile = clean(task.parent_task);
+    if (parentFile && !tasksByFile.has(parentFile)) {
+      orphans.add(task.file.name);
     }
   }
   return orphans;
 }
 
 function isNonOrphanedChild(task, tasksByFile, orphans) {
-  let parentFile = clean(task.parent_task);
+  const parentFile = clean(task.parent_task);
   if (!parentFile) return false;
   if (orphans.has(task.file.name)) return false;
-  // Strip .md extension if present
-  if (parentFile.endsWith('.md')) {
-    parentFile = parentFile.slice(0, -3);
-  }
   return tasksByFile.has(parentFile);
 }
 
-// ===== TASK CARD HTML BUILDER (returns string instead of rendering) =====
-function buildTaskCardHTML(t, parentMap, orphans, parentIndent, today, vaultName, level = 0) {
+const vaultName = dv.app.vault.getName();
+
+// ===== TASK CARD HTML BUILDER (with parent/child indenting) =====
+function buildTaskCardHTML(t, parentMap, orphans, baseIndent, today, vaultName, level) {
+  const title = clean(t.title) || "Untitled";
   const status = clean(t.status) || "—";
   const priority = clean(t.priority);
-  const due = formatDate(t.due_date);
-  const taskHistory = parseTaskHistory(fileContents.get(t.file.path));
+  const viz = clean(t.viz);
   const phase = clean(t.phase);
   const effort = clean(t.effort);
-  const otherTags = formatTags(t.other_tags);
   const assignee = clean(t.assignee);
+  const dueDate = formatDate(t.due_date);
+  const createdDate = formatDate(t.created_date);
+  const tags = formatTags(t.tags);
   
-  const isOrphan = orphans.has(t.file.name);
+  const vizLabel = getVizLabel(viz);
   
-  const vizLabel = t.viz ? getVizLabel(t.viz) : "";
+  const statusClass = normStatus(status);
+  const vizClass = viz ? viz.toLowerCase().replace(/\s+/g, '-') : "no-viz";
   
-  const statusClass = normStatus(status).replace(/[^a-z0-9]+/g, "—") || "unknown";
-  const vizBg = getVizBackground(t.viz);
-  const vizBorderColor = getVizBorderColor(t.viz);
-  
-  let totalIndent;
-  if (level === 0) {
-    totalIndent = getVizIndent(t.viz);
-  } else {
-    totalIndent = parentIndent + 10;
-  }
+  // Get task history
+  const taskHistory = formatTaskHistory(t.last_update);
   
   // Get subtasks from file.tasks (body checkboxes)
   const fileTasks = t.file.tasks?.values ?? [];
   const subtaskSummary = getSubtaskSummary(fileTasks);
-  let subtaskBadge = "";
-  if (subtaskSummary) {
-    const summaryStyle = subtaskSummary.complete === subtaskSummary.total
-      ? "background: rgba(34, 197, 94, 0.15); color: #166534; border: 1px solid rgba(34, 197, 94, 0.3);"
-      : "background: rgba(99, 102, 241, 0.1); color: #4338ca; border: 1px solid rgba(99, 102, 241, 0.2);";
-    
-    subtaskBadge = `<span class="dashboard-badge subtasks" style="
-      padding: 5px 12px; 
-      border-radius: 6px; 
-      font-size: 0.85em; 
-      font-weight: 500;
-      ${summaryStyle}
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    ">📋 ${subtaskSummary.text}</span>`;
-  }
+  const subtaskBadge = subtaskSummary 
+    ? `<span style="
+        padding: 5px 12px; 
+        border-radius: 6px; 
+        font-size: 0.85em; 
+        font-weight: 500;
+        background: rgba(99, 102, 241, 0.15);
+        color: #4338ca;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      ">📋 ${subtaskSummary.text}</span>`
+    : "";
   
-  let detailsHtml = "";
-  const hasDueDate = t.due_date !== null && t.due_date !== undefined;
-  
-  if (assignee !== "" || hasDueDate) {
-    detailsHtml = '<div class="dashboard-details" style="margin-top: 12px;">';
-    
-    if (assignee !== "") {
-      detailsHtml += `<p style="margin: 0; color: #555; font-size: 0.95em;"><strong>Assignee:</strong> ${assignee}</p>`;
-    }
-    
-    if (hasDueDate) {
-      const isComplete = normStatus(status) === "complete";
-      
-      if (isComplete) {
-        // Show completion status instead of due date calculations
-        const badgeStyle = "background: rgba(34, 197, 94, 0.15); color: #166534; border: 1px solid rgba(34, 197, 94, 0.3);";
-        detailsHtml += `<p style="margin: 4px 0 0 0;"><span style="padding: 6px 12px; border-radius: 6px; font-size: 0.9em; font-weight: 500; display: inline-block; ${badgeStyle}">✓ Completed (was due: ${due})</span></p>`;
-      } else {
-        // Calculate overdue/upcoming for active tasks
-        const dueDate = new Date(t.due_date);
-        const daysDiff = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
-        
-        let daysText = "";
-        if (daysDiff < 0) {
-          daysText = `${Math.abs(daysDiff)} days overdue`;
-        } else if (daysDiff === 0) {
-          daysText = "due today";
-        } else {
-          daysText = `${daysDiff} days until due`;
-        }
-        
-        const isOverdue = daysDiff < 0;
-        const badgeStyle = isOverdue 
-          ? "background: rgba(239, 68, 68, 0.2); color: #991b1b; border: 1px solid rgba(239, 68, 68, 0.3);"
-          : "background: rgba(59, 130, 246, 0.15); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.3);";
-        
-        detailsHtml += `<p style="margin: 4px 0 0 0;"><span style="padding: 6px 12px; border-radius: 6px; font-size: 0.9em; font-weight: 500; display: inline-block; ${badgeStyle}">📅 Due: ${due} (${daysText})</span></p>`;
-      }
-    }
-    
-    detailsHtml += '</div>';
-    detailsHtml += '<hr style="border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 15px 0;">';
-  }
-  
-  const orphanWarning = isOrphan ? `<span class="dashboard-badge orphan-warning" style="
-    padding: 5px 12px; 
-    border-radius: 6px; 
-    font-size: 0.85em; 
-    font-weight: 500;
-    background: rgba(234, 179, 8, 0.2);
-    color: #854d0e;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  ">⚠️ Parent not found</span>` : "";
-  
+  // Render subtasks HTML
   const subtasksHtml = renderSubtasksHTML(fileTasks, t.file.path, vaultName);
   
+  // Filter tags for display
+  const typeTagsToShow = [];
+  const otherTagsToShow = [];
+  
+  if (Array.isArray(t.tags)) {
+    for (let tag of t.tags) {
+      if (!tag) continue;
+      const tagStr = String(tag).toLowerCase();
+      
+      // Skip known metadata tags
+      if (["now", "next", "soon", "later", "blocked", "waiting", "eyeson", "backlog"].includes(tagStr)) {
+        continue;
+      }
+      
+      // Type tags
+      if (tagStr.startsWith("type/")) {
+        typeTagsToShow.push(tag);
+      } else {
+        otherTagsToShow.push(tag);
+      }
+    }
+  }
+  
+  const otherTags = otherTagsToShow.length > 0 
+    ? otherTagsToShow.map(t => `#${t}`).join(" ")
+    : "";
+  
+  const orphanWarning = orphans.has(t.file.name)
+    ? `<span style="padding: 5px 12px; border-radius: 6px; font-size: 0.85em; background: rgba(239, 68, 68, 0.2); color: #991b1b; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">⚠️ Parent not found</span>`
+    : "";
+  
+  const totalIndent = baseIndent + (level * 30);
+  
+  let detailsHtml = "";
+  if (assignee || dueDate !== "—" || createdDate !== "—") {
+    detailsHtml = `
+    <div style="font-size: 0.9em; color: #555; margin-top: 8px; line-height: 1.6;">
+      ${assignee ? `👤 ${assignee}` : ""}
+      ${dueDate !== "—" ? ` • 📅 Due: ${dueDate}` : ""}
+      ${createdDate !== "—" ? ` • 🆕 ${createdDate}` : ""}
+    </div>
+    `;
+  }
+  
   let html = `
-<div class="dashboard-card" style="
-  background: ${vizBg}; 
-  margin-left: ${totalIndent}px; 
-  margin-bottom: 20px;
+<div class="dashboard-card viz-${vizClass} status-${statusClass}" style="
+  background: rgba(255, 255, 255, 0.8);
+  margin-left: ${totalIndent}px;
+  margin-bottom: 16px;
   border-radius: 8px;
-  border-left: 5px solid ${vizBorderColor};
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
-  padding: 18px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid #6366f1;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 ">
-  <div class="dashboard-card-header" style="margin-bottom: 12px;">
-    <a href="obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodeURIComponent(t.file.path)}" style="
-      font-size: 1.15em; 
-      font-weight: 600; 
-      color: #1a1a1a;
-      line-height: 1.4;
-      text-decoration: none;
-      cursor: pointer;
-    " class="dashboard-title">${t.title}</a>
+  <div class="dashboard-title" style="margin-bottom: 10px;">
+    <a href="obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodeURIComponent(t.file.path)}" style="font-size: 1.05em; font-weight: 600; color: #1a1a1a; text-decoration: none;">
+      ${title}
+    </a>
   </div>
-  <div class="dashboard-meta" style="
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 8px; 
+  <div class="dashboard-badges" style="
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 8px;
   ">
     ${orphanWarning}
@@ -723,26 +668,63 @@ const projectGroups = allTasks.groupBy(t => t.project ?? "Unassigned");
 for (let projectGroup of projectGroups) {
   const projectTasks = projectGroup.rows;
   
-  // Check if any task in this project has viz = 11
+  // Check if any task in this project has viz = now
   const hasNow = projectTasks.some(t => t.viz === "now");
   
   // Build parent-child relationships for this project
   const { parentMap, tasksByFile } = buildParentChildMap(projectTasks);
   const orphans = identifyOrphans(projectTasks, tasksByFile);
   
-  // Get project status
+  // Get project metadata
   const projectStatus = projectStatuses[projectGroup.key];
   const statusEmoji = projectStatus ? getStatusEmoji(projectStatus) : "";
-  const statusText = projectStatus ? ` • ${statusEmoji} ${projectStatus}` : "";
-  
-  // Get project summary
   const summary = projectSummaries[projectGroup.key];
-  const summaryHtml = summary 
-    ? `<div style="font-size: 0.9em; color: #555; padding: 0 0 12px 0; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08);">${summary}</div>`
-    : "";
+  const progress = projectProgress[projectGroup.key];
+  
+  // Build project info box
+  let projectInfoHtml = "";
+  if (projectStatus || progress !== null && progress !== undefined || summary) {
+    projectInfoHtml = '<div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 15px; border-radius: 8px; border-left: 4px solid #0ea5e9; margin-bottom: 16px;">';
+    
+    // Status and Progress on same line
+    if (projectStatus || progress !== null && progress !== undefined) {
+      projectInfoHtml += '<div style="display: flex; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; align-items: center;">';
+      
+      if (projectStatus) {
+        const statusStyle = getStatusBadgeStyle(projectStatus);
+        projectInfoHtml += `<span style="padding: 6px 12px; border-radius: 6px; font-size: 0.95em; font-weight: 600; ${statusStyle}">${statusEmoji} ${projectStatus}</span>`;
+      }
+      
+      if (progress !== null && progress !== undefined) {
+        const progressPercent = progress || 0;
+        const progressColor = progressPercent >= 75 ? '#059669' : progressPercent >= 50 ? '#0ea5e9' : progressPercent >= 25 ? '#f59e0b' : '#6b7280';
+        projectInfoHtml += `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-weight: 600; color: #334155;">Progress:</span>
+            <div style="width: 200px; height: 20px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+              <div style="width: ${progressPercent}%; height: 100%; background: ${progressColor}; transition: width 0.3s;"></div>
+            </div>
+            <span style="font-weight: 600; color: ${progressColor};">${progressPercent}%</span>
+          </div>
+        `;
+      }
+      
+      projectInfoHtml += '</div>';
+    }
+    
+    // Summary
+    if (summary) {
+      projectInfoHtml += `<div style="color: #334155; line-height: 1.6; font-size: 0.95em;"><strong>Summary:</strong> ${summary}</div>`;
+    }
+    
+    projectInfoHtml += '</div>';
+  }
   
   // Build all content for this project (sections and tasks)
   let projectContentHtml = "";
+  
+  // Add project info box after header
+  projectContentHtml += projectInfoHtml;
   
   // Group this project's tasks by section
   const sectionGroups = projectGroup.rows.groupBy(t => t.section ?? "(No Section)");
@@ -778,9 +760,9 @@ for (let projectGroup of projectGroups) {
     }
   }
   
-  // Build the complete details element HTML with red dot indicator for viz-11
+  // Build the complete details element HTML with red dot indicator for viz-now
   const nowIndicator = hasNow ? '<span style="color: #ff4444; margin-left: 8px; font-size: 0.9em;">●</span>' : '';
-  const projectHeaderHtml = `📁 ${projectGroup.key} (${projectTasks.length} tasks)${statusText}${nowIndicator}`;
+  const projectHeaderHtml = `📁 ${projectGroup.key} (${projectTasks.length} tasks)${nowIndicator}`;
   const projectId = projectGroup.key.replace(/[^a-zA-Z0-9]/g, '-');
   
   const fullDetailsHtml = `
@@ -809,7 +791,6 @@ for (let projectGroup of projectGroups) {
         ">▶</span>
         ${projectHeaderHtml}
       </summary>
-      ${summaryHtml}
       <div style="padding-left: 8px; margin-top: 8px;">
         ${projectContentHtml}
       </div>
