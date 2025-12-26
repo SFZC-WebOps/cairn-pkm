@@ -110,7 +110,7 @@ IF primary_track matches p###-*:
     CASE contains "=":
       PARSE: field=value pairs (comma or newline separated)
       VALIDATE: 
-        - status: active | onhold | blocked | complete | archived
+        - status: planning | active | onhold | complete | archived
         - progress: 0-100
         - summary: any text
       UPDATE: frontmatter fields

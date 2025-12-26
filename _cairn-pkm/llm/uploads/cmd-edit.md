@@ -188,7 +188,7 @@ APPEND: log entry to Log section (if added)
 
 ### Status Values
 
-active, onhold, blocked, complete, archived
+planning, active, onhold, complete, archived
 
 ### Log Entry RC Guidance
 
