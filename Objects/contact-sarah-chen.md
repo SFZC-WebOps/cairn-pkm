@@ -1,54 +1,69 @@
 ---
 type: contact
 status: active
-created: 2025-01-01
-lastmod: 2025-01-18
-aliases:
-  - Sarah
-  - CEO
+created: 2025-10-15
+lastmod: 2025-12-18
+first_name: Sarah
+last_name: Chen
+full_name: Sarah Chen
+role: Friend & Former Colleague
+organization: ""
+email: sarah.chen@email.com
+phone: "(555) 892-4563"
+address: ""
+aliases: 
+  - Sarah C
 tags:
-  - leadership
-  - executive
+  - friend
+  - colleague
+  - professional-network
 ---
 
-# Sarah Chen
+## Overview
+Friend and former colleague from previous job. Software engineer working in fintech. Good source for career advice and tech discussions.
 
-**Role:** Chief Executive Officer  
-**Email:** sarah.chen@example.org  
-**Phone:** (555) 100-1001  
-**Office:** Building A, Suite 300
+## Details
+**Background:**
+- Worked together at DataFlow Inc (2021-2023)
+- Now at FinanceTech Solutions
+- Role: Senior Software Engineer
+- Specialization: Backend systems, Python/Go
 
-## Context
+**Shared Interests:**
+- Hiking and outdoor activities
+- Home improvement projects
+- Technology trends
+- Coffee (serious about good espresso)
 
-CEO since 2020. Final approver for major expenditures over $10,000, strategic initiatives, and company-wide policy changes. Focuses on long-term vision and external partnerships.
+**Connection:**
+- Met: 2021 at DataFlow
+- Friendship level: Close
+- Contact frequency: Every 2-3 weeks
 
-## Communication Preferences
+## Interaction History
+**Recent Contacts:**
+- Dec 18, 2025: Coffee meetup - discussed home office setup, she recommended ErgoDesk
+- Nov 30, 2025: Phone call - career catch-up
+- Nov 2, 2025: Hiking at Mt. Tam
 
-- Prefers email for non-urgent matters
-- Direct calls for urgent issues
-- Weekly executive team meetings: Mondays 9-10 AM
-- Open door policy on Thursdays 2-4 PM
-
-## Recent Interactions
-
-- 2025-01-18: Suggested soft opening approach for office move
-- 2025-01-15: Approved Q1 team meeting budget
-- 2025-01-10: Reviewed office move timeline
+**Projects/Collaborations:**
+- Occasional tech problem-solving discussions
+- Shared side project ideas
+- Mutual career support
 
 ## Notes
+Sarah is a great sounding board for both technical and career decisions. She has excellent judgment and gives honest, thoughtful advice.
 
-**Working style:**
-- Wants executive summaries, not detailed reports
-- Appreciates data-driven recommendations
-- Quick decision maker when given clear options
+She recommended ErgoDesk Supply for office furniture based on her own home office setup. That recommendation led to ordering from them.
 
-**Current priorities:**
-- Office relocation
-- Q1 budget planning
-- New partnership negotiations
+**Gift Ideas:**
+- Specialty coffee beans
+- Hiking gear
+- Tech books
+- Quality stationery
+
+**Important Dates:**
+- Birthday: May 14
+- Work anniversary at FinanceTech: September
 
 ---
-
-**Example contact** showing executive leadership tracked across multiple projects.
-
-Referenced in: p001-office-move (soft opening idea)
