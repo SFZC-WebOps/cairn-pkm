@@ -2,10 +2,10 @@
 title: "Export WordPress content"
 project: "p005-blog-migr"
 created_date: 2025-12-25
-due_date: 
+due_date: 2025-12-30
 assignee: ""
 parent_task: 
-priority: medium
+priority: high
 status: active
 phase: executing
 effort: moderate
@@ -15,6 +15,7 @@ type:
 ---
 
 ### Task History
+- 2025-12-25: Updated priority to high, set due date - migration deadline approaching
 - 2025-12-25: Created task - needed for blog platform migration
 
 ---

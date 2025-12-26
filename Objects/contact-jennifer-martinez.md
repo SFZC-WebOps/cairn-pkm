@@ -8,10 +8,10 @@ tags: []
 first_name: Jennifer
 last_name: Martinez
 full_name: Jennifer Martinez
-role: Project Manager
-organization: Acme Corp
-email: jennifer.martinez@acme.com
-phone: 
+role: Sales Representative
+organization: CoolAir HVAC Services
+email: jennifer.martinez@coolair.example.com
+phone: 555-0199
 ---
 
 ## Overview
