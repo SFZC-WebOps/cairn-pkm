@@ -1,0 +1,104 @@
+change_id: CHG-20251215-140000
+timestamp: 2025-12-15T14:00:00-08:00
+implemented_by: ""
+requested_by: ""
+
+title: "Changed home office lighting from recessed cans to track system"
+rationale: "Track lighting offers more flexibility for video calls and costs $200 less with faster installation"
+
+systems_affected:
+  - home-office-lighting
+
+technologies:
+  - track-lighting
+  - led-fixtures
+
+problem_category: configuration
+
+change_classification:
+  impact: low
+  risk: low
+  reversibility: instant
+  scope: single-system
+
+description: |
+  Modified lighting plan for home office before installation began. Original 
+  design called for recessed can lights in ceiling. After further research and
+  contractor input, switched to track lighting system for better functionality
+  and cost savings.
+
+problem: |
+  Original recessed can light plan had several drawbacks:
+  
+  - Required cutting into ceiling (older home, potential asbestos concerns)
+  - Fixed light positions couldn't be adjusted after installation
+  - Poor for video calls (overhead lighting creates shadows on face)
+  - More expensive: $480 for fixtures + additional ceiling work
+  - Longer installation time (5-6 hours estimated)
+  - Ceiling repair and painting would add 2-3 days
+  
+  Contractor (Mike Torres) suggested reconsidering the recessed approach
+  given the flexibility needs for video conferencing and potential future
+  desk rearrangement.
+
+solution: |
+  Changed to track lighting system after consultation with Mike:
+  
+  Decision factors:
+  1. Flexibility: Can adjust light direction as needed
+     - Point lights at walls for indirect lighting during calls
+     - Direct task lighting when needed for detailed work
+     - Can add/remove/reposition fixtures on track
+  
+  2. Cost savings: Track system is $280 vs $480 for recessed
+     - 4-head track system with LED bulbs: $280
+     - No ceiling work required (saves contractor labor)
+     - No drywall repair or painting needed
+     - Total savings: ~$200
+  
+  3. Installation: Simpler and faster
+     - Mounts to existing junction box
+     - 3-4 hour installation vs 5-6 hours + repair time
+     - Can complete in single visit
+  
+  4. Better for video calls: Adjustable direction prevents harsh shadows
+  
+  Mike approved the change and confirmed electrical box can support track weight.
+  Ordered fixtures on Dec 15, arriving Dec 23, installation scheduled Dec 27.
+
+files_modified:
+  - lighting-plan.pdf
+  - home-office-budget.xlsx
+
+rollback:
+  complexity: simple
+  estimated_time: "30 minutes"
+  steps:
+    - action: "Cancel track lighting order (before Dec 20 for full refund)"
+      validation: "Order cancellation confirmed"
+    - action: "Reorder recessed can fixtures"
+      validation: "New order placed"
+    - action: "Reschedule Mike for ceiling work"
+      validation: "Longer time slot confirmed"
+
+validation:
+  tested: false
+  test_environment: "Not yet installed"
+  test_results: "Awaiting installation. Fixtures selected have good reviews for home office use. Verified fixture weight is within junction box capacity."
+
+ai_contribution:
+  role: researcher
+  time_saved_estimate: 45
+  time_saved_basis: "Research on lighting options and video call requirements"
+  specific_contributions:
+    - "Researched lighting recommendations for video conferencing"
+    - "Compared track lighting vs recessed options with pros/cons"
+    - "Found product reviews for specific track system being considered"
+    - "Explained color temperature choices (settled on 4000K neutral)"
+
+related_changes: []
+track_context: "p001-home-office"
+session_context: "Design modification during home office renovation. Decision made before installation commenced, avoiding costly rework."
+
+created: 2025-12-15T14:00:00-08:00
+updated: 2025-12-15T14:00:00-08:00

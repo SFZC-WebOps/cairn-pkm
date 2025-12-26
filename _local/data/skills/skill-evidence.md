@@ -1,241 +1,131 @@
 # Skill Evidence Log
 
-Evidence collected from work sessions. Append new entries at the top.
-
----
-
 ## 2025-12
 
-### 2025-12-22 - Cairn-PKM Beta Documentation & Architecture
-**Source:** Development session
+### 2025-12-15 - Home Office Lighting Design Decision
+**Source:** Work session on p001-home-office project
 
-**Context:** Beta readiness review and implementation of simplified 2-mode output system with LLM-agnostic documentation.
+**Context:** Redesigned lighting plan for home office renovation, switching from recessed cans to track lighting after analyzing requirements and consulting with contractor.
 
-**Evidence Summary:** Architecture simplification and cross-platform documentation refinement
-
-**Skills Identified:**
-- Technical Documentation Level 4: Created onboarding guide, updated 8+ spec files
-- System Architecture Level 4: Simplified 4-mode × 2-target to 2 universal modes
-- Configuration Design Level 3: Reduced prefs from 5 to 3 settings
-- Technical Writing Level 3: LLM-agnostic language across documentation
-- Requirements Analysis Level 3: Beta blocker triage and prioritization
-
-**Total Evidence:** 5 entries
-**Confidence Distribution:** HIGH: 3, MEDIUM: 2
-
----
-
-### 2025-12-20 - Portal Deployment Documentation
-**Source:** p002-prod-lnch task work
-
-**Context:** Created comprehensive deployment documentation for customer portal launch including rollback procedures and incident response guide.
-
-**Evidence Summary:** Independent technical documentation for production deployment
+**Evidence Summary:** Independent design decision with cost-benefit analysis and professional consultation
 
 **Skills Identified:**
-- Documentation Level 3: Created deployment procedures, rollback plan, and incident response guide independently
-- Process Improvement Level 3: Established standardized deployment checklist for future releases
-- Technical Troubleshooting Level 2: Identified potential failure points and documented mitigation steps
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 2, MEDIUM: 1
-
----
-
-### 2025-12-20 - Customer Portal QA Testing
-**Source:** p002-prod-lnch testing session
-
-**Context:** Led QA testing for new customer portal, created test cases, and documented findings. Found 3 bugs in initial testing round.
-
-**Evidence Summary:** Managed testing workflow and identified defects before production
-
-**Skills Identified:**
-- Testing Level 3: Created test cases and executed systematic testing of user flows
-- Analytical Thinking Level 3: Identified root cause patterns across multiple bug reports
-- Documentation Level 2: Documented test findings with reproduction steps
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 2, MEDIUM: 1
-
----
-
-### 2025-12-18 - Marketing Campaign Planning Kickoff
-**Source:** p002-prod-lnch planning session
-
-**Context:** Facilitated kickoff meeting for Q2 marketing campaign. Defined objectives, identified target audience, and established success metrics.
-
-**Evidence Summary:** Led strategic planning session with cross-functional team
-
-**Skills Identified:**
-- Project Management Level 3: Coordinated kickoff meeting and established project milestones
-- Communication Level 3: Facilitated planning session with marketing team stakeholders
-- Decision Making Level 3: Defined campaign objectives and budget allocation ($50k)
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 2, MEDIUM: 1
-
----
-
-### 2025-12-12 - Accessibility Audit Completion
-**Source:** area-webops compliance work
-
-**Context:** Completed WCAG 2.1 AA accessibility audit using automated tools (WAVE, axe DevTools) and manual screen reader testing (NVDA).
-
-**Evidence Summary:** Conducted comprehensive accessibility audit with multiple testing methodologies
-
-**Skills Identified:**
-- Testing Level 3: Executed both automated and manual accessibility testing independently
-- Security Awareness Level 2: Applied compliance standards (WCAG 2.1 AA) to identify gaps
-- Analytical Thinking Level 3: Categorized 60 findings by severity and remediation effort
-- Documentation Level 3: Created detailed audit report with specific remediation recommendations
+- Project Management Level 3: Evaluated design alternatives and made cost-effective decision that saved $200 and improved functionality
+- Communication Level 3: Collaborated with contractor to validate technical feasibility and gather professional input
+- Problem Solving Level 4: Identified issue with original plan (poor for video calls) and researched superior alternative before installation began
+- Financial Management Level 3: Performed cost-benefit analysis comparing options with clear ROI justification
 
 **Total Evidence:** 4 entries
 **Confidence Distribution:** HIGH: 3, MEDIUM: 1
 
 ---
 
-### 2025-12-10 - Website Accessibility Task Setup
-**Source:** area-webops task creation
+### 2025-12-08 - Electrical Infrastructure Planning
+**Source:** Work session on p001-home-office project
 
-**Context:** Scoped accessibility compliance project, estimated effort (40-60 hours), and broke down work into actionable subtasks.
+**Context:** Planned and executed electrical upgrade for home office, adding outlets and replacing switch to support equipment needs safely.
 
-**Evidence Summary:** Planned complex compliance project with clear deliverables
+**Evidence Summary:** Load calculation, code compliance verification, and contractor coordination
 
 **Skills Identified:**
-- Project Management Level 2: Broke down complex project into 8 discrete subtasks
-- Research Level 2: Identified required compliance standards and testing tools
+- Technical Planning Level 3: Calculated electrical load requirements for all office equipment to ensure safe circuit capacity
+- Vendor Management Level 3: Coordinated with licensed electrician (Mike Torres) for professional installation
+- Risk Management Level 3: Identified and mitigated fire/safety risks from insufficient electrical capacity
+- Documentation Level 2: Updated electrical diagram and tracked changes in project files
 
-**Total Evidence:** 2 entries
-**Confidence Distribution:** MEDIUM: 2
+**Total Evidence:** 4 entries
+**Confidence Distribution:** HIGH: 3, MEDIUM: 1
+
+---
+
+### 2025-11-28 - Furniture Vendor Selection & Procurement
+**Source:** Work session on p001-home-office project
+
+**Context:** Researched and selected furniture vendor for standing desk and ergonomic chair, comparing 4 options across price, warranty, delivery, and quality factors.
+
+**Evidence Summary:** Multi-vendor comparison with weighted decision criteria
+
+**Skills Identified:**
+- Research Level 3: Systematically compared 4 vendors across multiple criteria (price, warranty, delivery, reviews)
+- Decision Making Level 3: Selected vendor based on long-term value rather than lowest price - prioritized warranty and service
+- Negotiation Level 2: Reviewed contract terms and verified white-glove delivery included in pricing
+- Procurement Level 3: Managed $1,840 purchase with delivery coordination and quality verification
+
+**Total Evidence:** 4 entries
+**Confidence Distribution:** HIGH: 3, MEDIUM: 1
+
+---
+
+### 2025-11-18 - Subscription Management Automation
+**Source:** Work session with Claude on personal finance tracking
+
+**Context:** Developed Python automation script to track subscription review dates and send email reminders, preventing missed reviews that cost $180 in 2024.
+
+**Evidence Summary:** Complete automation solution from problem identification through deployment
+
+**Skills Identified:**
+- Python Programming Level 4: Developed working script with YAML parsing, SMTP integration, and error handling
+- Systems Automation Level 3: Implemented cron job for scheduled execution with logging
+- Process Improvement Level 4: Identified manual process inefficiency and automated it, quantified savings ($180/year)
+- Problem Solving Level 3: Designed solution addressing root cause (easy to forget) rather than symptom
+
+**Total Evidence:** 4 entries
+**Confidence Distribution:** HIGH: 4
+
+---
+
+### 2025-11-15 - Office Layout Design & Space Planning
+**Source:** Work session on p001-home-office project using Figma
+
+**Context:** Created detailed office layout plan using Figma with accurate measurements, tested 3 furniture arrangements, and finalized design for implementation.
+
+**Evidence Summary:** Complete space planning from concept through validated design
+
+**Skills Identified:**
+- Design Level 3: Created functional layout in Figma with accurate measurements and furniture placement
+- Tool Proficiency Level 3: Learned and applied Figma effectively for floor planning within hours
+- Analytical Thinking Level 3: Tested multiple layout options against ergonomic and functional requirements
+- Attention to Detail Level 3: Verified all measurements on-site and annotated electrical requirements accurately
+
+**Total Evidence:** 4 entries
+**Confidence Distribution:** HIGH: 4
 
 ---
 
 ## 2025-11
 
-### 2025-11-28 - Production SSL Certificate Renewal
-**Source:** area-webops maintenance
+### 2025-11-10 - Home Office Project Initiation & Planning
+**Source:** Project kickoff for p001-home-office
 
-**Context:** Renewed SSL certificates across 4 production domains. Verified certificate chain and tested HTTPS connectivity.
+**Context:** Initiated home office renovation project with complete scope definition, budget allocation ($3,500), and phased execution plan.
 
-**Evidence Summary:** Completed routine security maintenance with zero downtime
+**Evidence Summary:** End-to-end project setup with realistic scheduling and budget
 
 **Skills Identified:**
-- Security Awareness Level 3: Renewed and validated SSL certificates across production infrastructure
-- Systems & Tools Level 3: Used openssl commands to verify certificate chain configuration
-- Technical Troubleshooting Level 3: Diagnosed and resolved intermediate certificate issue
+- Project Planning Level 3: Defined scope, timeline, and budget with clear deliverables and phases
+- Stakeholder Management Level 2: Identified need for contractor and vendor relationships
+- Budget Management Level 3: Allocated $3,500 across furniture, electrical, lighting, and accessories
+- Requirements Gathering Level 3: Documented ergonomic needs, technical requirements, and space constraints
 
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 3
+**Total Evidence:** 4 entries
+**Confidence Distribution:** HIGH: 3, MEDIUM: 1
 
 ---
 
-### 2025-11-15 - Database Performance Optimization
-**Source:** area-webops performance work
+### 2025-11-05 - Personal PKM System Implementation
+**Source:** Cairn-PKM vault setup and configuration
 
-**Context:** Identified slow queries causing page load issues. Added indexes and optimized 3 critical queries, reducing load time by 40%.
+**Context:** Set up Cairn-PKM personal knowledge management system with areas, projects, and automated workflows.
 
-**Evidence Summary:** Independent performance troubleshooting with measurable improvement
-
-**Skills Identified:**
-- Data Analysis Level 3: Analyzed query execution plans to identify bottlenecks
-- Technical Troubleshooting Level 4: Diagnosed performance issue and implemented fix with 40% improvement
-- Database Level 3: Created indexes and optimized SQL queries
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 3
-
----
-
-### 2025-11-08 - Team Knowledge Sharing Session
-**Source:** area-admin professional development
-
-**Context:** Presented 30-minute session on Git workflow best practices to development team (6 attendees).
-
-**Evidence Summary:** Delivered technical training to peers
+**Evidence Summary:** Complete system configuration with custom automation
 
 **Skills Identified:**
-- Presentation Level 3: Delivered technical presentation to team of 6
-- Communication Level 3: Explained complex version control concepts clearly
-- Mentoring Level 2: Shared best practices and answered follow-up questions
+- Knowledge Management Level 3: Implemented structured PKM system with clear taxonomy and workflows
+- Tool Configuration Level 3: Configured Obsidian with Dataview, Templater, and Tasks plugins
+- Process Design Level 3: Created capture and review workflows for sustainable task management
+- Systems Thinking Level 3: Designed interconnected system balancing structure with flexibility
 
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 2, MEDIUM: 1
-
----
-
-## 2025-10
-
-### 2025-10-25 - Incident Response - Payment Processing Outage
-**Source:** area-webops incident
-
-**Context:** Responded to payment processing outage affecting checkout. Identified third-party API issue, implemented workaround, and coordinated with vendor. Resolution time: 45 minutes.
-
-**Evidence Summary:** Led incident response with successful resolution under pressure
-
-**Skills Identified:**
-- Technical Troubleshooting Level 4: Diagnosed third-party integration failure and implemented workaround
-- Communication Level 4: Coordinated with vendor support and kept stakeholders informed during incident
-- Decision Making Level 3: Made quick decision to implement temporary workaround while awaiting vendor fix
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 3
-
----
-
-### 2025-10-18 - CI/CD Pipeline Implementation
-**Source:** area-webops automation
-
-**Context:** Set up GitHub Actions workflow for automated testing and deployment. Reduced deployment time from 30 minutes manual to 5 minutes automated.
-
-**Evidence Summary:** Implemented automation with significant time savings
-
-**Skills Identified:**
-- Programming & Scripting Level 3: Wrote GitHub Actions workflow configuration
-- DevOps Level 4: Implemented CI/CD pipeline with automated testing and deployment
-- Process Improvement Level 4: Automated deployment process, saving 25 minutes per deployment
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 3
-
----
-
-### 2025-10-05 - Quarterly Planning Session
-**Source:** area-admin planning
-
-**Context:** Facilitated Q4 planning session. Prioritized 12 initiatives, allocated resources, and established OKRs.
-
-**Evidence Summary:** Led strategic planning with measurable outcomes
-
-**Skills Identified:**
-- Project Management Level 4: Led quarterly planning and prioritized 12 initiatives
-- Decision Making Level 3: Evaluated trade-offs and allocated limited resources
-- Communication Level 3: Facilitated planning discussion with multiple stakeholders
-
-**Total Evidence:** 3 entries
-**Confidence Distribution:** HIGH: 2, MEDIUM: 1
-
----
-
-
-### 2025-12-23 - Release Workflow & Infrastructure Setup
-
-**Source:** Work session with Claude
-
-**Context:** Set up complete release workflow for Cairn-PKM including GitHub releases, version notification system, custom domain, and branch management.
-
-**Evidence Summary:** Independent configuration of multi-component release infrastructure
-
-**Skills Identified:**
-
-- **Git/Version Control Level 4:** Established release workflow with dev/stable branching, tagging (v0.5.0), merging, and conflict resolution
-- **GitHub Administration Level 4:** Configured GitHub Releases, GitHub Pages with custom domain, public repo settings
-- **DNS/Domain Management Level 3:** Set up CNAME records, domain forwarding (301 redirects), SSL configuration via SquareSpace
-- **Web Infrastructure Level 3:** Configured GitHub Pages, resolved Jekyll underscore-folder issue with .nojekyll, set up asset hosting
-- **SVG/Graphics Level 2:** Created and deployed version status badge with editable text elements
-- **Obsidian/PKM Level 3:** Integrated Dataview inline queries with external assets for version display
-- **Troubleshooting Level 3:** Diagnosed and resolved multiple issues (Jekyll blocking, merge conflicts, shields.io caching, DNS propagation)
-
-**Total Evidence:** 7 entries
-**Confidence Distribution:** HIGH: 5, MEDIUM: 2
+**Total Evidence:** 4 entries
+**Confidence Distribution:** HIGH: 3, MEDIUM: 1
 
 ---

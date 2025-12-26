@@ -1,0 +1,121 @@
+change_id: CHG-20251118-163000
+timestamp: 2025-11-18T16:30:00-08:00
+implemented_by: ""
+requested_by: ""
+
+title: "Automated monthly subscription review reminder system"
+rationale: "Manual subscription tracking was unreliable - missed reviewing 3 subscriptions in 2024, wasting $180"
+
+systems_affected:
+  - personal-finance-tracking
+  - email-notifications
+
+technologies:
+  - python
+  - cron
+  - smtp
+  - obsidian-dataview
+
+problem_category: feature
+
+change_classification:
+  impact: low
+  risk: low
+  reversibility: instant
+  scope: single-system
+
+description: |
+  Created automated system to track and review recurring subscriptions.
+  Parses subscription markdown files in Obsidian vault, identifies those
+  due for review, and sends email reminders with review questions.
+
+problem: |
+  Subscription management was manual and error-prone:
+  
+  - 8 active subscriptions tracked in Obsidian (Objects/*.md files)
+  - Each should be reviewed annually to assess value
+  - Review dates stored in frontmatter but no automated tracking
+  - Missed reviewing YouTube Premium, Adobe CC, and Dropbox in 2024
+  - Combined cost of unreviewed subscriptions: $540/year
+  - Estimated $180 wasted on services that could have been downgraded
+  
+  Manual calendar reminders didn't work - too easy to dismiss and forget.
+  Needed automated system that provides context and prompts action.
+
+solution: |
+  Built Python script with monthly cron job:
+  
+  **Script functionality:**
+  1. Scans Objects/ directory for subscription-*.md files
+  2. Parses YAML frontmatter for review dates
+  3. Identifies subscriptions due for review (within 30 days)
+  4. Generates email with:
+     - Subscription name and cost
+     - Last review date
+     - Current annual cost
+     - Review questions (usage, value, alternatives)
+     - Link to file in vault
+  5. Sends via SMTP (personal Gmail)
+  
+  **Implementation details:**
+  - Language: Python 3.11
+  - Libraries: PyYAML, smtplib, pathlib
+  - Execution: Cron job (1st of each month, 9 AM)
+  - Location: ~/scripts/subscription-review.py
+  - Config: ~/scripts/config.yaml (credentials, vault path)
+  - Logs: ~/scripts/logs/subscription-review.log
+  
+  **Email format:**
+  Subject: "Subscription Review Due: [Name]"
+  Body includes:
+  - Current cost: $XX/month ($XXX/year)
+  - Last reviewed: [date]
+  - Questions to consider:
+    * How often did you use this in the last month?
+    * Could you accomplish the same with a free alternative?
+    * Would canceling cause significant inconvenience?
+  - Action: Review and update [file link]
+  
+  **Setup process:**
+  - Tested script manually with test subscription file
+  - Verified email delivery and formatting
+  - Added cron entry: 0 9 1 * * /usr/bin/python3 ~/scripts/subscription-review.py
+  - Documented in ~/scripts/README.md
+
+files_modified:
+  - ~/scripts/subscription-review.py (created)
+  - ~/scripts/config.yaml (created)
+  - ~/scripts/README.md (updated)
+  - /etc/crontab (or user crontab)
+
+rollback:
+  complexity: simple
+  estimated_time: "5 minutes"
+  steps:
+    - action: "Remove cron job entry"
+      validation: "Verify with crontab -l"
+    - action: "Delete script files (optional, can keep for reference)"
+      validation: "Files removed from ~/scripts/"
+
+validation:
+  tested: true
+  test_environment: "Local development machine, test subscription files"
+  test_results: "Script successfully parsed 3 test subscription files, identified 1 due for review, sent formatted email. Email received correctly with all fields populated. Cron job executed successfully on Dec 1st (first scheduled run)."
+
+ai_contribution:
+  role: executor
+  time_saved_estimate: 90
+  time_saved_basis: "Complete script generation including YAML parsing, error handling, and email formatting"
+  specific_contributions:
+    - "Generated complete Python script with error handling"
+    - "Wrote YAML parsing logic for Obsidian frontmatter"
+    - "Created email template with review questions"
+    - "Provided cron syntax and setup instructions"
+    - "Added logging functionality for debugging"
+
+related_changes: []
+track_context: "area-personal"
+session_context: "Personal finance automation. Part of broader effort to reduce unnecessary subscription spending through systematic review process."
+
+created: 2025-11-18T16:30:00-08:00
+updated: 2025-11-18T16:30:00-08:00

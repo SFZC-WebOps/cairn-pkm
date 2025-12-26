@@ -1,0 +1,93 @@
+change_id: CHG-20251208-091500
+timestamp: 2025-12-08T09:15:00-08:00
+implemented_by: Mike Torres
+requested_by: ""
+
+title: "Added electrical outlets and switch replacement for home office"
+rationale: "Existing outlets insufficient for standing desk, dual monitors, and equipment - risked overloading circuits"
+
+systems_affected:
+  - home-office-electrical
+  - bedroom-spare
+
+technologies:
+  - residential-electrical
+  - 120v-circuits
+
+problem_category: infrastructure
+
+change_classification:
+  impact: medium
+  risk: low
+  reversibility: days
+  scope: single-system
+
+description: |
+  Home office conversion in spare bedroom required additional power capacity.
+  Original room had only 2 outlets, both on opposite wall from planned desk location.
+  Needed dedicated power for height-adjustable desk, dual monitors, laptop dock,
+  USB hub, and task lighting without overloading circuits.
+
+problem: |
+  Insufficient electrical capacity and poorly positioned outlets for office setup:
+  
+  - Only 2 existing outlets, both on north wall
+  - Desk location required outlets on south wall (window glare considerations)
+  - Standing desk alone needs 120W for motors
+  - Dual monitors + laptop dock + peripherals = additional 200W+ 
+  - Extension cords across room presented safety and aesthetic issues
+  - Risk of overloading single circuit with all equipment
+  
+  Attempting to run office equipment from existing outlets would require long
+  extension cords creating trip hazards and potential fire risk from overload.
+
+solution: |
+  Mike Torres (licensed electrician) added 2 new outlets and replaced old switch:
+  
+  1. Verified circuit capacity on existing bedroom circuit (15A)
+  2. Added 2 new duplex outlets on south wall near desk location
+     - 18" above floor for easy desk access
+     - Spaced 6 feet apart for flexibility
+     - Wired to existing circuit (verified safe load)
+  3. Replaced old 1960s toggle switch with modern decora switch
+     - Old switch was loose and unreliable
+     - New switch includes ground connection
+  4. Tested all outlets with circuit tester
+  5. Verified no voltage drop under full load
+  
+  Work completed in 3.5 hours with minimal drywall patching required.
+
+files_modified:
+  - home-electrical-diagram.pdf
+
+rollback:
+  complexity: moderate
+  estimated_time: "4 hours"
+  steps:
+    - action: "Remove new outlets and patch drywall"
+      validation: "Inspect for proper wall repair"
+    - action: "Reinstall old toggle switch"
+      validation: "Test switch operation"
+    - action: "Verify circuit protection restored"
+      validation: "Circuit breaker test"
+
+validation:
+  tested: true
+  test_environment: "Home office, full equipment load"
+  test_results: "All outlets function correctly. Tested with desk motors, monitors, and laptop dock running simultaneously - no voltage drop, no breaker trips. Circuit load measured at 8.2A under full use (well within 15A capacity with margin)."
+
+ai_contribution:
+  role: advisor
+  time_saved_estimate: 30
+  time_saved_basis: "Research on electrical code requirements and load calculations"
+  specific_contributions:
+    - "Explained NEC code requirements for outlet spacing"
+    - "Helped calculate total amperage requirements for equipment"
+    - "Suggested verification steps for circuit capacity"
+
+related_changes: []
+track_context: "p001-home-office"
+session_context: "Electrical infrastructure work for home office project. Part of larger renovation to convert spare bedroom to functional workspace."
+
+created: 2025-12-08T09:15:00-08:00
+updated: 2025-12-08T09:15:00-08:00
