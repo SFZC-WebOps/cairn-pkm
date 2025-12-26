@@ -69,12 +69,12 @@ content = ftfy.fix_text(content)
 
 ```
 OUTPUT: "📋 PROPOSED CAPTURE"
-OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: "═══════════════════════════════════════════════"
 OUTPUT: "Filename: {filename}"
 OUTPUT: "Path: {filepath}"
 OUTPUT: ""
 OUTPUT: {content}
-OUTPUT: "═══════════════════════════════════════════════"
+OUTPUT: "═══════════════════════════════════════════════"
 OUTPUT: ""
 OUTPUT: "Save this? (yes / edit / cancel)"
 

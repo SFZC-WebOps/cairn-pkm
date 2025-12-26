@@ -183,6 +183,7 @@ APPEND: log entry to Log section
 | Add log entry | `log [type] [text]` |
 | Update status | `status [value]` |
 | Update progress | `progress [0-100]` |
+| Update summary | `summary [text]` |
 | Update both | `update status [value] progress [number]` |
 | Edit any field | `field [name] [value]` |
 
@@ -204,6 +205,7 @@ Editing p014-blog-migr...
 **Current state:**
 - Status: active
 - Progress: 50%
+- Summary: Content export complete, starting theme work
 - Created: 2025-11-01
 - Modified: 2025-12-15
 
@@ -212,6 +214,10 @@ What changes? (help for options, done to finish)
 > progress 75
 
 Updated progress. Continue editing or type 'done'.
+
+> summary Theme selected, testing migration scripts
+
+Updated summary. Continue editing or type 'done'.
 
 > log milestone Content migration complete - ready for testing
 
@@ -228,6 +234,7 @@ Added log entry. Continue editing or type 'done'.
 UPDATE: frontmatter modified date
 UPDATE: frontmatter progress (if changed)
 UPDATE: frontmatter status (if changed)
+UPDATE: frontmatter summary (if changed)
 APPEND: log entry to Log section
   {YYYY-MM-DD HH:MM} - {Type} - {Text}
 ```
@@ -459,19 +466,20 @@ PROMPT: "Use this or provide your own?"
 | `done` | ✓ | ✓ | ✓ | ✓ |
 | `status [value]` | ✓ | ✓ | ✓ | ✓ |
 | `field [name] [value]` | ✓ | ✓ | ✓ | ✓ |
-| `log [type] [text]` | — | ✓ | — | — |
-| `progress [0-100]` | — | ✓ (projects only) | — | — |
-| `history [text]` | — | — | ✓ | — |
-| `priority [value]` | — | — | ✓ | — |
-| `phase [value]` | — | — | ✓ | — |
-| `effort [value]` | — | — | ✓ | — |
-| `viz [value]` | — | — | ✓ | — |
-| `due [date]` | — | — | ✓ | — |
-| `type add/remove` | — | — | ✓ | — |
-| `subtask [text]` | — | — | ✓ | — |
-| `note [text]` | — | — | — | ✓ |
-| `alias [text]` | — | — | — | ✓ |
-| `tag [text]` | — | — | — | ✓ |
+| `log [type] [text]` | — | ✓ | — | — |
+| `progress [0-100]` | — | ✓ (projects only) | — | — |
+| `summary [text]` | — | ✓ (projects only) | — | — |
+| `history [text]` | — | — | ✓ | — |
+| `priority [value]` | — | — | ✓ | — |
+| `phase [value]` | — | — | ✓ | — |
+| `effort [value]` | — | — | ✓ | — |
+| `viz [value]` | — | — | ✓ | — |
+| `due [date]` | — | — | ✓ | — |
+| `type add/remove` | — | — | ✓ | — |
+| `subtask [text]` | — | — | ✓ | — |
+| `note [text]` | — | — | — | ✓ |
+| `alias [text]` | — | — | — | ✓ |
+| `tag [text]` | — | — | — | ✓ |
 
 ---
 

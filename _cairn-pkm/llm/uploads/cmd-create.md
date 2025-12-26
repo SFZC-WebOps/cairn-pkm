@@ -258,6 +258,7 @@ title: {user input}
 type: project
 status: active
 progress: 0
+summary: ""
 created: {YYYY-MM-DD}
 modified: {YYYY-MM-DD}
 ---

@@ -80,7 +80,49 @@ Copy to relevant task or track catch-all task.
 ═══════════════════════════════════════════════
 ```
 
-### Phase 5: Generate Log Entry
+### Phase 5: Project Status Check
+
+If primary track is a project (p###-*), prompt user to review and optionally update project state:
+
+```
+IF primary_track matches p###-*:
+  READ: project home document frontmatter
+  
+  OUTPUT:
+  📊 PROJECT STATUS CHECK
+  ═══════════════════════════════════════════════
+  Project: {project_id}
+  
+  Current state:
+  - Status: {status}
+  - Progress: {progress}%
+  - Summary: {summary or "(not set)"}
+  ═══════════════════════════════════════════════
+  
+  Update any of these? (enter field=value, or 'skip' to continue)
+  Examples: progress=75, status=blocked, summary=Waiting on vendor response
+  
+  WAIT FOR: response
+  
+  SWITCH response:
+    CASE "skip" | "no" | "n" | "":
+      CONTINUE to Phase 6
+    CASE contains "=":
+      PARSE: field=value pairs (comma or newline separated)
+      VALIDATE: 
+        - status: active | onhold | blocked | complete | archived
+        - progress: 0-100
+        - summary: any text
+      UPDATE: frontmatter fields
+      UPDATE: modified date
+      OUTPUT: "✓ Updated {fields}"
+      CONTINUE to Phase 6
+    DEFAULT:
+      OUTPUT: "Format: field=value (e.g., progress=75)"
+      REPEAT prompt
+```
+
+### Phase 6: Generate Log Entry
 
 ```
 DETERMINE: primary_track (see Primary Track Selection below)
@@ -95,7 +137,7 @@ FORMAT:
 - Change ID: {change_id if any}
 ```
 
-### Phase 6: Output Session Log
+### Phase 7: Output Session Log
 
 ```
 GENERATE: filename = session-log-{YYYY-MM-DD}-{HHMMSS}.md
@@ -128,7 +170,7 @@ CALL: OUTPUT_FILE(filepath, content)
 
 Output varies by file_operations setting. See `cmd-output-behavior.md`.
 
-### Phase 7: Completion
+### Phase 8: Completion
 
 ```
 OUTPUT:
@@ -219,12 +261,13 @@ Example: General planning discussion, no files created
 - Use most recent valid track name
 
 **Multi-day sessions:**
-- Use the closing date/time for all timestamps
+When a session spans multiple calendar days (e.g., started Monday, closing Wednesday):
+- Use the **closing date/time** for all timestamps
 - Session log filename uses closing date: `session-log-{closing-date}-{HHMMSS}.md`
 - Task history entry uses closing date
 - Log entry timestamp uses closing date/time
-- If significant work occurred across multiple days, note in summary: "Session spanned {start-date} to {end-date}"
-- For very long sessions (3+ days), consider breaking into logical segments in the summary
+- If work spanned multiple days, note in summary: "Session spanned {start-date} to {end-date}"
+- For sessions spanning 3+ days, consider breaking into logical segments in the summary
 
 ---
 
