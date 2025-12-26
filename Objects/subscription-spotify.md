@@ -1,14 +1,14 @@
 ---
 type: subscription
 status: active
-created: 2023-06-15
-lastmod: 2025-11-20
+created: 2024-06-15
+lastmod: 2026-05-25
 service_name: Spotify Premium
 category: Music streaming
 website: https://spotify.com
 cost_monthly: 10.99
 billing_cycle: monthly
-renewal_date: 2025-12-15
+renewal_date: 2026-06-19
 payment_method: Credit card (Visa ending 4892)
 aliases: []
 tags:
@@ -32,7 +32,7 @@ Music streaming service. Premium individual plan for ad-free listening, offline 
 
 **Account Info:**
 - Email: personal.email@example.com
-- Plan started: June 15, 2023
+- Plan started: June 15, 2024
 - Current tier: Premium ($10.99/month)
 
 **Usage:**
@@ -54,7 +54,7 @@ Music streaming service. Premium individual plan for ad-free listening, offline 
 - Family uses my recommendations
 
 **Cons:**
-- Price increased from $9.99 in 2023
+- Price increased from $9.99 in 2024
 - Could use free tier with ads
 - Occasionally buggy on desktop app
 

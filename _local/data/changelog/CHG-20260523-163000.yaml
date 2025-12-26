@@ -1,10 +1,10 @@
-change_id: CHG-20251118-163000
-timestamp: 2025-11-18T16:30:00-08:00
+change_id: CHG-20260523-163000
+timestamp: 2026-05-23T16:30:00-08:00
 implemented_by: ""
 requested_by: ""
 
 title: "Automated monthly subscription review reminder system"
-rationale: "Manual subscription tracking was unreliable - missed reviewing 3 subscriptions in 2024, wasting $180"
+rationale: "Manual subscription tracking was unreliable - missed reviewing 3 subscriptions in 2025, wasting $180"
 
 systems_affected:
   - personal-finance-tracking
@@ -35,7 +35,7 @@ problem: |
   - 8 active subscriptions tracked in Obsidian (Objects/*.md files)
   - Each should be reviewed annually to assess value
   - Review dates stored in frontmatter but no automated tracking
-  - Missed reviewing YouTube Premium, Adobe CC, and Dropbox in 2024
+  - Missed reviewing YouTube Premium, Adobe CC, and Dropbox in 2025
   - Combined cost of unreviewed subscriptions: $540/year
   - Estimated $180 wasted on services that could have been downgraded
   
@@ -117,5 +117,5 @@ related_changes: []
 track_context: "area-personal"
 session_context: "Personal finance automation. Part of broader effort to reduce unnecessary subscription spending through systematic review process."
 
-created: 2025-11-18T16:30:00-08:00
-updated: 2025-11-18T16:30:00-08:00
+created: 2026-05-23T16:30:00-08:00
+updated: 2026-05-23T16:30:00-08:00

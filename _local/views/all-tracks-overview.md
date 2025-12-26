@@ -1,7 +1,7 @@
 ---
 title: "All Tracks Overview"
-created: 2025-11-05
-updated: 2025-12-22
+created: 2026-05-10
+updated: 2026-06-26
 tags:
   - dashboard
   - overview
@@ -316,4 +316,4 @@ if (urgent.length === 0 && overdue.length === 0 && blocked.length === 0) {
 
 ---
 
-*Dashboard updates automatically with Dataview queries. Last manual update: 2025-12-22*
+*Dashboard updates automatically with Dataview queries. Last manual update: 2026-06-26*

@@ -1,8 +1,8 @@
 ---
 title: "Holiday gift planning and budget tracking"
 project: area-personal
-created_date: 2025-12-15
-due_date: 2025-12-24
+created_date: 2026-06-19
+due_date: 2026-06-28
 assignee: ""
 parent_task: 
 priority: high
@@ -16,8 +16,8 @@ type:
 ---
 
 ### Task History
-- 2025-12-20: Updated budget tracker with purchases so far - $340 spent of $600 budget
-- 2025-12-15: Created task - need to coordinate gift shopping before holiday
+- 2026-06-24: Updated budget tracker with purchases so far - $340 spent of $600 budget
+- 2026-06-19: Created task - need to coordinate gift shopping before holiday
 
 ---
 

@@ -5,8 +5,8 @@ type: project
 status: active
 progress: 60
 summary: "Furniture installed, working on lighting and cable management"
-created: 2025-11-10
-modified: 2025-12-22
+created: 2026-05-15
+modified: 2026-06-26
 ---
 
 ## Overview
@@ -39,42 +39,42 @@ Lighting installation is the critical path - need proper overhead and task light
 
 ---
 
-2025-12-22 10:15 - Update - Monitor arms on hold
+2026-06-26 10:15 - Update - Monitor arms on hold
 Monitor arms installation waiting on lighting completion. Once overhead light is in, we'll have clear workspace to mount the arms properly. Mike confirms he can do both in same visit.
 
 ---
 
-2025-12-20 14:30 - Milestone - Desk and chair installed
+2026-06-24 14:30 - Milestone - Desk and chair installed
 Ergonomic desk and chair fully assembled and positioned. Initial comfort testing is excellent. Ready for next phase of equipment setup.
 
 ---
 
-2025-12-15 09:00 - Decision - Changed lighting plan
+2026-06-19 09:00 - Decision - Changed lighting plan
 Switched from recessed can lights to track lighting - more flexible and doesn't require ceiling work. Saves $200 and 3 days of work. Mike approved the change.
 
 ---
 
-2025-12-08 16:45 - Update - Electrical work complete
+2026-06-12 16:45 - Update - Electrical work complete
 Mike finished adding two new outlets and replaced old switch. Room is now properly powered for equipment needs.
 
 ---
 
-2025-11-28 11:20 - Milestone - Furniture ordered
+2026-06-02 11:20 - Milestone - Furniture ordered
 Desk and chair ordered from ErgoDesk Supply. Delivery scheduled for Dec 18-20. Total: $1,840.
 
 ---
 
-2025-11-18 13:30 - Decision - Furniture vendor selected
+2026-05-23 13:30 - Decision - Furniture vendor selected
 After comparing 4 vendors, selected ErgoDesk Supply - best warranty and local delivery. Slightly higher cost but includes white-glove setup.
 
 ---
 
-2025-11-15 10:00 - Milestone - Layout design finalized
+2026-05-20 10:00 - Milestone - Layout design finalized
 Completed Figma layout with all measurements verified. Electrical plan shows 2 additional outlets needed. Ready to order furniture.
 
 ---
 
-2025-11-10 14:00 - Setup - Project created
+2026-05-15 14:00 - Setup - Project created
 Home office renovation project initiated. Spare bedroom conversion to functional workspace.
 
 ---

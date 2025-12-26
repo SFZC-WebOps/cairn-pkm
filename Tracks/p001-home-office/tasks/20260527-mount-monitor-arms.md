@@ -1,10 +1,10 @@
 ---
 title: "Mount dual monitor arms to desk"
 project: p001-home-office
-created_date: 2025-11-22
+created_date: 2026-05-27
 due_date: 2025-12-30
 assignee: ""
-parent_task: 20251120-install-lighting.md
+parent_task: 20260525-install-lighting.md
 priority: medium
 status: waiting
 phase: planning
@@ -15,9 +15,9 @@ type:
 ---
 
 ### Task History
-- 2025-12-22: Confirmed with Mike - will install monitors same day as lighting (Dec 27)
-- 2025-12-08: Monitor arms delivered
-- 2025-11-22: Created task - dual monitors for improved productivity
+- 2026-06-26: Confirmed with Mike - will install monitors same day as lighting (Dec 27)
+- 2026-06-12: Monitor arms delivered
+- 2026-05-27: Created task - dual monitors for improved productivity
 
 ---
 
@@ -45,7 +45,7 @@ type:
 - Both landscape orientation
 
 **Dependencies:**
-Waiting on lighting installation (task 20251120). Once overhead lighting is complete, workspace will be clear and well-lit for precise mounting. Mike will handle both tasks in single visit on Dec 27.
+Waiting on lighting installation (task 20260525). Once overhead lighting is complete, workspace will be clear and well-lit for precise mounting. Mike will handle both tasks in single visit on Dec 27.
 
 **Existing Monitors:**
 - Dell 27" (primary) - already owned

@@ -1,10 +1,10 @@
 ---
 title: "Order ergonomic desk and chair"
 project: p001-home-office
-created_date: 2025-11-18
-due_date: 2025-12-01
+created_date: 2026-05-23
+due_date: 2026-06-05
 assignee: ""
-parent_task: 20251110-plan-layout-design.md
+parent_task: 20260515-plan-layout-design.md
 priority: high
 status: complete
 phase: closing
@@ -16,10 +16,10 @@ type:
 ---
 
 ### Task History
-- 2025-12-20: Furniture delivered and assembled - excellent quality
-- 2025-11-28: Order placed with ErgoDesk Supply - delivery Dec 18-20
-- 2025-11-22: Vendor comparison complete - ErgoDesk selected
-- 2025-11-18: Created task - furniture order based on approved layout
+- 2026-06-24: Furniture delivered and assembled - excellent quality
+- 2026-06-02: Order placed with ErgoDesk Supply - delivery Dec 18-20
+- 2026-05-27: Vendor comparison complete - ErgoDesk selected
+- 2026-05-23: Created task - furniture order based on approved layout
 
 ---
 

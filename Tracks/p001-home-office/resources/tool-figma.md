@@ -2,7 +2,7 @@
 type: tool
 status: active
 created: 2025-11-12
-lastmod: 2025-11-15
+lastmod: 2026-05-20
 name: Figma
 tool_type: Design & collaboration platform
 website: https://figma.com

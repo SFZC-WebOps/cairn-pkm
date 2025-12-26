@@ -1,8 +1,8 @@
 ---
 title: "Configure complete ergonomic workstation"
 project: p001-home-office
-created_date: 2025-12-01
-due_date: 2026-01-10
+created_date: 2026-06-05
+due_date: 2026-07-14
 assignee: ""
 parent_task: 
 priority: medium
@@ -16,9 +16,9 @@ type:
 ---
 
 ### Task History
-- 2025-12-20: Initial desk height calibrated - found optimal standing/sitting heights
-- 2025-12-15: Researched ergonomic best practices and measurement guides
-- 2025-12-01: Created task - proper ergonomic setup critical for long-term health
+- 2026-06-24: Initial desk height calibrated - found optimal standing/sitting heights
+- 2026-06-19: Researched ergonomic best practices and measurement guides
+- 2026-06-05: Created task - proper ergonomic setup critical for long-term health
 
 ---
 
@@ -52,7 +52,7 @@ type:
 - Posture: Weight distributed, slight knee bend
 
 **Remaining Work:**
-1. Monitor positioning depends on arm installation (task 20251122)
+1. Monitor positioning depends on arm installation (task 20260527)
 2. Keyboard tray can be adjusted once monitors are set
 3. Anti-fatigue mat selection in progress
 4. Will do full-day test after all equipment is positioned

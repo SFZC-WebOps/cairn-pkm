@@ -2,7 +2,7 @@
 type: capture
 capture_type: insight
 title: "Idea: Daily task review automation"
-captured: 2025-12-20
+captured: 2026-06-24
 processed: false
 tags:
   - productivity
@@ -12,7 +12,7 @@ tags:
 
 # Idea: Daily task review automation
 
-**Captured:** 2025-12-20 09:15
+**Captured:** 2026-06-24 09:15
 
 ## Key Points
 - Current process: Manual review of tasks across areas/projects each morning

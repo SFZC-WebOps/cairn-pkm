@@ -2,7 +2,7 @@
 
 ## 2025-12
 
-### 2025-12-15 - Home Office Lighting Design Decision
+### 2026-06-19 - Home Office Lighting Design Decision
 **Source:** Work session on p001-home-office project
 
 **Context:** Redesigned lighting plan for home office renovation, switching from recessed cans to track lighting after analyzing requirements and consulting with contractor.
@@ -20,7 +20,7 @@
 
 ---
 
-### 2025-12-08 - Electrical Infrastructure Planning
+### 2026-06-12 - Electrical Infrastructure Planning
 **Source:** Work session on p001-home-office project
 
 **Context:** Planned and executed electrical upgrade for home office, adding outlets and replacing switch to support equipment needs safely.
@@ -38,7 +38,7 @@
 
 ---
 
-### 2025-11-28 - Furniture Vendor Selection & Procurement
+### 2026-06-02 - Furniture Vendor Selection & Procurement
 **Source:** Work session on p001-home-office project
 
 **Context:** Researched and selected furniture vendor for standing desk and ergonomic chair, comparing 4 options across price, warranty, delivery, and quality factors.
@@ -56,10 +56,10 @@
 
 ---
 
-### 2025-11-18 - Subscription Management Automation
+### 2026-05-23 - Subscription Management Automation
 **Source:** Work session with Claude on personal finance tracking
 
-**Context:** Developed Python automation script to track subscription review dates and send email reminders, preventing missed reviews that cost $180 in 2024.
+**Context:** Developed Python automation script to track subscription review dates and send email reminders, preventing missed reviews that cost $180 in 2025.
 
 **Evidence Summary:** Complete automation solution from problem identification through deployment
 
@@ -74,7 +74,7 @@
 
 ---
 
-### 2025-11-15 - Office Layout Design & Space Planning
+### 2026-05-20 - Office Layout Design & Space Planning
 **Source:** Work session on p001-home-office project using Figma
 
 **Context:** Created detailed office layout plan using Figma with accurate measurements, tested 3 furniture arrangements, and finalized design for implementation.
@@ -94,7 +94,7 @@
 
 ## 2025-11
 
-### 2025-11-10 - Home Office Project Initiation & Planning
+### 2026-05-15 - Home Office Project Initiation & Planning
 **Source:** Project kickoff for p001-home-office
 
 **Context:** Initiated home office renovation project with complete scope definition, budget allocation ($3,500), and phased execution plan.
@@ -112,7 +112,7 @@
 
 ---
 
-### 2025-11-05 - Personal PKM System Implementation
+### 2026-05-10 - Personal PKM System Implementation
 **Source:** Cairn-PKM vault setup and configuration
 
 **Context:** Set up Cairn-PKM personal knowledge management system with areas, projects, and automated workflows.

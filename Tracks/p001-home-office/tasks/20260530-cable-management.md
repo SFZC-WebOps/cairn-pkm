@@ -1,8 +1,8 @@
 ---
 title: "Implement cable management system"
 project: p001-home-office
-created_date: 2025-11-25
-due_date: 2026-01-05
+created_date: 2026-05-30
+due_date: 2026-07-09
 assignee: ""
 parent_task: 
 priority: medium
@@ -16,9 +16,9 @@ type:
 ---
 
 ### Task History
-- 2025-12-18: Desk cable tray backordered - new ETA Dec 28
-- 2025-12-08: Ordered cable management supplies from ErgoDesk
-- 2025-11-25: Created task - cable management needed for clean workspace
+- 2026-06-22: Desk cable tray backordered - new ETA Dec 28
+- 2026-06-12: Ordered cable management supplies from ErgoDesk
+- 2026-05-30: Created task - cable management needed for clean workspace
 
 ---
 

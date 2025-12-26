@@ -1,8 +1,8 @@
 ---
 title: "Install overhead and task lighting"
 project: p001-home-office
-created_date: 2025-11-20
-due_date: 2025-12-28
+created_date: 2026-05-25
+due_date: 2026-07-02
 assignee: ""
 parent_task: 
 priority: high
@@ -16,10 +16,10 @@ type:
 ---
 
 ### Task History
-- 2025-12-15: Changed from recessed to track lighting - more flexible and cheaper
-- 2025-12-10: Lighting fixtures ordered - arriving Dec 23
-- 2025-11-25: Mike provided lighting options and quote
-- 2025-11-20: Created task - proper lighting needed before final equipment setup
+- 2026-06-19: Changed from recessed to track lighting - more flexible and cheaper
+- 2026-06-14: Lighting fixtures ordered - arriving Dec 23
+- 2026-05-30: Mike provided lighting options and quote
+- 2026-05-25: Created task - proper lighting needed before final equipment setup
 
 ---
 

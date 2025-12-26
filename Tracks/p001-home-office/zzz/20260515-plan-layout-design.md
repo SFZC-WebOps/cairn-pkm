@@ -1,8 +1,8 @@
 ---
 title: "Design and finalize office layout"
 project: p001-home-office
-created_date: 2025-11-10
-due_date: 2025-11-20
+created_date: 2026-05-15
+due_date: 2026-05-25
 assignee: ""
 parent_task: 
 priority: critical
@@ -15,9 +15,9 @@ type:
 ---
 
 ### Task History
-- 2025-11-15: Layout approved and measurements verified - ready for furniture order
+- 2026-05-20: Layout approved and measurements verified - ready for furniture order
 - 2025-11-13: Created Figma mockup with 3 layout options
-- 2025-11-10: Created task - need layout design before ordering furniture
+- 2026-05-15: Created task - need layout design before ordering furniture
 
 ---
 

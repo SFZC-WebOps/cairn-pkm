@@ -3,7 +3,7 @@ type: capture
 capture_type: url
 title: "Standing desk productivity benefits - research study"
 source: "https://journals.lww.com/joem/abstract/2018/03000/stand_up_to_work__assessing_the_health_impacts_of.8.aspx"
-captured: 2025-12-18
+captured: 2026-06-22
 processed: false
 tags:
   - ergonomics
@@ -14,7 +14,7 @@ tags:
 # Standing desk productivity benefits - research study
 
 **Source:** https://journals.lww.com/joem/abstract/2018/03000/stand_up_to_work__assessing_the_health_impacts_of.8.aspx
-**Captured:** 2025-12-18 14:30
+**Captured:** 2026-06-22 14:30
 
 ## Description
 Research study on health impacts of standing workstations. Found significant reduction in upper back and neck pain among office workers who used standing desks. Study followed 146 participants over 6 months.

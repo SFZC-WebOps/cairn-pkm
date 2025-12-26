@@ -3,7 +3,7 @@ type: capture
 capture_type: url
 title: "Best practices for cable management in standing desk setups"
 source: "https://www.wirecutter.com/blog/how-to-manage-your-cables/"
-captured: 2025-12-22
+captured: 2026-06-26
 processed: false
 tags:
   - home-office
@@ -14,7 +14,7 @@ tags:
 # Best practices for cable management in standing desk setups
 
 **Source:** https://www.wirecutter.com/blog/how-to-manage-your-cables/
-**Captured:** 2025-12-22 16:08
+**Captured:** 2026-06-26 16:08
 
 ## Description
 Wirecutter's comprehensive guide to cable management. Covers under-desk trays, cable sleeves, velcro ties, and best practices for routing cables on adjustable-height desks.

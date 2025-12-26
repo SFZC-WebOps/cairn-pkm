@@ -1,8 +1,8 @@
 ---
 title: "Annual health checkup and lab work"
 project: area-personal
-created_date: 2025-12-01
-due_date: 2026-01-10
+created_date: 2026-06-05
+due_date: 2026-07-14
 assignee: ""
 parent_task: 
 priority: medium
@@ -15,8 +15,8 @@ type:
 ---
 
 ### Task History
-- 2025-12-15: Scheduled appointment for January 10th - annual wellness visit
-- 2025-12-01: Created task - annual checkup is due
+- 2026-06-19: Scheduled appointment for January 10th - annual wellness visit
+- 2026-06-05: Created task - annual checkup is due
 
 ---
 

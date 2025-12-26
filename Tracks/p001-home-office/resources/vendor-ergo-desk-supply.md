@@ -1,8 +1,8 @@
 ---
 type: vendor
 status: active
-created: 2025-11-18
-lastmod: 2025-12-20
+created: 2026-05-23
+lastmod: 2026-06-24
 company_name: ErgoDesk Supply
 contact_name: Jennifer Martinez
 contact_email: jennifer@ergodesksupply.com

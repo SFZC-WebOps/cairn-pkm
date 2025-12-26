@@ -2,7 +2,7 @@
 type: contact
 status: active
 created: 2025-10-15
-lastmod: 2025-12-18
+lastmod: 2026-06-22
 first_name: Sarah
 last_name: Chen
 full_name: Sarah Chen
@@ -24,7 +24,7 @@ Friend and former colleague from previous job. Software engineer working in fint
 
 ## Details
 **Background:**
-- Worked together at DataFlow Inc (2021-2023)
+- Worked together at DataFlow Inc (2021-2024)
 - Now at FinanceTech Solutions
 - Role: Senior Software Engineer
 - Specialization: Backend systems, Python/Go

@@ -1,7 +1,7 @@
 ---
 title: "Home Office Project Dashboard"
-created: 2025-11-10
-updated: 2025-12-22
+created: 2026-05-15
+updated: 2026-06-26
 tags:
   - dashboard
   - project
@@ -10,7 +10,7 @@ tags:
 
 # 🏢 Home Office Project Dashboard
 
-> **Quick Access:** [[_p001-home-office-home|Project Home]] | [[20251120-install-lighting|Critical Path]]
+> **Quick Access:** [[_p001-home-office-home|Project Home]] | [[20260525-install-lighting|Critical Path]]
 
 ---
 
@@ -272,4 +272,4 @@ dv.table(
 
 ---
 
-*Dashboard auto-updates with Dataview queries. Last manual update: 2025-12-22*
+*Dashboard auto-updates with Dataview queries. Last manual update: 2026-06-26*

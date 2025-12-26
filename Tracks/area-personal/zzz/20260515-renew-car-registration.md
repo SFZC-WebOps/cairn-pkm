@@ -1,8 +1,8 @@
 ---
 title: "Renew vehicle registration online"
 project: area-personal
-created_date: 2025-11-10
-due_date: 2025-12-01
+created_date: 2026-05-15
+due_date: 2026-06-05
 assignee: ""
 parent_task: 
 priority: medium
@@ -15,9 +15,9 @@ type:
 ---
 
 ### Task History
-- 2025-12-01: Completed renewal online - confirmation #VR-2025-482917
-- 2025-11-25: Received DMV reminder notice
-- 2025-11-10: Created task - registration expires December 15th
+- 2026-06-05: Completed renewal online - confirmation #VR-2025-482917
+- 2026-05-30: Received DMV reminder notice
+- 2026-05-15: Created task - registration expires December 15th
 
 ---
 

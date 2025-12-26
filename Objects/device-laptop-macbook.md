@@ -1,14 +1,14 @@
 ---
 type: device
 status: active
-created: 2024-03-15
-lastmod: 2025-12-10
+created: 2025-03-15
+lastmod: 2026-06-14
 device_type: Laptop
-identifier: macbook-pro-2024
+identifier: macbook-pro-2025
 manufacturer: Apple
 model: MacBook Pro 14" (M3 Pro)
 serial_number: C02XL8J9MD6T
-purchase_date: 2024-03-12
+purchase_date: 2025-03-12
 warranty_expiration: 2027-03-12
 aliases:
   - MBP
@@ -31,7 +31,7 @@ Primary laptop for work and personal use. M3 Pro MacBook Pro 14" with 18GB RAM a
 - Color: Space Black
 
 **Purchase Info:**
-- Purchased: March 12, 2024
+- Purchased: March 12, 2025
 - Retailer: Apple Store
 - Price: $2,399
 - Warranty: 3-year AppleCare+ (expires March 2027)
@@ -76,7 +76,7 @@ Excellent. M3 Pro handles everything smoothly. Battery life is outstanding - typ
 **Updates:**
 - macOS: Auto-update enabled
 - Applications: Update weekly
-- Last OS update: macOS 15.2 (Dec 2025)
+- Last OS update: macOS 15.2 (June 2026)
 
 **Cleaning:**
 - Screen: Microfiber cloth weekly
