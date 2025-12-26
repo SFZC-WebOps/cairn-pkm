@@ -8,7 +8,7 @@ tags: []
 first_name: Jennifer
 last_name: Martinez
 full_name: Jennifer Martinez
-role: Sales Representative
+role: Senior Sales Representative
 organization: CoolAir HVAC Services
 email: jennifer.martinez@coolair.example.com
 phone: 555-0199
@@ -19,5 +19,7 @@ phone: 555-0199
 ## Details
 
 ## Notes
+
+Met at trade show 2025-12-20, very knowledgeable about commercial systems.
 
 ---
