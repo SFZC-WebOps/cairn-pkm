@@ -1,5 +1,5 @@
 # !capture - Quick Capture
-*Type: Read/Write | Updated: 2025-12-21*
+*Type: Read/Write | Updated: 2025-12-25*
 
 ## Quick Reference
 
@@ -113,6 +113,16 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 ### URL Capture
 
 ```markdown
+---
+type: capture
+capture_type: url
+title: "{title}"
+source: "{url}"
+captured: {YYYY-MM-DD}
+processed: false
+tags: []
+---
+
 # {title}
 
 **Source:** {url}
@@ -132,6 +142,15 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 ### Insight Capture
 
 ```markdown
+---
+type: capture
+capture_type: insight
+title: "{topic}"
+captured: {YYYY-MM-DD}
+processed: false
+tags: []
+---
+
 # {topic}
 
 **Captured:** {YYYY-MM-DD HH:MM}
@@ -151,6 +170,18 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 
 ---
 ```
+
+**Frontmatter Fields:**
+
+| Field | Purpose |
+|-------|--------|
+| `type` | Always "capture" for Dataview filtering |
+| `capture_type` | "url" or "insight" for sub-filtering |
+| `title` | For display in queries |
+| `source` | URL (url captures only) |
+| `captured` | Date for sorting |
+| `processed` | Set to `true` when item leaves inbox |
+| `tags` | Optional categorization |
 
 ---
 

@@ -1,5 +1,5 @@
 # !create - Unified Creation Command
-*Type: Write | Updated: 2025-12-22*
+*Type: Write | Updated: 2025-12-25*
 
 ## Quick Reference
 
@@ -136,6 +136,33 @@ Creating new project...
 
 4. Brief description? (1-2 sentences)
 ```
+
+### Code Validation Rules
+
+Validate system and action codes before proceeding:
+
+```
+VALIDATE code:
+  - Length: 3-5 characters
+  - Characters: lowercase letters only (a-z)
+  - No spaces, numbers, or special characters
+  - No hyphens (hyphens separate codes in project ID)
+
+ON INVALID:
+  OUTPUT: "Invalid code: '{input}'"
+  OUTPUT: "Codes must be 3-5 lowercase letters (e.g., 'blog', 'migr', 'hvac')"
+  PROMPT: Re-enter code
+```
+
+| Input | Valid? | Reason |
+|-------|--------|--------|
+| `blog` | ✓ | 4 letters, lowercase |
+| `migr` | ✓ | 4 letters, lowercase |
+| `BLOG` | ✗ | Must be lowercase |
+| `migration` | ✗ | Too long (9 chars, max 5) |
+| `web-ops` | ✗ | Contains hyphen |
+| `site1` | ✗ | Contains number |
+| `ab` | ✗ | Too short (2 chars, min 3) |
 
 ### Project Naming Best Practices
 
