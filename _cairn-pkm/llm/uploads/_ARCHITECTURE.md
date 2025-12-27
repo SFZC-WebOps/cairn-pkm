@@ -52,13 +52,13 @@ vault/
 
 ### Domain Purposes
 
-| Domain | Purpose | Examples |
-|--------|---------|----------|
-| `_cairn-pkm/` | Portable system infrastructure | Templates, LLM commands, shared views |
-| `_local/` | Vault-specific customizations | Personal dashboards, local data, custom templates |
-| `Capture/` | Temporary inbox | Quick notes, web clips, voice memos |
-| `Objects/` | Cross-cutting entities | Contacts, accounts, devices, medications |
-| `Tracks/` | Areas and projects | area-finance, p045-website-redesign |
+| Domain        | Purpose                        | Examples                                          |
+| ------------- | ------------------------------ | ------------------------------------------------- |
+| `_cairn-pkm/` | Portable system infrastructure | Templates, LLM commands, shared views             |
+| `_local/`     | Vault-specific customizations  | Personal dashboards, local data, custom templates |
+| `Capture/`    | Temporary inbox                | Quick notes, web clips, voice memos               |
+| `Objects/`    | Cross-cutting entities         | Contacts, accounts, devices, medications          |
+| `Tracks/`     | Areas and projects             | area-finance, p045-website-redesign               |
 
 ---
 
