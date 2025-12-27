@@ -334,6 +334,20 @@ Auto-generated subtasks:
 
 You can modify these during the interactive edit loop.
 
+**Section Prompt (Optional):**
+After extracting fields, prompt for section grouping:
+
+```
+Section for view grouping? (press Enter to skip)
+Examples: "Phase 1", "Backend", "Q1 Goals"
+> 
+```
+
+If user enters text → set `section: "{text}"`
+If user presses Enter or types "skip" → leave `section:` empty
+
+Section can be added or changed later via `!edit` using `section [text]` or `section clear`.
+
 ### Required Fields
 
 | Field | Default | Notes |
@@ -345,7 +359,7 @@ You can modify these during the interactive edit loop.
 
 ### Optional Fields
 
-due_date, assignee, phase, effort, viz, type[], parent_task
+due_date, assignee, phase, effort, viz, section, type[], parent_task
 
 ### Interactive Commands
 
@@ -357,6 +371,7 @@ priority [value]     - Change priority
 phase [value]        - planning | executing | testing | closing
 effort [value]       - simple | moderate | complex
 viz [value]          - now | next | soon | later | blocked | waiting
+section [text]       - Set section for view grouping (or 'section clear')
 due [YYYY-MM-DD]     - Set due date
 due clear            - Remove due date
 type add [type]      - Add type tag
@@ -379,6 +394,7 @@ status: {status}
 phase: {phase}
 effort: {effort}
 viz: 
+section: 
 type:
   - {types}
 ---

@@ -297,6 +297,23 @@ The `viz` field controls how tasks surface in dashboards and views. It's about *
 
 **Note:** Task completion state belongs in the `status` field (active, complete, etc.), not `viz`.
 
+### Section Field
+
+The `section` field provides freehand grouping for view sorting. Unlike `viz` (which controls visibility) or `status` (which tracks state), `section` is a flexible label for organizing tasks within custom views.
+
+| Usage | Description |
+|-------|-------------|
+| Empty (default) | Task appears in "Unsectioned" or default grouping |
+| Custom text | Task groups with others sharing that section value |
+
+**Examples:**
+- `section: "Phase 1"` — Group by project phase
+- `section: "Backend"` — Group by system component
+- `section: "Q1 Goals"` — Group by timeframe
+- `section: "Blocked Items"` — Group by workflow state
+
+**When to use:** Add section when you need to organize tasks beyond what `viz`, `status`, or `priority` provide. Skip if the default groupings work for your view.
+
 ---
 
 ## Object Files

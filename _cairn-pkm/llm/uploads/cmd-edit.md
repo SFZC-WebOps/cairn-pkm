@@ -254,6 +254,7 @@ APPEND: log entry to Log section (if added)
 | Update phase | `phase [value]` |
 | Update effort | `effort [value]` |
 | Update viz | `viz [value]` |
+| Update section | `section [text]` |
 | Set due date | `due [YYYY-MM-DD]` |
 | Add type | `type add [type]` |
 | Remove type | `type remove [type]` |
@@ -270,6 +271,8 @@ priority [value]       - low | medium | high | critical
 phase [value]          - planning | executing | testing | closing
 effort [value]         - simple | moderate | complex
 viz [value]            - now | next | soon | later | blocked | waiting
+section [text]         - Set section for view grouping
+section clear          - Remove section
 due [YYYY-MM-DD]       - Set due date
 due clear              - Remove due date
 type add [type]        - Add type tag
@@ -292,6 +295,7 @@ Editing task: Fix SSL certificate chain validation...
 - Phase: executing
 - Effort: moderate
 - Viz: now
+- Section: (not set)
 - Due date: (not set)
 - Assignee: devops-team
 
@@ -484,6 +488,7 @@ PROMPT: "Use this or provide your own?"
 | `phase [value]` | — | — | ✓ | — |
 | `effort [value]` | — | — | ✓ | — |
 | `viz [value]` | — | — | ✓ | — |
+| `section [text]` | — | — | ✓ | — |
 | `due [date]` | — | — | ✓ | — |
 | `type add/remove` | — | — | ✓ | — |
 | `subtask [text]` | — | — | ✓ | — |
