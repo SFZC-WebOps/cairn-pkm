@@ -1,77 +1,88 @@
-# Cairn-PKM Example Data
+<p align="center">
+  <img src="_cairn-pkm/assets/cairn-logo-full-512.png" alt="Cairn-PKM" width="400">
+</p>
 
-This example data set demonstrates a realistic, mid-stream Cairn-PKM vault for distribution purposes.
+# Cairn-PKM
 
-## Contents
+A markdown-based personal knowledge management system for Obsidian with LLM integration.
 
-### Area: area-personal
-General personal life management area with:
-- 2 active tasks (health checkup, holiday gift planning)
-- 1 completed task in zzz/ (vehicle registration)
-- Log entries showing area history
+---
 
-### Project: p001-home-office
-Home office setup/renovation project at 60% completion with:
-- 6 tasks showing various states and complexity levels
-- Parent-child task relationships
-- Mix of active, waiting, blocked, and completed tasks
-- Completed tasks archived in zzz/
-- 3 resources (contractor contact, vendor, tool)
+## What is Cairn-PKM?
 
-### Objects (Cross-cutting)
-- contact-sarah-chen.md - Friend and professional contact
-- device-laptop-macbook.md - Primary laptop
-- subscription-spotify.md - Music streaming subscription
+Cairn-PKM is an opinionated folder structure for organizing personal and professional knowledge in plain markdown files. Like the stone trail markers (cairns) that guide hikers through unfamiliar terrain, Cairn provides just enough structure to keep you oriented without getting in your way.
 
-### Capture
-3 unprocessed quick notes:
-- URL capture: Standing desk research
-- Insight capture: Task automation idea
-- URL capture: Cable management guide
+## Features
 
-### _local/data/changelog
-3 change tracking entries demonstrating `!changelog` command:
-- CHG-20260612-091500: Electrical outlet installation (medium impact)
-- CHG-20260619-140000: Lighting plan modification (low impact)
-- CHG-20260523-163000: Subscription automation script (feature)
+- **Plain text** — Markdown files with YAML frontmatter. No lock-in.
+- **Co-location** — Everything for a project lives in its folder.
+- **Two track types** — Areas (ongoing) and Projects (temporary).
+- **Portable core** — Update `_cairn-pkm/` by replacing the folder.
+- **Local customization** — Vault-specific content stays in `_local/`.
+- **LLM commands** — 12 commands for conversational interaction with your vault.
 
-### _local/data/skills
-Skill tracking data demonstrating `!skills` command:
-- skill-evidence.md: 7 evidence entries spanning May-Jun 2026
-- archive/skill-portfolio-report-2026-Q2.md: Sample quarterly report
-- archive/skill-portfolio-report-2026-Q2.md: Sample quarterly report
+## Structure
 
-### _local/views
-3 custom dashboard examples demonstrating Dataview usage:
-- home-office-dashboard.md: Project-specific dashboard with budget tracking, timeline, resources
-- all-tracks-overview.md: Cross-track overview with metrics and focus recommendations
-- weekly-review.md: Weekly review checklist with cleanup actions and reflections
+```
+vault/
+├── _cairn-pkm/     # Portable system (replace to update)
+├── _local/         # Your customizations
+├── Capture/        # Inbox
+├── Objects/        # Cross-cutting entities (contacts, devices, accounts)
+└── Tracks/         # Areas and projects
+    ├── area-*/     # Ongoing domains
+    └── p###-*/     # Temporary projects
+```
 
-## Characteristics
+## Quick Start
 
-**Timeline:** May - June 2026 (mid-stream work)
-**Complexity:** Mix of simple, moderate, and complex tasks
-**Status variety:** Active, waiting, blocked, complete
-**Realism:** 
-- Realistic log entries with timestamps
-- Task history entries following RC principle
-- Budget tracking and decision rationale
-- Dependencies and blocking relationships
-- Mix of completed work in zzz/ folders
+1. Download the [latest release](https://github.com/SFZC-WebOps/cairn-pkm/releases)
+2. Unzip and open in Obsidian
+3. Install required plugins: **Dataview**, **Templater**
+4. Run `!tour` for a guided walkthrough
 
-## Usage
+See [_INSTALLATION.md](_cairn-pkm/llm/uploads/_INSTALLATION.md) for detailed setup.
 
-Extract these folders into a Cairn-PKM vault to use as example content:
-- Capture/
-- Objects/
-- Tracks/
-- _local/data/ (for changelog and skills examples)
-- _local/views/ (for custom dashboard examples)
+## LLM Commands
 
-**Note:** The views use Dataview queries which require the Dataview plugin to be installed and enabled in Obsidian.
+Cairn-PKM includes commands for working with your vault through LLMs like Claude.
 
-All content follows current Cairn-PKM v0.5.0 specifications and has been processed with ftfy for proper UTF-8 encoding.
+| Command | Purpose |
+|---------|---------|
+| `!hi` | Open session menu or view a track |
+| `!bye` | Close session with logging |
+| `!help` | Command reference |
+| `!tour` | Guided walkthrough |
+| `!create area` | Create new area |
+| `!create project` | Create new project |
+| `!create task` | Create new task |
+| `!create object` | Create new object |
+| `!edit` | Edit any entity |
+| `!capture` | Quick capture from conversation |
+| `!changelog` | Document system changes |
+| `!skills` | Track skill evidence |
 
-## Note
+## Documentation
 
-This is sample data for demonstration purposes. Feel free to modify, delete, or use as reference when creating your own vault content.
+- **[_ARCHITECTURE.md](_cairn-pkm/llm/uploads/_ARCHITECTURE.md)** — Complete system documentation
+- **[_INSTALLATION.md](_cairn-pkm/llm/uploads/_INSTALLATION.md)** — Setup and migration guide
+- **[cmd-*.md](_cairn-pkm/llm/uploads/)** — Individual command specifications
+
+## Requirements
+
+- [Obsidian](https://obsidian.md)
+- [Dataview](https://github.com/blacksmithgu/obsidian-dataview) plugin (required)
+- [Templater](https://github.com/SilentVoid13/Templater) plugin (required)
+- [Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) plugin (recommended)
+
+## Status
+
+⚠️ **Beta release** — Commands and workflows may evolve. Feedback welcome via [GitHub Issues](https://github.com/SFZC-WebOps/cairn-pkm/issues).
+
+## Brand Kit
+
+Visual identity assets available as a separate download: [cairn-pkm-brand-kit.zip](https://github.com/SFZC-WebOps/cairn-pkm/releases)
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
