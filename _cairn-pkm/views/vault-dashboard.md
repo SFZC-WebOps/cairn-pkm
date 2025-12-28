@@ -161,7 +161,7 @@ function normStatus(s) {
 function clean(v) {
   if (v === null || v === undefined) return "";
   if (v === "null" || v === "NULL") return "";
-  return v;
+  return String(v);
 }
 function formatTags(t) {
   if (!t) return "";
