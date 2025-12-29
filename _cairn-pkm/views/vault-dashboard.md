@@ -1,6 +1,6 @@
 # 📋 Vault Dashboard
 
-**Cairn-PKM** · Installed: `$= dv.io.load("_cairn-pkm/VERSION").then(v => v.trim())`
+**Cairn-PKM** · Installed: `$= dv.io.load("_cairn-pkm/VERSION.txt").then(v => v ? v.trim() : "0.5.0").catch(() => "0.5.0")`
 
 [![Status](https://cairn.gregbilke.me/_cairn-pkm/docs/version/cairn-status.svg)](https://github.com/SFZC-WebOps/cairn-pkm/releases/latest)
 
@@ -154,6 +154,7 @@ if (inboxCount) inboxCount.textContent = items.length;
 <details id="main-tasks-view"> <summary style="cursor: pointer; font-size: 1.2em; font-weight: 600; padding: 12px 0; margin-bottom: 16px;"> Tasks by Project/Viz (<span id="task-count">loading...</span> tasks) </summary>
 
 ```dataviewjs
+(async () => {
 // Helper functions
 function normStatus(s) {
   return (s ?? "").toLowerCase();
@@ -365,6 +366,17 @@ const allTasks = dv.pages('"Tracks"')
     }
   });
 
+// Pre-load all file contents for task history extraction
+const fileContents = new Map();
+for (let task of allTasks) {
+  try {
+    const content = await dv.io.load(task.file.path);
+    fileContents.set(task.file.path, content);
+  } catch (e) {
+    fileContents.set(task.file.path, null);
+  }
+}
+
 function cmpDate(a, b) {
   const ad = a ? new Date(a) : null;
   const bd = b ? new Date(b) : null;
@@ -446,7 +458,7 @@ function isNonOrphanedChild(task, tasksByFile, orphans) {
 const vaultName = dv.app.vault.getName();
 
 // ===== TASK CARD HTML BUILDER (with parent/child indenting) =====
-function buildTaskCardHTML(t, parentMap, orphans, baseIndent, today, vaultName, level) {
+function buildTaskCardHTML(t, parentMap, orphans, baseIndent, today, vaultName, fileContents, level) {
   const title = clean(t.title) || "Untitled";
   const status = clean(t.status) || "—";
   const priority = clean(t.priority);
@@ -463,8 +475,11 @@ function buildTaskCardHTML(t, parentMap, orphans, baseIndent, today, vaultName, 
   const statusClass = normStatus(status);
   const vizClass = viz ? viz.toLowerCase().replace(/\s+/g, '-') : "no-viz";
   
-  // Get task history
-  const taskHistory = formatTaskHistory(t.last_update);
+  // Get task history from file content
+  const fileContent = fileContents.get(t.file.path);
+  const taskHistory = fileContent 
+    ? parseTaskHistory(fileContent)
+    : "No history available";
   
   // Get subtasks from file.tasks (body checkboxes)
   const fileTasks = t.file.tasks?.values ?? [];
@@ -635,7 +650,7 @@ function buildTaskCardHTML(t, parentMap, orphans, baseIndent, today, vaultName, 
   // Recursively build children HTML
   const children = parentMap.get(t.file.name) || [];
   for (let child of children) {
-    html += buildTaskCardHTML(child, parentMap, orphans, totalIndent, today, vaultName, level + 1);
+    html += buildTaskCardHTML(child, parentMap, orphans, totalIndent, today, vaultName, fileContents, level + 1);
   }
   
   return html;
@@ -755,7 +770,7 @@ for (let projectGroup of projectGroups) {
       const sortedTasks = [...vizGroup.rows].sort((a, b) => cmpDate(a.due_date, b.due_date));
       
       for (let t of sortedTasks) {
-        projectContentHtml += buildTaskCardHTML(t, parentMap, orphans, 0, today, vaultName, 0);
+        projectContentHtml += buildTaskCardHTML(t, parentMap, orphans, 0, today, vaultName, fileContents, 0);
       }
     }
   }
@@ -827,6 +842,8 @@ styleEl.innerHTML = `
 const taskCount = allTasks.length;
 const summaryCount = document.getElementById('task-count');
 if (summaryCount) summaryCount.textContent = taskCount;
+
+})(); // Close async IIFE
 ```
 
 </details>
