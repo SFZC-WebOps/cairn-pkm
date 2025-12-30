@@ -80,11 +80,11 @@ During interactive edit loops, `help` shows only commands valid for current enti
 
 ```
 Task edit commands:
-  status [value]     active | blocked | complete | deferred | onhold | scheduled | waiting
-  priority [value]   low | medium | high | critical
-  phase [value]      planning | executing | testing | closing
-  effort [value]     simple | moderate | complex
-  viz [value]        now | next | soon | later | blocked | waiting
+  status [value]     See cmd-shared-patterns.md Field Enums
+  priority [value]   See cmd-shared-patterns.md Field Enums
+  phase [value]      See cmd-shared-patterns.md Field Enums
+  effort [value]     See cmd-shared-patterns.md Field Enums
+  viz [value]        See cmd-shared-patterns.md Field Enums
   due [YYYY-MM-DD]   Set due date (or 'due clear')
   history [text]     Add task history entry
   subtask [text]     Add subtask checkbox

@@ -354,8 +354,8 @@ Section can be added or changed later via `!edit` using `section [text]` or `sec
 |-------|---------|-------|
 | title | (from conversation) | Must be provided |
 | project | (from context) | Track identifier |
-| priority | medium | low \| medium \| high \| critical |
-| status | active | active \| blocked \| complete \| deferred \| onhold \| scheduled \| waiting |
+| priority | medium | See `cmd-shared-patterns.md` Field Enums |
+| status | active | See `cmd-shared-patterns.md` Field Enums |
 
 ### Optional Fields
 
@@ -363,14 +363,16 @@ due_date, assignee, phase, effort, viz, section, type[], parent_task
 
 ### Interactive Commands
 
+See `cmd-shared-patterns.md` Field Enums for valid values.
+
 ```
 done                 - Finalize and output
 edit [field]         - Modify any field
 status [value]       - Change status
 priority [value]     - Change priority
-phase [value]        - planning | executing | testing | closing
-effort [value]       - simple | moderate | complex
-viz [value]          - now | next | soon | later | blocked | waiting
+phase [value]        - Change phase
+effort [value]       - Change effort estimate
+viz [value]          - Change visibility
 section [text]       - Set section for view grouping (or 'section clear')
 due [YYYY-MM-DD]     - Set due date
 due clear            - Remove due date

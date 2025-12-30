@@ -1,5 +1,5 @@
 # Shared Command Patterns
-*Type: Include | Updated: 2025-12-22*
+*Type: Include | Updated: 2025-12-30*
 
 Reference document for patterns used across multiple commands. Commands should reference this rather than duplicating.
 
@@ -71,7 +71,7 @@ ON FAILURE:
   4. NEVER lose content silently
 ```
 
-**Fallback chain:** write â†’ download â†’ display
+**Fallback chain:** write → download → display
 
 **Purpose:** User never loses work due to system/permission errors.
 
@@ -90,6 +90,51 @@ BAD:  (no rationale field)
 ```
 
 **Purpose:** Future-you (and collaborators) understand decision context.
+
+---
+
+## Field Enums
+
+Canonical values for enumerated fields. Commands reference this section rather than maintaining separate copies.
+
+### Task Fields
+
+| Field | Values |
+|-------|--------|
+| status | active, blocked, complete, deferred, onhold, review, scheduled, waiting |
+| priority | low, medium, high, critical |
+| phase | planning, executing, testing, closing |
+| effort | simple, moderate, complex |
+| viz | now, next, soon, later, blocked, waiting |
+
+### Area Fields
+
+| Field | Values |
+|-------|--------|
+| status | active, onhold, archived |
+| review_cycle | weekly, monthly, quarterly, yearly |
+
+### Project Fields
+
+| Field | Values |
+|-------|--------|
+| status | planning, active, onhold, complete, archived |
+
+### Object Fields
+
+| Field | Values |
+|-------|--------|
+| status | active, inactive, archived |
+
+### Log Entry Types
+
+| Type | Use For |
+|------|---------|
+| decision | Choices made with rationale |
+| update | General progress or changes |
+| milestone | Significant completions |
+| issue | Problems encountered/resolved |
+| note | Reference information |
 
 ---
 
@@ -181,7 +226,7 @@ Commands read from `/mnt/project/cairn-pkm-user-prefs.yaml` (the uploaded projec
 When command needs to display current time:
 
 ```
-OUTPUT: "ðŸ“‹â•Â Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
+OUTPUT: "📋═ Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 ```
 
 ---
@@ -192,10 +237,10 @@ Standard ending for all commands:
 
 ```
 OUTPUT:
-âœ“ Task complete
-â•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Â
-ðŸ“‹Â¤"" Waiting for next instruction
-â•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Ââ•Â
+✓ Task complete
+═══════════════════════════════════════════════
+📋¤"" Waiting for next instruction
+═══════════════════════════════════════════════
 
 STOP
 ```
@@ -232,9 +277,9 @@ These errors apply to all commands unless overridden:
 
 **GFC messaging pattern:**
 ```
-âš Â ï¸Â {operation} failed: {reason}
-â†³ Falling back to {fallback_mode}
-â†³ Content preserved below
+⚠ ️ {operation} failed: {reason}
+↳ Falling back to {fallback_mode}
+↳ Content preserved below
 ```
 
 ---
@@ -264,7 +309,7 @@ content = ftfy.fix_text(content)
 # Then write or display
 ```
 
-**Purpose:** Prevents mojibake characters (garbled text like Ãƒ, Ã¢â‚¬, etc.) from appearing in markdown files.
+**Purpose:** Prevents mojibake characters (garbled text like Ã, â€, etc.) from appearing in markdown files.
 
 **When to apply:**
 - After generating any file content

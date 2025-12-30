@@ -52,13 +52,13 @@ vault/
 
 ### Domain Purposes
 
-| Domain        | Purpose                        | Examples                                          |
-| ------------- | ------------------------------ | ------------------------------------------------- |
-| `_cairn-pkm/` | Portable system infrastructure | Templates, LLM commands, shared views             |
-| `_local/`     | Vault-specific customizations  | Personal dashboards, local data, custom templates |
-| `Capture/`    | Temporary inbox                | Quick notes, web clips, voice memos               |
-| `Objects/`    | Cross-cutting entities         | Contacts, accounts, devices, medications          |
-| `Tracks/`     | Areas and projects             | area-finance, p045-website-redesign               |
+| Domain | Purpose | Examples |
+|--------|---------|----------|
+| `_cairn-pkm/` | Portable system infrastructure | Templates, LLM commands, shared views |
+| `_local/` | Vault-specific customizations | Personal dashboards, local data, custom templates |
+| `Capture/` | Temporary inbox | Quick notes, web clips, voice memos |
+| `Objects/` | Cross-cutting entities | Contacts, accounts, devices, medications |
+| `Tracks/` | Areas and projects | area-finance, p045-website-redesign |
 
 ---
 
@@ -195,6 +195,8 @@ review_cycle: weekly | monthly | quarterly | yearly
 ---
 ```
 
+**Note:** See `cmd-shared-patterns.md` Field Enums section for canonical enum values.
+
 **Progress Field (Projects):**
 - Range: 0-100 (percentage)
 - Manual updates only (does not auto-calculate from tasks)
@@ -244,7 +246,7 @@ due_date: YYYY-MM-DD
 assignee: ""
 parent_task: ""
 priority: low | medium | high | critical
-status: active | blocked | complete | deferred | onhold | scheduled | waiting
+status: active | blocked | complete | deferred | onhold | review | scheduled | waiting
 phase: planning | executing | testing | closing
 effort: simple | moderate | complex
 viz: now | next | soon | later | blocked | waiting
@@ -253,6 +255,8 @@ type:
   - category/subcategory
 ---
 ```
+
+**Note:** See `cmd-shared-patterns.md` Field Enums section for canonical enum values.
 
 ### Body Structure
 
@@ -350,6 +354,8 @@ tags: []
 # Type-specific fields below
 ---
 ```
+
+**Note:** See `cmd-shared-patterns.md` Field Enums section for canonical enum values.
 
 ### Placement Decision
 

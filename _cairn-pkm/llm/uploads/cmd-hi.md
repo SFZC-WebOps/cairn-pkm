@@ -1,5 +1,5 @@
 # !hi - Work Session
-*Type: Interactive | Updated: 2025-12-22*
+*Type: Interactive | Updated: 2025-12-25*
 
 ## Quick Reference
 
@@ -94,6 +94,7 @@ When a task is more than 90 days overdue, display "⚠️ CRITICALLY OVERDUE (re
 ```markdown
 ## [target] Overview
 **Status:** [status] | **Progress:** [progress]% | **Type:** [area|project]
+**Summary:** [summary] *(projects only, if set)*
 
 ### Summary
 [Overview section from home doc]
@@ -174,6 +175,10 @@ After displaying overview, show mini-menu for common actions. User can:
 
 To update: `!edit [track-home]` → `progress [0-100]`
 
+**Note on Summary:** The summary field provides a brief text description of current project status. It complements the progress percentage with qualitative context.
+
+To update: `!edit [track-home]` → `summary [text]`
+
 ---
 
 ## Task Parsing
@@ -185,8 +190,8 @@ To update: `!edit [track-home]` → `progress [0-100]`
 | title | string | Task name |
 | project | string | Track identifier |
 | created_date | date | YYYY-MM-DD |
-| status | enum | active, blocked, complete, deferred, onhold, scheduled, waiting |
-| priority | enum | low, medium, high, critical |
+| status | enum | See `cmd-shared-patterns.md` Field Enums |
+| priority | enum | See `cmd-shared-patterns.md` Field Enums |
 
 ### Optional Frontmatter
 
@@ -194,9 +199,9 @@ To update: `!edit [track-home]` → `progress [0-100]`
 |-------|------|-------------|
 | due_date | date | YYYY-MM-DD |
 | assignee | string | Person responsible |
-| phase | enum | planning, executing, testing, closing |
-| effort | enum | simple, moderate, complex |
-| viz | string | Dashboard visibility (now, next, soon, later, blocked, waiting) |
+| phase | enum | See `cmd-shared-patterns.md` Field Enums |
+| effort | enum | See `cmd-shared-patterns.md` Field Enums |
+| viz | enum | See `cmd-shared-patterns.md` Field Enums |
 | parent_task | string | Filename of parent |
 
 ### Inline Subtasks

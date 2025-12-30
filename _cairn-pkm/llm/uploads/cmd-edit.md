@@ -188,7 +188,7 @@ APPEND: log entry to Log section (if added)
 
 ### Status Values
 
-planning, active, onhold, complete, archived
+See `cmd-shared-patterns.md` Field Enums (Project Fields).
 
 ### Log Entry RC Guidance
 
@@ -263,14 +263,16 @@ APPEND: log entry to Log section (if added)
 
 ### Interactive Commands
 
+See `cmd-shared-patterns.md` Field Enums for valid values.
+
 ```
 history                - Add task history entry (auto-generated from conversation)
 history [text]         - Add specific history entry
-status [value]         - active | blocked | complete | deferred | onhold | scheduled | waiting
-priority [value]       - low | medium | high | critical
-phase [value]          - planning | executing | testing | closing
-effort [value]         - simple | moderate | complex
-viz [value]            - now | next | soon | later | blocked | waiting
+status [value]         - Change status
+priority [value]       - Change priority
+phase [value]          - Change phase
+effort [value]         - Change effort estimate
+viz [value]            - Change visibility
 section [text]         - Set section for view grouping
 section clear          - Remove section
 due [YYYY-MM-DD]       - Set due date
@@ -367,7 +369,7 @@ APPEND: subtasks to Subtasks section (if added)
 
 ### Status Values
 
-active, inactive, archived
+See `cmd-shared-patterns.md` Field Enums (Object Fields).
 
 ### Example Session
 
