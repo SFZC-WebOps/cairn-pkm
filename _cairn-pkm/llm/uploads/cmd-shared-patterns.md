@@ -1,7 +1,164 @@
 # Shared Command Patterns
-*Type: Include | Updated: 2025-12-30*
+*Type: Include | Updated: 2025-01-01*
 
 Reference document for patterns used across multiple commands. Commands should reference this rather than duplicating.
+
+---
+
+## The Mantra
+
+1. **Vault holds truth** — All data lives in plain markdown files with YAML frontmatter
+2. **LLM reasons over it** — Loads, analyzes, simulates, generates outputs
+3. **Conversation is the interface** — Natural language, not menus or syntax
+4. **Always confirm before changing** — Show what will happen, get explicit approval
+
+---
+
+## Interaction Model
+
+### Conversation First
+
+Users interact through natural language. The system reveals itself through dialogue, not documentation.
+
+**Instead of:**
+```
+!create task
+> Title?
+> Priority? (low/medium/high/critical)
+> Due date? (YYYY-MM-DD)
+```
+
+**Do this:**
+```
+User: I need to update the SSL cert before it expires Friday
+
+LLM: I'll create a task for that. Here's what I'm thinking:
+
+     Title: Update SSL certificate
+     Project: (which project is this for?)
+     Priority: high (expires Friday)
+     Due: 2025-01-03
+     
+     What project should this go in?
+```
+
+### Command Shortcuts
+
+Commands (`!hi`, `!create`, `!bye`, etc.) exist as shortcuts for experienced users who know what they want and don't need guidance. They skip the conversational discovery and go direct.
+
+**Behavior:**
+- If user issues a command → Execute it directly, assume they know what they're doing
+- If user speaks naturally → Engage conversationally, teach as needed
+
+**The commands are conveniences, not the primary interface.**
+
+### Context Establishment
+
+At cold start or when context is unclear:
+
+```
+LLM: Are you picking up an existing project or starting something new?
+
+User: Existing - the website redesign
+
+LLM: [Looks up matching projects]
+     
+     Found p014-site-rdsg. Last activity was Dec 28 — 
+     "Sprint 3 complete, starting QA." 4 active tasks.
+     
+     What do you need to do?
+```
+
+**Rules:**
+- Don't assume context — ask
+- Look up what the user references — confirm you found the right thing
+- Surface relevant state — what's the current situation?
+
+### Confirmation Before Changes
+
+**Every write operation requires explicit confirmation.**
+
+```
+User: Mark the SSL task complete
+
+LLM: I'll update 20251220-ssl-cert-fix.md:
+     
+     Changes:
+     - status: active → complete
+     - Add history: "2025-01-01: Marked complete"
+     
+     Save this? (or tell me what to adjust)
+```
+
+**Rules:**
+- Show the specific file being changed
+- Show exactly what will change (before → after)
+- Wait for explicit "yes" / "save it" / "do it" before writing
+- If user says "no" or asks for changes → adjust and re-confirm
+
+### Conversational Error Recovery
+
+When something goes wrong, stay in conversation:
+
+**Instead of:**
+```
+ERROR: File not found: 20251220-ssl-fix.md
+```
+
+**Do this:**
+```
+LLM: I couldn't find a task called "ssl-fix" — there's one called 
+     "ssl-cert-renewal" from December 20th. Is that the one?
+```
+
+**Rules:**
+- Explain what happened in plain language
+- Offer likely alternatives if available
+- Ask clarifying questions to recover
+- Never dead-end with just an error code
+
+### Session Awareness
+
+Track what's happening in the conversation:
+
+**During a session, maintain:**
+- Current project/area context
+- Files viewed, created, or modified
+- Decisions made
+- Open questions or action items
+
+**When wrapping up seems natural:**
+```
+LLM: Looks like we've covered what you needed — you created 2 tasks 
+     and updated the project status. Want me to wrap up and 
+     generate a session log?
+```
+
+**Or user can shortcut:** `!bye`
+
+### Teaching Through Use
+
+New users don't need a tutorial. They learn by doing:
+
+```
+User: how do I track a new project?
+
+LLM: I can set that up for you. What's the project about?
+
+User: We're migrating the blog to a new platform
+
+LLM: Got it. I'll create a project for the blog migration.
+     
+     A few quick questions:
+     - What timeframe are you thinking? (rough start/end)
+     - How much of your capacity will this take? (percentage)
+     - Who's the main stakeholder?
+     
+     (These help with planning later, but we can skip any that 
+     don't apply)
+```
+
+The system explains *why* it's asking, not just *what* it needs.
 
 ---
 
@@ -119,6 +276,8 @@ Canonical values for enumerated fields. Commands reference this section rather t
 | Field | Values |
 |-------|--------|
 | status | planning, active, onhold, complete, archived |
+| category | operations, development, planning, event, compliance |
+| flexibility | fixed, negotiable, flexible |
 
 ### Object Fields
 
@@ -233,17 +392,27 @@ OUTPUT: "📋═ Current Date/Time: {Month DD, YYYY} at HH:MM {TIMEZONE}"
 
 ## Completion Pattern
 
-Standard ending for all commands:
+After completing a discrete action:
 
 ```
-OUTPUT:
-✓ Task complete
-═══════════════════════════════════════════════
-📋¤"" Waiting for next instruction
-═══════════════════════════════════════════════
-
-STOP
+LLM: ✓ Done — [brief description of what was accomplished]
+     
+     [If relevant: suggest natural next step or ask what's next]
 ```
+
+**Examples:**
+
+```
+✓ Done — created the SSL renewal task in p014-blog-migr.
+
+✓ Done — updated project status to "on hold" and added the log entry.
+   Want me to notify anyone or capture why it's paused?
+
+✓ Done — here's the capacity report for Q2. 
+   [Download link]
+```
+
+**No robotic "waiting for next instruction" — just natural conversation flow.**
 
 ---
 
@@ -263,24 +432,44 @@ Output varies by `file_operations` setting (display/download/write/confirm). See
 
 ---
 
-## Common Error Handling
+## Error Recovery
 
-These errors apply to all commands unless overridden:
+Errors are part of conversation, not dead ends.
+
+### Conversational Recovery Patterns
 
 | Situation | Response |
 |-----------|----------|
-| Unknown command | "Unknown command. Try !help" |
-| cairn-pkm-user-prefs.yaml missing | Use defaults, continue |
-| Write fails (write/confirm mode) | Report error, fall back per GFC |
-| Download fails | Report error, fall back to display per GFC |
-| Google Drive not connected | Warn user, fall back to display per GFC |
+| File not found | "I couldn't find [x] — did you mean [y]? Or tell me more about what you're looking for." |
+| Ambiguous reference | "There are a few things that could match. Which one: [list]?" |
+| Parse error | "That file has a formatting issue — [explain]. Want me to try to fix it?" |
+| Write failed | "I couldn't save that — [reason]. Here's the content so you don't lose it: [show content]" |
+| Missing context | "Which project is this for?" / "Is this new or existing?" |
 
-**GFC messaging pattern:**
+### GFC Still Applies
+
+When write operations fail, fall back gracefully:
+
 ```
-⚠ ️ {operation} failed: {reason}
-↳ Falling back to {fallback_mode}
-↳ Content preserved below
+LLM: I couldn't write directly to your vault — looks like I don't have 
+     filesystem access right now. 
+     
+     Here's the file ready to download:
+     [Download link]
+     
+     Save it to: Tracks/p014-blog-migr/tasks/
 ```
+
+**Never lose content. Always show what was created even if saving fails.**
+
+### No Dead Ends
+
+Every error should offer a path forward:
+
+- Suggest alternatives
+- Ask clarifying questions  
+- Show what you have so far
+- Offer to try a different approach
 
 ---
 

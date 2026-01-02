@@ -44,13 +44,13 @@ OUTPUT_FILE(filepath, content):
 
     CASE "download":
       # Show content on screen
-      OUTPUT: "ðŸ“‹ FILE CONTENT"
-      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+      OUTPUT: "📋 FILE CONTENT"
+      OUTPUT: "═══════════════════════════════════════"
       OUTPUT: "Filename: {filename}"
       OUTPUT: "Path: {filepath}"
       OUTPUT: ""
       OUTPUT: {content}
-      OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+      OUTPUT: "═══════════════════════════════════════"
       
       # Also create downloadable file
       TRY:
@@ -58,18 +58,18 @@ OUTPUT_FILE(filepath, content):
         WRITE: content to output_path
         CALL: present_files([output_path])
         OUTPUT: ""
-        OUTPUT: "ðŸ’¾ Download the file above and save to: {filepath}"
+        OUTPUT: "💾 Download the file above and save to: {filepath}"
       ON FAILURE:
         # If download creation fails, content is still visible above
         OUTPUT: ""
-        OUTPUT: "âš ï¸  Could not create download file: {error}"
+        OUTPUT: "⚠️  Could not create download file: {error}"
         OUTPUT: "Copy the content above and save manually."
 
     CASE "write":
       TRY:
         CREATE: directory if not exists
         WRITE: content to filepath
-        OUTPUT: "âœ“ Created {filepath}"
+        OUTPUT: "✓ Created {filepath}"
       ON FAILURE:
         CALL: FALLBACK_WITH_VISIBILITY("write", error, filepath, content)
 ```
@@ -86,33 +86,33 @@ When write operations fail, fall back with content visibility:
 FALLBACK_WITH_VISIBILITY(failed_mode, error, filepath, content):
 
   # Report failure clearly
-  OUTPUT: "âš ï¸  {failed_mode} failed: {error}"
-  OUTPUT: "â†³ Falling back to download mode"
+  OUTPUT: "⚠️  {failed_mode} failed: {error}"
+  OUTPUT: "↳ Falling back to download mode"
   OUTPUT: ""
   
   # Show content + attempt download
-  OUTPUT: "ðŸ“‹ FILE CONTENT"
-  OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+  OUTPUT: "📋 FILE CONTENT"
+  OUTPUT: "═══════════════════════════════════════"
   OUTPUT: "Filename: {filename}"
   OUTPUT: "Path: {filepath}"
   OUTPUT: ""
   OUTPUT: {content}
-  OUTPUT: "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+  OUTPUT: "═══════════════════════════════════════"
   
   TRY:
     output_path = /mnt/user-data/outputs/{filename}
     WRITE: content to output_path
     CALL: present_files([output_path])
     OUTPUT: ""
-    OUTPUT: "ðŸ’¾ Download the file above and save to: {filepath}"
+    OUTPUT: "💾 Download the file above and save to: {filepath}"
   ON FAILURE:
     # If even download fails, content is still visible
     OUTPUT: ""
-    OUTPUT: "âš ï¸  Could not create download file: {error}"
+    OUTPUT: "⚠️  Could not create download file: {error}"
     OUTPUT: "Copy the content above and save manually."
 ```
 
-**Fallback chain order:** write â†’ download (with visible content)
+**Fallback chain order:** write → download (with visible content)
 
 **Principle:** User never loses content. Download mode always shows content on screen even if file creation fails.
 

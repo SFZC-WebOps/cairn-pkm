@@ -1,104 +1,192 @@
-# !help - Command Reference
-*Type: Display | Updated: 2025-12-22*
+# Getting Help
+*Type: Display | Updated: 2025-01-01*
 
-## Quick Reference
+## Overview
 
-| Command | What Happens |
-|---------|--------------|
-| `!help` | List all available commands |
-| `!help [cmd]` | Show specific command usage |
-| `help` (in edit loop) | Show context-specific options |
+Users ask for help naturally. The system explains what it can do and how things work, in context.
+
+**Shortcut:** `!help` to see capabilities overview
 
 ---
 
-## !help "" List Commands
+## Natural Help Requests
+
+### "What can you do?"
 
 ```
-SCAN: /mnt/project/cmd-*.md files
-EXCLUDE: cmd-shared-patterns.md, cmd-output-behavior.md (include files, not commands)
+LLM: I can help you organize and track your work:
 
-FOR EACH cmd-*.md:
-  EXTRACT: command name from filename (cmd-{name}.md → !{name})
-  EXTRACT: description from title line (# !cmd - {Description})
+     **Track projects and areas**
+     See what's happening, update progress, add log entries
+     
+     **Create and manage tasks**
+     Create tasks, mark them complete, set priorities and due dates
+     
+     **Capture quick notes**
+     Save ideas, links, or things to process later
+     
+     **Plan capacity**
+     See how your time is allocated across projects
+     
+     **Document changes**
+     Create changelogs when you make system changes
+     
+     What would you like to do?
+```
 
-OUTPUT:
-  Available Commands:
-  
-  !{name}    {Description}
-  !{name}    {Description}
-  ...
-  
-  Type !help [command] for details
+### "How does [X] work?"
+
+Answer in context:
+
+```
+User: How do tasks work?
+
+LLM: A task is a work item that lives in a project or area.
+
+     It's a markdown file with some metadata at the top:
+     - Title, status, priority, due date
+     - Assignment, phase, effort estimate
+     
+     And some sections in the body:
+     - Task History (audit trail of changes)
+     - Subtasks (checklist items)
+     - Notes (free-form text)
+     
+     Want me to show you one from your vault?
+```
+
+### "I don't understand [X]"
+
+Explain simply, offer examples:
+
+```
+User: I don't understand the difference between areas and projects
+
+LLM: The difference is whether it ends:
+
+     **Areas** are ongoing — they don't finish.
+     Like "finance" (you always have finances to manage)
+     or "health" (you always have health to track)
+     
+     **Projects** are temporary — they have a goal and end.
+     Like "website-redesign" (done when the site launches)
+     or "Q1-budget" (done when Q1 is planned)
+     
+     When a project finishes, it gets archived.
+     Areas keep going forever.
 ```
 
 ---
 
-## !help [cmd] "" Specific Command
+## Shortcut: !help
 
-Extract and display from target cmd-*.md:
-
-1. **Quick Reference table** "" command variants and what they do
-2. **Basic workflow** "" one-line description from file header
-3. **Interactive commands** "" if applicable (edit loops)
-
-**Example output for `!help edit`:**
+Shows a concise capabilities overview:
 
 ```
-!edit - Unified Edit Command
+LLM: Here's what I can help with:
 
-| Command | Purpose |
-|---------|---------|
-| !edit [filename] | Edit file by name |
-| !edit | Edit uploaded file |
-
-Workflow: Provide filename or upload → Interactive loop → Confirm → Output
-
-Interactive commands: status, priority, phase, effort, viz, due, history, 
-                      log, progress, field, subtask, done, help
+     **Work with what you have**
+     - Show project/area status → "show me [project]" or !hi-[track]
+     - Edit tasks → "mark [task] complete" or !edit [file]
+     - Update progress → "update progress to 80%"
+     
+     **Create new things**
+     - Projects → "I need to track [something]" or !create project
+     - Tasks → "I need to [do something]" or !create task
+     - Areas → "I want to track [ongoing domain]" or !create area
+     
+     **Other tools**
+     - Capture notes → !capture
+     - Plan capacity → !capacity  
+     - Document changes → !changelog
+     - Track skills → !skills
+     
+     **Session management**
+     - Start working → just tell me what you're working on
+     - Wrap up → "I'm done" or !bye
+     
+     What do you need?
 ```
 
 ---
 
-## Discovery Pattern
+## Context-Aware Help
 
-Help hints appear in these locations:
+When user asks for help during a task, respond in context:
 
-| Location | Format |
-|----------|--------|
-| !hi menu footer | `Type !help for command reference` |
-| Edit loop first prompt | `What changes? (help for options, done to finish)` |
-| Unknown command error | `Unknown command. Try !help` |
-| Invalid input error | `Invalid [field]. Type help for options.` |
+```
+[User is editing a task]
+
+User: help
+
+LLM: You're editing 20250101-ssl-cert-update.md. You can:
+
+     - Change status → "mark it complete" / "set to blocked"
+     - Change priority → "make it critical"
+     - Set due date → "due Friday" / "due January 15"
+     - Add subtask → "add subtask: test the renewal"
+     - Add note → "add note: waiting on credentials"
+     - Add history → "add history: started working on this"
+     
+     Or just tell me what you want to change.
+```
 
 ---
 
-## In-Context Help
+## Teaching Through Help
 
-During interactive edit loops, `help` shows only commands valid for current entity type.
-
-**Example:** User editing a task, types `help`:
+Help isn't just answering questions — it's explaining *why*:
 
 ```
-Task edit commands:
-  status [value]     See cmd-shared-patterns.md Field Enums
-  priority [value]   See cmd-shared-patterns.md Field Enums
-  phase [value]      See cmd-shared-patterns.md Field Enums
-  effort [value]     See cmd-shared-patterns.md Field Enums
-  viz [value]        See cmd-shared-patterns.md Field Enums
-  due [YYYY-MM-DD]   Set due date (or 'due clear')
-  history [text]     Add task history entry
-  subtask [text]     Add subtask checkbox
-  field [name] [val] Update any frontmatter field
-  done               Finalize and output
-```
+User: What's effort_percent?
 
-See cmd-edit.md for entity-specific command tables.
+LLM: It's how much of your capacity a project takes — as a percentage.
+
+     If something takes roughly a day a week, that's 20%.
+     If it's your main focus, maybe 50%.
+     A small maintenance task might be 5%.
+     
+     The !capacity command adds these up to show if you're
+     overcommitted. Over 100% means too much on your plate.
+     
+     Your p014-site-rdsg is currently at 25%. Want to change it?
+```
 
 ---
 
-## Error Handling
+## Error Recovery
 
-| Situation | Response |
-|-----------|----------|
-| `!help xyz` (unknown) | "Unknown command 'xyz'. Type !help for available commands." |
-| `help` outside edit loop | Treat as `!help` |
+When user tries something that doesn't work:
+
+```
+User: !frobnicate
+
+LLM: I don't have a frobnicate command. 
+     
+     Were you trying to:
+     - Create something? → "create [type]"
+     - Edit something? → "edit [name]"
+     - See status? → "show me [project]"
+     
+     Or tell me what you're trying to do and I'll help.
+```
+
+---
+
+## Shortcut Reference
+
+For experienced users who want the quick list:
+
+| Shortcut | What It Does |
+|----------|--------------|
+| `!hi` | Start session / show active tracks |
+| `!hi-[track]` | Show specific track |
+| `!create [type]` | Create area/project/task/object |
+| `!edit [file]` | Edit specific file |
+| `!capture` | Save quick note |
+| `!capacity` | Show capacity analysis |
+| `!capacity plan` | Capacity simulator |
+| `!changelog` | Document a change |
+| `!skills` | Record skill evidence |
+| `!bye` | Close session with logging |
+| `!tour` | Learn how system works |

@@ -1,611 +1,243 @@
-# !setup - Guided Setup
-*Type: Interactive | Updated: 2025-12-22*
+# Initial Setup
+*Type: Interactive | Updated: 2025-01-01*
 
-## Quick Reference
+## Overview
 
-| Command | Purpose |
-|---------|---------|
-| `!setup` | Run guided setup (first-time or verification) |
-| `!setup check` | Verify current configuration without changes |
+Get a new Cairn-PKM vault configured. The system checks what's in place and helps set up what's missing — conversationally.
 
-**Workflow:** `!setup` → LLM project check → Plugins → Preferences → Vault access → Structure → Starter content → Validation
-
-**Prerequisite:** LLM project must be set up first — see START-HERE.md in your vault.
-
-**Idempotent:** Safe to re-run. Detects existing configuration and offers to keep or update.
+**Shortcut:** `!setup` to run setup, `!setup check` to verify configuration
 
 ---
 
-## Initialization
+## First-Time Setup
 
-Per `cmd-shared-patterns.md`
-
-**First-run detection:**
-```
-CHECK: Project files accessible (cairn-pkm-user-prefs.yaml exists)
-CHECK: Vault structure present (Tracks/, Objects/, Capture/, _local/)
-
-IF prefs missing OR structure incomplete:
-  MODE: "first_run"
-  OUTPUT: "Welcome to Cairn-PKM! Let's get you set up."
-ELSE:
-  MODE: "verification"
-  OUTPUT: "Cairn-PKM detected. Running configuration check..."
-```
-
----
-
-## Execution
-
-### Phase 1: Welcome & Mode Detection
+When vault is new or unconfigured:
 
 ```
-DETECT: first_run | verification
-
-IF first_run:
-  OUTPUT:
-  ═══════════════════════════════════════════════
-  🏔️ Welcome to Cairn-PKM Setup
-  ═══════════════════════════════════════════════
-  
-  I'll walk you through configuring your vault.
-  This takes about 5-10 minutes.
-  
-  You can re-run !setup anytime to verify or update settings.
-  
-  Ready to begin? (yes to continue)
-  
-  Tip: During setup, you can type `skip`, `back`, or `status` anytime.
-
-IF verification:
-  OUTPUT:
-  ═══════════════════════════════════════════════
-  🏔️ Cairn-PKM Configuration Check
-  ═══════════════════════════════════════════════
-  
-  Checking your current setup...
-  
-  [Proceed to Phase 2 automatically]
-```
-
-### Phase 2: LLM Project Verification
-
-```
-OUTPUT:
-───────────────────────────────────────────────
-🤖 Step 1/7: LLM Project Check
-───────────────────────────────────────────────
-
-Verifying I can access project files...
-
-ATTEMPT: List project files
-
-IF files visible:
-  OUTPUT:
-  ✓ Project files accessible
-  
-  Found: {count} files
-  {list key files: _ARCHITECTURE.md, cmd-*.md, etc.}
-  
-  CONTINUE to Phase 3
-
-IF files not visible OR key files missing:
-  OUTPUT:
-  ⚠️ Can't access required project files.
-  
-  This usually means:
-  - You're in a standalone conversation (not the project)
-  - Files weren't uploaded to the project
-  - Some command files are missing
-  
-  **To fix:**
-  1. See START-HERE.md in your vault for setup instructions
-  2. Upload all files from _cairn-pkm/llm/uploads/ to your LLM project
-  3. Start a new conversation within the project
-  4. Run !setup again
-  
-  Continue anyway? (yes / no)
-  
-  IF "no": STOP with guidance to read START-HERE.md
-  IF "yes": CONTINUE with warning
-
-RECORD: llm_project_verified = true
-CONTINUE to Phase 3
-```
-
-### Phase 3: Plugin Verification
-
-```
-OUTPUT:
-───────────────────────────────────────────────
-📦 Step 2/7: Plugin Check
-───────────────────────────────────────────────
-
-Required plugins for Cairn-PKM:
-
-1. **Dataview** — Powers task queries and dashboards
-   - Must enable: JavaScript Queries (Settings → Dataview)
-   
-2. **Templater** — Template expansion for file creation
-   - Set template folder: _cairn-pkm/templates/
-   - Optional second folder: _local/templates/
-
-3. **Tasks** (Recommended) — Enhanced task management
-   - Provides checkbox features and task queries
-
-Can you confirm these plugins are installed and configured?
-(yes / no / help)
-
-IF "no" or "help":
-  OUTPUT:
-  To install plugins:
-  1. Settings → Community Plugins → Browse
-  2. Search for plugin name → Install → Enable
-  3. Configure settings as noted above
-  
-  Let me know when ready to continue.
-
-IF "yes":
-  RECORD: plugins_verified = true
-  
-  OUTPUT:
-  ✓ Plugins confirmed
-  
-  **Troubleshooting notes for later:**
-  - Dataview queries show as code blocks → Settings → Dataview → Enable "JavaScript Queries"
-  - Templates not expanding → Settings → Templater → Template folder = `_cairn-pkm/templates/`
-  - Task checkboxes not working → Verify Tasks plugin is enabled
-  
-  (Save these notes — common issues if something isn't working)
-  
-  CONTINUE to Phase 4
-```
-
-### Phase 4: User Preferences
-
-```
-OUTPUT:
-───────────────────────────────────────────────
-⚙️ Step 3/7: User Preferences
-───────────────────────────────────────────────
-
-IF existing prefs found:
-  Current settings:
-  - Default assignee: {current_value or "(not set)"}
-  - Timezone: {current_value}
-  - File operations: {current_value}
-  
-  Keep these settings? (yes / update)
-
-IF first_run OR user says "update":
-  PROMPT each setting:
-
-  1. **Default Assignee**
-     Your name for task assignments (or leave blank):
-     Example: "Alex Chen" or "webops"
-     > 
-
-  2. **Timezone**
-     Your IANA timezone for timestamps:
-     Examples: America/New_York, America/Los_Angeles, Europe/London
-     Default: America/Los_Angeles
-     > 
-
-  3. **File Operations Mode**
-     How should I output files?
+LLM: Welcome to Cairn-PKM! Let me help you get set up.
      
-     - display → Show content + present downloadable file (works everywhere)
-     - write   → Write directly to filesystem (needs filesystem access)
+     I'll check a few things:
+     - Obsidian plugins (Dataview, Templater, Tasks)
+     - Your preferences (timezone, file handling)
+     - Vault structure (folders in place)
      
-     Recommended: display (universal, you get both viewable content and download)
-     > 
-
-GENERATE: cairn-pkm-user-prefs.yaml content
-DISPLAY: Generated configuration for review
-
-OUTPUT:
-📄 Your preferences:
-
-```yaml
-default_assignee: "{value}"
-timezone: "{value}"
-file_operations: "{value}"
+     First — are the required plugins installed?
+     
+     **Required:**
+     - Dataview (with JavaScript queries enabled)
+     - Templater (template folder set to _cairn-pkm/templates/)
+     
+     **Recommended:**
+     - Tasks (for better checkbox handling)
 ```
 
-Save this configuration? (yes / edit)
-
-ON "yes":
-  RECORD: prefs_configured = true
-  
-  IF file_operations == "write":
-    ATTEMPT: Write to _local/cairn-pkm-user-prefs.yaml
-  ELSE:
-    OUTPUT: Save this file as: _local/cairn-pkm-user-prefs.yaml
-    OUTPUT: Also upload to your LLM project.
-```
-
-### Phase 5: Vault Access Verification
+### Plugin Check
 
 ```
-OUTPUT:
-───────────────────────────────────────────────
-🔌 Step 4/7: Vault Access Check
-───────────────────────────────────────────────
+User: I have Dataview and Templater
 
-IF file_operations == "write":
-  OUTPUT:
-  Testing filesystem access...
-  
-  ATTEMPT: List contents of vault root path
-  
-  IF successful:
-    OUTPUT:
-    ✓ Filesystem access confirmed
-    
-    Detected vault contents:
-    {list top-level folders found}
-    
-    Does this look like your Cairn-PKM vault? (yes / no / path issue)
-    
-    IF "no" or "path issue":
-      OUTPUT:
-      The path I'm accessing doesn't seem right.
-      
-      What's the correct path to your vault?
-      Example: /Users/yourname/Documents/Obsidian/MyVault
-      > 
-      
-      RETRY access check with new path
-      
-  IF failed:
-    OUTPUT:
-    ✗ Cannot access filesystem
-    
-    This usually means:
-    - Filesystem tools not connected or enabled
-    - Path permissions issue
-    
-    Options:
-    1. Fix filesystem access and retry
-    2. Switch to 'display' mode (I'll show content + downloadable file)
-    
-    > 
-    
-    ON "2": Update file_operations to "display"
+LLM: Great. Just confirm these settings:
+     
+     **Dataview:**
+     Settings → Enable "JavaScript Queries"
+     
+     **Templater:**  
+     Settings → Template folder location → `_cairn-pkm/templates/`
+     
+     Those good?
 
-IF file_operations == "display":
-  OUTPUT:
-  ℹ️ Access check not needed for display mode
-  
-  In display mode, I'll show file content and present a downloadable file.
-  You place files in your vault manually.
-  
-  You can switch to 'write' mode later if you set up filesystem access.
+User: Yes
 
-RECORD: access_verified = true
+LLM: Perfect. Now let's set your preferences.
 ```
 
-### Phase 6: Vault Structure
+### Preferences
 
 ```
-OUTPUT:
-───────────────────────────────────────────────
-📁 Step 5/7: Vault Structure
-───────────────────────────────────────────────
+LLM: A few preferences to configure:
+     
+     **Your name** (for task assignments)
+     What name should appear on tasks you create?
 
-CHECK each required directory:
-  - _cairn-pkm/        (portable system)
-  - _local/            (your customizations)
-  - _local/data/       (local data storage)
-  - _local/templates/  (custom templates)
-  - _local/views/      (custom dashboards)
-  - Capture/           (inbox)
-  - Objects/           (cross-cutting entities)
-  - Tracks/            (areas and projects)
+User: Greg
 
-FOR EACH directory:
-  IF exists: OUTPUT "✓ {path}"
-  IF missing: OUTPUT "✗ {path} — needs creation"
+LLM: Got it. 
+     
+     **Timezone** (for timestamps)
+     What's your timezone? Examples: America/Los_Angeles, America/New_York, Europe/London
 
-IF any missing:
-  OUTPUT:
-  Create missing directories? (yes / no / manual)
-  
-  ON "yes":
-    CREATE: missing directories
-    OUTPUT: "✓ Created {path}" for each
-    
-  ON "manual":
-    OUTPUT: Commands to create manually:
-    ```bash
-    mkdir -p _local/{data,templates,views}
-    mkdir -p {Capture,Objects,Tracks}
-    ```
+User: Los Angeles
 
-RECORD: structure_verified = true
+LLM: America/Los_Angeles — confirmed.
+     
+     **File handling**
+     When I create files, should I:
+     - Write directly to your vault (needs filesystem access)
+     - Show content and provide a download
+     
+     If you're not sure, "download" works everywhere.
+
+User: Download for now
+
+LLM: OK. Here's your configuration:
+     
+     ```yaml
+     default_assignee: "Greg"
+     timezone: "America/Los_Angeles"
+     file_operations: "download"
+     ```
+     
+     Save this as `cairn-pkm-user-prefs.yaml` in your LLM project files.
 ```
 
-### Phase 7: First Content (Optional)
+### Structure Check
 
 ```
-OUTPUT:
-───────────────────────────────────────────────
-🌱 Step 6/7: Starter Content (Optional)
-───────────────────────────────────────────────
+LLM: Checking vault structure...
+     
+     ✓ _cairn-pkm/ exists
+     ✓ Capture/ exists
+     ✓ Objects/ exists
+     ✓ Tracks/ exists
+     ✗ _local/ missing
+     
+     I need to create _local/ with its subfolders (data, templates, views).
+     This is where your customizations go.
+     
+     Create it?
 
-IF Tracks/ is empty:
-  OUTPUT:
-  Your Tracks folder is empty. Would you like to create a starter area?
-  
-  Suggested: area-personal (general personal organization)
-  
-  Options:
-  1. Create area-personal
-  2. Create different area (I'll ask for name)
-  3. Skip — I'll create my own later
-  
-  > 
+User: Yes
 
-  ON "1":
-    CREATE: area-personal with standard structure
-    OUTPUT: "✓ Created Tracks/area-personal/"
-    
-  ON "2":
-    PROMPT: "Area name? (becomes area-{name})"
-    CREATE: area-{name} with standard structure
-    OUTPUT: "✓ Created Tracks/area-{name}/"
-    
-  ON "3":
-    OUTPUT: "No problem. Use !create area when ready."
-
-ELSE:
-  OUTPUT:
-  ✓ Tracks folder has content — skipping starter creation.
-  
-  Existing tracks:
-  {list of area-* and p###-* folders}
-
-RECORD: content_step_complete = true
+LLM: ✓ Created _local/data/
+     ✓ Created _local/templates/
+     ✓ Created _local/views/
 ```
 
-### Phase 8: Validation & Summary
+### Starter Content
 
 ```
-OUTPUT:
-───────────────────────────────────────────────
-✅ Step 7/7: Validation
-───────────────────────────────────────────────
+LLM: Your vault is empty. Want me to create a starter area?
+     
+     This gives you something to explore and a place to put things
+     until you set up your own structure.
+     
+     I'd suggest area-personal — a general catch-all.
 
-Running final checks...
+User: Sure
 
-VALIDATE:
-  - [ ] Preferences file exists and is valid YAML
-  - [ ] Required directories present
-  - [ ] At least one track exists (or user skipped)
-  - [ ] No obvious configuration conflicts
-
-FOR EACH check:
-  IF passes: OUTPUT "✓ {check description}"
-  IF fails: OUTPUT "✗ {check description} — {remediation}"
-
-───────────────────────────────────────────────
-
-IF all checks pass:
-  OUTPUT:
-  ═══════════════════════════════════════════════
-  🎉 Setup Complete!
-  ═══════════════════════════════════════════════
-  
-  Your Cairn-PKM vault is ready to use.
-  
-  **Quick Start:**
-  - `!tour` — Guided walkthrough (recommended for new users)
-  - `!hi` — Open work session menu
-  - `!create task` — Create your first task
-  - `!create project` — Start a new project
-  
-  **Getting Help:**
-  - Review _ARCHITECTURE.md for system overview
-  - Check _INSTALLATION.md for detailed configuration
-  - See START-HERE.md for LLM project setup reference
-  - Re-run `!setup check` anytime to verify configuration
-  
-  ═══════════════════════════════════════════════
-
-ELSE:
-  OUTPUT:
-  ═══════════════════════════════════════════════
-  ⚠️ Setup Incomplete
-  ═══════════════════════════════════════════════
-  
-  Some items need attention:
-  {list of failed checks with remediation steps}
-  
-  Fix these issues and run `!setup check` to verify.
-  
-  ═══════════════════════════════════════════════
+LLM: ✓ Created Tracks/area-personal/
+     
+     Setup complete! Your vault is ready.
+     
+     **Quick start:**
+     - "Show me area-personal" to see your new area
+     - "Create a task" to add something to do
+     - "I want to track [project]" to start a project
+     
+     Or just tell me what you're working on.
 ```
 
 ---
 
-## !setup check — Verification Mode
+## Shortcut: !setup
 
-Quick verification without interactive prompts:
+Runs the setup flow:
 
 ```
-OUTPUT:
-🔍 Cairn-PKM Configuration Check
-═══════════════════════════════════════════════
+!setup
+```
 
-**LLM Project:**
-✓/✗ Project files accessible ({count} files)
+If already configured, asks if you want to update anything.
 
-**Preferences:**
-{display current prefs or "Not configured"}
+---
 
-**Vault Access:**
-✓/✗ Filesystem access verified (write mode only)
+## Shortcut: !setup check
 
-**Structure:**
-✓/✗ for each required directory
+Quick verification without prompts:
 
-**Tracks:**
-{count} areas, {count} projects
+```
+!setup check
+```
 
-**Status:** {Ready | Needs attention}
-
-═══════════════════════════════════════════════
-
-IF issues found:
-  Run `!setup` to fix interactively.
-  For LLM project issues, see START-HERE.md
+**Output:**
+```
+LLM: Configuration check:
+     
+     **Preferences:** ✓ Found (Greg, America/Los_Angeles, download)
+     **Structure:** ✓ All folders present
+     **Tracks:** 1 area, 0 projects
+     
+     Everything looks good.
 ```
 
 ---
 
-## Preferences File Template
+## What Gets Checked
+
+| Check | What It Verifies |
+|-------|------------------|
+| Preferences | cairn-pkm-user-prefs.yaml accessible |
+| Structure | _cairn-pkm/, _local/, Capture/, Objects/, Tracks/ exist |
+| Plugins | (Manual check — user confirms) |
+
+---
+
+## Preferences File
 
 Generated during setup:
 
 ```yaml
 # Cairn-PKM User Preferences
-# Generated: {YYYY-MM-DD}
 
-# Your name for task assignments
-default_assignee: "{user_input}"
+default_assignee: "{name}"
+timezone: "{timezone}"
+file_operations: "{download|write}"
+```
 
-# IANA timezone for timestamps
-timezone: "{user_input}"
+**Location:** Upload to LLM project files
 
-# How LLM commands output files
-# Options: display | write
-file_operations: "{user_input}"
+---
+
+## Troubleshooting
+
+### Dataview queries show as code
+
+```
+LLM: Dataview isn't processing queries. Check:
+     Settings → Dataview → Enable "JavaScript Queries"
+     
+     Then refresh the note (Cmd/Ctrl + R).
+```
+
+### Templater not working
+
+```
+LLM: Templates aren't expanding. Check:
+     Settings → Templater → Template folder location
+     Should be: _cairn-pkm/templates/
+```
+
+### Can't access filesystem
+
+```
+LLM: I don't have filesystem access. That's OK — 
+     I'll show content and provide downloads instead.
+     
+     If you want direct file writing later, set up
+     filesystem access in your LLM tool.
 ```
 
 ---
 
-## Section Skip Commands
+## Re-Running Setup
 
-During setup, user can jump between sections:
-
-| Command | Effect |
-|---------|--------|
-| `skip` | Skip current section |
-| `back` | Return to previous section |
-| `restart` | Start setup from beginning |
-| `status` | Show which sections complete |
-| `quit` | Exit setup (can resume later) |
-
----
-
-## Re-running Setup
-
-Setup is idempotent:
+Setup is idempotent — safe to run again:
 
 ```
-ON re-run:
-  DETECT: existing configuration
-  FOR EACH section:
-    SHOW: current values
-    ASK: "Keep or update?"
-    IF "keep": skip to next section
-    IF "update": run section prompts
+LLM: I see you're already set up:
+     - Preferences: Greg, America/Los_Angeles, download
+     - Structure: Complete
+     - Tracks: 2 areas, 3 projects
+     
+     Want to update anything?
 ```
-
-This allows users to:
-- Verify their configuration anytime
-- Update individual settings without full re-setup
-- Fix issues detected by `!setup check`
-
----
-
-## Error Handling
-
-| Situation | Response |
-|-----------|----------|
-| Project files not accessible | Point to START-HERE.md for LLM project setup |
-| Prefs file invalid YAML | "Preferences file has syntax errors. Would you like to recreate it?" |
-| Can't create directories | "Unable to create directories. Check permissions or create manually." |
-| User quits mid-setup | "Setup paused. Run !setup to continue where you left off." |
-
-Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Troubleshooting Reference
-
-Quick fixes for common post-setup issues:
-
-### LLM Project Issues
-
-| Symptom | Fix |
-|---------|-----|
-| Commands not recognized | Are you in the LLM project? (not a standalone chat) |
-| "File not found" for commands | Upload all files from _cairn-pkm/llm/uploads/ to project |
-| Setup can't see project files | Start new conversation within the project |
-| Commands partially work | Some files may be missing — re-upload all from uploads/ |
-
-**First-time setup:** See START-HERE.md in your vault for complete LLM project setup instructions.
-
-### Dataview Issues
-
-| Symptom | Fix |
-|---------|-----|
-| Queries show as code blocks | Settings → Dataview → Enable "JavaScript Queries" |
-| Queries show as code blocks | Settings → Dataview → Enable "Enable Inline Queries" |
-| "Dataview is not available" | Ensure Dataview plugin is installed and enabled |
-| Queries not updating | Refresh note (Ctrl/Cmd + R) or restart Obsidian |
-
-### Templater Issues
-
-| Symptom | Fix |
-|---------|-----|
-| Templates not expanding | Settings → Templater → Template folder location = `_cairn-pkm/templates/` |
-| "Template not found" | Check template exists in configured folder |
-| Custom templates not found | Add `_local/templates/` as additional template folder |
-| Templater commands not working | Ensure Templater plugin is enabled, restart Obsidian |
-
-### Tasks Plugin Issues
-
-| Symptom | Fix |
-|---------|-----|
-| Checkboxes not interactive | Verify Tasks plugin is installed and enabled |
-| Task queries not rendering | Tasks plugin may need Dataview — check both are enabled |
-
-### File Operations Issues
-
-| Symptom | Fix |
-|---------|-----|
-| "Write failed" errors | Check file_operations mode matches your environment |
-| Files not appearing | If using display mode, download and place file in vault manually |
-
-### Vault Access Issues
-
-| Symptom | Fix |
-|---------|-----|
-| "Cannot access filesystem" | Filesystem tools not connected or enabled |
-| Wrong vault contents shown | Path is incorrect — provide full path to vault root |
-| Can list files but can't write | Permission issue — check folder permissions or use display mode |
-
-**Testing access manually:**
-- Ask the LLM to "list files in /path/to/your/vault"
-
-### Structure Issues
-
-| Symptom | Fix |
-|---------|-----|
-| "Track not found" | Check Tracks/ folder exists and contains area-*/p###-*/ folders |
-| "Home doc not found" | Verify _[track-name]-home.md exists in track folder |
-| Commands can't find prefs | Upload cairn-pkm-user-prefs.yaml to LLM project |
-
-Run `!setup check` to verify current configuration state.
-
----
-
-## Integration
-
-| Works With | How |
-|------------|-----|
-| !hi | Setup should complete before using !hi |
-| All commands | Commands read prefs configured by !setup |
-| _INSTALLATION.md | !setup automates manual steps in installation guide |

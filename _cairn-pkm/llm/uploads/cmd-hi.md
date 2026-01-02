@@ -1,298 +1,274 @@
-# !hi - Work Session
-*Type: Interactive | Updated: 2025-12-25*
+# Session Start
+*Type: Interactive | Updated: 2025-01-01*
 
-## Quick Reference
+## Overview
 
-| Command | Purpose |
-|---------|---------|
-| `!hi` | Open main menu |
-| `!hi-[target]` | Display track overview with tasks |
+Entry point for working with Cairn-PKM. The system meets users where they are — new users get guidance, experienced users can go direct.
 
-**Session model:** `!hi` opens → work via commands → `!bye` closes with logging
+**Shortcut:** `!hi` or `!hi-[track]` for direct access
 
 ---
 
-## Initialization
+## Conversational Entry
 
-Per `cmd-shared-patterns.md`
-
----
-
-## !hi "" Main Menu
+When a user starts a conversation (or says something like "let's work" or "hi"):
 
 ```
-🧭 What would you like to do?
-
-1. Open a project or area
-2. Create something new
-3. Edit something
-4. Capture something
-5. Record skill evidence
-6. Close session
-
-Enter number or describe what you need:
-
-Type !help for command reference
-New here? Try !tour for a guided walkthrough
+LLM: Are you working on something, or would you like a tour of Cairn-PKM?
 ```
 
-### Input Handling
+**If user wants tour:** Run through tour (see cmd-tour.md), then:
+```
+LLM: That's the basics. Want to start tracking a project, 
+     or is there something I should explain more?
+```
 
-| Input | Action |
-|-------|--------|
-| Number (1-6) | Route to selection |
-| Direct command (`!create task`) | Execute command |
-| Natural language | Interpret and route |
-| Question | Answer using context |
+**If user names something:** Proceed to context discovery (below).
 
-### Routing
+### Context Discovery
 
-| # | Action |
-|---|--------|
-| 1 | "Which track?" → `!hi-[target]` |
-| 2 | "Create what? (area \| project \| task \| object [type])" → `!create [type]` |
-| 3 | "Edit what? (filename or upload file)" → `!edit [filename]` |
-| 4 | `!capture` flow |
-| 5 | `!skills` flow |
-| 6 | `!bye` flow |
+Based on user response, establish context:
+
+**User names a project/area:**
+```
+User: The website redesign
+
+LLM: [Searches for matching tracks]
+
+     Found p014-site-rdsg — "Website Redesign Project"
+     Last activity Dec 28: "Sprint 3 complete, starting QA"
+     4 active tasks, 1 overdue.
+     
+     What do you need to do?
+```
+
+**User describes something new:**
+```
+User: I need to start tracking a new initiative
+
+LLM: Tell me about it — what's the initiative?
+
+User: We're migrating our documentation to a new platform
+
+LLM: Got it. I can set up a project for the docs migration.
+     
+     A few quick questions to get started:
+     - Rough timeframe? (when do you want this done?)
+     - How much of your time will this take? (ballpark percentage)
+     - Who's the main stakeholder?
+     
+     (Skip any that don't apply yet)
+```
+
+**User wants to see what's active:**
+```
+User: What do I have going on?
+
+LLM: [Scans Tracks/ for active projects and areas]
+
+     You have 3 active projects:
+     - p014-site-rdsg: Website redesign (75% complete, QA phase)
+     - p015-docs-migr: Docs migration (planning, not started)
+     - p016-q1-budg: Q1 budget (active, due Jan 15)
+     
+     And 2 ongoing areas:
+     - area-finance: 2 active tasks
+     - area-webops: 5 active tasks
+     
+     Which one do you want to look at?
+```
+
+**User asks a question:**
+```
+User: How do I track my time on projects?
+
+LLM: Cairn uses an effort_percent field in project frontmatter — 
+     it's the percentage of your capacity a project takes.
+     
+     For example, if something takes about a day a week, that's 20%.
+     The !capacity command shows how your time adds up across projects.
+     
+     Want me to show you your current capacity breakdown?
+```
 
 ---
 
-## !hi-[target] "" Track Overview
+## Shortcut: !hi
 
-### Display Format
+For experienced users who want to skip the conversation:
+
+```
+!hi
+```
+
+**Behavior:** 
+- If context is already established → Show current track overview
+- If no context → "What are you working on today?"
+
+---
+
+## Shortcut: !hi-[track]
+
+Direct access to a specific track:
+
+```
+!hi-p014-site-rdsg
+!hi-area-finance
+```
+
+**Behavior:** Load and display the track overview immediately.
+
+---
+
+## Track Overview Display
+
+When showing a track (via conversation or `!hi-[track]`):
+
+### What to Show
 
 ```
 READ: {VAULT_PATH}/Tracks/[target]/_*-home.md
 READ: All task files in [target]/tasks/
 PARSE: Task hierarchy (parent-child relationships)
-FILTER: status != complete (unless showing archive)
+FILTER: status != complete (unless specifically asked for archive)
 SORT: priority (critical → low), then created_date
 ```
 
-### Date Calculations
-
-**Overdue detection:**
-- Compare due_date < current_date in user's timezone
-- Timezone from cairn-pkm-user-prefs.yaml
-
-**Due this week:**
-- due_date <= (current_date + 7 days)
-- Calendar days, not business days
-
-**Display:**
-- ⚠️ OVERDUE: Standard overdue (appears after due date with day count)
-- ⚠️ CRITICALLY OVERDUE (review needed): For tasks >90 days overdue
-- 🔴 Overdue: N tasks/subtasks (in summary)
-- 📅 Due This Week: N tasks/subtasks (in summary)
-
-**Critical Overdue Threshold:**
-When a task is more than 90 days overdue, display "⚠️ CRITICALLY OVERDUE (review needed)" instead of showing the day count. This highlights tasks that likely need urgent review or cleanup rather than just completion.
-
-**Output:**
+### Format
 
 ```markdown
-## [target] Overview
+## [Track Name]
+
 **Status:** [status] | **Progress:** [progress]% | **Type:** [area|project]
-**Summary:** [summary] *(projects only, if set)*
+**Summary:** [summary if set]
 
-### Summary
-[Overview section from home doc]
+### What's Happening
 
-### Current Focus
-[Current Focus section from home doc]
+[Current Focus section from home doc, or Overview if no current focus]
 
 ### Recent Activity
 
-**Display Logic:**
-- Show all log entries if fewer than 10 exist
-- Show last 10-15 entries if 10 or more exist
-- Most recent entries first (reverse chronological)
+[Last 5-10 log entries, most recent first]
 
-[Log entries with timestamps]
+### Active Tasks ([N] total, [X] overdue)
 
-### Active Tasks ([N] tasks, [X] overdue, [Y] due this week)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 [Task Title]
+   Status: [status] | Priority: [priority] | Due: [date or "not set"]
+   [If overdue: ⚠️ X days overdue]
+   
+   Subtasks: [N pending, M complete]
+   └─ [ ] Next subtask if relevant
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 [title]
-Status: [status] | Priority: [priority] | Viz: [viz] | Effort: [effort]
-Phase: [phase] | Assignee: [assignee]
-Created: [created_date] | Due: [due_date] ⚠️ OVERDUE (45 days)
-                                         OR
-Created: [created_date] | Due: [due_date] ⚠️ CRITICALLY OVERDUE (review needed)
+[Repeat for each active task]
 
-Inline Subtasks (N):
-  ├─ [x] Completed subtask
-  └─ [ ] Pending subtask (due YYYY-MM-DD)
+### Quick Stats
 
-Child Tasks (N):
-  → Child task title (status, priority, due: YYYY-MM-DD)
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-[Repeat for each task]
-
-### Task Summary
-
-**By Status:**
-- Active: N
-- Blocked: N
-- Waiting: N
-
-**By Priority:**
-- Critical: N
-- High: N
-- Medium: N
-- Low: N
-
-**Time Alerts:**
-- 🔴 Overdue: N tasks/subtasks
-- 📅 Due This Week: N tasks/subtasks
-
-═══════════════════════════════════════════════
-✅ Context set to [target] for !bye command
-═══════════════════════════════════════════════
-
-🧭 What next?
-
-1. Create a task → !create task
-2. Edit a task → !edit [filename]
-3. Add log entry → !edit [track-home]
-4. Update status/progress → !edit [track-home]
-5. Switch track → !hi-[other-track]
-6. Close session → !bye
+- By status: [N] active, [N] blocked, [N] waiting
+- Overdue: [N] tasks
+- Due this week: [N] tasks
 ```
 
-### Interactive Menu (Optional)
+### After Overview
 
-After displaying overview, show mini-menu for common actions. User can:
-- Type number for quick action
-- Enter command directly
-- Type freeform request
+Don't show a numbered menu. Just end with context acknowledgment:
 
-### Progress Note
+```
+LLM: [Shows track overview]
 
-**Note on Progress:** The progress field in project/area frontmatter must be manually updated via `!edit`. It does not auto-calculate from task completion. Progress represents overall track completion, not just task counts.
+     Context set to p014-site-rdsg. What do you need to do?
+```
 
-To update: `!edit [track-home]` → `progress [0-100]`
-
-**Note on Summary:** The summary field provides a brief text description of current project status. It complements the progress percentage with qualitative context.
-
-To update: `!edit [track-home]` → `summary [text]`
+User can then:
+- Ask to create/edit things naturally
+- Use command shortcuts (`!create task`)
+- Ask questions
+- Switch tracks
 
 ---
 
-## Task Parsing
+## Date Handling
+
+**Timezone:** Read from cairn-pkm-user-prefs.yaml, default to America/Los_Angeles
+
+**Overdue:** due_date < current_date
+
+**Due this week:** due_date <= current_date + 7 days
+
+**Display:**
+- Normal overdue: "⚠️ 5 days overdue"
+- Critically overdue (>90 days): "⚠️ Critically overdue — needs review"
+
+---
+
+## Session Tracking
+
+Throughout the conversation, maintain awareness of:
+
+```
+- Current track context
+- Files viewed, created, modified
+- Decisions made
+- Open questions or next steps
+```
+
+This context informs:
+- Natural suggestions ("want me to mark that complete?")
+- Session wrap-up (`!bye` or "let's wrap up")
+- What to log
+
+---
+
+## Task Display Details
 
 ### Required Frontmatter
 
-| Field | Type | Values |
-|-------|------|--------|
-| title | string | Task name |
-| project | string | Track identifier |
-| created_date | date | YYYY-MM-DD |
-| status | enum | See `cmd-shared-patterns.md` Field Enums |
-| priority | enum | See `cmd-shared-patterns.md` Field Enums |
+| Field | Type | Required |
+|-------|------|----------|
+| title | string | Yes |
+| project | string | Yes |
+| created_date | date | Yes |
+| status | enum | Yes |
+| priority | enum | Yes |
 
 ### Optional Frontmatter
 
-| Field | Type | Description |
-|-------|------|-------------|
-| due_date | date | YYYY-MM-DD |
-| assignee | string | Person responsible |
-| phase | enum | See `cmd-shared-patterns.md` Field Enums |
-| effort | enum | See `cmd-shared-patterns.md` Field Enums |
-| viz | enum | See `cmd-shared-patterns.md` Field Enums |
-| parent_task | string | Filename of parent |
+due_date, assignee, phase, effort, viz, parent_task
 
-### Inline Subtasks
+See `cmd-shared-patterns.md` Field Enums for valid values.
 
-Body checkboxes in Subtasks section:
-```markdown
-### Subtasks
-- [ ] First subtask
-- [x] Completed subtask
-```
-
-### Parent-Child Relationships
-
-- Parent task: Higher-level work item
-- Child tasks: Implementation steps linked via `parent_task` field
-- Display shows hierarchy with indentation/arrows
-- Child tasks show: title, status, priority, due date (if set)
-
----
-
-## Context Persistence
+### Parent-Child Display
 
 ```
-SET on !hi-[target]: 
-  - session_active = true
-  - current_track = [target]
-  
-TRACK during session:
-  - tracks_viewed[]
-  - files_created[] (via !create)
-  - files_edited[] (via !edit)
-  - decisions[]
-  - commands_used[]
-
-USE on !bye: 
-  - Full context for log generation
-  - Primary track = current_track
-  
-CLEAR on !bye: 
-  - Session state reset
+📋 Parent Task Title
+   Status: active | Priority: high | Due: Jan 15
+   
+   Child tasks:
+   └─ Child task 1 (active, medium)
+   └─ Child task 2 (complete)
 ```
 
 ---
 
-## Freeform Input Examples
-
-**Main menu:**
-- "Create a task for the storage migration" → Prompts for track, then `!create task`
-- "What projects are active?" → Lists active projects from Tracks/
-- "Show me p14" → `!hi-p014` (with correction if needed)
-- "Edit my finance area" → `!edit _area-finance-home.md`
-
-**After track overview:**
-- "Mark the SSL task complete" → `!edit 20251220-ssl-cert.md` with status suggestion
-- "Add a note that we're waiting on vendor" → `!edit _[track]-home.md` with log entry suggestion
-- "Create a task to follow up next week" → `!create task` with track pre-filled
-
----
-
-## Command Integration
-
-| When User Says... | Route To | With Context |
-|-------------------|----------|--------------|
-| Create area/project/task/object | !create [type] | Track from session if applicable |
-| Edit [filename] | !edit [filename] | Reads from vault |
-| Add log entry | !edit [track-home] | Suggests log entry command |
-| Update status | !edit [track-home] | Suggests status update |
-| Quick note | !quicknote | Conversation context |
-| Record skill | !skills | Session context |
-
----
-
-## Error Handling
+## Error Recovery
 
 | Situation | Response |
 |-----------|----------|
-| Ambiguous input | Ask clarifying question |
-| Track not found | "Track not found. Available: [list]" |
-| Can't interpret request | "I didn't understand. Try !help for commands." |
-| No tasks found | "No active tasks in [track]" CONTINUE |
-| Task file parse error | "⚠️ Could not parse: [filename]" CONTINUE |
-| Home doc missing | "⚠️ Track home doc not found. Check track name." STOP |
+| Track not found | "I couldn't find '[name]' — did you mean one of these? [list similar]" |
+| No tasks | "No active tasks in [track]. Want to create one?" |
+| Parse error | "Had trouble reading [file] — there might be a formatting issue. Want me to take a look?" |
+| Ambiguous | "There are a few things called [x]. Which one: [list]?" |
 
 ---
 
-## Performance Notes
+## Integration
 
-| Track Size | Expected Time |
-|------------|---------------|
-| Small (<10 tasks) | ~1-2 seconds |
-| Medium (10-30 tasks) | ~2-3 seconds |
-| Large (30+ tasks) | ~3-4 seconds |
-
-For very large tracks (50+ tasks), consider filtering by viz field or status for faster display.
+| User Intent | Behavior |
+|-------------|----------|
+| "Create a task" | Use current track context, guide through creation |
+| "Mark X complete" | Find the task, confirm the change |
+| "Add a note" | Determine if task note or track log entry |
+| "I'm done" | Offer to wrap up session |
+| "Show me capacity" | Run capacity analysis |
+| "What's overdue?" | Filter and show overdue tasks |

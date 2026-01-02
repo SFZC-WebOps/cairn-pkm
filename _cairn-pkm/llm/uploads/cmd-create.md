@@ -1,118 +1,118 @@
-# !create - Unified Creation Command
-*Type: Write | Updated: 2025-12-25*
+# Creating Things
+*Type: Write | Updated: 2025-01-01*
 
-## Quick Reference
+## Overview
 
-| Command | Purpose |
-|---------|---------|
-| `!create area` | Create new area |
-| `!create project` | Create new project |
-| `!create task` | Create new task |
-| `!create object [type]` | Create new object |
+Create areas, projects, tasks, and objects through natural conversation. The system extracts what it can from context and asks only for what's missing.
 
-**Workflow:** Specify type → Interactive prompts → Review draft → Confirm → Output
+**Shortcuts:** `!create area`, `!create project`, `!create task`, `!create object [type]`
 
 ---
 
-## Initialization
+## Conversational Creation
 
-Per `cmd-shared-patterns.md`
+### How It Works
+
+User describes what they need → LLM extracts details → Shows draft → Confirms before saving.
+
+```
+User: I need to track my Q1 budget work
+
+LLM: I'll create a project for the Q1 budget.
+
+     Here's what I'm thinking:
+     
+     Project: p017-q1-budg
+     Title: Q1 Budget
+     Description: Q1 budget work
+     
+     A few questions:
+     - When do you need this done? (rough end date)
+     - How much of your time will this take? (percentage)
+     
+     (Or say "looks good" to create with defaults)
+
+User: End of January, probably 20% of my time
+
+LLM: Got it. Here's the project:
+     
+     📁 Tracks/p017-q1-budg/
+     
+     ---
+     project_id: p017-q1-budg
+     title: Q1 Budget
+     status: active
+     progress: 0
+     end_date: 2025-01-31
+     effort_percent: 20
+     ---
+     
+     Create this? (yes / adjust something)
+```
+
+### What Gets Extracted
+
+From user input, infer:
+
+| Input Pattern | Extracted |
+|---------------|-----------|
+| "Q1 budget" / "website redesign" | Title, project codes |
+| "by end of January" / "due Friday" | Dates |
+| "high priority" / "urgent" | Priority |
+| "takes about 20%" / "half my time" | effort_percent |
+| "for Martinez" / "CEO wants this" | stakeholder |
+| "I'm working on..." / "for the X project" | Track context |
+
+### What Gets Asked
+
+Only ask for what's:
+- Required and can't be inferred (e.g., which project for a task)
+- Important and wasn't mentioned (e.g., due date for something urgent)
+
+Don't ask for everything. Use sensible defaults.
 
 ---
 
-## Entity Type Detection
+## Creating Areas
 
+An area is an ongoing domain (doesn't end).
+
+**From conversation:**
 ```
-PARSE: user input
-MATCH:
-  - "area" | "area-*" → CREATE_AREA
-  - "project" | "p###-*" → CREATE_PROJECT
-  - "task" → CREATE_TASK
-  - "object [type]" | "[object-type]" → CREATE_OBJECT
-  
-IF ambiguous: Ask "Create what? (area | project | task | object [type])"
-```
+User: I need to track my personal finances
 
----
-
-## !create area
-
-### Prompts
-
-```
-Creating new area...
-
-1. Domain name? (becomes area-{domain})
-   Examples: finance, health, webops, personal
-   
-2. Brief description? (1-2 sentences)
+LLM: I'll create an area for personal finance.
+     
+     📁 Tracks/area-finance/
+        📄 _area-finance-home.md
+        📁 tasks/
+        📁 resources/
+        📁 zzz/
+     
+     Create this?
 ```
 
-### Domain Validation
+**Shortcut:** `!create area`
 
-```
-VALIDATE domain:
-  - Length: 3-15 characters
-  - Characters: lowercase letters only (a-z)
-  - No spaces, numbers, or special characters
+### Validation
 
-ON INVALID:
-  OUTPUT: "Invalid domain: '{input}'"
-  OUTPUT: "Domain must be 3-15 lowercase letters (e.g., 'finance', 'health')"
-  PROMPT: Re-enter domain
-```
-
-### Title Generation
-
-Title is auto-generated from domain name:
-- Capitalizes first letter of domain
-- If description starts with capitalized phrase, uses that
-- Otherwise uses "{Domain} Management" pattern
-
-**Examples:**
-- Domain: "finance" + Description: "Personal finance tracking" → Title: "Personal Finance"
-- Domain: "facilities" + Description: "Office space management" → Title: "Facilities Management"
-- Domain: "webops" + Description: "Web operations and infrastructure" → Title: "Web Operations"
-
-### Generation
-
-```
-CONSTRUCT: folder_path = {VAULT_PATH}/Tracks/area-{domain}/
-CONSTRUCT: home_doc = {folder_path}_area-{domain}-home.md
-
-CREATE subfolders (CRITICAL - create separately to avoid shell expansion issues):
-  mkdir -p {folder_path}resources
-  mkdir -p {folder_path}tasks
-  mkdir -p {folder_path}zzz
-```
-
-### Confirmation Preview
-
-```
-**Proposed Area:**
-- Name: area-{domain}
-- Title: {title}
-- Folder: {VAULT_PATH}/Tracks/area-{domain}/
-- Subfolders: resources/, tasks/, zzz/
-
-Review the content below before confirming:
-
-[Full YAML shown below for reference]
-```
+- Domain name: 3-15 lowercase letters (a-z only)
+- No spaces, numbers, or special characters
+- Examples: finance, health, webops, personal
 
 ### Template
 
 ```yaml
 ---
-title: {generated_title}
+title: {generated}
 type: area
 status: active
-created: {YYYY-MM-DD}
-modified: {YYYY-MM-DD}
+created: {date}
+modified: {date}
 ---
 
 ## Overview
-{user description}
+{description}
 
 ## Current Focus
 
@@ -123,148 +123,88 @@ modified: {YYYY-MM-DD}
 ## Log
 
 ---
-
-{YYYY-MM-DD HH:MM} - Setup - Area created
-
+{date} - Setup - Area created
 ---
 ```
 
-**Output:** Per `cmd-output-behavior.md`
-
 ---
 
-## !create project
+## Creating Projects
 
-### Prompts
+A project is temporary work with a goal and end date.
 
+**From conversation:**
 ```
-Creating new project...
+User: We're migrating the blog to a new platform, should take about 3 months
 
-1. System code? (3-5 letters) - What system/area is affected?
-   Examples: blog, home, work, sfzc, infra, site
-
-2. Action code? (3-5 letters) - What action is being taken?
-   Examples: migr (migration), setup, audt (audit), docs, upgr (upgrade)
-
-3. Project title?
-
-4. Brief description? (1-2 sentences)
-```
-
-### Code Validation Rules
-
-Validate system and action codes before proceeding:
-
-```
-VALIDATE code:
-  - Length: 3-5 characters
-  - Characters: lowercase letters only (a-z)
-  - No spaces, numbers, or special characters
-  - No hyphens (hyphens separate codes in project ID)
-
-ON INVALID:
-  OUTPUT: "Invalid code: '{input}'"
-  OUTPUT: "Codes must be 3-5 lowercase letters (e.g., 'blog', 'migr', 'hvac')"
-  PROMPT: Re-enter code
+LLM: I'll create a project for the blog migration.
+     
+     Next project number is 018.
+     
+     📁 Tracks/p018-blog-migr/
+        📄 _p018-blog-migr-home.md
+        📁 tasks/
+        📁 resources/
+        📁 zzz/
+     
+     Project details:
+     - Title: Blog Migration
+     - Timeline: ~3 months (end date: April 2025)
+     - Status: planning
+     
+     Who's the main stakeholder? (or skip if n/a)
 ```
 
-| Input | Valid? | Reason |
-|-------|--------|--------|
-| `blog` | ✓ | 4 letters, lowercase |
-| `migr` | ✓ | 4 letters, lowercase |
-| `BLOG` | ✗ | Must be lowercase |
-| `migration` | ✗ | Too long (9 chars, max 5) |
-| `web-ops` | ✗ | Contains hyphen |
-| `site1` | ✗ | Contains number |
-| `ab` | ✗ | Too short (2 chars, min 3) |
+**Shortcut:** `!create project`
 
-### Project Naming Best Practices
+### Project Naming
 
-**Understanding System vs Action Codes:**
+Format: `p###-{system}-{action}`
 
-Codes are flexible and context-dependent. A code can function as either system or action depending on your project:
+- `###` = Project number (user chooses)
+- `{system}` = What's being changed (3-5 letters: blog, site, infra)
+- `{action}` = What's being done (3-5 letters: migr, upgr, rdsg)
 
-**Typically System Codes** (what's being changed):
-- blog - Blog/website
-- infra - Infrastructure  
-- home - Home/personal systems
-- work - Work systems
-- site - Website/web property
-- facl - Facilities
-- hvac - HVAC system
-
-**Typically Action Codes** (what you're doing):
-- migr - Migration
-- upgr - Upgrade
-- setup - Initial setup
-- audt - Audit/review
-- docs - Documentation
-- reno - Renovation
-- impl - Implementation
-
-**Context matters:** The code "hvac" could be:
-- A system code in "p003-hvac-upgr" (upgrading the HVAC system)
-- An action code in "p003-facl-hvac" (doing HVAC work on facilities)
-
-Choose codes that make sense for your project context.
-
-**Good examples:**
-- p001-blog-migr (migrate blog platform)
-- p002-infra-upgr (upgrade infrastructure)
-- p003-home-reno (home renovation)
-- p004-site-setup (new site setup)
-- p005-facl-hvac (HVAC work on facilities)
-- p006-hvac-upgr (upgrading HVAC system)
-
-**Avoid:**
-- p001-fix-stuff (too vague)
-- p002-blog-migration (action code too long)
-
-### Generation
-
+**Ask the user for the number:**
 ```
-SCAN: {VAULT_PATH}/Tracks/ for existing p###-* folders
-CALCULATE: next_number = highest + 1, zero-padded to 3 digits
-CONSTRUCT: project_id = p{next_number}-{system}-{action}
-CONSTRUCT: folder_path = {VAULT_PATH}/Tracks/{project_id}/
-CONSTRUCT: home_doc = {folder_path}_{project_id}-home.md
-
-CREATE subfolders (CRITICAL - create separately to avoid shell expansion issues):
-  mkdir -p {folder_path}resources
-  mkdir -p {folder_path}tasks
-  mkdir -p {folder_path}zzz
+LLM: What project number do you want? 
+     (You have p001 through p003 already, but you can pick any number)
 ```
 
-### Confirmation Preview
+Users may have non-linear numbering schemes or reserved ranges.
 
-```
-**Proposed Project:**
-- Project ID: {project_id}
-- Title: {title}
-- Folder: {VAULT_PATH}/Tracks/{project_id}/
-- Subfolders: resources/, tasks/, zzz/
+**Examples:**
+- p018-blog-migr (blog migration)
+- p019-site-rdsg (site redesign)
+- p020-infr-upgr (infrastructure upgrade)
 
-Review the content below before confirming:
+### Code Validation
 
-[Full YAML shown below for reference]
-```
+- 3-5 lowercase letters only
+- No numbers, spaces, hyphens within codes
 
 ### Template
 
 ```yaml
 ---
-project_id: {project_id}
-title: {user input}
+project_id: {id}
+title: {title}
 type: project
-status: active
+status: planning
 progress: 0
 summary: ""
-created: {YYYY-MM-DD}
-modified: {YYYY-MM-DD}
+created: {date}
+modified: {date}
+start_date: {date}
+end_date: {date}
+effort_percent: {percent}
+stakeholder: {name}
+category: {category}
+flexibility: negotiable
 ---
 
 ## Overview
-{user description}
+{description}
 
 ## Current Focus
 
@@ -275,124 +215,112 @@ modified: {YYYY-MM-DD}
 ## Log
 
 ---
-
-{YYYY-MM-DD HH:MM} - Setup - Project created
-
+{date} - Setup - Project created
 ---
 ```
 
-**Output:** Per `cmd-output-behavior.md`
+### Capacity Fields
+
+These are optional but help with capacity planning:
+
+| Field | Purpose | Example |
+|-------|---------|---------|
+| effort_percent | How much of your time (0-100) | 25 |
+| peak_months | When effort is highest | [4, 5] |
+| stakeholder | Whose priority this serves | "Martinez" |
+| category | Type of work | operations, development |
+| flexibility | How moveable | fixed, negotiable, flexible |
 
 ---
 
-## !create task
+## Creating Tasks
 
-### Execution
+A task is a work item within a project or area.
 
-1. Display current date/time
-2. Infer track context (from !hi, conversation, or ask user)
-3. Prompt user for task description
-4. Extract from input: title, types, mentioned fields
-5. **Auto-generate subtasks** from task description (see below)
-6. Generate filename: `{YYYYMMDD}-{slug}.md`
-7. Show proposed filename
-8. Show draft with inferred values
-9. Interactive edit loop until `done`
-10. Output per file_operations setting
-
-### Initial Prompt
-
+**From conversation:**
 ```
-Creating new task...
+User: I need to update the SSL certificate before it expires Friday
 
-Describe the task in 1-2 sentences. I'll extract the title and generate fields.
+LLM: I'll create a task for the SSL certificate update.
+     
+     Which project is this for?
 
-Example: "Create SSL certificate renewal script that runs monthly and emails results"
-Example: "Review Q4 budget and prepare presentation for board meeting"
+User: The website redesign
 
-What task would you like to create? (help for options after draft)
-```
-
-### Intelligent Field Extraction
-
-The system intelligently extracts and infers:
-- **Title:** Main task description
-- **Types:** Based on keywords (vendor, infrastructure, security, etc.)
-- **Phase:** planning/executing/testing/closing from context
-- **Effort:** simple/moderate/complex from scope
-- **Subtasks:** Automatically broken down from task description
-
-**Subtask Auto-Generation:**
-The system analyzes your task description and automatically creates logical subtasks. For example:
-
-Input: "Schedule HVAC vendor site assessment and get quotes"
-Auto-generated subtasks:
-- [ ] Research qualified HVAC vendors
-- [ ] Contact vendors for availability
-- [ ] Schedule site assessment
-- [ ] Receive and compare quotes
-
-You can modify these during the interactive edit loop.
-
-**Section Prompt (Optional):**
-After extracting fields, prompt for section grouping:
-
-```
-Section for view grouping? (press Enter to skip)
-Examples: "Phase 1", "Backend", "Q1 Goals"
-> 
+LLM: Got it. Here's the task:
+     
+     📄 Tracks/p014-site-rdsg/tasks/20250101-ssl-cert-update.md
+     
+     ---
+     title: Update SSL certificate
+     project: p014-site-rdsg
+     priority: high
+     due_date: 2025-01-03
+     status: active
+     ---
+     
+     ### Task History
+     - 2025-01-01: Created — cert expires Friday
+     
+     ### Subtasks
+     - [ ] Generate new certificate
+     - [ ] Update server configuration
+     - [ ] Verify renewal works
+     
+     Create this?
 ```
 
-If user enters text → set `section: "{text}"`
-If user presses Enter or types "skip" → leave `section:` empty
+**Shortcut:** `!create task`
 
-Section can be added or changed later via `!edit` using `section [text]` or `section clear`.
+### What Gets Inferred
 
-### Required Fields
+| From Input | Field |
+|------------|-------|
+| "urgent" / "ASAP" / "critical" | priority: critical |
+| "by Friday" / "due Jan 15" | due_date |
+| "for John" | assignee |
+| Description content | Subtasks (auto-generated) |
+| "blocked by X" | status: blocked |
 
-| Field | Default | Notes |
-|-------|---------|-------|
-| title | (from conversation) | Must be provided |
-| project | (from context) | Track identifier |
-| priority | medium | See `cmd-shared-patterns.md` Field Enums |
-| status | active | See `cmd-shared-patterns.md` Field Enums |
+### Subtask Suggestions
 
-### Optional Fields
-
-due_date, assignee, phase, effort, viz, section, type[], parent_task
-
-### Interactive Commands
-
-See `cmd-shared-patterns.md` Field Enums for valid values.
+After creating the basic task, offer to suggest subtasks:
 
 ```
-done                 - Finalize and output
-edit [field]         - Modify any field
-status [value]       - Change status
-priority [value]     - Change priority
-phase [value]        - Change phase
-effort [value]       - Change effort estimate
-viz [value]          - Change visibility
-section [text]       - Set section for view grouping (or 'section clear')
-due [YYYY-MM-DD]     - Set due date
-due clear            - Remove due date
-type add [type]      - Add type tag
-type remove [type]   - Remove type tag
-help                 - Show available commands
+LLM: Want me to suggest some subtasks to get started?
+
+User: Sure
+
+LLM: Based on "Migrate database to new server", here are some steps:
+     
+     - [ ] Backup current database
+     - [ ] Provision new server
+     - [ ] Test migration process
+     - [ ] Execute migration
+     - [ ] Verify data integrity
+     - [ ] Update connection strings
+     
+     Add these? (yes / modify / skip)
 ```
+
+User can:
+- Accept as-is
+- Modify ("remove the backup one, I already did that")
+- Add their own ("also add 'notify stakeholders'")
+- Skip entirely
 
 ### Template
 
 ```yaml
 ---
-title: "{title}"
-project: "{track}"
-created_date: YYYY-MM-DD
-due_date: 
-assignee: {default_assignee}
+title: {title}
+project: {track}
+created_date: {date}
+due_date: {date}
+assignee: {name}
 parent_task: 
 priority: {priority}
-status: {status}
+status: active
 phase: {phase}
 effort: {effort}
 viz: 
@@ -402,7 +330,7 @@ type:
 ---
 
 ### Task History
-- YYYY-MM-DD: Created task - {reason for creation}
+- {date}: Created — {rationale}
 
 ---
 
@@ -416,134 +344,85 @@ type:
 ---
 ```
 
-**Note on Task History:** Include rationale (why this task is needed) per RC principle.
+### Field Values
 
-Examples:
-- `2025-12-21: Created task - SSL certs expiring next month`
-- `2025-12-21: Created task - board meeting requires budget review`
-
-**Output:** Per `cmd-output-behavior.md`
+See `cmd-shared-patterns.md` Field Enums for valid values:
+- status: active, blocked, complete, deferred, onhold, review, scheduled, waiting
+- priority: low, medium, high, critical
+- phase: planning, executing, testing, closing
+- effort: simple, moderate, complex
+- viz: now, next, soon, later, blocked, waiting
 
 ---
 
-## !create object
+## Creating Objects
 
-### Execution Flow
+Objects are things that span multiple projects (contacts, accounts, devices).
 
-1. Identify object type
-2. **Determine placement FIRST** (ask before gathering fields)
-3. Apply type-specific template
-4. Populate fields from conversation/prompts
-5. Use `TBD` for missing required fields
-6. Interactive edit loop until `done`
-7. Output per file_operations setting
-
-### Syntax
-
-`!create object [type]` or `!create [object-type]`
-
-Examples:
-- `!create object contact`
-- `!create credit-card`
-- `!create device`
-
-### Placement Question (Asked First)
-
+**From conversation:**
 ```
-Creating new object ({type})...
+User: I need to add a new vendor contact — Jennifer Martinez from Acme Corp
 
-Is this {type} cross-cutting (multiple tracks) or specific to one track?
+LLM: I'll create a contact for Jennifer Martinez.
+     
+     Is this specific to one project, or will you reference her across 
+     multiple projects?
 
-Enter 'cross' for Objects/, or track name like 'p003-facl-hvac'
+User: Multiple — she's our main Acme contact
+
+LLM: I'll put her in Objects/ then.
+     
+     📄 Objects/contact-jennifer-martinez.md
+     
+     ---
+     type: contact
+     first_name: Jennifer
+     last_name: Martinez
+     organization: Acme Corp
+     role: 
+     email:
+     phone:
+     status: active
+     ---
+     
+     Want to add role, email, or phone? (or "looks good" to create)
 ```
 
-**Destination:**
-- Cross-cutting: `{VAULT_PATH}/Objects/`
-- Track-specific: `{VAULT_PATH}/Tracks/{track}/resources/`
+**Shortcut:** `!create object contact`, `!create object device`, etc.
+
+### Placement Decision
+
+- **Objects/** — Cross-cutting, used by multiple tracks
+- **{track}/resources/** — Specific to one project
+
+Always ask if unclear.
 
 ### Supported Types
 
-| Type | Filename Pattern | Example |
-|------|------------------|---------|
-| contact | `contact-{firstname-lastname}.md` | `contact-hazel-frost.md` |
-| credit-card | `credit-card-{issuer}-{name}.md` | `credit-card-chase-sapphire.md` |
-| account | `account-{institution}-{type}.md` | `account-chase-checking.md` |
-| loan | `loan-{lender}.md` | `loan-lendingclub.md` |
-| utility | `utility-{provider}.md` | `utility-pge.md` |
-| telecom | `telecom-{provider}.md` | `telecom-google-fi.md` |
-| subscription | `subscription-{service}.md` | `subscription-netflix.md` |
-| device | `device-{type}-{identifier}.md` | `device-laptop-thinkpad.md` |
-| medication | `medication-{name}.md` | `medication-lisinopril.md` |
-| provider | `provider-{name}.md` | `provider-dr-smith.md` |
-| tool | `tool-{name}.md` | `tool-google-workspace.md` |
-| vendor | `vendor-{company-name}.md` | `vendor-acme-supplies.md` |
+| Type | Filename Pattern |
+|------|------------------|
+| contact | contact-{firstname-lastname}.md |
+| account | account-{institution}-{type}.md |
+| device | device-{type}-{identifier}.md |
+| vendor | vendor-{company}.md |
+| subscription | subscription-{service}.md |
+| credit-card | credit-card-{issuer}-{name}.md |
+| medication | medication-{name}.md |
+| provider | provider-{name}.md |
 
-### Field Requirements by Object Type
+### Object Templates
 
-**contact:**
-- Required: first_name, last_name
-- Recommended: role, organization, email (for professional contacts), phone
-- Optional: aliases, tags, notes
+Each type has specific fields. See `_cairn-pkm/templates/` for full templates.
 
-**device:**
-- Required: device_type, identifier
-- Recommended: manufacturer, model
-- Optional: serial_number, purchase_date, warranty_expiration
-
-**credit-card:**
-- Required: issuer, name
-- Recommended: last_four, credit_limit
-- Optional: annual_fee, rewards_program
-
-**account:**
-- Required: institution, account_type
-- Recommended: account_number (last 4), status
-- Optional: balance, interest_rate
-
-**medication:**
-- Required: name
-- Recommended: dosage, frequency, prescriber
-- Optional: purpose, side_effects, start_date
-
-**provider:**
-- Required: name, provider_type
-- Recommended: specialty, phone, address
-- Optional: insurance_accepted, office_hours
-
-**tool:**
-- Required: name
-- Recommended: type, website, purpose
-- Optional: login_url, api_docs, integrations, notes
-
-**vendor:**
-- Required: company_name
-- Recommended: contact_name, contact_email, phone, website
-- Optional: account_number, contract_terms, service_type, notes
-
-### Example Prompts (contact)
-
-```
-Contact Information:
-
-1. First name?
-2. Last name?
-3. Role/Title? (recommended for professional contacts)
-4. Organization? (recommended for professional contacts)
-5. Email? (optional)
-6. Phone? (optional)
-```
-
-### Base Template
-
+**Base structure:**
 ```yaml
 ---
 type: {object-type}
 status: active
-created: YYYY-MM-DD
-lastmod: YYYY-MM-DD
+created: {date}
+lastmod: {date}
 aliases: []
 tags: []
-# Type-specific fields below
 ---
 
 ## Overview
@@ -551,87 +430,50 @@ tags: []
 ## Details
 
 ## Notes
-
----
 ```
 
-Type-specific fields added based on object type.
-
-**Note:** full_name for contacts is auto-generated from first_name + last_name, not prompted separately.
-
-**Output:** Per `cmd-output-behavior.md`
-
 ---
 
-## Slug Generation
+## Confirmation Before Save
 
-For filenames that need slugs (tasks, some objects):
-
-**Rules:**
-- 3-4 key words from title/name
-- Lowercase, hyphenated
-- Max 40 characters
-- Remove articles (a, an, the)
-
-| Input | Slug |
-|-------|------|
-| "Fix SSL certificate chain validation" | `ssl-cert-chain-validation` |
-| "John Q. Smith" | `john-q-smith` |
-
----
-
-## Inference Patterns
-
-### Track Context
+**Always show what will be created and get explicit confirmation.**
 
 ```
-CHECK in order:
-1. Active !hi session context
-2. Conversation mentions ("for p14", "in area-finance")
-3. Most recently discussed track
-4. Ask user: "Which track is this for?"
+LLM: Here's the [entity]:
+     
+     [Show filename and path]
+     [Show full content]
+     
+     Create this? (yes / adjust something)
 ```
 
-### Priority
-
-| Phrase | Priority |
-|--------|----------|
-| urgent, critical, emergency, ASAP | critical |
-| important, high priority, soon | high |
-| normal, standard | medium |
-| nice to have, low priority, eventual | low |
-
-### Status
-
-| Phrase | Status |
-|--------|--------|
-| working on, in progress, doing | active |
-| stuck, blocked by, can't proceed | blocked |
-| waiting for, pending, expecting | waiting |
-| on hold, paused, deferred | onhold |
+Accept: "yes", "looks good", "create it", "save"
+Adjust: "change the priority to critical", "add a subtask for X"
 
 ---
 
-## Error Handling
+## Output Behavior
+
+After confirmation:
+
+1. Check prefs for file_operations setting
+2. If "write" and filesystem available → Write directly, confirm success
+3. If "download" or no filesystem → Show content, provide download link
+4. Always show where file should be placed
+
+```
+LLM: ✓ Created Tracks/p018-blog-migr/
+
+     The project is ready. Want to add tasks, or do something else?
+```
+
+---
+
+## Error Recovery
 
 | Situation | Response |
 |-----------|----------|
-| Unknown entity type | List valid types, ask to clarify |
-| Missing required field | Populate with TBD or ask user |
-| Track not found | List available tracks |
-| Conflicting information | Ask user to clarify |
-| Folder already exists (area/project) | "Already exists. Use !edit instead?" |
-| Invalid domain name | Show validation rules, prompt for valid input |
-| Invalid project code | Show validation rules, prompt for valid input |
-
-Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Integration
-
-| Works With | How |
-|------------|-----|
-| !hi | Uses session context for track inference |
-| !edit | Created entities can be edited |
-| !bye | Logs creation in session summary |
+| Can't determine type | "I'm not sure what to create — is this a project, task, area, or something else?" |
+| Missing project context for task | "Which project should this task go in?" |
+| Duplicate would be created | "There's already an area-finance. Want to open it instead?" |
+| Invalid name | "That name won't work because [reason]. How about [suggestion]?" |

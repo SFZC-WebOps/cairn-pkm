@@ -1,423 +1,244 @@
-# !bye - Session Closure
-*Type: Display/Write | Updated: 2025-12-25*
+# Session Closure
+*Type: Display/Write | Updated: 2025-01-01*
 
-## Quick Reference
+## Overview
 
-| Command | What Happens |
-|---------|--------------|
-| `!bye` | Summarizes session, generates task history + log entry, outputs session log |
+When work wraps up, the system generates a session summary with log entries. This happens proactively when work seems done, or on demand via `!bye`.
 
-Session context derived from `!hi` session tracking.
+**Shortcut:** `!bye` to close session immediately
 
 ---
 
-## Execution
+## Proactive Wrap-Up
 
-### Phase 1: Display DateTime
-
-Per `cmd-shared-patterns.md`
-
-### Phase 2: Session Summary
+When the conversation seems to be winding down:
 
 ```
-ANALYZE conversation for:
-  - tracks_viewed
-  - files_created
-  - files_edited
-  - decisions
-  - log_entries_added
-  - change_entries_created
-
-OUTPUT:
-📊 SESSION SUMMARY
-═══════════════════════════════════════════════
-
-Tracks visited: [list]
-Files created: [N] - [filenames]
-Files edited: [N] - [filenames]
-Log entries added: [N]
-Changes documented: [N] - [change_ids]
-Key decisions: [list]
-
-═══════════════════════════════════════════════
+LLM: Looks like we've covered what you needed. 
+     
+     You created 2 tasks and updated the project status.
+     
+     Want me to wrap up and generate a session log? 
+     (This captures what we did for the project record)
 ```
 
-### Phase 3: Analyze & Synthesize
+### Triggers for Wrap-Up Offer
 
-```
-SCAN FOR:
-- file_operations: created/modified/deleted
-- commands_used: commands executed
-- decisions: finalized decisions
-- problems: resolved issues
-- ai_contributions: assistant contributions
-- technical_work: development/configuration/documentation
-
-SYNTHESIZE: Problem-focused summary of session
-```
-
-### Phase 4: Task History Entry (with Rationale)
-
-```
-CREATE: "{YYYY-MM-DD}: {action} - {rationale}"
-
-RULES:
-- One line, <100 chars
-- Format: "action - reason" (RC principle)
-- Technical, factual, past tense
-
-EXAMPLES:
-  GOOD: "2025-12-20: Fixed SSL chain - certs were expiring"
-  GOOD: "2025-12-20: Deferred migration - waiting on API access"
-  BAD:  "2025-12-20: Worked on SSL stuff"
-
-OUTPUT:
-📝 SUGGESTED TASK HISTORY ENTRY:
-═══════════════════════════════════════════════
-{history_entry}
-
-Copy to relevant task or track catch-all task.
-═══════════════════════════════════════════════
-```
-
-### Phase 5: Project Status Check
-
-If primary track is a project (p###-*), prompt user to review and optionally update project state:
-
-```
-IF primary_track matches p###-*:
-  READ: project home document frontmatter
-  
-  OUTPUT:
-  📊 PROJECT STATUS CHECK
-  ═══════════════════════════════════════════════
-  Project: {project_id}
-  
-  Current state:
-  - Status: {status}
-  - Progress: {progress}%
-  - Summary: {summary or "(not set)"}
-  ═══════════════════════════════════════════════
-  
-  Update any of these? (enter field=value, or 'skip' to continue)
-  Examples: progress=75, status=blocked, summary=Waiting on vendor response
-  
-  WAIT FOR: response
-  
-  SWITCH response:
-    CASE "skip" | "no" | "n" | "":
-      CONTINUE to Phase 6
-    CASE contains "=":
-      PARSE: field=value pairs (comma or newline separated)
-      VALIDATE: 
-        - status: planning | active | onhold | complete | archived
-        - progress: 0-100
-        - summary: any text
-      UPDATE: frontmatter fields
-      UPDATE: modified date
-      OUTPUT: "✓ Updated {fields}"
-      CONTINUE to Phase 6
-    DEFAULT:
-      OUTPUT: "Format: field=value (e.g., progress=75)"
-      REPEAT prompt
-```
-
-### Phase 6: Generate Log Entry
-
-```
-DETERMINE: primary_track (see Primary Track Selection below)
-
-FORMAT:
-### {YYYY-MM-DD HH:MM} - {Type} - {Summary}
-{Past_tense_description}
-- Tracks: {primary_track} [+ others if applicable]
-- Files: {action} {filenames}
-- AI Contribution: 
-   - {contribution}
-- Change ID: {change_id if any}
-```
-
-### Phase 7: Output Session Log
-
-```
-GENERATE: filename = session-log-{YYYY-MM-DD}-{HHMMSS}.md
-CONSTRUCT: filepath = {VAULT_PATH}/Capture/{filename}
-
-CONTENT:
-# Session Log: {YYYY-MM-DD}
-Closed: {HH:MM} {TIMEZONE}
-
-## Summary
-{session summary}
-
-## Task History Entry
-{history_entry}
-
-## Log Entry
-Paste to: {VAULT_PATH}/Tracks/{primary_track}/_*-home.md (Log section)
+- User says "I think we're done" / "that's all" / "thanks"
+- Long pause after completing work
+- User asks "what did we do?" / "can you summarize?"
+- Natural end of a work sequence
 
 ---
-{formatted_log_entry}
+
+## What Gets Generated
+
+### Task History Entry
+
+A small snippet for individual task files:
+
+```
+Suggested task history entry:
+───────────────────────────────────────────────
+2025-01-01: Marked complete — auto-renewal configured
+
+Add to: 20250101-ssl-cert-update.md (Task History section)
+```
+
+This captures what happened to *that specific task*.
+
+### Project Log Entry
+
+A broader session summary for the project home:
+
+```
+Suggested log entry:
+───────────────────────────────────────────────
+2025-01-01 14:30 - Update - Security hardening session
+
+Created SSL renewal task and backup configuration.
+Set up auto-renewal to prevent future expiration issues.
+
+- Files: Created 2 tasks
+- AI contribution: Generated renewal script
+
+Add to: _p014-site-rdsg-home.md (Log section)
+```
+
+This captures what happened in *the session as a whole*.
+
+### No Separate Session Log File
+
+The useful bits go where they belong:
+- Task-specific updates → task files
+- Session summary → project home log
+
+The conversation itself serves as the ephemeral record.
+
 ---
 
-## Session Details
-- Commands used: [list]
-- Tracks touched: [list]
-- Changes documented: [list or "None"]
+## Project Status Check
 
-CALL: OUTPUT_FILE(filepath, content)
-```
-
-Output varies by file_operations setting. See `cmd-output-behavior.md`.
-
-### Phase 8: Completion
+For projects, offer to update status/progress:
 
 ```
-OUTPUT:
-✓ Session closed successfully
-✓ Task history entry ready
-✓ Log entry ready
-✓ Session log created
+LLM: Before wrapping up — project status check:
+     
+     p014-site-rdsg is currently:
+     - Status: active
+     - Progress: 50%
+     - Summary: "Sprint 2 complete"
+     
+     Want to update any of these? (or "looks good")
 
-═══════════════════════════════════════════════
-🤖 Session ended. Start new session with !hi
-═══════════════════════════════════════════════
+User: Progress is 60 now
 
-STOP
+LLM: Updated:
+     - progress: 50 → 60
+     
+     [Continues with session log generation]
 ```
 
 ---
 
-## Synthesis Rules
+## Session Log Output
 
-**Task History (with RC - Rationale Capture):**
-- One line, <100 chars, technical
-- Format: `YYYY-MM-DD: {action} - {reason}`
-- The "- {reason}" clause captures rationale
-- Examples:
-  - `2025-01-28: Fixed SSL certificate chain - validation was failing on renewal`
-  - `2025-01-28: Implemented CSV parser - needed for task dashboard display`
-  - `2025-01-28: Deferred API integration - waiting on auth documentation`
+### Output Flow
 
-**Log Entry:**
-- Past tense, max 3 lines
-- Focus on outcomes
-- Combine similar actions
+**1. Display what was generated:**
+```
+LLM: Here's a summary of what we did:
+     
+     ─────────────────────────────────────────
+     Primary track: p014-site-rdsg
+     
+     Created 2 tasks, updated project status.
+     ─────────────────────────────────────────
+     
+     Task history entry (for 20250101-ssl-cert-update.md):
+     > 2025-01-01: Configured auto-renewal — prevents future expiration
+     
+     Project log entry (for _p014-site-rdsg-home.md):
+     > 2025-01-01 14:30 - Update - Security hardening session
+     > Created SSL renewal task and backup configuration.
+```
+
+**2. Offer to write (if filesystem available):**
+```
+LLM: Want me to add these to the files?
+```
+
+**3. Or provide for manual placement:**
+```
+LLM: Copy these into your task and project home doc when you're ready.
+```
 
 ---
 
-## Primary Track Selection Logic
+## What the System Tracks
 
-Determine which track should receive the log entry using this priority order:
+Throughout the conversation:
 
-### 1. Explicit !hi Session Context (Highest Priority)
-
-If user opened track with `!hi-[target]`:
-- **Use:** That track as primary
-- **Reason:** Explicit user intent
-
-Example: User ran `!hi-p002-prod-lnch` then created a task
-→ Primary track: `p002-prod-lnch`
-
-### 2. File Operations
-
-If files were created or edited:
-- **Count:** Files per track
-- **Use:** Track with most files modified
-- **Tie:** Track where most recent file was created/edited
-
-Example: Created 2 files in p003-facl-hvac, 1 in area-facilities
-→ Primary track: `p003-facl-hvac`
-
-### 3. Track Discussion
-
-If no files but tracks were discussed:
-- **Use:** Track most mentioned in conversation
-- **Fallback:** First track mentioned
-
-Example: Discussed p002 extensively, mentioned area-admin once
-→ Primary track: `p002-prod-lnch`
-
-### 4. No Clear Track
-
-If session had no track focus:
-- **Use:** "General session - no specific track context"
-- **Note:** This in the log entry
-- **User action:** Manually place in appropriate track if desired
-
-Example: General planning discussion, no files created
-→ Primary track: None (user decides where to log)
-
-### Edge Cases
-
-**Multiple tracks equal weight:**
-- Use the first one opened/mentioned
-- List all tracks in log entry
-
-**Track created during session:**
-- New track is usually the primary (creation = focus)
-
-**Track deleted/renamed during session:**
-- Use most recent valid track name
-
-**Multi-day sessions:**
-When a session spans multiple calendar days (e.g., started Monday, closing Wednesday):
-- Use the **closing date/time** for all timestamps
-- Session log filename uses closing date: `session-log-{closing-date}-{HHMMSS}.md`
-- Task history entry uses closing date
-- Log entry timestamp uses closing date/time
-- If work spanned multiple days, note in summary: "Session spanned {start-date} to {end-date}"
-- For sessions spanning 3+ days, consider breaking into logical segments in the summary
+| Tracked | Used For |
+|---------|----------|
+| Current track context | Primary track in log |
+| Files created | Session summary |
+| Files edited | Session summary |
+| Decisions made | Key decisions list |
+| AI contributions | Log entry |
 
 ---
 
-## Log Entry Destination Guidance
+## Primary Track Selection
 
-The session log provides a formatted entry for pasting into the track's home document.
+If multiple tracks were touched, determine primary by:
 
-### Where to Paste
-
-**Single track session:**
-```
-Paste to: {VAULT_PATH}/Tracks/{primary_track}/_*-home.md
-
-Location within file: ## Log section
-Position: Add as newest entry (top of log entries)
-```
-
-**Multiple tracks session:**
-```
-Primary destination: Track with most activity
-Optional: Copy log to other touched tracks (mention primary in entry)
-
-Format for secondary tracks:
-### {YYYY-MM-DD HH:MM} - Update - Session work
-Session primarily in p003-facl-hvac. Created [file] for this track.
-- Primary session log: See p003-facl-hvac home doc
-```
-
-**No clear track:**
-```
-Option 1: File in Capture/ only (no track log entry)
-Option 2: Add to area-admin or personal tracking area
-Option 3: Distribute to relevant tracks as noted
-```
-
-### Log Entry Structure
-
-Standard format generated by !bye:
-
-```markdown
-### YYYY-MM-DD HH:MM - {Type} - {Summary}
-{Description of work in past tense, 1-3 sentences}
-- Tracks: {primary} [+ secondary if applicable]
-- Files: Created {filenames} [Edited {filenames}]
-- AI Contribution:
-   - {specific contributions}
-- Change ID: {change_id if documented via !changelog}
-```
-
-**Type values:**
-- Setup - Initial creation/configuration
-- Update - General work session
-- Decision - Decision made
-- Milestone - Significant completion
-- Issue - Problem addressed
+1. **Explicit context** — Track opened with `!hi-[track]`
+2. **Most activity** — Track with most files created/edited
+3. **Most discussed** — Track mentioned most in conversation
+4. **Ask** — If unclear, ask user
 
 ---
 
-## AI Contribution vs General Notes
+## Log Entry Format (RC Principle)
 
-Distinguish between AI-specific contributions and general session notes.
+Always include *why*, not just *what*:
 
-### AI Contribution Section
+```
+Good: "Updated SSL configuration — auto-renewal now prevents expiration"
+Bad:  "Updated SSL configuration"
+```
 
-**Include here:** Things the AI assistant specifically did
+Types: decision, update, milestone, issue, note
 
-**Format:** `- {specific_contribution}`
+---
 
-**Examples:**
-- "Generated SSL renewal script with error handling"
-- "Debugged HVAC configuration file syntax"
-- "Researched project naming conventions"
-- "Created YAML template for device objects"
-- "Validated task hierarchy structure"
+## AI Contribution Section
 
-**Don't include:**
+Document what the assistant specifically contributed:
+
+```
+- AI contribution: 
+  - Generated SSL renewal script with error handling
+  - Validated backup configuration syntax
+  - Suggested daily schedule based on usage patterns
+```
+
+Don't include:
 - User actions
 - Decisions made by user
-- General session flow
-- Commands executed
+- General conversation flow
 
-### General Description
+---
 
-**Include in main log entry:** Overall session narrative
+## Output Behavior
 
-**Examples:**
-- "Created new facilities area and HVAC project structure"
-- "Configured device and contact object templates"
-- "Planned Q1 launch with task breakdown"
+After generating summary:
 
-### Examples of Proper Separation
+1. Display summary, task history entry, and log entry in conversation
+2. Explain what each piece is for
+3. Offer to write directly (if filesystem available) or provide download
 
-**Example 1: File creation session**
-```markdown
-### 2025-12-21 15:30 - Setup - New facilities tracking
-
-Created area-facilities and p003-facl-hvac project with complete folder structure. 
-Set up device and contact object templates for HVAC vendor tracking.
-
-- Tracks: p003-facl-hvac + area-facilities
-- Files: Created 8 (area home, project home, 2 objects, 4 tasks)
-- AI Contribution:
-   - Generated project naming convention recommendations
-   - Created object templates for device and contact types
-   - Validated folder structure against architecture
 ```
-
-**Example 2: Bug fix session**
-```markdown
-### 2025-12-21 16:45 - Update - SSL certificate renewal
-
-Fixed SSL certificate validation issue causing deployment failures. 
-Implemented automated renewal script with monitoring.
-
-- Tracks: p002-prod-lnch
-- Files: Edited ssl-renewal.sh, Created monitoring.yaml
-- AI Contribution:
-   - Debugged certificate chain validation logic
-   - Generated renewal script with error handling
-   - Added monitoring configuration
-- Change ID: CHG-20251221-164530
-```
-
-**What NOT to do:**
-```markdown
-❌ BAD - AI contribution too vague:
-- AI Contribution:
-   - Helped with the session
-   - Answered questions
-
-❌ BAD - User actions in AI contribution:
-- AI Contribution:
-   - User created area-facilities
-   - Session involved planning
-
-✓ GOOD - Specific AI contributions only:
-- AI Contribution:
-   - Generated folder structure commands
-   - Created object template examples
+LLM: ✓ Session wrapped up.
+     
+     Don't forget to add the log entry to your project home doc!
 ```
 
 ---
 
-## Error Handling
+## Shortcut: !bye
+
+For experienced users who want to skip the conversation:
+
+```
+!bye
+```
+
+Immediately generates:
+- Session summary
+- Task history entry  
+- Log entry
+
+Skips the project status check prompt.
+
+---
+
+## Multi-Day Sessions
+
+When a session spans multiple calendar days:
+
+- Use **closing date** for all timestamps
+- Note in summary: "Session spanned Dec 30 to Jan 1"
+- Single session log file with closing date
+
+---
+
+## Error Recovery
 
 | Situation | Response |
 |-----------|----------|
-| No session context | Analyze conversation directly, note "No formal session detected" |
-| No tracks touched | "General session - no specific track context" |
-| Empty session | Note in summary, proceed with close |
-| Output failure | Fall back per GFC (see cmd-output-behavior.md) |
-
-Common errors: See `cmd-shared-patterns.md`
+| No session context | Generate summary from conversation analysis |
+| No tracks touched | "General session — no specific project context" |
+| Can't determine primary track | Ask user which track to log to |
+| Write fails | Fall back to download, show content |

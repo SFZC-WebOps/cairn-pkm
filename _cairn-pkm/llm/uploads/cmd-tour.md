@@ -1,508 +1,298 @@
-# !tour - Guided Onboarding
-*Type: Interactive | Updated: 2025-12-22*
-
-## Quick Reference
-
-| Command | Purpose |
-|---------|---------|
-| `!tour` | Start guided tour of Cairn-PKM |
-| `!tour [step]` | Jump to specific step (1-5) |
-
-**Duration:** 5-7 minutes
-**Mode:** Non-destructive (display only, regardless of user prefs)
-
----
+# Learning Cairn-PKM
+*Type: Interactive | Updated: 2025-01-01*
 
 ## Overview
 
-Interactive walkthrough for new users. Teaches core concepts through hands-on exploration of sample data. Creates nothing permanent""shows what *would* happen.
+New users learn by doing, not by reading a manual. The system teaches through conversation — answer questions, explain concepts in context, demonstrate with real examples.
 
-**Philosophy:** Learn by doing, not reading. Cover the 80/20.
-
----
-
-## Initialization
-
-Per `cmd-shared-patterns.md`, plus:
-
-```
-OVERRIDE: file_operations = "display" (tour mode)
-SET: tour_active = true
-SET: current_step = 1
-```
+**Shortcut:** `!tour` triggers guided exploration mode
 
 ---
 
-## Tour Controls
+## Philosophy
 
-Numerical menu at each step:
+**Don't lecture. Respond.**
 
-| Input | Action |
-|-------|--------|
-| `1` | Continue to next step |
-| `2` | Skip current step |
-| `3` | Go back to previous step |
-| `4` | Exit tour |
+Instead of a 5-step walkthrough, be ready to answer:
+- "How does this work?"
+- "Show me an example"
+- "What can you do?"
+- "I don't understand X"
 
-Step 3 (task creation) has special input handling for task description.
-
----
-
-## Execution
-
-### Welcome
-
-```
-OUTPUT:
-═══════════════════════════════════════════════════════════════
-🗺️  CAIRN-PKM TOUR
-═══════════════════════════════════════════════════════════════
-
-Welcome! This 5-minute tour will show you how Cairn-PKM works.
-
-You'll learn to:
-"¢ Navigate the vault structure
-"¢ View a project and its tasks
-"¢ Create a task (preview only""nothing saved)
-"¢ Close a session properly
-
-Everything is non-destructive. You're just exploring.
-
-1. Start tour
-2. Exit
-
-Enter number:
-═══════════════════════════════════════════════════════════════
-```
-
-### Step 1: Orient (30-60 sec)
-
-```
-OUTPUT:
-───────────────────────────────────────────────────────────────
-STEP 1 of 5: THE VAULT STRUCTURE
-───────────────────────────────────────────────────────────────
-
-Cairn-PKM organizes everything into five domains:
-
-📁 _cairn-pkm/     System files (don't edit""replace to update)
-📁 _local/         Your customizations (templates, data, views)
-📁 Capture/        Inbox for quick notes
-📁 Objects/        Cross-cutting entities (contacts, devices, etc.)
-📁 Tracks/         Where work lives
-
-Inside Tracks/, you have two types:
-
-  📂 area-{name}/      Ongoing domains (finance, health, work)
-  📂 p###-{sys}-{act}/ Temporary projects (p001-blog-migr)
-
-Each track has the same internal structure:
-  _*-home.md    ← Source of truth
-  resources/    ← Supporting materials  
-  tasks/        ← Work items
-  zzz/          ← Completed/archived
-
-That's it. Five domains, two track types, consistent structure.
-
-───────────────────────────────────────────────────────────────
-1. Continue
-2. Skip this step
-3. Exit tour
-
-Enter number:
-───────────────────────────────────────────────────────────────
-```
-
-### Step 2: Explore a Track (1-2 min)
-
-```
-OUTPUT:
-───────────────────────────────────────────────────────────────
-STEP 2 of 5: EXPLORING A PROJECT
-───────────────────────────────────────────────────────────────
-
-Let's look at a sample project. In real use, you'd type:
-
-  !hi-p001-home-office
-
-I'll show you what that displays...
-
-EXECUTE: 
-  READ: {VAULT_PATH}/Tracks/p001-home-office/_p001-home-office-home.md
-  READ: All tasks in p001-home-office/tasks/
-  DISPLAY: Track overview (same format as !hi-[target])
-
-OUTPUT after track display:
-───────────────────────────────────────────────────────────────
-
-What you just saw:
-
-"¢ **Overview** "" What this project is about
-"¢ **Current Focus** "" What's happening now
-"¢ **Recent Activity** "" Log entries with timestamps
-"¢ **Active Tasks** "" All open work items with status, priority, due dates
-"¢ **Task Summary** "" Counts by status and priority
-
-The !hi-[track] command is your main way to see what's happening.
-
-TIP: Notice how tasks show parent-child relationships and subtasks.
-     This helps you see both the big picture and the details.
-
-───────────────────────────────────────────────────────────────
-1. Continue
-2. Skip this step  
-3. Go back
-4. Exit tour
-
-Enter number:
-───────────────────────────────────────────────────────────────
-```
-
-### Step 3: Create a Task (2-3 min)
-
-```
-OUTPUT:
-───────────────────────────────────────────────────────────────
-STEP 3 of 5: CREATING A TASK
-───────────────────────────────────────────────────────────────
-
-Now let's create a task. In real use, you'd type:
-
-  !create task
-
-Then describe what you need. Let me walk you through it...
-
-───────────────────────────────────────────────────────────────
-
-Creating new task...
-
-Describe the task in 1-2 sentences, or:
-
-1. Use example task
-2. Skip this step
-3. Go back
-4. Exit tour
-
-Enter description or number:
-
-PARSE INPUT:
-  IF "1" or "example": USE "Schedule stakeholder demo to review portal features before launch"
-  IF "2": SKIP to Step 4
-  IF "3": GO BACK to Step 2
-  IF "4": EXIT tour
-  ELSE: USE input as task description
-
-OUTPUT:
-───────────────────────────────────────────────────────────────
-
-I extracted from your description:
-
-**Proposed Task:**
-- Title: Schedule stakeholder demo for portal review
-- Track: p001-home-office (from tour context)
-- Priority: medium (default)
-- Status: active (default)
-- Phase: planning (inferred from "schedule")
-
-**Auto-generated subtasks:**
-- [ ] Identify key stakeholders to invite
-- [ ] Check calendars for available slots
-- [ ] Send meeting invite with agenda
-- [ ] Prepare demo environment
-- [ ] Document feedback from demo
-
-GENERATE and display full task file:
-
-📄 FILE PREVIEW (tour mode""not saved)
-═══════════════════════════════════════════════════════════════
-Filename: 20251222-schedule-stakeholder-demo.md
-Path: Tracks/p001-home-office/tasks/20251222-schedule-stakeholder-demo.md
-
----
-title: "Schedule stakeholder demo for portal review"
-project: "p001-home-office"
-created_date: 2025-12-22
-due_date: 
-assignee: ""
-parent_task: 
-priority: medium
-status: active
-phase: planning
-effort: simple
-viz: 
-type:
-  - coordination/scheduling
----
-
-### Task History
-- 2025-12-22: Created task - stakeholder approval needed before launch
+Teach in the moment, using the user's actual vault when possible.
 
 ---
 
-### Subtasks
-- [ ] Identify key stakeholders to invite
-- [ ] Check calendars for available slots
-- [ ] Send meeting invite with agenda
-- [ ] Prepare demo environment
-- [ ] Document feedback from demo
+## When User is New
 
----
+Detect new users by:
+- Empty or minimal vault (no projects/areas created)
+- Questions like "how do I get started?" or "what is this?"
+- Explicit "I'm new here" or `!tour`
 
-### Notes
-
----
-═══════════════════════════════════════════════════════════════
-
-In real use, you could edit any field before saving:
-  "¢ priority high
-  "¢ due 2025-01-15
-  "¢ subtask Add another item
-  "¢ done (to save)
-
-This is PREVIEW ONLY. Nothing was saved.
-
-───────────────────────────────────────────────────────────────
-1. Continue
-2. Skip this step
-3. Go back
-4. Exit tour
-
-Enter number:
-───────────────────────────────────────────────────────────────
-```
-
-### Step 4: Close a Session (1 min)
+### First Contact
 
 ```
-OUTPUT:
-───────────────────────────────────────────────────────────────
-STEP 4 of 5: CLOSING A SESSION
-───────────────────────────────────────────────────────────────
+LLM: Welcome to Cairn-PKM! 
 
-When you're done working, close with:
-
-  !bye
-
-This does three things:
-
-1. **Summarizes** what happened (tracks visited, files touched)
-2. **Generates a task history entry** you can paste into tasks
-3. **Creates a log entry** for the track's home document
-
-Here's what !bye would produce for this tour session:
-
-GENERATE sample !bye output:
-
-📊 SESSION SUMMARY
-═══════════════════════════════════════════════════════════════
-
-Tracks visited: p001-home-office
-Files created: 0 (tour mode)
-Files edited: 0
-Log entries added: 0
-Key decisions: Explored task creation workflow
-
-═══════════════════════════════════════════════════════════════
-
-📝 SUGGESTED TASK HISTORY ENTRY:
-═══════════════════════════════════════════════════════════════
-2025-12-22: Completed Cairn-PKM tour - learning system basics
-
-Copy to relevant task or track catch-all task.
-═══════════════════════════════════════════════════════════════
-
-Why close sessions? It builds a log of what you did and why.
-Your future self will thank you.
-
-───────────────────────────────────────────────────────────────
-1. Continue
-2. Skip this step
-3. Go back
-4. Exit tour
-
-Enter number:
-───────────────────────────────────────────────────────────────
+     This is a system for organizing your work — projects, tasks, notes —
+     using plain text files that you own forever.
+     
+     I can help you navigate it, create things, track what's happening.
+     
+     What would you like to do?
+     - Start tracking a project you're working on
+     - See how the system is organized
+     - Just ask me anything
 ```
 
-### Step 5: Next Steps (30 sec)
+### Learning Through Action
+
+The best way to learn is to do something real:
 
 ```
-OUTPUT:
-───────────────────────────────────────────────────────────────
-STEP 5 of 5: WHAT'S NEXT
-───────────────────────────────────────────────────────────────
+User: I want to track a project
 
-You've seen the core workflow:
+LLM: Great — tell me about it. What are you working on?
 
-  !hi          → Open menu or view a track
-  !create      → Make areas, projects, tasks, objects
-  !edit        → Modify anything
-  !bye         → Close session with logging
+User: Redesigning our company website
 
-Other commands to explore:
-
-  !capture     → Save ideas and links quickly
-  !changelog   → Document system changes
-  !skills      → Track skill evidence
-  !help        → Command reference
-
-**Recommended first steps:**
-
-1. Create your first area:
-   !create area
-   
-   Start with something like "personal" or "work"
-
-2. Add a real task:
-   !create task
-   
-   Something you actually need to do
-
-3. Explore the sample project more:
-   !hi-p001-home-office
-   
-   Try editing a task: !edit [filename]
-
-**Getting help:**
-
-"¢ _ARCHITECTURE.md "" Full system documentation
-"¢ _INSTALLATION.md "" Setup and configuration
-"¢ cmd-*.md files "" Detailed command specs
-
-───────────────────────────────────────────────────────────────
-```
-
-### Completion
-
-```
-OUTPUT:
-═══════════════════════════════════════════════════════════════
-🎉 TOUR COMPLETE
-═══════════════════════════════════════════════════════════════
-
-You're ready to use Cairn-PKM.
-
-Remember:
-"¢ Start small "" one area, a few tasks
-"¢ Grow organically "" add structure when you need it
-"¢ Close sessions with !bye "" your logs will thank you
-
-What's next?
-
-1. Start working (!hi)
-2. Create your first area (!create area)
-3. Retake tour (!tour)
-
-Enter number or any command:
-═══════════════════════════════════════════════════════════════
-
-CLEAR: tour_active = false
-
-IF input is 1: EXECUTE !hi
-IF input is 2: EXECUTE !create area
-IF input is 3: EXECUTE !tour
-ELSE: EXECUTE input as command
-
-STOP
+LLM: Got it. I'll set up a project for the website redesign.
+     
+     [Creates project structure, explaining as it goes]
+     
+     Here's what I created:
+     
+     📁 Tracks/p001-site-rdsg/
+        📄 _p001-site-rdsg-home.md  ← This is the source of truth
+        📁 tasks/                    ← Your work items go here  
+        📁 resources/                ← Supporting materials
+        📁 zzz/                      ← Archive for completed stuff
+     
+     The "home" document is where you track progress, make notes,
+     and see what's happening. Want me to show you what's in it?
 ```
 
 ---
 
-## Early Exit Handling
+## Common New User Questions
+
+### "How is this organized?"
 
 ```
-ON input "4" (exit) at any step:
+LLM: Everything lives in five areas:
 
-OUTPUT:
-═══════════════════════════════════════════════════════════════
+     📁 Tracks/     → Where your work lives
+        ├─ area-*   → Ongoing domains (like "finance" or "health")
+        └─ p###-*   → Temporary projects (like "website-redesign")
+     
+     📁 Objects/    → Things that cross multiple projects
+                      (contacts, accounts, devices)
+     
+     📁 Capture/    → Quick inbox for stuff you'll sort later
+     
+     📁 _cairn-pkm/ → System files (don't touch, I handle these)
+     📁 _local/     → Your customizations
+     
+     Most of your time is in Tracks/ — that's where work happens.
+```
 
-Tour ended early. No problem!
+### "What's a track?"
 
-You completed: Steps 1-{current_step - 1}
-You skipped: Steps {current_step}-5
+```
+LLM: A track is a container for related work. There are two kinds:
 
-What's next?
+     **Areas** are ongoing — they don't end.
+     Like "finance" (you always have finances) or "health."
+     
+     **Projects** are temporary — they have a goal and finish.
+     Like "website-redesign" or "Q1-budget."
+     
+     Both have the same structure inside:
+     - A "home" document (the source of truth)
+     - tasks/ folder (work items)
+     - resources/ folder (supporting stuff)
+     - zzz/ folder (archive)
+```
 
-1. Resume tour (!tour)
-2. Start fresh (!tour 1)  
-3. Start working (!hi)
-4. Create first area (!create area)
+### "What can you do?"
 
-Enter number or any command:
-═══════════════════════════════════════════════════════════════
+```
+LLM: I can help you:
 
-CLEAR: tour_active = false
+     - Create projects, areas, tasks, and objects
+     - Show you what's happening in a project
+     - Edit things (mark tasks complete, update status, add notes)
+     - Capture quick notes for later
+     - Track your capacity across projects
+     - Document changes you make (changelogs)
+     - Record skill evidence from your work
+     
+     Just tell me what you need in plain language.
+     
+     Or if you know what you want, there are shortcuts:
+     !hi, !create, !edit, !capture, !capacity, !skills, !bye
+```
 
-IF input is 1: EXECUTE !tour (resumes at current_step)
-IF input is 2: EXECUTE !tour 1
-IF input is 3: EXECUTE !hi
-IF input is 4: EXECUTE !create area
-ELSE: EXECUTE input as command
+### "Show me an example"
 
-STOP
+Use sample data if present, or create a hypothetical:
+
+```
+LLM: Here's what a real project looks like:
+
+     [Shows p002-prod-lnch overview if it exists]
+     
+     See how it has:
+     - A status and progress indicator
+     - Current focus (what's happening now)
+     - A log of activity (decision trail)
+     - Active tasks with priorities and due dates
+     
+     The tasks are separate files in the tasks/ folder.
+     Everything is plain markdown — you can edit it in Obsidian directly.
+```
+
+### "What's a task look like?"
+
+```
+LLM: A task is a markdown file with some structure:
+
+     ```yaml
+     ---
+     title: "Update SSL certificate"
+     project: "p014-site-rdsg"
+     status: active
+     priority: high
+     due_date: 2025-01-15
+     ---
+     
+     ### Task History
+     - 2025-01-01: Created task — cert expires Jan 20
+     
+     ### Subtasks
+     - [ ] Generate new certificate
+     - [ ] Update server config
+     - [ ] Test renewal
+     
+     ### Notes
+     Current cert from Let's Encrypt, auto-renewal broke.
+     ```
+     
+     The YAML at the top is metadata. The rest is for you.
 ```
 
 ---
 
-## Step Jump Handling
+## Guided Exploration Mode
+
+When user says `!tour` or "give me a tour":
 
 ```
-ON "!tour [N]" where N is 1-5:
+LLM: Let's explore your vault together.
+     
+     [Scans vault structure]
+     
+     You have:
+     - [N] projects in Tracks/
+     - [N] areas in Tracks/  
+     - [N] objects in Objects/
+     - [N] items in Capture/
+     
+     Want to:
+     - Look at a specific project?
+     - Create something new?
+     - Understand how something works?
+     
+     Or just ask me anything.
+```
 
-SET: current_step = N
-EXECUTE: Step N
+**Non-destructive by default:** When exploring or demonstrating, show what *would* happen but don't make changes unless explicitly confirmed.
 
-ON "!tour [N]" where N is invalid:
+---
 
-OUTPUT: "Invalid step. Use !tour 1 through !tour 5"
+## Teaching Moments
+
+Look for opportunities to explain in context:
+
+**When creating a task:**
+```
+LLM: I'll add this to the task history:
+     "2025-01-01: Created task — SSL cert expires soon"
+     
+     (Task history is the audit trail — it shows why things happened,
+     not just what. Your future self will thank you.)
+```
+
+**When showing capacity:**
+```
+LLM: You're at 85% in February. That's the sum of effort_percent
+     across your active projects. Over 100% means you're overcommitted.
+```
+
+**When wrapping up:**
+```
+LLM: I'll generate a session log — it captures what we did so you
+     have a record. This goes in the track's home doc.
 ```
 
 ---
 
-## Sample Data Dependency
+## Handling Confusion
 
-The tour uses the example content included in the distribution:
+```
+User: I don't understand how this works
 
-- `Tracks/area-admin/` "" Example area
-- `Tracks/p001-home-office/` "" Example project (primary tour focus)
-- `Objects/` "" Sample object files
-- `Capture/` "" Example quick notes
+LLM: What part is confusing? I can explain:
+     
+     - The overall structure (where things live)
+     - How tasks work
+     - How projects vs areas differ
+     - Something specific you're trying to do
+     
+     Or show me what you're stuck on and I'll help.
+```
 
-If user has already deleted sample data, the tour gracefully degrades (see Error Handling).
+```
+User: This is overwhelming
+
+LLM: Let's simplify. You only need to know three things to start:
+     
+     1. Tell me what you're working on → I create the project
+     2. Tell me what you need to do → I create tasks  
+     3. Tell me when you're done → I log the progress
+     
+     Everything else you can learn as you go. What are you working on?
+```
 
 ---
 
-## Error Handling
+## Sample Data
 
-| Situation | Response |
-|-----------|----------|
-| Sample data missing | "Sample project (p001-home-office) not found. Already cleaned up? No problem""I'll demonstrate with a hypothetical example instead." Then continue with simulated data. |
-| Sample data partial | Use what exists, simulate what's missing |
-| Step out of range | "Invalid step. Use !tour 1 through !tour 5" |
-| Unknown command during tour | "Tour command not recognized. Type 'help' for controls." |
-| User tries to save during tour | "Tour mode is preview-only. Exit tour (!done) to create real files." |
+If the vault includes example content (p002-prod-lnch, area-admin, etc.):
 
-**Graceful degradation:** If sample data has been deleted, the tour should still work by showing simulated/example output rather than failing. The learning value is in seeing the *format* and *workflow*, not the specific sample content.
+- Use it for demonstrations
+- Reference it when explaining concepts
+- Let users explore it safely
+
+If sample data has been deleted:
+
+- Use hypotheticals
+- Offer to create starter content
+- Focus on the user's actual needs
 
 ---
 
 ## Integration
 
-| Works With | How |
-|------------|-----|
-| !hi | Tour demonstrates !hi-[target] usage |
-| !create | Tour simulates !create task flow |
-| !bye | Tour shows !bye output format |
-| Sample data | Requires p001-home-office with tasks |
+The tour isn't separate from normal operation — it's the same conversation, just with more explanation for new users. As users become comfortable, explanations naturally decrease.
 
----
+**Experienced user signals:**
+- Uses command shortcuts
+- Asks specific questions
+- Doesn't need concepts explained
 
-## Design Notes
-
-**Why linear?** New users don't know what they don't know. A menu would require decisions they can't make yet.
-
-**Why display-only?** Removes fear of breaking things. They can experiment freely, then commit when ready.
-
-**Why 5 steps?** Cognitive limit. More steps = more dropoff. These five cover the essential loop: navigate → create → close.
-
-**Why sample project?** Abstract explanations don't stick. Seeing real (sample) data makes concepts concrete.
+**New user signals:**
+- Asks "how do I..."
+- Expresses confusion
+- Explores rather than commands

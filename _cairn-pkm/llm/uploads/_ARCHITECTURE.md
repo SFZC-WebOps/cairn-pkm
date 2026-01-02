@@ -2,17 +2,18 @@
 
 Personal knowledge management system built on plain markdown files. Designed for clarity, portability, and longevity.
 
-*Version: 0.5.0 | Last Updated: 2025-12-25*
+*Version: 0.5.0 | Last Updated: 2025-12-31*
 
 ---
 
 ## Core Principles
 
-1. **Co-location** — Everything for a project lives in its folder
-2. **Plain text** — Markdown + YAML frontmatter, no proprietary formats
-3. **Two track types** — Areas (ongoing) and Projects (temporary)
-4. **Portable core** — `_cairn-pkm/` can be updated by replacing the folder
-5. **AI-friendly** — LLMs can read and work with your notes directly
+1. **LLM as reasoning engine, not storage** — The vault holds the truth. The LLM loads it, reasons over it, and produces outputs. Each conversation starts fresh from your actual data.
+2. **Conversation as interface** — Instead of learning a tool's UI, you talk. Natural language is the command line.
+3. **Co-location** — Everything for a project lives in its folder
+4. **Plain text** — Markdown + YAML frontmatter, no proprietary formats
+5. **Two track types** — Areas (ongoing) and Projects (temporary)
+6. **Portable core** — `_cairn-pkm/` can be updated by replacing the folder
 
 
 ## Status
@@ -188,10 +189,20 @@ end_date: YYYY-MM-DD
 budget: "5000"
 priority: low | medium | high | critical
 progress: 0                   # 0-100, manually updated via !edit
-summary: ""                   # Brief status description, updated via !edit
+
+# Capacity planning fields (projects)
+effort_percent: 0             # 0-100, your time commitment (20 = one day/week)
+peak_start: YYYY-MM-DD        # When intense phase begins
+peak_end: YYYY-MM-DD          # When intense phase ends
+stakeholder: ""               # Whose priority (name, department, "self")
+category: operations          # operations | development | planning | event | compliance
+flexibility: negotiable       # fixed | negotiable | flexible
+recurrence: ""                # For cyclical work: "annual", "quarterly", "Q4"
 
 # Area-specific fields
 review_cycle: weekly | monthly | quarterly | yearly
+
+summary: ""                   # Brief status description, updated via !edit
 ---
 ```
 
@@ -209,6 +220,20 @@ review_cycle: weekly | monthly | quarterly | yearly
 - Complements progress percentage with qualitative context
 - Update via: `!edit [track-home]` → `summary [text]`
 - Optional: Can be omitted if not needed
+
+
+**Capacity Planning Fields (Projects):**
+
+| Field | Purpose | Notes |
+|-------|---------|-------|
+| `effort_percent` | Your time commitment | 20 = ~1 day/week, 100 = full-time |
+| `peak_start/end` | Intense phase dates | For projects with variable intensity |
+| `stakeholder` | Who this is for | Name, department, or "self" |
+| `category` | Type of work | See Field Enums in cmd-shared-patterns.md |
+| `flexibility` | How moveable | fixed (hard deadline), negotiable, flexible |
+| `recurrence` | Cyclical pattern | "annual", "quarterly", "Q4", etc. |
+
+These fields enable capacity analysis views showing commitment levels across time periods.
 
 ### Required Sections
 
@@ -494,6 +519,9 @@ Cairn-PKM provides conversational commands for working with the system through L
 - `!skills` - Track skill evidence with framework-agnostic competency analysis
 - `!changelog` - Document changes with YAML-structured entries
 
+**Analysis & Planning:**
+- `!capacity` - Visualize time commitments across projects, identify overcommitment periods
+
 
 ### How Commands Work
 
@@ -618,4 +646,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*Architecture Version: 0.5.0 | Last Updated: 2025-12-25*
+*Architecture Version: 0.5.0 | Last Updated: 2025-12-31*

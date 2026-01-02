@@ -1,114 +1,93 @@
-# !capture - Quick Capture
-*Type: Read/Write | Updated: 2025-12-25*
+# Quick Capture
+*Type: Read/Write | Updated: 2025-01-01*
 
-## Quick Reference
+## Overview
 
-| Command | What Happens |
-|---------|--------------|
-| `!capture` | Capture from conversation context (URL or insight) |
-| `!capture [topic]` | Capture with explicit topic focus |
+Capture ideas, links, and insights from conversation quickly. Saves to Capture/ for later processing.
 
-**Workflow:** `!capture` → Auto-detect content type → Extract → Save to Capture/
+**Shortcut:** `!capture`
 
 ---
 
-## Initialization
+## Natural Capture
 
-Per `cmd-shared-patterns.md`
+### From Conversation Context
+
+```
+User: Oh, that article about SSL certificates was really useful
+
+LLM: Want me to capture that for later?
+
+User: Yes
+
+LLM: [Creates capture file]
+
+     ✓ Captured to: cap-2025-01-01-143022-ssl-certificates.md
+     
+     Title: SSL Certificate Best Practices
+     Source: https://example.com/ssl-guide
+     Why captured: Referenced in security discussion
+```
+
+### URL Capture
+
+When a URL is shared:
+
+```
+User: Check out this article: https://example.com/productivity-tips
+
+LLM: Want me to capture that link?
+
+User: Yes, I want to read it later
+
+LLM: [Fetches page, extracts details]
+
+     Capturing:
+     - Title: 10 Productivity Tips for 2025
+     - Source: example.com
+     - Why: To read later
+     
+     Save this?
+```
+
+### Insight Capture
+
+When discussing something worth remembering:
+
+```
+User: We decided to use monthly billing instead of annual
+
+LLM: That sounds like a decision worth capturing. Want me to save it?
+
+User: Yes
+
+LLM: Capturing:
+     - Topic: Billing frequency decision
+     - Decision: Monthly billing instead of annual
+     - Context: [from conversation]
+     
+     Save this?
+```
 
 ---
 
-## Execution
+## Shortcut: !capture
 
-### Phase 1: Display DateTime
-
-Per `cmd-shared-patterns.md`
-
-### Phase 2: Detect Content Type
+Immediately scans conversation and captures:
 
 ```
-SCAN conversation for:
-  1. URL presence → URL_CAPTURE
-  2. No URL → INSIGHT_CAPTURE
+!capture
 ```
 
-### Phase 3: Extract
-
-**URL_CAPTURE:**
-```
-FETCH: URL content
-EXTRACT:
-  - title: Page title
-  - source: Domain
-  - description: Meta description or first paragraph (2-3 sentences max)
-  - capture_reason: Why this came up in conversation
-```
-
-**INSIGHT_CAPTURE:**
-```
-EXTRACT:
-  - topic: Main subject discussed
-  - key_points: Core insights (3-5 bullets max)
-  - decisions: Any decisions made (if applicable)
-  - capture_reason: What prompted capturing this
-```
-
-### Phase 4: Generate File
-
-```
-FILENAME: cap-{YYYY}-{MM}-{DD}-{HHMMSS}-{slug}.md
-PATH: {VAULT_PATH}/Capture/{filename}
-
-NOTE: Legacy files may use `qn-` prefix (quicknote). Both are valid.
-
-# Apply encoding fix (see cmd-shared-patterns.md)
-content = ftfy.fix_text(content)
-```
-
-### Phase 5: Propose & Confirm
-
-```
-OUTPUT: "📋 PROPOSED CAPTURE"
-OUTPUT: "═══════════════════════════════════════════════"
-OUTPUT: "Filename: {filename}"
-OUTPUT: "Path: {filepath}"
-OUTPUT: ""
-OUTPUT: {content}
-OUTPUT: "═══════════════════════════════════════════════"
-OUTPUT: ""
-OUTPUT: "Save this? (yes / edit / cancel)"
-
-WAIT FOR: response
-
-SWITCH response:
-  CASE "yes" | "y" | "save":
-    PROCEED to Phase 6
-  CASE "edit":
-    PROMPT: "What would you like to change?"
-    APPLY changes
-    REPEAT Phase 5
-  CASE "cancel" | "no" | "n":
-    OUTPUT: "Capture cancelled."
-    STOP
-```
-
-### Phase 6: Output
-
-```
-# VBM: Verify before modify
-VERIFY: Capture/ directory exists
-STATE: "Creating {filename} in Capture/"
-
-CALL: OUTPUT_FILE(filepath, content)
-```
-
-Output varies by file_operations setting. See `cmd-output-behavior.md`.
-
-**Complete:** Per `cmd-shared-patterns.md`
+**Behavior:**
+1. Scans recent conversation for URLs or key insights
+2. Extracts relevant content
+3. Shows draft capture
+4. Confirms before saving
 
 ---
 
-## Templates
+## Capture Format
 
 ### URL Capture
 
@@ -116,9 +95,9 @@ Output varies by file_operations setting. See `cmd-output-behavior.md`.
 ---
 type: capture
 capture_type: url
-title: "{title}"
+title: "{page title}"
 source: "{url}"
-captured: {YYYY-MM-DD}
+captured: 2025-01-01
 processed: false
 tags: []
 ---
@@ -126,13 +105,13 @@ tags: []
 # {title}
 
 **Source:** {url}
-**Captured:** {YYYY-MM-DD HH:MM}
+**Captured:** 2025-01-01 14:30
 
 ## Description
-{description}
+{meta description or first paragraph}
 
 ## Why Captured
-{capture_reason}
+{reason from conversation}
 
 ## Notes
 
@@ -146,17 +125,16 @@ tags: []
 type: capture
 capture_type: insight
 title: "{topic}"
-captured: {YYYY-MM-DD}
+captured: 2025-01-01
 processed: false
 tags: []
 ---
 
 # {topic}
 
-**Captured:** {YYYY-MM-DD HH:MM}
+**Captured:** 2025-01-01 14:30
 
 ## Key Points
-- {point}
 - {point}
 - {point}
 
@@ -164,76 +142,77 @@ tags: []
 {decisions or "None"}
 
 ## Why Captured
-{capture_reason}
+{capture reason}
 
 ## Notes
 
 ---
 ```
 
-**Frontmatter Fields:**
-
-| Field | Purpose |
-|-------|--------|
-| `type` | Always "capture" for Dataview filtering |
-| `capture_type` | "url" or "insight" for sub-filtering |
-| `title` | For display in queries |
-| `source` | URL (url captures only) |
-| `captured` | Date for sorting |
-| `processed` | Set to `true` when item leaves inbox |
-| `tags` | Optional categorization |
-
 ---
 
-## Slug Generation
+## File Naming
 
-**Rules:**
+**Format:** `cap-{YYYY}-{MM}-{DD}-{HHMMSS}-{slug}.md`
+
+**Slug rules:**
 - 3-4 key words from title/topic
 - Lowercase, hyphenated
 - Max 40 characters
-- Remove articles (a, an, the)
 
 **Examples:**
-- "How to Configure SSL Certificates" → `ssl-certificates-config`
-- "Discussion about Q1 budget priorities" → `q1-budget-priorities`
+- cap-2025-01-01-143022-ssl-certificates.md
+- cap-2025-01-01-150000-billing-decision.md
 
 ---
 
-## Capture Reason Extraction (RC Principle)
+## Why Captured (RC Principle)
 
-The "Why Captured" field implements Rationale Capture (RC) - preserving the *why* so future-you understands context. Extract from conversation:
+Always capture *why* something is being saved:
 
-| Conversation Pattern | Extracted Reason |
-|---------------------|------------------|
-| "This looks useful for..." | Direct quote of intent |
-| Link shared without comment | "Referenced in discussion about {topic}" |
-| "We should remember that..." | What follows |
-| Insight after problem-solving | "Learned while working on {problem}" |
-| No clear reason | "Captured from {brief context}" |
+```
+Good: "Referenced while researching security options"
+Good: "Decision made during budget planning"
+Bad:  "Looked useful"
+```
 
-**Never leave blank.** Even minimal context ("Came up in session") is better than nothing.
+Extract from conversation context — what prompted this capture?
 
 ---
 
-## Error Handling
+## Output Behavior
+
+After confirmation:
+
+1. Check prefs for file_operations
+2. Save to Capture/ directory
+3. Report success
+
+```
+LLM: ✓ Captured to Capture/cap-2025-01-01-143022-ssl-certificates.md
+```
+
+---
+
+## Processing Later
+
+Captures have `processed: false` in frontmatter. During reviews:
+
+1. Open Capture/ folder
+2. For each unprocessed item, decide:
+   - Convert to task
+   - Create object
+   - Move to project resources
+   - Delete (not useful)
+3. Mark as `processed: true` or delete
+
+---
+
+## Error Recovery
 
 | Situation | Response |
 |-----------|----------|
-| URL unreachable | Save with URL and note: "Could not fetch - site unreachable" |
-| Paywall/login required | Save with available meta info, note: "Content behind paywall" |
-| Empty conversation | "Nothing to capture. What should I save?" |
-| URL + insights both present | Prioritize URL capture, include insights in Notes section |
-| Write fails | Fall back per GFC (write → download → display) |
-
-Common errors: See `cmd-shared-patterns.md`
-
----
-
-## Integration
-
-| Works With | How |
-|------------|-----|
-| !hi | Captures can reference track context if mentioned |
-| !bye | Logs captures in session summary |
-| !create task | User can convert capture to task during review |
-| Inbox dashboard | Dataview queries Capture/ for unprocessed items |
+| URL unreachable | "Couldn't fetch that page. I'll save the URL anyway with a note." |
+| Paywall/login | "That's behind a paywall. I'll save what I can see." |
+| Nothing to capture | "What would you like me to save?" |
+| Save fails | Fall back to download, show content |
